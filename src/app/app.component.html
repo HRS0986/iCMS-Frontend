@@ -6,8 +6,10 @@
 
 <div class="h-screen flex flex-col">
   <div class="h-[75px]"></div>  <!-- Top Navigation Bar -->
-  <div class="flex flex-grow">
-    <div class="w-[400px] hidden xl:block"></div>  <!-- Side Navigation Bar -->
+  <div class="flex flex-grow bg-[#f9fafb]">
+    <div class="w-[400px] h-full hidden xl:block px-7 py-5" #side>
+      <app-sidenav class="h-full flex"/>
+    </div>  <!-- Side Navigation Bar -->
     <div class="flex flex-grow">
       <router-outlet></router-outlet>
     </div>  <!-- Content Area -->
