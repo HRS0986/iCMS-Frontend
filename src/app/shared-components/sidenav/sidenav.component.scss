@@ -69,6 +69,14 @@
   flex-grow: 1; // to fill the whole space and push the icon to the end
 }
 
+:host ::ng-deep .p-panelmenu .p-panelmenu-content .p-menuitem:not(.p-highlight):not(.p-disabled) > .p-menuitem-content:hover .p-menuitem-link .p-menuitem-text {
+  color: #3B82F6 !important;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content .p-menuitem:not(.p-highlight):not(.p-disabled).p-focus > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
+  color: #3B82F6 !important;
+}
+
 :host ::ng-deep .p-panelmenu .p-panelmenu-content .p-menuitem > .p-menuitem-content .p-menuitem-link {
   .p-menuitem-text,
   .p-menuitem-icon {
