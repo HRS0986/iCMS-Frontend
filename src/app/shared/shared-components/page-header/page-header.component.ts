@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {MenuItem} from "primeng/api";
 
 @Component({
@@ -7,17 +7,15 @@ import {MenuItem} from "primeng/api";
   styleUrl: './page-header.component.scss'
 })
 export class PageHeaderComponent implements OnInit {
-  items: MenuItem[] | undefined;
-  date1: Date | undefined;
-  date2: Date | undefined;
+
+  @Input() pageTitle!: string;
+  @Input() showDatePicker: boolean = true;
+  @Input() breadcrumbItems: MenuItem[] = [];
+
+  rangeDates: Date[] | undefined;
   home: MenuItem | undefined;
 
   ngOnInit() {
-    this.items = [
-      { label: 'Call Analytics' },
-      { label: 'Dashboard' }
-    ];
-
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 }

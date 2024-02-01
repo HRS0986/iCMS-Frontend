@@ -2,3 +2,7 @@
   border: none;
   padding: 0;
 }
+
+:host ::ng-deep #content-area > .ng-star-inserted {
+  width: 100%
+}
