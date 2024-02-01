@@ -1,0 +1,85 @@
+:host ::ng-deep .p-panel .p-panel-header {
+  background: white;
+  padding: 0;
+  border: none;
+}
+
+:host ::ng-deep .p-panel .p-panel-content {
+  border-top: 1px solid #e5e7eb;
+  border-radius: 6px;
+  height: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+
+:host ::ng-deep .p-panel {
+  height: 100%
+}
+
+:host ::ng-deep .p-panel .p-toggleable-content {
+  height: 100%;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-header .p-panelmenu-header-content {
+  background: white;
+  border: none;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content {
+  padding: 0;
+  border: none;
+}
+
+
+:host ::ng-deep .p-submenu-list .p-menuitem-link {
+  padding-left: 45px;
+}
+
+.meni-link {
+  color: red;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-header .p-panelmenu-header-content .p-panelmenu-header-action {
+  font-weight: 500;
+  color: black;
+  padding-bottom: 10px;
+}
+
+::ng-deep .p-menubar {
+  height: 50px;
+
+  p-menubarsub {
+    position: absolute;
+    right: 40px;
+  }
+}
+
+:host ::ng-deep .p-icon-wrapper {
+  order: 1; // to be the first item on right side.
+}
+
+:host ::ng-deep #side-menu .p-panel-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+:host ::ng-deep .p-menuitem-text {
+  flex-grow: 1; // to fill the whole space and push the icon to the end
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content .p-menuitem:not(.p-highlight):not(.p-disabled) > .p-menuitem-content:hover .p-menuitem-link .p-menuitem-text {
+  color: #3B82F6 !important;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content .p-menuitem:not(.p-highlight):not(.p-disabled).p-focus > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
+  color: #3B82F6 !important;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content .p-menuitem > .p-menuitem-content .p-menuitem-link {
+  .p-menuitem-text,
+  .p-menuitem-icon {
+    color: black;
+  }
+}
