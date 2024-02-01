@@ -1,0 +1,18 @@
+<div class="w-full flex justify-between items-center">
+  <div class="w-fit">
+    <h2 class="font-bold mb-2">Call Analytics Dashboard</h2>
+    <p-breadcrumb class="max-w-full bg-[#f9fafb]" [model]="items" [home]="home"></p-breadcrumb>
+  </div>
+  <div class="flex items-center w-fit">
+    <div class="flex items-center">
+      <p>Start: </p>
+      <p-calendar [(ngModel)]="date1" [showIcon]="true" class="ml-2 mr-7 block w-[190px]"></p-calendar>
+    </div>
+    <div class="flex items-center">
+      <p>End: </p>
+      <p-calendar [(ngModel)]="date2" [showIcon]="true" class="ml-2 block w-[190px]"></p-calendar>
+    </div>
+  </div>
+</div>
+
+<p-divider></p-divider>

@@ -10,11 +10,17 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {PanelMenuModule} from "primeng/panelmenu";
+import { PageHeaderComponent } from './shared-components/page-header/page-header.component';
+import {BreadcrumbModule} from "primeng/breadcrumb";
+import {CalendarModule} from "primeng/calendar";
+import {FormsModule} from "@angular/forms";
+import {DividerModule} from "primeng/divider";
 
 @NgModule({
   declarations: [
     AppComponent,
-    SidenavComponent
+    SidenavComponent,
+    PageHeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +30,11 @@ import {PanelMenuModule} from "primeng/panelmenu";
     PanelModule,
     ButtonModule,
     CardModule,
-    PanelMenuModule
+    PanelMenuModule,
+    BreadcrumbModule,
+    CalendarModule,
+    FormsModule,
+    DividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
