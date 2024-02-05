@@ -10,6 +10,10 @@ import { DoughnutChartComponent } from './components/doughnut-chart/doughnut-cha
 import {ChartModule} from "primeng/chart";
 import { LineAreaChartComponent } from './components/line-area-chart/line-area-chart.component';
 import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
+import {TagCloudComponent} from "angular-tag-cloud-module";
+import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.component';
+import {NgxEchartsDirective, NgxEchartsModule} from "ngx-echarts";
+import { HorizontalBarChartComponent } from './components/horizontal-bar-chart/horizontal-bar-chart.component';
 
 
 @NgModule({
@@ -18,7 +22,9 @@ import { WordCloudComponent } from './components/word-cloud/word-cloud.component
     StatCardComponent,
     DoughnutChartComponent,
     LineAreaChartComponent,
-    WordCloudComponent
+    WordCloudComponent,
+    GaugeChartComponent,
+    HorizontalBarChartComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +32,15 @@ import { WordCloudComponent } from './components/word-cloud/word-cloud.component
     SharedModule,
     PanelModule,
     ChartModule,
+    TagCloudComponent,
+    NgxEchartsModule.forRoot({
+      /**
+       * This will import all modules from echarts.
+       * If you only need custom modules,
+       * please refer to [Custom Build] section.
+       */
+      echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')
+    }),
   ]
 })
 export class CallAnalyticsModule { }

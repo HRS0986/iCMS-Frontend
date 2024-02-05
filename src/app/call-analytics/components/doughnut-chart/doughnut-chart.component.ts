@@ -20,7 +20,7 @@ export class DoughnutChartComponent implements OnInit {
       datasets: [
         {
           data: [300, 50, 100],
-          backgroundColor: [documentStyle.getPropertyValue('--red-500'), documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--yellow-500')],
+          backgroundColor: ['#FF6E76', '#7CFFB2', '#FDDD60'],
           hoverBackgroundColor: [documentStyle.getPropertyValue('--red-400'), documentStyle.getPropertyValue('--green-400'), documentStyle.getPropertyValue('--yellow-400')]
         }
       ]
