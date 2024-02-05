@@ -51,6 +51,7 @@ export class SidenavComponent implements OnInit {
         items: [
           {
             label: 'Dashboard',
+            routerLink: "call/dashboard",
             icon: 'pi pi-fw pi-th-large'
           },
           {
