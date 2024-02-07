@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {MenuItem} from "primeng/api";
+import { Component } from '@angular/core';
+import { MenuItem } from "primeng/api";
 
 @Component({
   selector: 'app-dashboard',
@@ -9,8 +9,8 @@ import {MenuItem} from "primeng/api";
 export class DashboardComponent {
 
   breadcrumbItems: MenuItem[] = [
-    { label: "Call Analytics" },
-    { label: "Dashboard" }
+    {label: "Call Analytics"},
+    {label: "Dashboard"}
   ];
 
 }

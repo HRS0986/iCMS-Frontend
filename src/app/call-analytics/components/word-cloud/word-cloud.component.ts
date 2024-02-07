@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {CloudData, CloudOptions} from "angular-tag-cloud-module";
+import { CloudData, CloudOptions } from "angular-tag-cloud-module";
 
 @Component({
   selector: 'app-word-cloud',

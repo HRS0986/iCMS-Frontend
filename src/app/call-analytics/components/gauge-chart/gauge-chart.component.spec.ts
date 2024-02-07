@@ -10,8 +10,8 @@ describe('GaugeChartComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [GaugeChartComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(GaugeChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

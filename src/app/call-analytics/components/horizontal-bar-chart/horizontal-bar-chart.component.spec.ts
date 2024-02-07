@@ -10,8 +10,8 @@ describe('HorizontalBarChartComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [HorizontalBarChartComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(HorizontalBarChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

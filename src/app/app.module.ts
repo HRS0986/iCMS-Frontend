@@ -3,17 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {SidebarModule} from "primeng/sidebar";
-import {PanelModule} from "primeng/panel";
+import { SidebarModule } from "primeng/sidebar";
+import { PanelModule } from "primeng/panel";
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {PanelMenuModule} from "primeng/panelmenu";
-import {BreadcrumbModule} from "primeng/breadcrumb";
-import {CalendarModule} from "primeng/calendar";
-import {FormsModule} from "@angular/forms";
-import {DividerModule} from "primeng/divider";
-import {SharedModule} from "./shared/shared.module";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { PanelMenuModule } from "primeng/panelmenu";
+import { BreadcrumbModule } from "primeng/breadcrumb";
+import { CalendarModule } from "primeng/calendar";
+import { FormsModule } from "@angular/forms";
+import { DividerModule } from "primeng/divider";
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -37,4 +37,5 @@ import {SharedModule} from "./shared/shared.module";
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

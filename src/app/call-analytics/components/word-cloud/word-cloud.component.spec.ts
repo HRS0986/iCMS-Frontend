@@ -10,8 +10,8 @@ describe('WordCloudComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [WordCloudComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(WordCloudComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

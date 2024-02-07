@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-doughnut-chart',
@@ -20,7 +20,11 @@ export class DoughnutChartComponent implements OnInit {
       datasets: [
         {
           data: [300, 50, 100],
-          backgroundColor: ['#FF6E76', '#7CFFB2', '#FDDD60'],
+          backgroundColor: [
+            documentStyle.getPropertyValue('--negative-color'),
+            documentStyle.getPropertyValue('--positive-color'),
+            documentStyle.getPropertyValue('--neutral-color'),
+          ],
           hoverBackgroundColor: [documentStyle.getPropertyValue('--red-400'), documentStyle.getPropertyValue('--green-400'), documentStyle.getPropertyValue('--yellow-400')]
         }
       ]

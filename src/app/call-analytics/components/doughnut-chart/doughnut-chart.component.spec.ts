@@ -10,8 +10,8 @@ describe('DoughnutChartComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [DoughnutChartComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(DoughnutChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

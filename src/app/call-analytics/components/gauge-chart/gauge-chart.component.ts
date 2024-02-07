@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {EChartsOption} from 'echarts';
+import { Component } from '@angular/core';
+import { EChartsOption } from 'echarts';
 
 @Component({
   selector: 'app-gauge-chart',

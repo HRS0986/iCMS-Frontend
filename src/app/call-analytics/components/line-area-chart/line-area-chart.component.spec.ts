@@ -10,8 +10,8 @@ describe('LineAreaChartComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [LineAreaChartComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(LineAreaChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

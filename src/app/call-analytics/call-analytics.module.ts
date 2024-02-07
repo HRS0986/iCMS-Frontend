@@ -3,18 +3,22 @@ import { CommonModule } from '@angular/common';
 
 import { CallAnalyticsRoutingModule } from './call-analytics-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import {SharedModule} from "../shared/shared.module";
+import { SharedModule } from "../shared/shared.module";
 import { StatCardComponent } from './components/stat-card/stat-card.component';
-import {PanelModule} from "primeng/panel";
+import { PanelModule } from "primeng/panel";
 import { DoughnutChartComponent } from './components/doughnut-chart/doughnut-chart.component';
-import {ChartModule} from "primeng/chart";
+import { ChartModule } from "primeng/chart";
 import { LineAreaChartComponent } from './components/line-area-chart/line-area-chart.component';
 import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
-import {TagCloudComponent} from "angular-tag-cloud-module";
+import { TagCloudComponent } from "angular-tag-cloud-module";
 import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.component';
-import {NgxEchartsDirective, NgxEchartsModule} from "ngx-echarts";
+import { NgxEchartsModule } from "ngx-echarts";
 import { HorizontalBarChartComponent } from './components/horizontal-bar-chart/horizontal-bar-chart.component';
-
+import { RecentCallsCardComponent } from './components/recent-calls-card/recent-calls-card.component';
+import { ButtonModule } from 'primeng/button';
+import { DataViewModule } from "primeng/dataview";
+import { TagModule } from "primeng/tag";
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,8 @@ import { HorizontalBarChartComponent } from './components/horizontal-bar-chart/h
     LineAreaChartComponent,
     WordCloudComponent,
     GaugeChartComponent,
-    HorizontalBarChartComponent
+    HorizontalBarChartComponent,
+    RecentCallsCardComponent
   ],
   imports: [
     CommonModule,
@@ -32,15 +37,13 @@ import { HorizontalBarChartComponent } from './components/horizontal-bar-chart/h
     SharedModule,
     PanelModule,
     ChartModule,
+    ButtonModule,
     TagCloudComponent,
-    NgxEchartsModule.forRoot({
-      /**
-       * This will import all modules from echarts.
-       * If you only need custom modules,
-       * please refer to [Custom Build] section.
-       */
-      echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')
-    }),
+    TooltipModule,
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
+    DataViewModule,
+    TagModule,
   ]
 })
-export class CallAnalyticsModule { }
+export class CallAnalyticsModule {
+}

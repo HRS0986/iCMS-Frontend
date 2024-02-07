@@ -4,6 +4,11 @@
 
 @tailwind utilities;
 
+:root {
+  --negative-color:  #FF6E76;
+  --positive-color: #5dd28d;
+  --neutral-color: #e7cb59;
+}
 
 mwl-gauge {
   width: 350px;

@@ -10,8 +10,8 @@ describe('StatCardComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [StatCardComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(StatCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

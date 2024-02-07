@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MenuItem} from "primeng/api";
+import { Component, Input, OnInit } from '@angular/core';
+import { MenuItem } from "primeng/api";
 
 @Component({
   selector: 'app-page-header',
@@ -16,6 +16,6 @@ export class PageHeaderComponent implements OnInit {
   home: MenuItem | undefined;
 
   ngOnInit() {
-    this.home = { icon: 'pi pi-home', routerLink: '/' };
+    this.home = {icon: 'pi pi-home', routerLink: '/'};
   }
 }
