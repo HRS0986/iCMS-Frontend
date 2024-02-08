@@ -10,7 +10,6 @@ import { DoughnutChartComponent } from './components/doughnut-chart/doughnut-cha
 import { ChartModule } from "primeng/chart";
 import { LineAreaChartComponent } from './components/line-area-chart/line-area-chart.component';
 import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
-import { TagCloudComponent } from "angular-tag-cloud-module";
 import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.component';
 import { NgxEchartsModule } from "ngx-echarts";
 import { HorizontalBarChartComponent } from './components/horizontal-bar-chart/horizontal-bar-chart.component';
@@ -40,7 +39,6 @@ import { SettingsComponent } from './components/settings/settings.component';
     PanelModule,
     ChartModule,
     ButtonModule,
-    TagCloudComponent,
     TooltipModule,
     NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
     DataViewModule,
