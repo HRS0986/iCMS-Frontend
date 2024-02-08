@@ -1,0 +1,14 @@
+<app-page-header pageTitle="Call Analytics Dashboard" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems"/>
+<div class="flex flex-col">
+  <div class="flex justify-between">
+    <app-line-area-chart title="Sentiment Over Time"/>
+    <app-doughnut-chart title="Call Summary"/>
+    <app-gauge-chart/>
+  </div>
+  <!--  <div class="flex justify-between">-->
+  <!--    <app-horizontal-bar-chart />-->
+  <!--  </div>-->
+  <div class="flex">
+    <app-recent-calls-card/>
+  </div>
+</div>

@@ -1,17 +1,7 @@
-:host ::ng-deep .p-panel .p-panel-header {
-  background: white;
-  padding: 0;
-  border: none;
-}
-
 :host ::ng-deep .p-panel .p-panel-content {
-  border-top: 1px solid #e5e7eb;
-  border-radius: 6px;
-  height: 100%;
   padding-left: 0;
   padding-right: 0;
 }
-
 
 :host ::ng-deep .p-panel {
   height: 100%

@@ -1,0 +1,13 @@
+.st-card {
+  padding-left: 15px !important;
+}
+
+:host ::ng-deep .p-panel-content {
+  display: flex;
+  justify-content: space-around;
+  border-radius: 12px !important;
+}
+
+:host ::ng-deep .p-component {
+  width: 100%;
+}

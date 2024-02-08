@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {MenuItem} from "primeng/api";
+import { Component, OnInit } from '@angular/core';
+import { MenuItem } from "primeng/api";
 
 @Component({
   selector: 'app-sidenav',
@@ -51,6 +51,7 @@ export class SidenavComponent implements OnInit {
         items: [
           {
             label: 'Dashboard',
+            routerLink: "call/dashboard",
             icon: 'pi pi-fw pi-th-large'
           },
           {
