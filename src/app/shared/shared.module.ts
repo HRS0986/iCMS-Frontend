@@ -8,14 +8,12 @@ import { BreadcrumbModule } from "primeng/breadcrumb";
 import { DividerModule } from "primeng/divider";
 import { CalendarModule } from "primeng/calendar";
 import { FormsModule } from "@angular/forms";
-import { TopMenuComponent } from './shared-components/top-menu/top-menu.component';
 
 
 @NgModule({
   declarations: [
     PageHeaderComponent,
-    SidenavComponent,
-    TopMenuComponent
+    SidenavComponent
   ],
   exports: [
     PageHeaderComponent,
