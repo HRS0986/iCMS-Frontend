@@ -4,7 +4,7 @@
 <!--</div>-->
 
 
-<div class="h-screen flex flex-col">
+<div class="min-h-screen flex flex-col">
   <div class="w-full h-[65px] fixed z-20">
     <app-top-menu />
   </div>  <!-- Top Navigation Bar -->
@@ -12,7 +12,7 @@
     <div class="w-[400px] h-full xl:flex-grow fixed hidden xl:flex px-7 py-5 side-bar-container">
       <app-sidenav class="flex"/> <!-- Side Navigation Bar -->
     </div>
-    <div class="flex flex-grow px-10 w-full xl:ml-[380px]" id="content-area">
+    <div class="flex flex-grow px-10 pb-2 w-full xl:ml-[380px]" id="content-area">
       <router-outlet></router-outlet>
     </div>  <!-- Content Area -->
   </div>
