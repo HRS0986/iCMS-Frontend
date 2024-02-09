@@ -1,14 +1,24 @@
 <app-page-header pageTitle="Call Analytics Dashboard" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems"/>
 <div class="flex flex-col">
-  <div class="flex gap-4 flex-wrap">
+  <div class="flex gap-6 flex-wrap">
+    <div class="stat-cards">
+      <app-stat-card title="540" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
+      <app-stat-card title="10 min" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
+      <app-stat-card title="5402" subTitle="Total Minute" imgPath="./call/blue-call.png"/>
+    </div>
     <app-line-area-chart title="Sentiment Over Time"/>
     <app-doughnut-chart title="Call Summary"/>
-    <app-gauge-chart/>
   </div>
-  <!--  <div class="flex justify-between">-->
-  <!--    <app-horizontal-bar-chart />-->
-  <!--  </div>-->
-  <div class="flex">
+  <div class="flex gap-7 flex-wrap">
+    <app-horizontal-bar-chart/>
+    <app-gauge-chart/>
+    <div class="stat-cards">
+      <app-stat-card title="240" subTitle="Positive Calls" imgPath="./call/green-call.png"/>
+      <app-stat-card title="100" subTitle="Negative Calls" imgPath="./call/red-phone.png"/>
+      <app-stat-card title="200" subTitle="Neutral Calls" imgPath="./call/yellow-phone.png"/>
+    </div>
+  </div>
+  <div class="flex gap-7 flex-wrap">
     <app-recent-calls-card/>
   </div>
 </div>
