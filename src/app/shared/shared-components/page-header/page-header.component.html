@@ -5,7 +5,11 @@
   </div>
   <div class="flex items-center w-fit" *ngIf="showDatePicker">
     <p>Date Range: &nbsp;&nbsp;</p>
-    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true"></p-calendar>
+    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="z-10"></p-calendar>
+  </div>
+  <div class="flex items-center w-fit" *ngIf="showButton">
+    <p-button icon="pi pi-play" [outlined]="true" size="small" pTooltip="Play Recording"></p-button>
   </div>
 </div>
 <p-divider></p-divider>
+
