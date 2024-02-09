@@ -35,4 +35,14 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: wilbax/icms-frontend:latest2
+        tags: wilbax/icms-frontend:latest
+    - name: Deploy to GCP
+      run: |
+        gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+        gcloud config set compute/zone your-gcp-zone
+        gcloud container clusters get-credentials your-gke-cluster
+        kubectl apply -f your-deployment-file.yaml
+      env:
+        KUBE_CONFIG: ${{ secrets.GKE_KUBE_CONFIG }}
+
+
