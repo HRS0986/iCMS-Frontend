@@ -20,6 +20,7 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { SettingsComponent } from './components/settings/settings.component';
 import { TabViewModule } from 'primeng/tabview';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { TabViewModule } from 'primeng/tabview';
     DataViewModule,
     TagModule,
     TabViewModule,
+    ImageModule,
   ],
 })
 export class CallAnalyticsModule {}
