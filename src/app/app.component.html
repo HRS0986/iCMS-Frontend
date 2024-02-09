@@ -5,12 +5,14 @@
 
 
 <div class="h-screen flex flex-col">
-  <div class="h-[75px]"></div>  <!-- Top Navigation Bar -->
-  <div class="flex flex-grow bg-[#f9fafb]">
-    <div class="w-[400px] h-full hidden xl:block px-7 py-5">
-      <app-sidenav class="h-full flex"/> <!-- Side Navigation Bar -->
+  <div class="w-full h-[65px] fixed z-20">
+    <app-top-menu />
+  </div>  <!-- Top Navigation Bar -->
+  <div class="flex flex-grow bg-[#f9fafb] h-full mt-[70px]">
+    <div class="w-[400px] h-full xl:flex-grow fixed hidden xl:flex px-7 py-5 side-bar-container">
+      <app-sidenav class="flex"/> <!-- Side Navigation Bar -->
     </div>
-    <div class="flex flex-grow px-10 w-full" id="content-area">
+    <div class="flex flex-grow px-10 w-full xl:ml-[380px]" id="content-area">
       <router-outlet></router-outlet>
     </div>  <!-- Content Area -->
   </div>
