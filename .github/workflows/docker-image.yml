@@ -35,4 +35,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ steps.metadata.outputs.ref }}-${{ steps.metadata.outputs.sha }}-$(echo "${{ steps.metadata.outputs.ref }}" | awk -F. -v OFS=. '{$NF+=0.1; print $0}')
+        tags: wilbax/icms-frontend:latest2
