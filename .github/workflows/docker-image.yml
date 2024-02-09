@@ -38,9 +38,9 @@ jobs:
         tags: wilbax/icms-frontend:latest
     - name: Deploy to GCP
       run: |
-        gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-        gcloud config set compute/zone your-gcp-zone
-        gcloud container clusters get-credentials your-gke-cluster
+        gcloud config set project icms-413819
+        gcloud config set compute/zone asia-south1
+        gcloud container clusters get-credentials autopilot-cluster-1
         kubectl apply -f your-deployment-file.yaml
       env:
         KUBE_CONFIG: ${{ secrets.GKE_KUBE_CONFIG }}
