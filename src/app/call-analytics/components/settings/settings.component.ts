@@ -7,6 +7,9 @@ import { MenuItem } from 'primeng/api';
   styleUrl: './settings.component.scss',
 })
 export class SettingsComponent {
+  Keywords: any[] = [];
+  emails: any[] = [];
+  checked: boolean = true;
   breadcrumbItems: MenuItem[] = [
     { label: 'Call Analytics' },
     { label: 'Settings' },

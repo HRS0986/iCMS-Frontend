@@ -1,9 +1,36 @@
 <app-page-header pageTitle="Call Analytics Dashboard" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" />
 <div class="flex flex-col">
-    <div class="flex gap-7 flex-wrap">
-        <p-tabView>
+    <div>
+        <p-tabView class="">
             <p-tabPanel header="Notifications">
-                Content of Tab 1
+                <div class="flex gap-1">
+                    <img src="./assets/call/rating.png" alt="Image" class="self-center">
+                </div>
+                <div class="flex gap-2">
+                    <form class="flex align-items-center gap-1">
+                        <p-checkbox name="notify" value="notify" label="Notify me when the sentiment score is below the value: "></p-checkbox>
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10" [max]="10">
+                        </p-inputNumber>
+                    </form>
+                    <form class="flex align-items-center gap-1">
+                        <p-checkbox name="notify" value="notify"
+                            label="Notify when the sentiment score is above: "></p-checkbox>
+                        <p-inputNumber mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10" [max]="10">
+                        </p-inputNumber>
+                    </form>
+                </div>
+                <div>
+                    <p>Special Keywords To Send Notifications</p>
+                    <p-chips [(ngModel)]="Keywords"></p-chips>
+                </div>
+                <div class="flex gap-2">
+                    <p>Email Notifications</p>
+                    <p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
+                </div>
+                <div>
+                    <p>Email Notifications Receivers</p>
+                    <p-chips [(ngModel)]="emails"></p-chips>
+                </div>
             </p-tabPanel>
             <p-tabPanel header="Call Integration">
                 Content of Tab 2

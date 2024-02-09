@@ -21,6 +21,11 @@ import { TooltipModule } from 'primeng/tooltip';
 import { SettingsComponent } from './components/settings/settings.component';
 import { TabViewModule } from 'primeng/tabview';
 import { ImageModule } from 'primeng/image';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ChipsModule } from 'primeng/chips';
+import { FormsModule } from '@angular/forms';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -47,6 +52,11 @@ import { ImageModule } from 'primeng/image';
     TagModule,
     TabViewModule,
     ImageModule,
+    CheckboxModule,
+    InputNumberModule,
+    ChipsModule,
+    FormsModule,
+    InputSwitchModule,
   ],
 })
 export class CallAnalyticsModule {}
