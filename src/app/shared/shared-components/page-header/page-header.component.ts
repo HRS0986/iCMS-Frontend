@@ -10,6 +10,7 @@ export class PageHeaderComponent implements OnInit {
 
   @Input() pageTitle!: string;
   @Input() showDatePicker: boolean = true;
+  @Input() showButton: boolean = false;
   @Input() breadcrumbItems: MenuItem[] = [];
 
   rangeDates: Date[] | undefined;
