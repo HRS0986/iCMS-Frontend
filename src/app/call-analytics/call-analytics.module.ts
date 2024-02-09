@@ -18,6 +18,7 @@ import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from "primeng/dataview";
 import { TagModule } from "primeng/tag";
 import { TooltipModule } from 'primeng/tooltip';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TooltipModule } from 'primeng/tooltip';
     WordCloudComponent,
     GaugeChartComponent,
     HorizontalBarChartComponent,
-    RecentCallsCardComponent
+    RecentCallsCardComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,
