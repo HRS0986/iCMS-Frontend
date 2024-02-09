@@ -19,7 +19,8 @@ import { TopMenuComponent } from './shared-components/top-menu/top-menu.componen
   ],
   exports: [
     PageHeaderComponent,
-    SidenavComponent
+    SidenavComponent,
+    TopMenuComponent
   ],
   imports: [
     CommonModule,
