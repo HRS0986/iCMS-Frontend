@@ -29,14 +29,26 @@
                 </div>
                 <div>
                     <p>Email Notifications Receivers</p>
-                    <p-chips [(ngModel)]="emails"></p-chips>
+                    <p-chips class="long-input" [(ngModel)]="emails"></p-chips>
                 </div>
                 <div class=" flex rightBottom">
                     <button pButton pRipple label="Update" class="p-button-success"></button>
                 </div>
             </p-tabPanel>
             <p-tabPanel header="Call Integration">
-                Content of Tab 2
+                <div>
+                    <p>Call Directory URL</p>
+                    <input type="text" class="long-input" pInputText [(ngModel)]="dir" />
+                </div>
+                <div class="flex align-items-center gap-3">
+                    <p-checkbox name="notify" value="notify" label="Automatically Delete Calls After"></p-checkbox>
+                    <p-inputNumber class="short-input" mode="decimal" [showButtons]="true"  inputId="minmax-buttons" [min]="-10"
+                        [max]="10"></p-inputNumber>
+                        <p>Days</p>
+                </div>
+                <div class=" flex rightBottom">
+                    <button pButton pRipple label="Update" class="p-button-success"></button>
+                </div>
             </p-tabPanel>
             <!-- Add more tabPanel as needed -->
         </p-tabView>

@@ -26,6 +26,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ChipsModule } from 'primeng/chips';
 import { FormsModule } from '@angular/forms';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     ChipsModule,
     FormsModule,
     InputSwitchModule,
+    InputTextModule,
   ],
 })
 export class CallAnalyticsModule {}

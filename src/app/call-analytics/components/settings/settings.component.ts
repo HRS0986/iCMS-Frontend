@@ -9,6 +9,7 @@ import { MenuItem } from 'primeng/api';
 export class SettingsComponent {
   Keywords: any[] = [];
   emails: any[] = [];
+  dir: string = '';
   checked: boolean = true;
   breadcrumbItems: MenuItem[] = [
     { label: 'Call Analytics' },
