@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem } from "primeng/api";
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss'],
+  styleUrls: ["./sidenav.component.scss"]
 })
 export class SidenavComponent implements OnInit {
   menuItems!: MenuItem[];
@@ -13,15 +13,15 @@ export class SidenavComponent implements OnInit {
   ngOnInit() {
     this.logoutItems = [
       {
-        label: 'Logout',
-        icon: 'pi pi-fw pi-external-link',
-      },
+        label: "Logout",
+        icon: "pi pi-fw pi-external-link"
+      }
     ];
 
     this.menuItems = [
       {
         label: 'Dashboard',
-        icon: 'pi pi-fw pi-th-large',
+        icon: 'pi pi-fw pi-th-large'
       },
       {
         label: 'Email Analytics',
@@ -29,21 +29,21 @@ export class SidenavComponent implements OnInit {
         items: [
           {
             label: 'Dashboard',
-            icon: 'pi pi-fw pi-th-large',
+            icon: 'pi pi-fw pi-th-large'
           },
           {
             label: 'Email Filtering',
-            icon: 'pi pi-fw pi-filter',
+            icon: 'pi pi-fw pi-filter'
           },
           {
             label: 'Conversation Summaries',
-            icon: 'pi pi-fw pi-book',
+            icon: 'pi pi-fw pi-book'
           },
           {
             label: 'Settings',
-            icon: 'pi pi-fw pi-sliders-h',
-          },
-        ],
+            icon: 'pi pi-fw pi-sliders-h'
+          }
+        ]
       },
       {
         label: 'Call Analytics',
@@ -51,12 +51,13 @@ export class SidenavComponent implements OnInit {
         items: [
           {
             label: 'Dashboard',
-            routerLink: 'call/dashboard',
-            icon: 'pi pi-fw pi-th-large',
+            routerLink: "call/dashboard",
+            icon: 'pi pi-fw pi-th-large'
           },
           {
             label: 'Call Recordings',
-            icon: 'pi pi-fw pi-volume-down',
+            routerLink: "call/recordings",
+            icon: 'pi pi-fw pi-volume-down'
           },
           {
             label: 'Call Filtering',
@@ -66,8 +67,8 @@ export class SidenavComponent implements OnInit {
             label: 'Settings',
             routerLink: 'call/settings',
             icon: 'pi pi-fw pi-sliders-h',
-          },
-        ],
+          }
+        ]
       },
       {
         label: 'Social Media Analytics',
@@ -75,7 +76,7 @@ export class SidenavComponent implements OnInit {
         items: [
           {
             label: 'Dashboard',
-            icon: 'pi pi-fw pi-th-large',
+            icon: 'pi pi-fw pi-th-large'
           },
           {
             label: 'Campaign Analysis',
@@ -88,8 +89,8 @@ export class SidenavComponent implements OnInit {
           {
             label: 'Settings',
             icon: 'pi pi-fw pi-sliders-h',
-          },
-        ],
+          }
+        ]
       },
       {
         label: 'App Settings',
@@ -102,9 +103,9 @@ export class SidenavComponent implements OnInit {
           {
             label: 'Permissions',
             icon: 'pi pi-fw pi-unlock',
-          },
-        ],
-      },
+          }
+        ]
+      }
     ];
   }
 }
