@@ -1,57 +1,63 @@
-<app-page-header pageTitle="Call Analytics Dashboard" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" />
+<app-page-header pageTitle="Call Analytics Settings" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" />
 <div class="flex flex-col">
     <div>
-        <p-tabView class="">
-            <p-tabPanel header="Notifications">
-                <div class="flex gap-1">
-                    <img src="./assets/call/rating.png" alt="Image" class="self-center">
-                </div>
-                <div class="flex gap-2 space-between">
-                    <form class="flex align-items-center gap-1">
-                        <p-checkbox name="notify" value="notify" label="Notify me when the sentiment score is below the value: "></p-checkbox>
-                        <p-inputNumber class="short-input" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10" [max]="10">
-                        </p-inputNumber>
-                    </form>
-                    <form class="flex align-items-center gap-1">
-                        <p-checkbox name="notify" value="notify"
-                            label="Notify when the sentiment score is above: "></p-checkbox>
-                        <p-inputNumber class="short-input" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
-                            [max]="10"></p-inputNumber>
-                    </form>
-                </div>
-                <div>
-                    <p>Special Keywords To Send Notifications</p>
-                    <p-chips [(ngModel)]="Keywords"></p-chips>
-                </div>
-                <div class="flex">
-                    <p>Email Notifications</p>
-                    <p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
-                </div>
-                <div>
-                    <p>Email Notifications Receivers</p>
-                    <p-chips class="long-input" [(ngModel)]="emails"></p-chips>
-                </div>
-                <div class=" flex rightBottom">
-                    <button pButton pRipple label="Update" class="p-button-success"></button>
-                </div>
-            </p-tabPanel>
-            <p-tabPanel header="Call Integration">
-                <div>
-                    <p>Call Directory URL</p>
-                    <input type="text" class="long-input" pInputText [(ngModel)]="dir" />
-                </div>
-                <div class="flex align-items-center gap-3">
-                    <p-checkbox name="notify" value="notify" label="Automatically Delete Calls After"></p-checkbox>
-                    <p-inputNumber class="short-input" mode="decimal" [showButtons]="true"  inputId="minmax-buttons" [min]="-10"
-                        [max]="10"></p-inputNumber>
-                        <p>Days</p>
-                </div>
-                <div class=" flex rightBottom">
-                    <button pButton pRipple label="Update" class="p-button-success"></button>
-                </div>
-            </p-tabPanel>
-            <!-- Add more tabPanel as needed -->
-        </p-tabView>
-
+        <p-panel>
+            <p-tabView class="">
+                <p-tabPanel header="Notifications">
+                    <div class="flex flex-col">
+                        <div class="w-full flex justify-center mb-5">
+                            <img src="./assets/call/rating.png" alt="Image">
+                        </div>
+                        <div class="flex gap-2 space-between">
+                            <div class="flex align-items-center gap-1 text-sm">
+                                <p-checkbox name="notify" value="notify"
+                                    label="Notify me when the sentiment score is below the value: "></p-checkbox>
+                                <p-inputNumber class="short-input" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
+                                    [max]="10">
+                                </p-inputNumber>
+                            </div>
+                            <div class="flex align-items-center gap-1 text-sm">
+                                <p-checkbox name="notify" value="notify" label="Notify when the sentiment score is above: "></p-checkbox>
+                                <p-inputNumber class="short-input" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
+                                    [max]="10"></p-inputNumber>
+                            </div>
+                        </div>
+                        <div class="w-full p-fluid">
+                            <p>Special Keywords To Send Notifications</p>
+                            <p-chips [(ngModel)]="Keywords"></p-chips>
+                        </div>
+                        <div class="flex items-center justify-between w-1/2">
+                            <p>Email Notifications</p>
+                            <p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
+                        </div>
+                        <div class="w-full p-fluid mb-5">
+                            <p>Email Notifications Receivers</p>
+                            <p-chips class="long-input" [(ngModel)]="emails"></p-chips>
+                        </div>
+                        <div class="flex justify-end">
+                            <button pButton pRipple label="Update" class="p-button-success"></button>
+                        </div>
+                    </div>
+                    
+                </p-tabPanel>
+                <p-tabPanel header="Call Integration">
+                    <div class="min-h-full">
+                        <div class="mb-5">
+                            <p>Call Directory URL</p>
+                            <input type="text" class="long-input" pInputText [(ngModel)]="dir" />
+                        </div>
+                        <div class="flex align-items-center gap-3">
+                            <p-checkbox name="notify" value="notify" label="Automatically Delete Calls After"></p-checkbox>
+                            <p-inputNumber class="short-input" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
+                                [max]="10"></p-inputNumber>
+                            <p>Days</p>
+                        </div>
+                        <div class=" flex justify-end">
+                            <button pButton pRipple label="Update" class="p-button-success"></button>
+                        </div>
+                    </div>
+                </p-tabPanel>
+            </p-tabView>
+        </p-panel>
     </div>
 </div>
