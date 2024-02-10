@@ -18,6 +18,10 @@ import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from "primeng/dataview";
 import { TagModule } from "primeng/tag";
 import { TooltipModule } from 'primeng/tooltip';
+import { CallSummaryChartComponent } from './components/call-summary-chart/call-summary-chart.component';
+import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
+import { DialogModule } from 'primeng/dialog';
+
 
 @NgModule({
   declarations: [
@@ -28,7 +32,10 @@ import { TooltipModule } from 'primeng/tooltip';
     WordCloudComponent,
     GaugeChartComponent,
     HorizontalBarChartComponent,
-    RecentCallsCardComponent
+    RecentCallsCardComponent,
+    CallRecordingsComponent,
+    CallSummaryChartComponent,
+    CallRecordingsComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +48,7 @@ import { TooltipModule } from 'primeng/tooltip';
     NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
     DataViewModule,
     TagModule,
+    DialogModule,
   ]
 })
 export class CallAnalyticsModule {
