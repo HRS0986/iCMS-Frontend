@@ -52,7 +52,7 @@ jobs:
           --application-name iCMS-dashboard \
           --version-label 1.0 \
           --process \
-          --source-bundle ImageURI=wilbax/icms-frontend:latest
+          --source-bundle wilbax/icms-frontend:latest
 
         aws elasticbeanstalk update-environment \
           --application-name iCMS-dashboard \
