@@ -1,18 +1,13 @@
 {
-    "AWSEBDockerrunVersion": 2,
-    "containerDefinitions": [
-        {
-            "name": "icms-frontend",
-            "image": "wilbax/icms-frontend",
-            "essential": true,
-            "memory": 128,
-            "hostname": "icms-frontend",
-            "portMappings": [
-                {
-                    "containerPort": 80,
-                    "hostPort": 3000
-                }
-            ]
-        }
-    ]
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "wilbax/icms-frontend:latest",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": 80,
+      "hostPort": 3000
+    }
+  ]
 }
