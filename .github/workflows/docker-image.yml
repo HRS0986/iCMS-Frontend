@@ -50,9 +50,7 @@ jobs:
       run: |
         aws elasticbeanstalk create-application-version \
           --application-name iCMS-dashboard \
-          --version-label 1.0 \
-          --process \
-          --source-bundle S3Bucket=elasticbeanstalk-icmsbucket
+          --version-label 1.0 
 
 
         aws elasticbeanstalk update-environment \
