@@ -3,8 +3,7 @@ name: Docker Image CI
 on:
   push:
     branches: [ "test" ]
-  pull_request:
-    branches: [ "test" ]
+  
 
 jobs:
   push:
@@ -17,18 +16,7 @@ jobs:
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-
-    # - id: 'auth'
-    #   uses: 'google-github-actions/auth@v2'
-    #   with:
-    #     workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-    #     service_account: 'my-service-account@my-project.iam.gserviceaccount.com'   
-
-    # - name: 'Set up Cloud SDK'
-    #   uses: 'google-github-actions/setup-gcloud@v2'
-    #   with:
-    #     version: '>= 363.0.0'    
+        password: ${{ secrets.DOCKER_PASSWORD }} 
 
     - name: Extract metadata
       id: metadata
@@ -47,13 +35,27 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: wilbax/icms-frontend:latest
+  deploy:
+    runs-on: ubuntu-latest
+    needs: push
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-north-1
 
-  
-    # - name: Configure kubectl
-    #   run: gcloud container clusters get-credentials autopilot-cluster-1 --zone=asia-south1
-    #   continue-on-error: true
+    - name: Deploy to AWS Elastic Beanstalk
+      run: |
+        aws elasticbeanstalk create-application-version \
+          --application-name iCMS-dashboard \
+          --version-label 1.0 \
+          --process \
+          --source-bundle ImageURI=wilbax/icms-frontend:latest
 
-    # - name: Deploy to GKE
-    #   run: kubectl apply -f your-deployment-file.yaml
-    #   env:
-    #     KUBE_CONFIG: ${{ secrets.GKE_KUBE_CONFIG }}
+        aws elasticbeanstalk update-environment \
+          --application-name iCMS-dashboard \
+          --environment-name iCMS-dashboard-env \
+          --version-label 1.0
+    
