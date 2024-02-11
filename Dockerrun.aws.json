@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "wilbax/icms-frontend:latest",
+    "Name": "wilbax/icms-frontend",
     "Update": "true"
   },
   "Ports": [
