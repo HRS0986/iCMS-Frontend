@@ -11,7 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CalendarModule } from 'primeng/calendar';
-import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
 import { SharedModule } from './shared/shared.module';
 
@@ -28,7 +27,6 @@ import { SharedModule } from './shared/shared.module';
     PanelMenuModule,
     BreadcrumbModule,
     CalendarModule,
-    FormsModule,
     DividerModule,
     SharedModule,
   ],
