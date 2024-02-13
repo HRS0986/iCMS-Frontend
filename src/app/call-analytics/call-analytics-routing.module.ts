@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { MenuItem } from 'primeng/api';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+
 
 const routes: Routes = [
   {
@@ -17,6 +20,10 @@ const routes: Routes = [
     path: 'settings',
     component: SettingsComponent,
   },
+  {
+    path: "upload",
+    component: FileUploadComponent
+  }
 ];
 
 @NgModule({
