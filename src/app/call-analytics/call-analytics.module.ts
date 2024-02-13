@@ -21,6 +21,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { CallSummaryChartComponent } from './components/call-summary-chart/call-summary-chart.component';
 import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
 import { DialogModule } from 'primeng/dialog';
+import { CallAnalyticsService } from "./services/call-analytics.service";
 
 
 @NgModule({
@@ -49,6 +50,9 @@ import { DialogModule } from 'primeng/dialog';
     DataViewModule,
     TagModule,
     DialogModule,
+  ],
+  providers: [
+    CallAnalyticsService
   ]
 })
 export class CallAnalyticsModule {
