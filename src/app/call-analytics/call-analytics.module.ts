@@ -36,7 +36,7 @@ import { DialogModule } from 'primeng/dialog';
     CallRecordingsComponent,
     CallSummaryChartComponent,
     CallRecordingsComponent,
-  ],
+      ],
   imports: [
     CommonModule,
     CallAnalyticsRoutingModule,
@@ -49,7 +49,7 @@ import { DialogModule } from 'primeng/dialog';
     DataViewModule,
     TagModule,
     DialogModule,
-  ]
+      ]
 })
 export class CallAnalyticsModule {
 }
