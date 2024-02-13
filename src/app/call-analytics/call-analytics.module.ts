@@ -26,6 +26,15 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
 import { ToastModule } from 'primeng/toast';
 import { CallAnalyticsService } from "./services/call-analytics.service";
 
+import { SettingsComponent } from './components/settings/settings.component';
+import { TabViewModule } from 'primeng/tabview';
+import { ImageModule } from 'primeng/image';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ChipsModule } from 'primeng/chips';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -40,6 +49,9 @@ import { CallAnalyticsService } from "./services/call-analytics.service";
     CallRecordingsComponent,
     CallSummaryChartComponent,
     FileUploadComponent,
+    CallRecordingsComponent,
+    RecentCallsCardComponent,
+    SettingsComponent,
   ],
   imports: [
     CommonModule,
@@ -54,6 +66,15 @@ import { CallAnalyticsService } from "./services/call-analytics.service";
     DataViewModule,
     TagModule,
     DialogModule,
+    TabViewModule,
+    ImageModule,
+    CheckboxModule,
+    InputNumberModule,
+    ChipsModule,
+    FormsModule,
+    InputSwitchModule,
+    InputTextModule,
+    ReactiveFormsModule,
     FileUploadModule,
   ],
   providers: [

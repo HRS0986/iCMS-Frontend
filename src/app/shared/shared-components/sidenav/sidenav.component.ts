@@ -65,6 +65,7 @@ export class SidenavComponent implements OnInit {
           },
           {
             label: 'Settings',
+            routerLink: 'call/settings',
             icon: 'pi pi-fw pi-sliders-h',
           }
         ]
