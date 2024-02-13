@@ -24,6 +24,8 @@ import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { ToastModule } from 'primeng/toast';
+import { CallAnalyticsService } from "./services/call-analytics.service";
+
 
 @NgModule({
   declarations: [
@@ -54,5 +56,8 @@ import { ToastModule } from 'primeng/toast';
     DialogModule,
     FileUploadModule,
   ],
+  providers: [
+    CallAnalyticsService
+  ]
 })
 export class CallAnalyticsModule {}

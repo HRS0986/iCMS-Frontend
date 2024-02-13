@@ -10,7 +10,7 @@ import { MenuItem } from "primeng/api";
 export class PageHeaderComponent implements OnInit {
 
   @Input() pageTitle!: string;
-  @Input() showDatePicker: boolean = true;
+  @Input() showDatePicker: boolean = false;
   @Input() showButton: boolean = false;
   @Input() breadcrumbItems: MenuItem[] = [];
 

@@ -1,0 +1,13 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "wilbax/icms-frontend",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": 80,
+      "hostPort": 3000
+    }
+  ]
+}

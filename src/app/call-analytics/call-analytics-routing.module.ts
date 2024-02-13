@@ -16,7 +16,7 @@ const routes: Routes = [
     component: CallRecordingsComponent
   },
   {
-    path: "callrecordingsupload",
+    path: "upload",
     component: FileUploadComponent
   }
 ];
