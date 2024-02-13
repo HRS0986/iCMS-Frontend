@@ -56,7 +56,7 @@ export class SidenavComponent implements OnInit {
           },
           {
             label: 'Call Recordings',
-            routerLink: "call/callrecordings",
+            routerLink: "call/recordings",
             icon: 'pi pi-fw pi-volume-down'
           },
           {

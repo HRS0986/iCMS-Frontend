@@ -21,7 +21,9 @@ import { TooltipModule } from 'primeng/tooltip';
 import { CallSummaryChartComponent } from './components/call-summary-chart/call-summary-chart.component';
 import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
 import { DialogModule } from 'primeng/dialog';
-
+import { FileUploadModule } from 'primeng/fileupload';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -35,21 +37,22 @@ import { DialogModule } from 'primeng/dialog';
     RecentCallsCardComponent,
     CallRecordingsComponent,
     CallSummaryChartComponent,
-    CallRecordingsComponent,
+    FileUploadComponent,
   ],
   imports: [
     CommonModule,
     CallAnalyticsRoutingModule,
     SharedModule,
+    ToastModule,
     PanelModule,
     ChartModule,
     ButtonModule,
     TooltipModule,
-    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
+    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
     DataViewModule,
     TagModule,
     DialogModule,
-  ]
+    FileUploadModule,
+  ],
 })
-export class CallAnalyticsModule {
-}
+export class CallAnalyticsModule {}
