@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
 import { CallFilteringComponent } from './components/call-filtering/call-filtering.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 
 const routes: Routes = [
@@ -17,12 +19,19 @@ const routes: Routes = [
   {
     path: "filtering",
     component: CallFilteringComponent
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+  },
+  {
+    path: "upload",
+    component: FileUploadComponent
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CallAnalyticsRoutingModule {
-}
+export class CallAnalyticsRoutingModule {}
