@@ -25,6 +25,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { ToastModule } from 'primeng/toast';
 import { CallAnalyticsService } from "./services/call-analytics.service";
+import { CardModule } from 'primeng/card';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { CallAnalyticsService } from "./services/call-analytics.service";
   imports: [
     CommonModule,
     CallAnalyticsRoutingModule,
+    CardModule,
     SharedModule,
     ToastModule,
     PanelModule,

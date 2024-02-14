@@ -14,6 +14,7 @@ export class CallSummaryChartComponent implements OnInit {
   visibleplay: boolean = false;
   visibleconfirmation: boolean = false;
   selectedCall: any; // Add a property to store the selected call details
+  noCalls: boolean = false;
   // ... rest of your component code
 
   showDialogSummary(call: any): void {
@@ -28,7 +29,7 @@ export class CallSummaryChartComponent implements OnInit {
     this.selectedCall = call;
     this.visibleconfirmation = true;
   }
-
+ 
   constructor() {
   }
 
@@ -42,7 +43,12 @@ export class CallSummaryChartComponent implements OnInit {
       { "title": "Call Recording Title4", "date": (new Date()).toLocaleDateString(), "status": "Negative" },
       { "title": "Call Recording Title5", "date": (new Date()).toLocaleDateString(), "status": "Positive" },
     ];
+    console.log('Initial summaryCalls:', this.summaryCalls);
 
+    // Check if summaryCalls has no elements, then set noCalls to true
+    this.noCalls = this.summaryCalls.length == 0;
+
+    console.log('noCalls:', this.noCalls);
     this.statusColors = {
       "Positive": documentStyle.getPropertyValue("--positive-color"),
       "Negative": documentStyle.getPropertyValue("--negative-color"),
