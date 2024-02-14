@@ -29,6 +29,7 @@ export class SidenavComponent implements OnInit {
         items: [
           {
             label: 'Dashboard',
+            routerLink: "email/dashboard",
             icon: 'pi pi-fw pi-th-large'
           },
           {
