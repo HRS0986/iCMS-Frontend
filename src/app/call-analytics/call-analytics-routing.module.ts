@@ -13,6 +13,7 @@ const routes: Routes = [
     path: "recordings",
     component: CallRecordingsComponent
   }
+
 ];
 
 @NgModule({
