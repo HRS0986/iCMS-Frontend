@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router'; // Import Router
 import { MenuItem } from "primeng/api";
 
 @Component({
   selector: 'app-page-header',
   templateUrl: './page-header.component.html',
-  styleUrl: './page-header.component.scss'
+  styleUrls: ['./page-header.component.scss'] // Correct the property name
 })
 export class PageHeaderComponent implements OnInit {
 
@@ -16,7 +17,13 @@ export class PageHeaderComponent implements OnInit {
   rangeDates: Date[] | undefined;
   home: MenuItem | undefined;
 
+  constructor(private router: Router) {} // Inject Router in the constructor
+
   ngOnInit() {
-    this.home = {icon: 'pi pi-home', routerLink: '/'};
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
+  }
+
+  addCallRecordings() {
+    this.router.navigate(['/call/callrecordingsupload']);
   }
 }
