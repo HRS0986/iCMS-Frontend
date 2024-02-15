@@ -12,3 +12,10 @@ export interface OverallCallStatusPercentages {
   negative: number;
   neutral: number;
 }
+
+export interface CallRecording {
+  title: string;
+  date: Date;
+  status: string;
+  callUrl: string;
+}
