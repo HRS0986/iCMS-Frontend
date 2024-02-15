@@ -24,6 +24,7 @@ const routes: Routes = [
     path: "upload",
     component: FileUploadComponent
   }
+
 ];
 
 @NgModule({
