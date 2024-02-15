@@ -10,24 +10,24 @@ import { DialogModule } from 'primeng/dialog';
 export class CallSummaryChartComponent implements OnInit {
   summaryCalls:any = [];
   statusColors!: {[key: string]: string};
-  visiblesummary: boolean = false;
-  visibleplay: boolean = false;
-  visibleconfirmation: boolean = false;
+  visibleSummary: boolean = false;
+  visiblePlay: boolean = false;
+  visibleConfirmation: boolean = false;
   selectedCall: any; // Add a property to store the selected call details
   noCalls: boolean = false;
   // ... rest of your component code
 
   showDialogSummary(call: any): void {
     this.selectedCall = call;
-    this.visiblesummary = true;
+    this.visibleSummary = true;
   }
   showDialogPlay(call: any): void {
     this.selectedCall = call;
-    this.visibleplay = true;
+    this.visiblePlay = true;
   }
   showDialogConfirmation(call: any): void {
     this.selectedCall = call;
-    this.visibleconfirmation = true;
+    this.visibleConfirmation = true;
   }
  
   constructor() {

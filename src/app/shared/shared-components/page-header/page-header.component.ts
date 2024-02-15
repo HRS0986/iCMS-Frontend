@@ -24,6 +24,6 @@ export class PageHeaderComponent implements OnInit {
   }
 
   addCallRecordings() {
-    this.router.navigate(['/call/callrecordingsupload']);
+    this.router.navigate(['/call/upload']);
   }
 }
