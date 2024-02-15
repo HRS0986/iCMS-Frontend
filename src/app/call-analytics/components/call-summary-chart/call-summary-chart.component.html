@@ -1,21 +1,30 @@
-<p-panel class="flex flex-col text-center justify-center w-[70vw] mb-4">
-  <p class="font-medium text-xl text-start">Call Recordings</p>
+<p-panel class="flex flex-col text-center justify-center mb-4" >
+
+  <div class="flex justify-between items-center px-3 mb-5" [style.display]="noCalls ? 'block' : 'none'" >
+    <img  src="./assets/call/noresult.png">
+  </div>
+  
   <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of summaryCalls">
+      
+    
     <div class="flex items-center gap-8">
       <img src="./assets/call/phone.png" width="25" height="25">
-      <div class="flex flex-col justify-start">
-        <p class="mb-0 mt-0">{{ call.title }}</p>
-        <p class="mb-0 mt-0 text-gray-500 w-fit text-xs">{{ call.date }}</p>
+      
+      <div class="flex flex-col justify-start m">
+         <p class="mb-0 mt-0">{{ call.title }}</p>
+        <p class="mb-0 mt-0 text-gray-500 w-fit text-xs">{{ call.date }}</p>    
+      
       </div>
     </div>
     <div>
       <p-tag [style]="{'background': statusColors[call.status], 'width': '65px'}" value="{{call.status}}"></p-tag>
-    </div>
+    </div> 
+   
     <div class="flex gap-3">
       <p-button icon="pi pi-bars" (click)="showDialogSummary(call)" severity="success" size="small" pTooltip="View Transcription" [outlined]="true"></p-button>
       <p-button icon="pi pi-play" (click)="showDialogPlay(call)" [outlined]="true" size="small" pTooltip="Play Recording"></p-button>
-      <p-button icon="pi pi-trash" (click)="showDialogConfirmation(call)" severity="danger" size="small" pTooltip="Delete Recording" [outlined]="true"></p-button>
-      <p-dialog header="Call Summary" [modal]="true" [(visible)]="visiblesummary" [style]="{width: '30vw', height: 'auto'}">
+      <p-button icon="pi pi-trash" (click)="showDialogConfirmation(call)" severity="danger" size="small" pTooltip="Delete Recording" [outlined]="true"></p-button> 
+      <p-dialog header="Call Summary" [modal]="true" [(visible)]="visibleSummary" [style]="{width: '30vw', height: 'auto'}">
         <div class="flex justify-between items-center px-3 mb-5">
           <!-- Use selectedCall only when it is defined -->
           <div class="flex items-center gap-8" *ngIf="selectedCall">
@@ -53,10 +62,10 @@
         </p>
          <!-- Move this div to the bottom -->
          <div class="text-right" >
-          <p-button label="Close" (click)="visiblesummary = false" icon="pi pi-times" styleClass="p-button-surface-200"></p-button>
+          <p-button label="Close" (click)="visibleSummary = false" icon="pi pi-times" styleClass="p-button-surface-200"></p-button>
         </div>
       </p-dialog>
-      <p-dialog header="Play Call Recording" [(visible)]="visibleplay" [modal]="true"  [style]="{width: '30vw', height: 'auto'}">
+      <p-dialog header="Play Call Recording" [(visible)]="visiblePlay" [modal]="true"  [style]="{width: '30vw', height: 'auto'}">
         <div class="flex justify-between items-center px-3 mb-5 play">
           <!-- Use selectedCall only when it is defined -->
           <div class="flex items-center gap-8" *ngIf="selectedCall">
@@ -97,10 +106,10 @@
         </p>
          <!-- Move this div to the bottom -->
          <div class="text-right" >
-          <p-button label="Close"  (click)="visibleplay = false" icon="pi pi-times" styleClass="p-button-surface-200"></p-button>
+          <p-button label="Close"  (click)="visiblePlay = false" icon="pi pi-times" styleClass="p-button-surface-200"></p-button>
         </div>
       </p-dialog>
-      <p-dialog header="Confirmation" [modal]="true" [(visible)]="visibleconfirmation" [style]="{width: '30vw', height: 'auto'}">
+      <p-dialog header="Confirmation" [modal]="true" [(visible)]="visibleConfirmation" [style]="{width: '30vw', height: 'auto'}">
         
         <p  style="text-align: justify;">
           Are you sure you want to Delete this Call Recording?
@@ -108,10 +117,12 @@
         
          <!-- Move this div to the bottom -->
          <div class="text-right" >
-          <p-button label="No" (click)="visibleconfirmation = false"  styleClass="p-button-surface-200"></p-button>
-          <p-button label="Yes" (click)="visibleconfirmation = false"  styleClass="p-button-danger"></p-button>
+          <p-button label="No" (click)="visibleConfirmation = false"  styleClass="p-button-surface-200"></p-button>
+          <p-button label="Yes" (click)="visibleConfirmation = false"  styleClass="p-button-danger"></p-button>
         </div>
       </p-dialog>
+     
     </div>
+    
   </div>
 </p-panel>
