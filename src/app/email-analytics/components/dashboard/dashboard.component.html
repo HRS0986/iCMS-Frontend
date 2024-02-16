@@ -1,0 +1,54 @@
+<app-page-header
+  pageTitle="Email Analytics Dashboard"
+  class="w-full h-fit"
+  [breadcrumbItems]="breadcrumbItems"
+/>
+<div class="flex flex-col">
+  <div class="flex flex-wrap gap-6">
+    <div class="stat-cards">
+      <app-doughnut-chart title="Current Overall Sentiments" />
+      <app-doughnut-chart title="Keyword Cloud" />
+    </div>
+    <div class="stat-cards">
+      <app-line-area-chart title="Sentiments Over Time" />
+      <div>
+        <app-stat-card
+          title="540"
+          subTitle="Total Emails"
+          imgPath="./email/mail_blue.png"
+          header="Customer Care"
+          sentiment="Positive"
+        />
+        <app-stat-card
+          title="340"
+          subTitle="Total Emails"
+          imgPath="./email/mail_red.png"
+          header="Marketing"
+          sentiment="Negative"
+        />
+      </div>
+    </div>
+
+    <!-- <app-stat-card title="540" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
+      <app-stat-card title="10 min" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
+      <app-stat-card title="5402" subTitle="Total Minute" imgPath="./call/blue-call.png"/> -->
+    <!-- </div> -->
+  </div>
+  <div class="flex flex-wrap gap-6">
+    <app-horizontal-bar-chart />
+    <!-- <div class="stat-cards"> -->
+    <!-- <app-stat-card title="540" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
+      <app-stat-card title="10 min" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
+      <app-stat-card title="5402" subTitle="Total Minute" imgPath="./call/blue-call.png"/> -->
+    <!-- </div> -->
+    <!-- <app-line-area-chart title="Sentiment Over Time"/> -->
+  </div>
+  <div class="flex gap-6 flex-wrap">
+    <!-- <app-gauge-chart/> -->
+    <div class="stat-cards">
+      <!-- <app-stat-card title="240" subTitle="Positive Calls" imgPath="./call/green-call.png"/>
+      <app-stat-card title="100" subTitle="Negative Calls" imgPath="./call/red-phone.png"/>
+      <app-stat-card title="200" subTitle="Neutral Calls" imgPath="./call/yellow-phone.png"/> -->
+    </div>
+  </div>
+</div>
