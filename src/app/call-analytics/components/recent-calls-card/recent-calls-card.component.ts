@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CallRecordingService } from "../../services/call-recording.service";
+import { CallRecording } from "../../types";
 
 @Component({
   selector: 'app-recent-calls-card',
@@ -6,22 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './recent-calls-card.component.scss'
 })
 export class RecentCallsCardComponent implements OnInit {
-  recentCalls:any = [];
+  recentCalls: CallRecording[] = [];
   statusColors!: {[key: string]: string};
 
-  constructor() {
+  constructor(private callRecordingService: CallRecordingService) {
   }
 
   ngOnInit() {
     const documentStyle: CSSStyleDeclaration = getComputedStyle(document.documentElement);
 
-    this.recentCalls = [
-      { "title": "Call Recording Name", "date": (new Date()).toLocaleDateString(), "status": "Positive" },
-      { "title": "Call Recording Name", "date": (new Date()).toLocaleDateString(), "status": "Negative" },
-      { "title": "Call Recording Name", "date": (new Date()).toLocaleDateString(), "status": "Neutral" },
-      { "title": "Call Recording Name", "date": (new Date()).toLocaleDateString(), "status": "Negative" },
-      { "title": "Call Recording Name", "date": (new Date()).toLocaleDateString(), "status": "Positive" },
-    ];
+    this.recentCalls = this.callRecordingService.getRecentCalls();
 
     this.statusColors = {
       "Positive": documentStyle.getPropertyValue("--positive-color"),
