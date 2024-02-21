@@ -28,10 +28,11 @@ const routes: Routes = [
     path: "upload",
     component: FileUploadComponent
   }
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class CallAnalyticsRoutingModule {}
