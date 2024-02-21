@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CallAnalyticsService } from "../../services/call-analytics.service";
 
 @Component({
   selector: 'app-doughnut-chart',
@@ -8,21 +7,21 @@ import { CallAnalyticsService } from "../../services/call-analytics.service";
 })
 export class DoughnutChartComponent implements OnInit {
   @Input() title!: string;
+  @Input() percentages!: number[];
   data: any;
   options: any;
 
-  constructor(private callAnalyticsService: CallAnalyticsService) {
+  constructor() {
   }
 
   ngOnInit() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
-    let callStatistics = this.callAnalyticsService.getCallStatistics()
     this.data = {
       labels: ['Negative', 'Positive', 'Neutral'],
       datasets: [
         {
-          data: [callStatistics.negativeCalls, callStatistics.positiveCalls, callStatistics.neutralCalls],
+          data: this.percentages,
           backgroundColor: [
             documentStyle.getPropertyValue('--negative-color'),
             documentStyle.getPropertyValue('--positive-color'),
