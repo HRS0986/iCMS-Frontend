@@ -36,6 +36,12 @@ import { ChipsModule } from 'primeng/chips';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
+import { CallFilteringComponent } from './components/call-filtering/call-filtering.component';
+import { FilteringFeaturesComponent } from './components/filtering-features/filtering-features.component';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -53,6 +59,8 @@ import { InputTextModule } from 'primeng/inputtext';
     CallRecordingsComponent,
     RecentCallsCardComponent,
     SettingsComponent,
+    CallFilteringComponent,
+    FilteringFeaturesComponent,
       ],
   imports: [
     CommonModule,
@@ -78,6 +86,9 @@ import { InputTextModule } from 'primeng/inputtext';
     InputTextModule,
     ReactiveFormsModule,
     FileUploadModule,
+    CalendarModule,
+    DropdownModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     CallAnalyticsService

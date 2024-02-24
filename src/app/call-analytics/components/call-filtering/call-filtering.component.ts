@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MenuItem } from "primeng/api";
 
 @Component({
   selector: 'app-call-filtering',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './call-filtering.component.scss'
 })
 export class CallFilteringComponent {
-
+  breadcrumbItems: MenuItem[] = [
+    {label: "Call Analytics"},
+    {label: "Call Filtering"}
+  ];
 }
