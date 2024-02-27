@@ -1,0 +1,47 @@
+<div class="h-screen w-100vh flex justify-between">
+  <div class="left h-screen">
+    <div class="sentiview">
+      <p>SentiView</p>
+    </div>
+    <div class="overlay1">
+      <img [src]="Image.image" width="400px" height="400px">
+    </div>
+  </div>
+
+  <div class="right h-screen">
+    <div class="overlay2">
+      <div class="signup">
+        <h2>Sign Up</h2>
+      </div>
+      <div class="already"><p>Already have an account? <a href="#">Login</a></p>
+      </div>
+
+      <form>
+        <div class="form-group">
+          <label >Organization Name</label><br>
+          <input type="text" pInputText [(ngModel)]="value" />
+        </div>
+
+        <div class="form-group">
+          <label >Organization Email</label><br>
+          <input type="text" pInputText [(ngModel)]="value" />
+        </div>
+
+        <div class="form-group">
+          <label >Password:</label><br>
+          <p-password [toggleMask]="true"></p-password>
+        </div>
+
+        <div class="form-group">
+          <label >Confirm Password:</label><br>
+          <p-password  [toggleMask]="true" ></p-password>
+        </div>
+
+        <p-button label="Sign Up"></p-button>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
