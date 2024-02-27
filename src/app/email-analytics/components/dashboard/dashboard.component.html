@@ -7,7 +7,8 @@
   <div class="flex flex-wrap gap-6">
     <div class="stat-cards">
       <app-doughnut-chart title="Current Overall Sentiments" />
-      <app-doughnut-chart title="Keyword Cloud" />
+      <!-- <app-doughnut-chart title="Current Overall Sentiments" /> -->
+      <app-keyword-cloud title="Keyword cloud" [keywords]="keywords"></app-keyword-cloud>
     </div>
     <div class="stat-cards">
       <app-line-area-chart title="Sentiments Over Time" />

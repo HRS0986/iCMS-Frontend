@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChipModule } from 'primeng/chip';
 
 import { EmailAnalyticsRoutingModule } from './email-analytics-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -21,6 +22,7 @@ import { TooltipModule } from 'primeng/tooltip';
 // import { CallSummaryChartComponent } from './components/call-summary-chart/call-summary-chart.component';
 // import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
 import { DialogModule } from 'primeng/dialog';
+import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.component';
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { DialogModule } from 'primeng/dialog';
     DoughnutChartComponent,
     LineAreaChartComponent,
     StatCardComponent,
+    KeywordCloudComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +46,7 @@ import { DialogModule } from 'primeng/dialog';
     DataViewModule,
     TagModule,
     DialogModule,
+    ChipModule,
   ]
 })
 export class EmailAnalyticsModule {
