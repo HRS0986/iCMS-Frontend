@@ -15,7 +15,7 @@ export class SettingsComponent {
     aboveScore: 0,
     aboveNotify: false,
     bellowNotify: false,
-    checked: true,
+    checked: [true],
   });
 
   callIntegration = this.fb.group({
@@ -32,10 +32,6 @@ export class SettingsComponent {
   onSubmitCall(): void {
     console.log(this.callIntegration.value);
   }
-  // Keywords: any[] = [];
-  // emails: any[] = [];
-  // dir: string = '';
-  // checked: boolean = true;
   breadcrumbItems: MenuItem[] = [
     { label: 'Call Analytics' },
     { label: 'Settings' },
