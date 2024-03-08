@@ -7,9 +7,8 @@
     <p>Date Range: &nbsp;&nbsp;</p>
     <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="z-10"></p-calendar>
   </div>
-  <div class="flex items-center w-fit" *ngIf="showButton">
+  <div class="w-fit" *ngIf="showButton">
     <p-button [outlined]="false" (click)="addCallRecordings()">+ Add Call Recordings</p-button>
-
   </div>
 </div>
 <p-divider></p-divider>
