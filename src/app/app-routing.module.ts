@@ -7,6 +7,10 @@ const routes: Routes = [
     loadChildren: () => import("./call-analytics/call-analytics.module").then(m => m.CallAnalyticsModule)
   },
   {
+    path: "email",
+    loadChildren: () => import("./email-analytics/email-analytics.module").then(m => m.EmailAnalyticsModule)
+  },
+  {
     path: "auth",
     loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule)
   }

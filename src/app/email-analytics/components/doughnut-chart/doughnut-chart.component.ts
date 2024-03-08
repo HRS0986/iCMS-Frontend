@@ -7,31 +7,25 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DoughnutChartComponent implements OnInit {
   @Input() title!: string;
-  @Input() percentages!: number[];
   data: any;
-  options: any;
 
-  constructor() {
-  }
+  options: any;
 
   ngOnInit() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
+
     this.data = {
       labels: ['Negative', 'Positive', 'Neutral'],
       datasets: [
         {
-          data: this.percentages,
+          data: [300, 50, 100],
           backgroundColor: [
             documentStyle.getPropertyValue('--negative-color'),
             documentStyle.getPropertyValue('--positive-color'),
             documentStyle.getPropertyValue('--neutral-color'),
           ],
-          hoverBackgroundColor: [
-            documentStyle.getPropertyValue('--red-400'),
-            documentStyle.getPropertyValue('--green-400'),
-            documentStyle.getPropertyValue('--yellow-400')
-          ]
+          hoverBackgroundColor: [documentStyle.getPropertyValue('--red-400'), documentStyle.getPropertyValue('--green-400'), documentStyle.getPropertyValue('--yellow-400')]
         }
       ]
     };

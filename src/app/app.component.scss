@@ -19,28 +19,6 @@
   height: 100%;
 }
 
-:host ::ng-deep .p-button{
-  border-radius: 3px;
-  margin-top: 20px;
-  padding: 6px;
-  font-size: 10px;
-  width: 410px;
-}
-
-:host ::ng-deep .p-password{
-  margin-top:10px;
-  margin-bottom:10px;
-  border-radius:1px;
-  width:410px;
-}
-
-//.p-input-icon-right >
-
-:host ::ng-deep .p-inputtext {
-  width: 410px;
-  padding: 4px;
-  border-radius: 3px;
-}
 
 .side-bar-container {
   height: calc(100vh - 75px);
