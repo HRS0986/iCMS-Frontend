@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { CAComponent } from "./components/campaign-analysis/ca.component";
-import { PIComponent } from "./components/platform-insights/pi.component";
-import { settingsComponent } from "./components/settings/settings.component";
+import { DashboardComponent } from "./pages/dashboard/dashboard.component";
+import { CAComponent } from "./pages/campaign-analysis/ca.component";
+import { PIComponent } from "./pages/platform-insights/pi.component";
+import { settingsComponent } from "./pages/settings/settings.component";
 
 const routes: Routes = [
   {
