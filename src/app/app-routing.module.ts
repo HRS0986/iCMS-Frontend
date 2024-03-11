@@ -1,10 +1,28 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: "call",
+    loadChildren: () => import("./call-analytics/call-analytics.module").then(m => m.CallAnalyticsModule)
+  },
+  {
+    path: "email",
+    loadChildren: () => import("./email-analytics/email-analytics.module").then(m => m.EmailAnalyticsModule)
+  },
+  {
+    path: "social-media",
+    loadChildren: () => import("./social-media-analytics/social-media-analytics.module").then(m => m.SMAnalyticsModule)
+  },
+  {
+    path: "auth",
+    loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule)
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
