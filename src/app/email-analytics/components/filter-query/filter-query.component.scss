@@ -1,0 +1,39 @@
+:root {
+    --primary: #3b82f6;
+    --secondary: white;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.1rem;
+    padding: 2rem;
+    background-color: white;
+}
+
+.grid-item {
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+input[type="submit"], input[type="reset"] {
+    padding: 0.5rem 0;
+    width: 150px;
+    border-radius: 5px;
+    font-size: 1rem;
+    border: 0;
+}
+input[type="submit"]:hover, input[type="reset"]:hover {
+    cursor: pointer;
+}
+input[type="submit"] {
+    color: white;
+    background-color: #3b82f6;
+}
+input[type="reset"] {
+    color: #3b82f6;
+    background-color: white;
+    -webkit-box-shadow:inset 0px 0px 0px 2px #3b82f6;
+    -moz-box-shadow:inset 0px 0px 0px 2px #3b82f6;
+    box-shadow:inset 0px 0px 0px 2px #3b82f6;
+}

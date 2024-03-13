@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MenuItem } from "primeng/api";
 
 @Component({
   selector: 'app-summary-cards-container',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './summary-cards-container.component.scss'
 })
 export class SummaryCardsContainerComponent {
-
+  breadcrumbItems: MenuItem[] = [
+    {label: "Email Analytics"},
+    {label: "Email Summary"}
+  ];
 }

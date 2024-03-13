@@ -25,6 +25,7 @@ import { DialogModule } from 'primeng/dialog';
 import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.component';
 import { SummaryCardComponent } from './components/summary-card/summary-card.component';
 import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
+import { FilterQueryComponent } from './components/filter-query/filter-query.component';
 
 
 
@@ -38,6 +39,7 @@ import { SummaryCardsContainerComponent } from './components/summary-cards-conta
     KeywordCloudComponent,
     SummaryCardComponent,
     SummaryCardsContainerComponent,
+    FilterQueryComponent,
   ],
   imports: [
     CommonModule,
