@@ -1,0 +1,28 @@
+:host ::ng-deep p-button {
+  padding: 6px;
+}
+
+:host ::ng-deep .p-button.p-button-sm {
+  padding: 6px;
+}
+
+:host ::ng-deep .p-button-surface-200 {
+  background-color: var(--surface-200) !important;
+  color: var(--text-on-surface-200) !important;
+  /* You can adjust the styles based on your design system */
+}
+
+:host ::ng-deep .play {
+  background-color: black;
+  padding: 20px;
+  border-radius: 30px;
+}
+
+:host ::ng-deep .title {
+  color: blanchedalmond;
+}
+
+:host ::ng-deep .date {
+  color: rgb(158, 156, 152);
+}
+

@@ -38,6 +38,7 @@ export class SidenavComponent implements OnInit {
           },
           {
             label: 'Conversation Summaries',
+            routerLink: "email/summaries",
             icon: 'pi pi-fw pi-book'
           },
           {

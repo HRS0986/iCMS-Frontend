@@ -23,6 +23,9 @@ import { TooltipModule } from 'primeng/tooltip';
 // import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
 import { DialogModule } from 'primeng/dialog';
 import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.component';
+import { SummaryCardComponent } from './components/summary-card/summary-card.component';
+import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
+
 
 
 @NgModule({
@@ -33,6 +36,8 @@ import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.
     LineAreaChartComponent,
     StatCardComponent,
     KeywordCloudComponent,
+    SummaryCardComponent,
+    SummaryCardsContainerComponent,
   ],
   imports: [
     CommonModule,

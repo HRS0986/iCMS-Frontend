@@ -1,0 +1,64 @@
+html {
+    background-color: #eee
+  }
+  
+  .card-bg {
+    background-color: #fff;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+  }
+  .subject {
+    font-size: 2.2rem;
+  }
+  
+  table {
+      border: 1px solid white;
+      border-collapse: collapse;
+      width:100%;
+  }
+  
+  table th {
+    text-align: left;
+  }
+  
+  table td, th {
+    border: 1px solid white;
+    padding: 0.5rem;
+  }
+  
+  table td.shrink, th.shrink {
+      white-space:nowrap
+  }
+  table td.expand, th.expand {
+      width: 98%
+  }
+  table td.align-right {
+    text-align: right;
+  }
+  table td button {
+    padding: 0.5rem 2.5rem;
+    background-color: #3b82f6;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    color: white;
+    border: 0;
+   }
+  table td button:hover {
+    background-color: red;
+    cursor: pointer;
+   }
+  
+  .padding-right {
+    padding-right: 2.5rem;
+  }
+  
+  .align-justify {
+    text-align: justify;
+  }
+  span {
+    padding: 0.5rem 2.5rem;
+    border-radius: 5px;
+    background-color: #22c55e;
+    font-size: 1.5rem;
+    color: white;
+  }
