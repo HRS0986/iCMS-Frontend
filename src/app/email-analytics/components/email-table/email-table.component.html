@@ -1,0 +1,20 @@
+<div class="table-container">
+  <table>
+    <tr>
+      <th>Subject</th>
+      <th>Sender</th>
+      <th>Receiver</th>
+      <th>Date</th>
+      <th>Sentiment</th>
+      <th>Topics</th>
+    </tr>
+    <tr *ngFor="let row of rows">
+      <td>{{row.subject}}</td>
+      <td>{{row.sender}}</td>
+      <td>{{row.receiver}}</td>
+      <td>{{row.date}}</td>
+      <td>{{row.sentiment}}</td>
+      <td>{{row.topics}}</td>
+    </tr>
+  </table>
+</div>

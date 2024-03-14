@@ -1,0 +1,24 @@
+tr, td, th {
+    border: 1px solid #ccc;
+}
+tr {
+    height: 3rem;
+}
+table {
+    border-collapse: collapse; // to avoid double borders between each cells
+    width: 100%;
+}
+th {
+    background-color: #eeeeee;
+    font-weight: normal;
+}
+td {
+    background-color: white;
+    padding: 0 0.5rem;
+}
+.table-container {
+    background-color: white;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}

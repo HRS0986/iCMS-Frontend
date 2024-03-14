@@ -26,6 +26,8 @@ import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.
 import { SummaryCardComponent } from './components/summary-card/summary-card.component';
 import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
 import { FilterQueryComponent } from './components/filter-query/filter-query.component';
+import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
+import { EmailTableComponent } from './components/email-table/email-table.component';
 
 
 
@@ -40,6 +42,8 @@ import { FilterQueryComponent } from './components/filter-query/filter-query.com
     SummaryCardComponent,
     SummaryCardsContainerComponent,
     FilterQueryComponent,
+    EmailFilteringComponent,
+    EmailTableComponent,
   ],
   imports: [
     CommonModule,
