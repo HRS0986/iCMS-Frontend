@@ -1,8 +1,9 @@
-<form action="" method="get">
+<form action="" method="get" onsubmit="return false">
   <div class="grid-container">
     <div class="grid-item">
       <label>
         Date Range:
+        <br />
         <input type="date" name="query-date-start" />
         &nbsp; to &nbsp;
         <input type="date" name="query-date-end" />
@@ -62,9 +63,9 @@
       <!-- empty for spacing -->
     </div>
 
-    <div class="grid-item">
+    <div class="grid-item button-container">
       <input type="submit" value="Apply Filter" />
-      &nbsp; &nbsp;
+      <!-- &nbsp; &nbsp; -->
       <input type="reset" value="Clear Filters" />
     </div>
   </div>
