@@ -6,7 +6,7 @@ export interface EmailRow {
   receiver: String;
   date: String;
   sentiment: String;
-  topics: String;
+  topics: String[];
 };
 
 @Component({
