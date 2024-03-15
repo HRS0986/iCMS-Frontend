@@ -34,10 +34,12 @@ export class SidenavComponent implements OnInit {
           },
           {
             label: 'Email Filtering',
+            routerLink: "email/filtering",
             icon: 'pi pi-fw pi-filter'
           },
           {
             label: 'Conversation Summaries',
+            routerLink: "email/summaries",
             icon: 'pi pi-fw pi-book'
           },
           {
