@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChipModule } from 'primeng/chip';
 
 import { EmailAnalyticsRoutingModule } from './email-analytics-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -21,6 +22,13 @@ import { TooltipModule } from 'primeng/tooltip';
 // import { CallSummaryChartComponent } from './components/call-summary-chart/call-summary-chart.component';
 // import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
 import { DialogModule } from 'primeng/dialog';
+import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.component';
+import { SummaryCardComponent } from './components/summary-card/summary-card.component';
+import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
+import { FilterQueryComponent } from './components/filter-query/filter-query.component';
+import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
+import { EmailTableComponent } from './components/email-table/email-table.component';
+
 
 
 @NgModule({
@@ -30,6 +38,12 @@ import { DialogModule } from 'primeng/dialog';
     DoughnutChartComponent,
     LineAreaChartComponent,
     StatCardComponent,
+    KeywordCloudComponent,
+    SummaryCardComponent,
+    SummaryCardsContainerComponent,
+    FilterQueryComponent,
+    EmailFilteringComponent,
+    EmailTableComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +57,7 @@ import { DialogModule } from 'primeng/dialog';
     DataViewModule,
     TagModule,
     DialogModule,
+    ChipModule,
   ]
 })
 export class EmailAnalyticsModule {
