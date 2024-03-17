@@ -1,10 +1,37 @@
-<app-page-header
-  pageTitle="Platform Insights"
-  class="w-full h-fit"
-  [breadcrumbItems]="breadcrumbItems"
-/>
+<app-page-header pageTitle="Platform Insights" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" />
 
-<div class="flex flex-col items-center justify-center h-full">
-  <h1 class="text-4xl font-bold">Social Media</h1>
-  <p class="text-lg">Social Media Analytics Platform Insights</p>
+<div class="flex flex-col">
+  <div>
+    <p-panel>
+
+      <tabs>
+        <tab-item [tabItem]="tab1" [templateRef]="firstTemplate" [content]="content1"></tab-item>
+        <tab-item [tabItem]="tab2" [templateRef]="secondTemplate" [content]="content2"></tab-item>
+        <tab-item [tabItem]="tab3" [templateRef]="thirdTemplate" [content]="content3"></tab-item>
+      </tabs>
+
+      <ng-template #firstTemplate let-content="content">
+        <div class="first-wrapper">
+          <h3>{{ content.title }}</h3>
+          <div class="first-image"></div>
+        </div>
+      </ng-template>
+
+      <ng-template #secondTemplate let-content="content">
+        <div class="second-wrapper">
+          <h3>{{ content.title }}</h3>
+          <div class="second-image"></div>
+        </div>
+      </ng-template>
+
+      <ng-template #thirdTemplate let-content="content">
+        <div class="third-wrapper">
+            <h3>{{ content.title }}</h3>
+            <div class="third-first-image"></div>
+        </div>
+      </ng-template>
+
+
+    </p-panel>
+  </div>
 </div>

@@ -1,0 +1,10 @@
+<div class="tab-container">
+    <div class="nav">
+        <div [ngClass]="{active: tab == activeComponent}" (click)="activateTab(tab)" class="nav-item" *ngFor="let tab of tabs"> 
+            <img class="tab-icon" [src]="tab.tabItem.img" alt="Icon">
+            <span>{{tab.tabItem.title}}</span>
+        </div>
+    </div>
+
+    <ng-template [ngTemplateOutlet]="activeComponent.templateRef" [ngTemplateOutletContext]=" {content: activeComponent.content}"></ng-template>
+</div>
