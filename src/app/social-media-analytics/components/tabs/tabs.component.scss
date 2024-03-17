@@ -1,0 +1,36 @@
+
+.nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: left;
+  height: 50px;
+  border-bottom: 2px solid #a2ccd662;
+  position: relative;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 20px;
+  user-select: none;
+  font-weight: bold;
+}
+
+.nav-item.active {
+  border-bottom: 3px solid rgb(30, 192, 246);
+}
+
+.nav-item:hover {
+  background-color: #eee;
+}
+
+.nav-item:not(.active):hover {
+  border-bottom: 3px solid #ccc;
+}
+
+.tab-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
