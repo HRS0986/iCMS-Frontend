@@ -13,16 +13,16 @@
       <td class="shrink" rowspan="2">
         <span
           [ngClass]="{
-          'span-green': sentiment==='Positive',
-          'span-red': sentiment==='Negative',
-          'span-blue': sentiment==='Neutral'
-        }"
+            'span-green': sentiment === 'Positive',
+            'span-red': sentiment === 'Negative',
+            'span-blue': sentiment === 'Neutral'
+          }"
           >{{ sentiment }}</span
         >
       </td>
       <td class="expand" rowspan="2"></td>
       <td class="shrink align-right padding-right" rowspan="2">
-        <button>View Original</button>
+        <button (click)="showDialog()">View Original</button>
       </td>
     </tr>
     <tr>
@@ -39,4 +39,15 @@
       <td class="align-justify" colspan="9">{{ summary }}</td>
     </tr>
   </table>
+
+  <!-- Overlay -->
+  <p-dialog
+    header="{{ title }}"
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '80vw' }"
+  >
+    <app-view-thread threadId="{{ threadId }}" [threadEmails]="['test', 'test2']"></app-view-thread>
+  </p-dialog>
+  <!-- end of overlay -->
 </div>

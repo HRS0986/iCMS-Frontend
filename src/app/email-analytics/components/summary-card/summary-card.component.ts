@@ -11,4 +11,11 @@ export class SummaryCardComponent {
   @Input() sender!: string;
   @Input() sentiment!: string;
   @Input() summary!: string;
+  @Input() threadId!: string;
+
+  visible: boolean = false;
+
+  showDialog() {
+      this.visible = true;
+  }
 }

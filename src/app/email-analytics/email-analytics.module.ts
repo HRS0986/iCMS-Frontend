@@ -26,8 +26,7 @@ import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.
 import { SummaryCardComponent } from './components/summary-card/summary-card.component';
 import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
 import { FilterQueryComponent } from './components/filter-query/filter-query.component';
-
-
+import { ViewThreadComponent } from './components/view-thread/view-thread.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +39,7 @@ import { FilterQueryComponent } from './components/filter-query/filter-query.com
     SummaryCardComponent,
     SummaryCardsContainerComponent,
     FilterQueryComponent,
+    ViewThreadComponent,
   ],
   imports: [
     CommonModule,
