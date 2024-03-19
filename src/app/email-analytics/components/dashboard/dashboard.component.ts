@@ -18,12 +18,11 @@ export class DashboardComponent {
     {label: "Dashboard"}
   ];
   keywords: Keyword[] = [
-    { text: "Angular", size: 10 },
-    { text: "JavaScript", size: 8 },
-    { text: "TypeScript", size: 7 },
-    { text: "HTML", size: 6 },
-    { text: "CSS", size: 5 },
-    { text: "Component", size: 4 },
-    { text: "Module", size: 3 },
+    { text: "VEGA", size: 12},
+    { text: "TravelBox", size: 8 },
+    { text: "Lua", size: 7 },
+    { text: "chargeNET", size: 6 },
+    { text: "AiGrow", size: 5 },
+    { text: "Cloud Smart School", size: 2 },
   ];
 }

@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: () => import("./email-analytics/email-analytics.module").then(m => m.EmailAnalyticsModule)
   },
   {
+    path: "social-media",
+    loadChildren: () => import("./social-media-analytics/social-media-analytics.module").then(m => m.SMAnalyticsModule)
+  },
+  {
     path: "auth",
     loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule)
   }
@@ -20,5 +24,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule { }

@@ -27,6 +27,9 @@ import { SummaryCardComponent } from './components/summary-card/summary-card.com
 import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
 import { FilterQueryComponent } from './components/filter-query/filter-query.component';
 import { ViewThreadComponent } from './components/view-thread/view-thread.component';
+import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
+import { EmailTableComponent } from './components/email-table/email-table.component';
+
 
 @NgModule({
   declarations: [
@@ -40,6 +43,8 @@ import { ViewThreadComponent } from './components/view-thread/view-thread.compon
     SummaryCardsContainerComponent,
     FilterQueryComponent,
     ViewThreadComponent,
+    EmailFilteringComponent,
+    EmailTableComponent,
   ],
   imports: [
     CommonModule,

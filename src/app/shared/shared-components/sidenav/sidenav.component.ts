@@ -34,6 +34,7 @@ export class SidenavComponent implements OnInit {
           },
           {
             label: 'Email Filtering',
+            routerLink: "email/filtering",
             icon: 'pi pi-fw pi-filter'
           },
           {
@@ -78,18 +79,22 @@ export class SidenavComponent implements OnInit {
         items: [
           {
             label: 'Dashboard',
+            routerLink: "social-media/dashboard",
             icon: 'pi pi-fw pi-th-large'
           },
           {
             label: 'Campaign Analysis',
+            routerLink: "social-media/campaign-analysis",
             icon: 'pi pi-fw pi-chart-line',
           },
           {
             label: 'Platform Insights',
+            routerLink: "social-media/platform-insights",
             icon: 'pi pi-fw pi-desktop',
           },
           {
             label: 'Settings',
+            routerLink: 'social-media/settings',
             icon: 'pi pi-fw pi-sliders-h',
           }
         ]
