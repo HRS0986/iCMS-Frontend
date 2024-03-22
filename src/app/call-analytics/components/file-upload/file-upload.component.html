@@ -1,18 +1,40 @@
 <app-page-header pageTitle="Call Analytics Recordings" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems"
     [showDatePicker]="false" [showButton]="false" />
 <div class="flex flex-col">
-        <div class="card flex justify-content-center">
-            <p-fileUpload name="myfile[]" url="https://www.primefaces.org/cdn/api/upload.php"
-                [multiple]="true" accept=".mp3,.wav" (onSelect)="onFileSelected($event)" >
-                <ng-template pTemplate="toolbar">
-                    <div class="py-3">Upload 3 Files</div>
-                </ng-template>
-                <ng-template let-file pTemplate="file">
-                    <div>Custom UI to display a file</div>
-                </ng-template>
-                <ng-template pTemplate="content" let-files>
-                    <div>Additional content.</div>
-                </ng-template>
-            </p-fileUpload>
+  <div class="card flex justify-content-center">
+    <p-fileUpload name="myfile[]" url="https://www.primefaces.org/cdn/api/upload.php"
+                  [multiple]="true" accept=".mp3,.wav" (onUpload)="onFileSelected($event)">
+      <ng-template pTemplate="toolbar">
+        <!-- Display the number of files selected -->
+        <div class="py-3">Upload {{ uploadQueue.length }} Files</div>
+      </ng-template>
+      <ng-template let-file let-i="index" pTemplate="file">
+        <h5>{{ file.name }}</h5>
+        <div class="grid p-fluid">
+          <div class="col-12 md:col-6">
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+              <input type="text" pInputText [id]="'description_'+i" placeholder="Description">
+            </div>
+          </div>
+
+          <div class="col-12 md:col-6">
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+              <input type="text" pInputText [id]="'date_'+i" placeholder="Date">
+              <span class="p-inputgroup-addon">MM-DD-YYYY</span>
+            </div>
+          </div>
         </div>
+      </ng-template>
+
+      <ng-template pTemplate="content" let-files>
+        <!-- Display default icon if no files are selected -->
+        <div *ngIf="uploadQueue.length === 0">
+          <img src="assets/call/phone-record.png" alt="Default Icon">
+        </div>
+      </ng-template>
+    </p-fileUpload>
+  </div>
 </div>
+
