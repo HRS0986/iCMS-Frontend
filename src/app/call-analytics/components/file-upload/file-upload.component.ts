@@ -29,7 +29,7 @@ export class FileUploadComponent {
   isUploading = false;
   uploadQueue: QueuedFile[] = [];
 
-  constructor(private fileUploadService: CallRecordingService) {}
+  constructor(private callRecordingService: CallRecordingService) {}
 
   onFileSelected(event: any): void {
     const files: FileList | null = event.files;
@@ -75,7 +75,7 @@ export class FileUploadComponent {
         // Rename the file based on the description
         const renamedFile = new File([file], `${description}_${file.name}`);
 
-        this.fileUploadService.uploadFile(renamedFile)
+        this.callRecordingService.uploadFile(renamedFile)
           .pipe(finalize(() => {
             this.isUploading = false;
             this.uploadNextFile();
