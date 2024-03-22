@@ -40,7 +40,10 @@ import { CallFilteringComponent } from './components/call-filtering/call-filteri
 import { FilteringFeaturesComponent } from './components/filtering-features/filtering-features.component';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SliderModule } from 'primeng/slider';
+import { DividerModule } from 'primeng/divider';
+
+
 
 
 @NgModule({
@@ -88,7 +91,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FileUploadModule,
     CalendarModule,
     DropdownModule,
-    BrowserAnimationsModule,
+    SliderModule,
+    DividerModule
   ],
   providers: [
     CallAnalyticsService

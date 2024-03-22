@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
+interface Topic {
+  name: string;
+  code: string;
+}
 
-
+interface SentiCatg{
+  name: string;
+  code: string;
+}
 @Component({
   selector: 'app-filtering-features',
   templateUrl: './filtering-features.component.html',
@@ -10,22 +17,32 @@ import { Component, OnInit } from '@angular/core';
 export class FilteringFeaturesComponent implements OnInit{
   rangeDates: Date[] | undefined;
 
-  countries: any[] | undefined;
+  value: string | undefined;   //Keyword
 
-    selectedCountry: string | undefined;
+  value1!: number;  //Slider
 
-    ngOnInit() {
-        this.countries = [
-            { name: 'Australia', code: 'AU' },
-            { name: 'Brazil', code: 'BR' },
-            { name: 'China', code: 'CN' },
-            { name: 'Egypt', code: 'EG' },
-            { name: 'France', code: 'FR' },
-            { name: 'Germany', code: 'DE' },
-            { name: 'India', code: 'IN' },
-            { name: 'Japan', code: 'JP' },
-            { name: 'Spain', code: 'ES' },
-            { name: 'United States', code: 'US' }
-        ];
-    }
+  topic: Topic[] | undefined;
+
+  selectedTopic: Topic | undefined;
+
+  sentiCatg: SentiCatg[] | undefined;
+
+  selectedSentiCatg: SentiCatg | undefined;
+
+  ngOnInit() {
+      this.topic = [
+          { name: 'Pricing', code: 'PCG' },
+          { name: 'Product', code: 'PDT' },
+          { name: 'Services', code: 'SVC' },
+          { name: 'Issues', code: 'IS' },
+          { name: 'Website', code: 'WS' }
+      ];
+
+      this.sentiCatg = [
+        { name: 'Positive', code: 'POS' },
+        { name: 'Neutral', code: 'NEU' },
+        { name: 'Negative', code: 'NEG' }
+      ];
+  }
 }
+

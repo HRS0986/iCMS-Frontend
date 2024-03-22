@@ -1,59 +1,59 @@
-<!--<div class="card flex justify-content-center">
+<div>
     <p-panel>
-    
-            <p>Date Range:</p>
-        <div class="card flex justify-content-center">
-            <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" [showButtonBar]="true"></p-calendar>
-        </div>
-        <p>Topic:</p>
-        
-<div class="card flex justify-content-center">
-    <p-dropdown [options]="countries" [(ngModel)]="selectedCountry" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a Country">
-        <ng-template pTemplate="selectedItem" let-selectedOption>
-            <div class="flex align-items-center gap-2">
-                <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + selectedCountry.code.toLowerCase()" style="width: 18px"/>
-                <div>{{ selectedOption.name }}</div>
-            </div>
-        </ng-template>
-        <ng-template let-country pTemplate="item">
-            <div class="flex align-items-center gap-2">
-                <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" style="width: 18px"/>
-                <div>{{ country.name }}</div>
-            </div>
-        </ng-template>
-    </p-dropdown>
-</div>
-                    
-    </p-panel>
-</div>-->
 
-<div class="card flex justify-content-center">
-    <p-panel>
-        <div class="flex align-items-center"> <!-- Container for the calendar and dropdown -->
-            <!-- Calendar -->
-            <div class="flex justify-content-center">
-                <p-calendar *ngIf="rangeDates" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" [showButtonBar]="true"></p-calendar>
+        <div class="flex gap-8 space-between">
+
+            <!--Calendar-->
+            <div>
+                <p>Date Range:</p>
+                <div class="card flex justify-content-center">
+                    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true"
+                        [showButtonBar]="true"></p-calendar>
+                </div>
             </div>
 
-            <!-- Dropdown -->
-            <div class="flex justify-content-center">
-                <p-dropdown [options]="countries" [(ngModel)]="selectedCountry" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a Country">
-                    <ng-template pTemplate="selectedItem" let-selectedOption>
-                        <div class="flex align-items-center gap-2">
-                            <img *ngIf="selectedCountry" src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + selectedCountry.code.toLowerCase()" style="width: 18px"/>
-                            <div>{{ selectedOption.name }}</div>
-                        </div>
-                    </ng-template>
-                    <ng-template let-country pTemplate="item">
-                        <div class="flex align-items-center gap-2">
-                            <img *ngIf="country" src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" style="width: 18px"/>
-                            <div>{{ country.name }}</div>
-                        </div>
-                    </ng-template>
-                </p-dropdown>
+            <!--Dropdown-->
+            <div>
+                <p>Topic:</p>
+                <div class="card flex justify-content-center">
+                    <p-dropdown [options]="topic" [(ngModel)]="selectedTopic" optionLabel="name" [showClear]="true"
+                        placeholder="Topic"></p-dropdown>
+                </div>
+            </div>
+
+            <!--Keyword-->
+            <div>
+                <p>Keyword:</p>
+                <div class="card flex justify-content-center">
+                    <input pInputText type="text" id="keyword" [(ngModel)]="value" placeholder="Keyword" />
+                </div>
+            </div>
+
+            <!--Sentiment Category-->
+            <div>
+                <p>Sentiment Category:</p>
+                <div class="card flex justify-content-center">
+                    <p-dropdown [options]="sentiCatg" [(ngModel)]="selectedSentiCatg" optionLabel="name"
+                        [showClear]="true" placeholder="Sentiment Category"></p-dropdown>
+                </div>
             </div>
         </div>
+        <br><br>
+
+        <!--Slider-->
+        <div class="flex flex-row justify-content-between align-items-center gap-6">
+            <p>Call Duration:</p>
+            <div class="card slider-container">
+                <p-slider [(ngModel)]="value1"></p-slider>
+            </div>
+            <p>10 mins</p>
+        </div>
+        <br><br>
+        <div id="button" class="card flex justify-content-center gap-3">
+            <p-button label="Apply Filter" styleClass="custom-button"></p-button>
+            <p-button label="Clear Filters" [outlined]="true" severity="clsFilter" styleClass="custom-button"></p-button>
+        </div><br><br>
+        <p-divider></p-divider>
+        <app-call-summary-chart></app-call-summary-chart>
     </p-panel>
 </div>
-
-    
