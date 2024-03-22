@@ -5,10 +5,10 @@
     <p-panel>
 
       <tabs>
-        <tab-item [tabItem]="tabNotifications" [templateRef]="TempNotifictions" [content]="content1"></tab-item>
-        <tab-item [tabItem]="tabThresholds" [templateRef]="TempThresholds" [content]="content2"></tab-item>
-        <tab-item [tabItem]="tabAlerts" [templateRef]="TempAlerts" [content]="content3"></tab-item>
-        <tab-item [tabItem]="tabCampaigns" [templateRef]="TempCampaigns" [content]="content4"></tab-item>
+        <tab-item [tabItem]="tabNotifications" [templateContentRef]="TempNotifictions" [content]="content1"></tab-item>
+        <tab-item [tabItem]="tabThresholds" [templateContentRef]="TempThresholds" [content]="content2"></tab-item>
+        <tab-item [tabItem]="tabAlerts" [templateContentRef]="TempAlerts" [content]="content3"></tab-item>
+        <tab-item [tabItem]="tabCampaigns" [templateContentRef]="TempCampaigns" [content]="content4"></tab-item>
       </tabs>
 
       <ng-template #TempNotifictions let-content="content">

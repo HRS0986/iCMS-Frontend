@@ -5,10 +5,19 @@
     <p-panel>
 
       <tabs>
-        <tab-item [tabItem]="tab1" [templateRef]="firstTemplate" [content]="content1"></tab-item>
-        <tab-item [tabItem]="tab2" [templateRef]="secondTemplate" [content]="content2"></tab-item>
-        <tab-item [tabItem]="tab3" [templateRef]="thirdTemplate" [content]="content3"></tab-item>
+        <tab-item [tabItem]="tab1" [templateContentRef]="firstTemplate" [templateRightRef]="tempFacebookRight"
+          [content]="content1"></tab-item>
+        <tab-item [tabItem]="tab2" [templateContentRef]="secondTemplate" [templateRightRef]="tempFacebookRight"
+          [content]="content2"></tab-item>
+        <tab-item [tabItem]="tab3" [templateContentRef]="thirdTemplate" [templateRightRef]="tempFacebookRight"
+          [content]="content3"></tab-item>
       </tabs>
+
+      <ng-template #tempFacebookRight let-content="content">
+        <p class="text-top-right-bar">{{topBarCaption}} : </p>
+        <img src="assets/social-media/svg/view.svg" alt="View Icon" class="right-bar-icon">
+        <img src="assets/social-media/svg/add.svg" alt="Add Icon" class="right-bar-icon">
+      </ng-template>
 
       <ng-template #firstTemplate let-content="content">
         <div class="first-wrapper">
@@ -26,8 +35,8 @@
 
       <ng-template #thirdTemplate let-content="content">
         <div class="third-wrapper">
-            <h3>{{ content.title }}</h3>
-            <div class="third-first-image"></div>
+          <h3>{{ content.title }}</h3>
+          <div class="third-first-image"></div>
         </div>
       </ng-template>
 

@@ -2,6 +2,24 @@
     margin: 20px 5px;
 }
 
+.top-right-bar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.text-top-right-bar {
+    font-size: 0.9rem;
+    width: auto;
+    color: #677077;
+    font-weight: bold;
+}
+
+.right-bar-icon {
+    cursor: pointer;
+}
+
 .text-title1 {
     font-size: 1.3rem;
     font-weight: 600;
@@ -12,6 +30,7 @@
 
 .text-faded {
     font-size: 0.9rem;
+    width: auto;
     color: #9eabb6;
     padding: 0;
     margin: 10px 0;

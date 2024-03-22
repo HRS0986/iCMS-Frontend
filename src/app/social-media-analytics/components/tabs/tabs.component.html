@@ -1,12 +1,22 @@
 <div class="tab-container">
-    <div class="nav">
-        <div [ngClass]="{active: tab == activeComponent}" (click)="activateTab(tab)" class="nav-item" *ngFor="let tab of tabs"> 
-            <ng-container *ngIf="tab.tabItem.img !== ''">
-                <img class="tab-icon" [src]="tab.tabItem.img" alt="Icon">
-            </ng-container>
-            <span>{{tab.tabItem.title}}</span>
+
+    <div class="container">
+        <div class="tab-items-left">
+            <div class="nav">
+                <div [ngClass]="{active: tab == activeComponent}" (click)="activateTab(tab)" class="nav-item" *ngFor="let tab of tabs">
+                    <ng-container *ngIf="tab.tabItem.img !== ''">
+                        <img class="tab-icon" [src]="tab.tabItem.img" alt="Icon">
+                    </ng-container>
+                    <span>{{tab.tabItem.title}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="tab-items-right">
+            <ng-template [ngTemplateOutlet]="activeComponent.templateRightRef"
+                [ngTemplateOutletContext]=" {content: activeComponent.content}"></ng-template>
         </div>
     </div>
 
-    <ng-template [ngTemplateOutlet]="activeComponent.templateRef" [ngTemplateOutletContext]=" {content: activeComponent.content}"></ng-template>
+    <ng-template [ngTemplateOutlet]="activeComponent.templateContentRef"
+        [ngTemplateOutletContext]=" {content: activeComponent.content}"></ng-template>
 </div>

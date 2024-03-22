@@ -25,4 +25,6 @@ export class PIComponent {
   content2: Content = {title: 'Instergram Content'};
   content3: Content = {title: 'Twitter Content'};
 
+  topBarCaption = "Custom Alerts";
+
 }

@@ -57,4 +57,6 @@ export class SettingsAlerts implements OnInit {
   content1: Content = {title: 'Created Alerts', subtitle: '15 Custom Alerts'};
   content2: Content = {title: 'Instergram Content'};
   content3: Content = {title: 'Twitter Content'};
+
+  topBarCaption = "Add New";
 }

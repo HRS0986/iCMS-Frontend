@@ -3,12 +3,20 @@
         <p-panel>
 
             <tabs>
-                <tab-item [tabItem]="tabFacebook" [templateRef]="tempFacebook" [content]="content1"></tab-item>
-                <tab-item [tabItem]="tabInstergram" [templateRef]="tempInstergram" [content]="content2"></tab-item>
-                <tab-item [tabItem]="tabTwitter" [templateRef]="tempTwitter" [content]="content3"></tab-item>
+                <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebookContent"
+                    [templateRightRef]="topBarRight" [content]="content1"></tab-item>
+                <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempInstergram"
+                    [templateRightRef]="topBarRight" [content]="content2"></tab-item>
+                <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempTwitter" [templateRightRef]="topBarRight"
+                    [content]="content3"></tab-item>
             </tabs>
 
-            <ng-template #tempFacebook let-content="content">
+            <ng-template #topBarRight let-content="content">
+                <p class="text-top-right-bar">{{topBarCaption}} : </p>
+                <img src="assets/social-media/svg/add.svg" alt="Add Icon" class="right-bar-icon">
+            </ng-template>
+
+            <ng-template #tempFacebookContent let-content="content">
 
                 <div class="block">
                     <p class="text-title1">{{content.title}}</p>
