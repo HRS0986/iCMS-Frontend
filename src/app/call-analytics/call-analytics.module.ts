@@ -36,6 +36,9 @@ import { ChipsModule } from 'primeng/chips';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputGroupModule } from "primeng/inputgroup";
+import { InputGroupAddonModule } from "primeng/inputgroupaddon";
+import { CalendarModule } from "primeng/calendar";
 
 @NgModule({
   declarations: [
@@ -64,7 +67,7 @@ import { InputTextModule } from 'primeng/inputtext';
     ChartModule,
     ButtonModule,
     TooltipModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
     DataViewModule,
     TagModule,
     DialogModule,
@@ -78,6 +81,9 @@ import { InputTextModule } from 'primeng/inputtext';
     InputTextModule,
     ReactiveFormsModule,
     FileUploadModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    CalendarModule,
   ],
   providers: [
     CallAnalyticsService
