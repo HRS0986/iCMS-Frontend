@@ -2,17 +2,9 @@ import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { CallRecordingService } from '../../services/call-recording.service';
 import { finalize } from 'rxjs/operators';
+import { FileSelectEvent } from "primeng/fileupload";
+import { ApiResponse, QueuedFile } from "../../types";
 
-interface ApiResponse {
-  message: string;
-  // Add other properties as needed
-}
-
-interface QueuedFile {
-  file: File;
-  description: string;
-  date: string;
-}
 
 @Component({
   selector: 'app-file-upload',
@@ -28,29 +20,27 @@ export class FileUploadComponent {
 
   isUploading = false;
   uploadQueue: QueuedFile[] = [];
+  selectedFilesCount = 0
+  dateList: Date[] = [];
+  descriptionList: string[] = [];
 
   constructor(private callRecordingService: CallRecordingService) {}
 
-  onFileSelected(event: any): void {
+  onUploadClick(event: any): void {
     const files: FileList | null = event.files;
 
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         const file: File = files[i];
-        const descriptionInput = document.getElementById(`description_${i}`) as HTMLInputElement;
-        const dateInput = document.getElementById(`date_${i}`) as HTMLInputElement;
-
-        const description = descriptionInput.value;
-        const date = dateInput.value;
+        const description = this.descriptionList[i];
+        const date = this.dateList[i];
 
         // Construct the new file name
-        const fileNameParts = file.name.split('.');
-        const fileExtension = fileNameParts.pop(); // Remove the file extension
+        const fileExtension = file.name.split('.').pop();
         const newFileName = `${description}_${date}.${fileExtension}`;
 
         // Create a new File object with the updated name
         const renamedFile = new File([file], newFileName);
-
         const callDetails = { description, date };
 
         this.uploadQueue.push({ file: renamedFile, description, date });
@@ -64,6 +54,15 @@ export class FileUploadComponent {
     }
   }
 
+  onSelectFilesToUpload(event: FileSelectEvent) {
+    this.selectedFilesCount = event.currentFiles.length;
+  }
+
+  onCancel() {
+    this.selectedFilesCount = 0;
+    this.descriptionList.length = 0;
+    this.dateList.length = 0;
+  }
 
   uploadNextFile(): void {
     if (this.uploadQueue.length > 0) {

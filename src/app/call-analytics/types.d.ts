@@ -19,3 +19,13 @@ export interface CallRecording {
   status: string;
   callUrl: string;
 }
+ export interface QueuedFile {
+   file: File;
+   description: string;
+   date: Date;
+ }
+
+interface ApiResponse {
+  message: string;
+  // Add other properties as needed
+}
