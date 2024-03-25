@@ -1,53 +1,94 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { CallRecordingService } from '../../services/call-recording.service';
+import { finalize } from 'rxjs/operators';
+import { FileSelectEvent } from "primeng/fileupload";
+import { ApiResponse, QueuedFile } from "../../types";
 
 
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
-  styleUrl: './file-upload.component.scss'
+  styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent {
   breadcrumbItems: MenuItem[] = [
-    {label: "Call Analytics"},
-    {label: "Call Recordings"},
-    {label: "Upload Calls"}
+    { label: 'Call Analytics' },
+    { label: 'Call Recordings' },
+    { label: 'Upload Calls' }
   ];
-//  isAdvancedUpload: boolean = true;
-//   isDragover: boolean = false;
-//   droppedFiles: FileList | null = null;
 
-//   onDragOver(event: DragEvent): void {
-//     event.preventDefault();
-//     event.stopPropagation();
-//     this.isDragover = true;
-//   }
+  isUploading = false;
+  uploadQueue: QueuedFile[] = [];
+  selectedFilesCount = 0
+  dateList: Date[] = [];
+  descriptionList: string[] = [];
 
-//   onDragLeave(event: DragEvent): void {
-//     event.preventDefault();
-//     event.stopPropagation();
-//     this.isDragover = false;
-//   }
+  constructor(private callRecordingService: CallRecordingService) {}
 
-//   onDrop(event: DragEvent): void {
-//     event.preventDefault();
-//     event.stopPropagation();
-//     this.isDragover = false;
+  onUploadClick(event: any): void {
+    const files: FileList | null = event.files;
 
-//     const files = event.dataTransfer?.files || null;
-//     this.droppedFiles = files ? files : null;
-//   }
+    if (files && files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file: File = files[i];
+        const description = this.descriptionList[i];
+        const date = this.dateList[i];
 
-//   onFileChange(event: Event): void {
-//     const inputElement = event.target as HTMLInputElement;
-//     this.droppedFiles = inputElement.files;
-//   }
+        // Construct the new file name
+        const fileExtension = file.name.split('.').pop();
+        const newFileName = `${description}_${date}.${fileExtension}`;
 
-//   onSubmit(): void {
-//     // Handle file upload logic here
-//     if (this.droppedFiles) {
-//       console.log("Uploading files:", this.droppedFiles);
-//       // Add your upload logic here
-//     }
-//   }
+        // Create a new File object with the updated name
+        const renamedFile = new File([file], newFileName);
+        const callDetails = { description, date };
+
+        this.uploadQueue.push({ file: renamedFile, description, date });
+      }
+
+      if (!this.isUploading) {
+        this.uploadNextFile();
+      }
+    } else {
+      console.warn('No file selected');
+    }
+  }
+
+  onSelectFilesToUpload(event: FileSelectEvent) {
+    this.selectedFilesCount = event.currentFiles.length;
+  }
+
+  onCancel() {
+    this.selectedFilesCount = 0;
+    this.descriptionList.length = 0;
+    this.dateList.length = 0;
+  }
+
+  uploadNextFile(): void {
+    if (this.uploadQueue.length > 0) {
+      const queuedFile = this.uploadQueue.shift();
+      if (queuedFile) {
+        const { file, description, date } = queuedFile;
+        this.isUploading = true;
+
+        // Rename the file based on the description
+        const renamedFile = new File([file], `${description}_${file.name}`);
+
+        this.callRecordingService.uploadFile(renamedFile)
+          .pipe(finalize(() => {
+            this.isUploading = false;
+            this.uploadNextFile();
+          }))
+          .subscribe(
+            (response: ApiResponse) => {
+              console.log('File uploaded successfully', response.message);
+            },
+            (error: any) => {
+              console.error('Error uploading file', error);
+            }
+          );
+      }
+    }
+  }
+
 }

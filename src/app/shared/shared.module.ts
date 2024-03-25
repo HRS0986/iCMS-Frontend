@@ -9,6 +9,7 @@ import { DividerModule } from "primeng/divider";
 import { CalendarModule } from "primeng/calendar";
 import { FormsModule } from "@angular/forms";
 import { TopMenuComponent } from './shared-components/top-menu/top-menu.component';
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { TopMenuComponent } from './shared-components/top-menu/top-menu.componen
     BreadcrumbModule,
     DividerModule,
     CalendarModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
   ]
 })
 export class SharedModule {

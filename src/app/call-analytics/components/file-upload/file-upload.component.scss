@@ -1,0 +1,10 @@
+:host.flex {
+  display: grid;
+}
+
+
+:host ::ng-deep .p-datepicker-trigger {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}

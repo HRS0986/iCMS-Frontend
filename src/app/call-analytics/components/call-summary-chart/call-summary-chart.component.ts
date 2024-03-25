@@ -5,7 +5,7 @@ import { DialogModule } from 'primeng/dialog';
   selector: 'app-call-summary-chart',
   templateUrl: './call-summary-chart.component.html',
   styleUrl: './call-summary-chart.component.scss'
-  
+
 })
 export class CallSummaryChartComponent implements OnInit {
   summaryCalls:any = [];
@@ -29,7 +29,7 @@ export class CallSummaryChartComponent implements OnInit {
     this.selectedCall = call;
     this.visibleConfirmation = true;
   }
- 
+
   constructor() {
   }
 

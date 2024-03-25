@@ -38,13 +38,15 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { CallFilteringComponent } from './components/call-filtering/call-filtering.component';
 import { FilteringFeaturesComponent } from './components/filtering-features/filtering-features.component';
-import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { SliderModule } from 'primeng/slider';
 import { DividerModule } from 'primeng/divider';
 
 
 
+import { InputGroupModule } from "primeng/inputgroup";
+import { InputGroupAddonModule } from "primeng/inputgroupaddon";
+import { CalendarModule } from "primeng/calendar";
 
 @NgModule({
   declarations: [
@@ -75,7 +77,7 @@ import { DividerModule } from 'primeng/divider';
     ChartModule,
     ButtonModule,
     TooltipModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
     DataViewModule,
     TagModule,
     DialogModule,
@@ -92,7 +94,9 @@ import { DividerModule } from 'primeng/divider';
     CalendarModule,
     DropdownModule,
     SliderModule,
-    DividerModule
+    DividerModule,
+    InputGroupModule,
+    InputGroupAddonModule,
   ],
   providers: [
     CallAnalyticsService
