@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { CallRecordingService } from '../../services/call-recording.service';
 import { finalize } from 'rxjs/operators';
-import { FileSelectEvent } from "primeng/fileupload";
+import { FileBeforeUploadEvent, FileSelectEvent, FileUpload, FileUploadEvent } from "primeng/fileupload";
 import { ApiResponse, QueuedFile } from "../../types";
 
 
@@ -12,6 +12,9 @@ import { ApiResponse, QueuedFile } from "../../types";
   styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent {
+
+  @ViewChild("callUpload") callUpload!: FileUpload;
+
   breadcrumbItems: MenuItem[] = [
     { label: 'Call Analytics' },
     { label: 'Call Recordings' },
@@ -26,36 +29,40 @@ export class FileUploadComponent {
 
   constructor(private callRecordingService: CallRecordingService) {}
 
-  onUploadClick(event: any): void {
-    const files: FileList | null = event.files;
+  onUploadClick(event: FileUploadEvent): void {
+      const files= event.files;
 
-    if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        const file: File = files[i];
-        const description = this.descriptionList[i];
-        const date = this.dateList[i];
+      if (files && files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const file: File = files[i];
+          const description = this.descriptionList[i];
+          const date = this.dateList[i];
 
-        // Construct the new file name
-        const fileExtension = file.name.split('.').pop();
-        const newFileName = `${description}_${date}.${fileExtension}`;
+          // Construct the new file name
+          const fileExtension = file.name.split('.').pop();
+          const newFileName = `${description}_${date}.${fileExtension}`;
 
-        // Create a new File object with the updated name
-        const renamedFile = new File([file], newFileName);
-        const callDetails = { description, date };
+          // Create a new File object with the updated name
+          const renamedFile = new File([file], newFileName);
+          const callDetails = { description, date };
 
-        this.uploadQueue.push({ file: renamedFile, description, date });
+          this.uploadQueue.push({ file: renamedFile, description, date });
+        }
+
+        if (!this.isUploading) {
+          this.uploadNextFile();
+        }
+      } else {
+        console.warn('No file selected');
       }
 
-      if (!this.isUploading) {
-        this.uploadNextFile();
-      }
-    } else {
-      console.warn('No file selected');
-    }
   }
 
   onSelectFilesToUpload(event: FileSelectEvent) {
     this.selectedFilesCount = event.currentFiles.length;
+    for (let i = 0; i < this.selectedFilesCount; i++) {
+      this.dateList[i] = new Date();
+    }
   }
 
   onCancel() {

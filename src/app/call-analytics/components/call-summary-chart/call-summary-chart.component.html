@@ -1,128 +1,124 @@
-<p-panel class="flex flex-col text-center justify-center mb-4" >
+<p-panel class="flex flex-col text-center justify-center mb-4">
 
-  <div class="flex justify-between items-center px-3 mb-5" [style.display]="noCalls ? 'block' : 'none'" >
-    <img  src="./assets/call/noresult.png">
+  <div class="flex justify-between items-center px-3 mb-5" [style.display]="noCalls ? 'block' : 'none'">
+    <img src="./assets/call/noresult.png">
   </div>
-  
-  <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of summaryCalls">
-      
-    
+
+  <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of callRecordings">
     <div class="flex items-center gap-8">
       <img src="./assets/call/phone.png" width="25" height="25">
-      
       <div class="flex flex-col justify-start m">
-         <p class="mb-0 mt-0">{{ call.title }}</p>
-        <p class="mb-0 mt-0 text-gray-500 w-fit text-xs">{{ call.date }}</p>    
-      
+        <p class="mb-0 mt-0">{{ call.title }}</p>
+        <p class="mb-0 mt-0 text-gray-500 w-fit text-xs">{{ call.date }}</p>
       </div>
     </div>
     <div>
       <p-tag [style]="{'background': statusColors[call.status], 'width': '65px'}" value="{{call.status}}"></p-tag>
-    </div> 
-   
-    <div class="flex gap-3">
-      <p-button icon="pi pi-bars" (click)="showDialogSummary(call)" severity="success" size="small" pTooltip="View Transcription" [outlined]="true"></p-button>
-      <p-button icon="pi pi-play" (click)="showDialogPlay(call)" [outlined]="true" size="small" pTooltip="Play Recording"></p-button>
-      <p-button icon="pi pi-trash" (click)="showDialogConfirmation(call)" severity="danger" size="small" pTooltip="Delete Recording" [outlined]="true"></p-button> 
-      <p-dialog header="Call Summary" [modal]="true" [(visible)]="visibleSummary" [style]="{width: '30vw', height: 'auto'}">
-        <div class="flex justify-between items-center px-3 mb-5">
-          <!-- Use selectedCall only when it is defined -->
-          <div class="flex items-center gap-8" *ngIf="selectedCall">
-            <img src="./assets/call/phone.png" width="25" height="25">
-            <div class="flex flex-col justify-start">
-              <p class="mb-0 mt-0">{{ selectedCall.title }}</p>
-              <p class="mb-0 mt-0 text-gray-500 w-fit text-xs">{{ selectedCall.date }}</p>
-            </div>
-          </div>
-          <div>
-            <!-- Use call.status since selectedCall is not in the ngFor context -->
-            <p-tag [style]="{'background': statusColors[call.status], 'width': '65px'}" value="{{call.status}}"></p-tag>
-          </div>
-        </div>
-        <p  style="text-align: justify;">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.
-        </p>
-        <p  style="text-align: justify;">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.
-        </p>
-        <p  style="text-align: justify;">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.
-        </p>
-         <!-- Move this div to the bottom -->
-         <div class="text-right" >
-          <p-button label="Close" (click)="visibleSummary = false" icon="pi pi-times" styleClass="p-button-surface-200"></p-button>
-        </div>
-      </p-dialog>
-      <p-dialog header="Play Call Recording" [(visible)]="visiblePlay" [modal]="true"  [style]="{width: '30vw', height: 'auto'}">
-        <div class="flex justify-between items-center px-3 mb-5 play">
-          <!-- Use selectedCall only when it is defined -->
-          <div class="flex items-center gap-8" *ngIf="selectedCall">
-            <img src="./assets/call/phone-record.png" width="25" height="25">
-            <div class="flex flex-col justify-start">
-              <p class="mb-0 mt-0 title">{{ selectedCall.title }}</p>
-              <p class="mb-0 mt-0 text-gray-500 w-fit text-xs date">{{ selectedCall.date }}</p>
-            </div>
-          </div>
-          <div>
-            <i class="pi pi-play" style="color: wheat"></i>
-          </div>
-          <div>
-            <i class="pi pi-volume-up" style="color: wheat"></i>
-          </div>
-        </div>
-        <p class="font-medium text-lg text-start">Transcript</p>
-        <p  style="text-align: justify;">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.
-        </p>
-        <p  style="text-align: justify;">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.
-        </p>
-        <p  style="text-align: justify;">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.
-        </p>
-         <!-- Move this div to the bottom -->
-         <div class="text-right" >
-          <p-button label="Close"  (click)="visiblePlay = false" icon="pi pi-times" styleClass="p-button-surface-200"></p-button>
-        </div>
-      </p-dialog>
-      <p-dialog header="Confirmation" [modal]="true" [(visible)]="visibleConfirmation" [style]="{width: '30vw', height: 'auto'}">
-        
-        <p  style="text-align: justify;">
-          Are you sure you want to Delete this Call Recording?
-        </p>
-        
-         <!-- Move this div to the bottom -->
-         <div class="text-right" >
-          <p-button label="No" (click)="visibleConfirmation = false"  styleClass="p-button-surface-200"></p-button>
-          <p-button label="Yes" (click)="visibleConfirmation = false"  styleClass="p-button-danger"></p-button>
-        </div>
-      </p-dialog>
-     
     </div>
-    
+    <div class="flex gap-3">
+      <p-button icon="pi pi-bars" (click)="showDialogSummary(call)" severity="success" size="small"
+                pTooltip="View Transcription" [outlined]="true"></p-button>
+      <p-button icon="pi pi-play" (click)="showDialogPlay(call)" [outlined]="true" size="small"
+                pTooltip="Play Recording"></p-button>
+      <p-button icon="pi pi-trash" (click)="showDialogConfirmation(call)" severity="danger" size="small"
+                pTooltip="Delete Recording" [outlined]="true"></p-button>
+    </div>
   </div>
+  <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleSummary" header="Call Summary" [modal]="true" [(visible)]="visibleSummary" [style]="{width: '30vw', height: 'auto'}">
+    <div class="flex justify-between items-center px-3 mb-5">
+      <!-- Use selectedCall only when it is defined -->
+      <div class="flex items-center gap-8" *ngIf="selectedCall">
+        <img src="./assets/call/phone.png" width="25" height="25">
+        <div class="flex flex-col justify-start">
+          <p class="mb-0 mt-0">{{ selectedCall.title }}</p>
+          <p class="mb-0 mt-0 text-gray-500 w-fit text-xs">{{ selectedCall.date }}</p>
+        </div>
+      </div>
+      <div>
+        <!-- Use call.status since selectedCall is not in the ngFor context -->
+        <p-tag [style]="{'background': statusColors[selectedCall.status], 'width': '65px'}" value="{{selectedCall.status}}"></p-tag>
+      </div>
+    </div>
+    <p  style="text-align: justify;">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+    </p>
+    <p  style="text-align: justify;">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+    </p>
+    <p  style="text-align: justify;">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+    </p>
+    <!-- Move this div to the bottom -->
+    <div class="text-right" >
+      <p-button label="Close" (click)="visibleSummary = false" icon="pi pi-times"></p-button>
+    </div>
+  </p-dialog>
+  <p-dialog [draggable]="false" [resizable]="false" *ngIf="visiblePlay" header="Play Call Recording" [(visible)]="visiblePlay" [modal]="true"  [style]="{width: '30vw', height: 'auto'}">
+    <div class="flex justify-between items-center px-3 mb-5 play">
+      <!-- Use selectedCall only when it is defined -->
+      <div class="flex items-center gap-8" *ngIf="selectedCall">
+        <img src="./assets/call/phone-record.png" width="25" height="25">
+        <div class="flex flex-col justify-start">
+          <p class="mb-0 mt-0 title">{{ selectedCall.title }}</p>
+          <p class="mb-0 mt-0 text-gray-500 w-fit text-xs date">{{ selectedCall.date }}</p>
+        </div>
+      </div>
+      <div>
+        <i class="pi pi-play" style="color: wheat"></i>
+      </div>
+      <div>
+        <i class="pi pi-volume-up" style="color: wheat"></i>
+      </div>
+    </div>
+    <p class="font-medium text-lg text-start">Transcript</p>
+    <p  style="text-align: justify;">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+    </p>
+    <p  style="text-align: justify;">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+    </p>
+    <p  style="text-align: justify;">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+    </p>
+    <!-- Move this div to the bottom -->
+    <div class="text-right" >
+      <p-button label="Close" (click)="visiblePlay = false" icon="pi pi-times"></p-button>
+    </div>
+  </p-dialog>
+  <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleConfirmation" header="Confirmation" [modal]="true" [(visible)]="visibleConfirmation" [style]="{width: '30vw', height: 'auto'}">
+
+    <p  style="text-align: justify;">
+      Are you sure you want to Delete this Call Recording?
+    </p>
+
+    <!-- Move this div to the bottom -->
+    <div class="text-right" >
+      <p-button label="No" (click)="visibleConfirmation = false" ></p-button>
+      <p-button label="Yes" (click)="visibleConfirmation = false"  styleClass="p-button-danger"></p-button>
+    </div>
+  </p-dialog>
 </p-panel>
