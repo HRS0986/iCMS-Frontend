@@ -47,7 +47,20 @@
     [modal]="true"
     [style]="{ width: '80vw' }"
   >
-    <app-view-thread threadId="{{ threadId }}" [threadEmails]="['test', 'test2']"></app-view-thread>
+    <app-view-thread
+      threadId="{{ threadId }}"
+      [threadEmails]="[
+        'test email 1',
+        'test email 2',
+        'test email 3',
+        'test email 4',
+        'test email 5',
+        'test email 6',
+        'test email 7',
+        'test email 8',
+        'test email 9'
+      ]"
+    ></app-view-thread>
   </p-dialog>
   <!-- end of overlay -->
 </div>

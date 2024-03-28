@@ -1,5 +1,5 @@
 export interface Summary {
-    id: number;
+    id: string;
     subject: string;
     sentiment: string;
     receiver: string;

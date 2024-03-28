@@ -26,9 +26,10 @@ import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.
 import { SummaryCardComponent } from './components/summary-card/summary-card.component';
 import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
 import { FilterQueryComponent } from './components/filter-query/filter-query.component';
-import { ViewThreadComponent } from './components/view-thread/view-thread.component';
 import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
 import { EmailTableComponent } from './components/email-table/email-table.component';
+import { ViewThreadComponent } from './components/view-thread/view-thread.component';
+
 
 
 @NgModule({
@@ -42,9 +43,9 @@ import { EmailTableComponent } from './components/email-table/email-table.compon
     SummaryCardComponent,
     SummaryCardsContainerComponent,
     FilterQueryComponent,
-    ViewThreadComponent,
     EmailFilteringComponent,
     EmailTableComponent,
+    ViewThreadComponent,
   ],
   imports: [
     CommonModule,
