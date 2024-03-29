@@ -1,44 +1,29 @@
 <div class="card-bg">
-  <table>
-    <tr>
-      <th class="shrink subject" colspan="9">{{ title }}</th>
-    </tr>
-    <tr>
-      <th class="shrink">Receiver</th>
-      <td class="shrink">:</td>
-      <td class="shrink">{{ receiver }}</td>
-      <td class="expand" rowspan="2"></td>
-      <th class="shrink" rowspan="2">Overall Sentiment</th>
-      <th class="shrink" rowspan="2">:</th>
-      <td class="shrink" rowspan="2">
-        <span
-          [ngClass]="{
-            'span-green': sentiment === 'Positive',
-            'span-red': sentiment === 'Negative',
-            'span-blue': sentiment === 'Neutral'
-          }"
-          >{{ sentiment }}</span
-        >
-      </td>
-      <td class="expand" rowspan="2"></td>
-      <td class="shrink align-right padding-right" rowspan="2">
-        <button (click)="showDialog()">View Original</button>
-      </td>
-    </tr>
-    <tr>
-      <th class="shrink">Sender</th>
-      <td class="shrink">:</td>
-      <td class="shrink">{{ sender }}</td>
-    </tr>
-    <tr>
-      <td colspan="9"><hr /></td>
-    </tr>
-
-    <tr></tr>
-    <tr>
-      <td class="align-justify" colspan="9">{{ summary }}</td>
-    </tr>
-  </table>
+  <div class="grid grid-cols-10 gap-4">
+    <div class="col-span-12 font-semibold text-lg">{{ title }}</div>
+    <div class="col-span-7 text-base/loose">
+      <div>Sender:{{ sender }}</div>
+      <div>Receiver: {{ receiver }}</div>
+    </div>
+    <div class="col-span-3 justify-self-end">
+      Overall Sentiment:
+      <span
+        [ngClass]="{
+          'span-green': sentiment === 'Positive',
+          'span-red': sentiment === 'Negative',
+          'span-blue': sentiment === 'Neutral'
+        }"
+        >{{ sentiment }}</span
+      >
+    </div>
+    <div class="col-span-2">
+      <button (click)="showDialog()">View Original</button>
+    </div>
+    <div class="col-span-12">
+      <hr />
+    </div>
+    <div class="col-span-12">{{ summary }}</div>
+  </div>
 
   <!-- Overlay -->
   <p-dialog

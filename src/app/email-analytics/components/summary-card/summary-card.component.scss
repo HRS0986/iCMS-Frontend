@@ -12,37 +12,37 @@ html {
   }
 
   
-  table {
-      border: 1px solid white;
-      border-collapse: collapse;
-      width:100%;
-  }
+  // table {
+  //     border: 1px solid white;
+  //     border-collapse: collapse;
+  //     width:100%;
+  // }
   
-  table th {
-    text-align: left;
-    font-weight: 500;
-  }
+  // table th {
+  //   text-align: left;
+  //   font-weight: 500;
+  // }
 
-  .subject {
-    font-size: 1.2rem;
-  }
+  // .subject {
+  //   font-size: 1.2rem;
+  // }
 
-  table td, th {
-    border: 1px solid white;
-    padding: 0.5rem;
-  }
+  // table td, th {
+  //   border: 1px solid white;
+  //   padding: 0.5rem;
+  // }
   
-  table td.shrink, th.shrink {
-      white-space:nowrap
-  }
-  table td.expand, th.expand {
-      width: 98%
-  }
-  table td.align-right {
-    text-align: right;
-  }
+  // table td.shrink, th.shrink {
+  //     white-space:nowrap
+  // }
+  // table td.expand, th.expand {
+  //     width: 98%
+  // }
+  // table td.align-right {
+  //   text-align: right;
+  // }
 
-  table td button {
+  button {
     --primary: #3b82f6;
     --secondary: white;
     padding: 0.5rem 0;
@@ -53,7 +53,7 @@ html {
     color: var(--secondary);
     border: 0;
    }
-  table td button:hover {
+  button:hover {
     background-color: red;
     color: var(--primary);
     background-color: var(--secondary);
@@ -63,13 +63,13 @@ html {
     cursor: pointer;
    }
   
-  .padding-right {
-    padding-right: 2.5rem;
-  }
+  // .padding-right {
+  //   padding-right: 2.5rem;
+  // }
   
-  .align-justify {
-    text-align: justify;
-  }
+  // .align-justify {
+  //   text-align: justify;
+  // }
   span {
     padding: 0.5rem 2.5rem;
     border-radius: 5px;
@@ -89,10 +89,68 @@ html {
   .span-blue {
     background-color: #707070;
   }
-  th.subject {
-    font-size: 1.2rem;
-    font-weight: 900;
-  }
-  hr {
-    opacity: 0.3;
-  }
+  // th.subject {
+  //   font-size: 1.2rem;
+  //   font-weight: 900;
+  // }
+  // hr {
+  //   opacity: 0.3;
+  // }
+
+  // // NEW
+
+  // .email-card {
+  //   border: 1px solid #ccc;
+  //   border-radius: 5px;
+  //   padding: 10px;
+  //   margin-bottom: 20px;
+  //   display: grid;
+  //   grid-template-columns: 1fr auto; /* Two columns: main content and buttons */
+  //   grid-gap: 10px;
+  // }
+  
+  // .email-card-header {
+  //   display: flex;
+  //   justify-content: space-between;
+  // }
+  
+  // .email-card-header h3 {
+  //   margin: 0;
+  // }
+  
+  // .email-card-details {
+  //   display: flex;
+  //   flex-direction: column;
+  // }
+  
+  // .detail {
+  //   display: flex;
+  //   align-items: center;
+  // }
+  
+  // .detail p {
+  //   margin: 0;
+  // }
+  
+  // .detail p:first-child {
+  //   margin-right: 5px;
+  // }
+  
+  // .email-card-buttons {
+  //   display: flex;
+  //   justify-content: flex-end;
+  // }
+  
+  // .email-card-buttons button {
+  //   padding: 5px 10px;
+  //   border: none;
+  //   background-color: #007bff;
+  //   color: #fff;
+  //   border-radius: 3px;
+  //   cursor: pointer;
+  // }
+  
+  // .email-card-body p {
+  //   margin: 0;
+  // }
+  
