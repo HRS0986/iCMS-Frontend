@@ -1,5 +1,4 @@
-<div>
-    <p-panel>
+<p-panel class="flex flex-col text-center justify-center mb-4">
 
         <div class="flex gap-8 space-between">
 
@@ -41,19 +40,21 @@
         <br><br>
 
         <!--Slider-->
-        <div class="flex flex-row justify-content-between align-items-center gap-6">
-            <p>Call Duration:</p>
-            <div class="card slider-container">
-                <p-slider [(ngModel)]="value1"></p-slider>
+        <div class="w-100 flex justify-between">
+
+            <div class="flex flex-row justify-between items-center gap-6">
+                <p>Call Duration:</p>
+                <div class="card slider-container">
+                    <p-slider [(ngModel)]="value1"></p-slider>
+                </div>
+                <p>10 mins</p>
             </div>
-            <p>10 mins</p>
+            <div class="card flex justify-center gap-3">
+                <p-button label="Apply Filter"></p-button>
+                <p-button label="Clear Filters" [outlined]="true" severity="clsFilter" ></p-button>
+            </div>
         </div>
         <br><br>
-        <div id="button" class="card flex justify-content-center gap-3">
-            <p-button label="Apply Filter" styleClass="custom-button"></p-button>
-            <p-button label="Clear Filters" [outlined]="true" severity="clsFilter" styleClass="custom-button"></p-button>
-        </div><br><br>
         <p-divider></p-divider>
         <app-call-summary-chart></app-call-summary-chart>
     </p-panel>
-</div>
