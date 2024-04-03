@@ -36,6 +36,14 @@ import { ChipsModule } from 'primeng/chips';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
+import { CallFilteringComponent } from './components/call-filtering/call-filtering.component';
+import { FilteringFeaturesComponent } from './components/filtering-features/filtering-features.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { SliderModule } from 'primeng/slider';
+import { DividerModule } from 'primeng/divider';
+
+
+
 import { InputGroupModule } from "primeng/inputgroup";
 import { InputGroupAddonModule } from "primeng/inputgroupaddon";
 import { CalendarModule } from "primeng/calendar";
@@ -56,7 +64,9 @@ import { CalendarModule } from "primeng/calendar";
     CallRecordingsComponent,
     RecentCallsCardComponent,
     SettingsComponent,
-  ],
+    CallFilteringComponent,
+    FilteringFeaturesComponent,
+      ],
   imports: [
     CommonModule,
     CallAnalyticsRoutingModule,
@@ -81,9 +91,12 @@ import { CalendarModule } from "primeng/calendar";
     InputTextModule,
     ReactiveFormsModule,
     FileUploadModule,
+    CalendarModule,
+    DropdownModule,
+    SliderModule,
+    DividerModule,
     InputGroupModule,
     InputGroupAddonModule,
-    CalendarModule,
   ],
   providers: [
     CallAnalyticsService
