@@ -8,7 +8,7 @@ import { DialogModule } from 'primeng/dialog';
 
 })
 export class CallSummaryChartComponent implements OnInit {
-  summaryCalls:any = [];
+  callRecordings:any = [];
   statusColors!: {[key: string]: string};
   visibleSummary: boolean = false;
   visiblePlay: boolean = false;
@@ -36,17 +36,17 @@ export class CallSummaryChartComponent implements OnInit {
   ngOnInit() {
     const documentStyle: CSSStyleDeclaration = getComputedStyle(document.documentElement);
 
-    this.summaryCalls = [
+    this.callRecordings = [
       { "title": "Call Recording Title1", "date": (new Date()).toLocaleDateString(), "status": "Positive" },
       { "title": "Call Recording Title2", "date": (new Date()).toLocaleDateString(), "status": "Negative" },
       { "title": "Call Recording Title3", "date": (new Date()).toLocaleDateString(), "status": "Neutral" },
       { "title": "Call Recording Title4", "date": (new Date()).toLocaleDateString(), "status": "Negative" },
       { "title": "Call Recording Title5", "date": (new Date()).toLocaleDateString(), "status": "Positive" },
     ];
-    console.log('Initial summaryCalls:', this.summaryCalls);
+    console.log('Initial summaryCalls:', this.callRecordings);
 
     // Check if summaryCalls has no elements, then set noCalls to true
-    this.noCalls = this.summaryCalls.length == 0;
+    this.noCalls = this.callRecordings.length == 0;
 
     console.log('noCalls:', this.noCalls);
     this.statusColors = {
