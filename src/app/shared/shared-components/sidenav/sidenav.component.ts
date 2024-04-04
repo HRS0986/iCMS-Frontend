@@ -64,6 +64,7 @@ export class SidenavComponent implements OnInit {
           },
           {
             label: 'Call Filtering',
+            routerLink: "call/filtering",
             icon: 'pi pi-fw pi-filter',
           },
           {
