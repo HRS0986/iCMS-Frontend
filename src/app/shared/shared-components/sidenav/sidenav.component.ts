@@ -21,7 +21,8 @@ export class SidenavComponent implements OnInit {
     this.menuItems = [
       {
         label: 'Dashboard',
-        icon: 'pi pi-fw pi-th-large'
+        icon: 'pi pi-fw pi-th-large',
+        routerLink: "main-dashboard/dashboard"
       },
       {
         label: 'Email Analytics',
