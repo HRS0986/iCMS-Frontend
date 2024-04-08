@@ -13,6 +13,8 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CalendarModule } from 'primeng/calendar';
 import { DividerModule } from 'primeng/divider';
 import { SharedModule } from './shared/shared.module';
+import { MultiSelectModule } from 'primeng/multiselect';
+
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { SharedModule } from './shared/shared.module';
     CalendarModule,
     DividerModule,
     SharedModule,
+    MultiSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,0 +1,131 @@
+<app-page-header
+  pageTitle="Email Analyzer Settings"
+  class="w-full h-fit"
+  [breadcrumbItems]="breadcrumbItems"
+  [showButton]="false"
+/>
+
+<div class="flex flex-col">
+    <div>
+        <p-panel>
+            <p-tabView class="">
+                <p-tabPanel header="Notifications configuration">
+                    <div class="flex flex-col">
+                        <form [formGroup] = "notifications" (ngSubmit)="onSubmit()">
+
+                            <div class="mt-3 mb-10"> <b>Sentiment Shifts configuration</b></div>
+                            <p>Select the email accounts that needs to be checked for sentiment shifts</p>
+                            <p-table [value]="emailAccs" [tableStyle]="{ 'width': '80%','margin-left': '5%','margin-bottom': '5%'  }" class="p-datatable-sm mr-8 " >
+                                <ng-template pTemplate="body" let-emailAcc>
+                                  <tr class="field-checkbox">
+                                    <td>{{ emailAcc.name }}</td>
+                                    <td>
+                                      <p-checkbox formControlName="emailAccsToCheckSS" [value]="emailAcc.name" inputId="{{ emailAcc.id }}"></p-checkbox>
+                                    </td>
+                                  </tr>
+                                </ng-template>
+                              </p-table>
+
+                            <div class="w-full flex justify-center items-baseline mb-10 mt-25">
+                                <span style="color: red;">-10</span>
+                                <img src="./assets/call/rating.png" alt="Image" style="width: 30%;">
+                                <span style="color: rgba(20, 24, 235, 0.877);">+10</span>
+                            </div>
+
+                            <div class="flex gap-2 space-between">
+                                <div class="flex align-items-center gap-1 text-sm">
+                                    <p-checkbox name="notify" formControlName="lowerNotify" value="notify"
+                                        label="Notify when the sentiment score is below the value: "></p-checkbox>
+                                    <p-inputNumber [disabled]="true" class="short-input" formControlName="lowerSS" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
+                                        [max]="10">
+                                    </p-inputNumber>
+                                </div>
+                                <div class="flex align-items-center gap-1 text-sm">
+                                    <p-checkbox name="notify" value="notify" formControlName="upperNotify"
+                                        label="Notify when the sentiment score is above: "></p-checkbox>
+                                    <p-inputNumber [disabled]="true" class="short-input" formControlName="upperSS" mode="decimal" [showButtons]="true"
+                                        inputId="minmax-buttons" [min]="-10" [max]="10"
+                                        ></p-inputNumber>
+                                </div>                                
+
+                            </div>
+
+
+                            <hr class="mt-20 mb-20">
+
+                            <div class="mt-3 mb-10"> <b>Criticality notification configuration</b></div>
+                            <p>Select the email accounts that needs to be checked for critical emails</p>
+                            <p-table [value]="emailAccs" [tableStyle]="{ 'width': '80%','margin-left': '5%'  }" class="p-datatable-sm mr-8" >
+                                <ng-template pTemplate="body" let-emailAcc>
+                                  <tr class="field-checkbox">
+                                    <td>{{ emailAcc.name }}</td>
+                                    <td>
+                                      <p-checkbox formControlName="emailAccsToCheckCriticality" [value]="emailAcc.name" inputId="{{ emailAcc.id }}"></p-checkbox>
+                                    </td>
+                                  </tr>
+                                </ng-template>
+                              </p-table>
+
+                            <hr class="mt-20 mb-20">
+
+                            <!-- Notification channels configuration-->
+                            
+                            <div class="mt-3 mb-10"> <b>Notification channels configuration</b></div>
+                            <div class="flex justify-between ml-20">
+                                <div class="flex items-center">
+                                  <p class="mr-20">Email Notifications</p>
+                                  <p-inputSwitch formControlName="emailChannelChecked"></p-inputSwitch>
+                                </div>
+                              
+                                <div class="flex items-center mr-50">
+                                  <p class="mr-20">Dashboard Notifications</p>
+                                  <p-inputSwitch formControlName="dashboardChannelChecked" class="mr-20"></p-inputSwitch>
+                                </div>
+                              </div>
+                            
+
+                            <div class="w-full p-fluid">
+                                <p>add new emails to send notifications</p>
+                                <p-chips formControlName="values"></p-chips>
+                            </div>
+                            
+                           
+                            <div class="flex justify-end">
+                                <button pButton pRipple label="Update" class="p-button-success"></button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </p-tabPanel>
+                <p-tabPanel header="Email Integration">
+                    <div class="min-h-full">
+                        <form [formGroup]="emailInetgration" (ngSubmit)="onSubmitEmailIntegration()">
+                            <div class="mt-3"> <b>New Email Account Integration</b></div>
+                            <div class="mb-5 mt-8">
+                                <p >Enter new email address</p>
+                                <input type="text" style="width: 60%;" pInputText formControlName="newEmailAccount" />
+                                <p class="mt-10">Enter nick name for email address</p>
+                                <input type="text" style="width: 60%;" pInputText formControlName="newEmailNickname" />
+                                <p class="mt-10">Enter client secret</p>
+                                <textarea rows="20" cols="120" pInputTextarea formControlName="newClientSecret"></textarea>
+                            </div>
+                         
+                            <div class=" flex justify-end">
+                                <button pButton pRipple label="Add Account" class="p-button-success"></button>
+                            </div>
+                        </form>
+
+                        <hr class="mt-10 mb-10">
+                        
+                        <div class="mt-3 mb-4"> <b>Currently reading email accounts</b></div>
+                        <app-email-acc-card
+                            emailAddress="johndoe@gmail.com"
+                            nickName="johndoe1"
+                                />
+
+                    </div>
+                </p-tabPanel>
+            </p-tabView>
+        </p-panel>
+    </div>
+</div>
