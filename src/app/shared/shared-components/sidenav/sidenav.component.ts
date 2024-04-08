@@ -22,7 +22,7 @@ export class SidenavComponent implements OnInit {
       {
         label: 'Dashboard',
         icon: 'pi pi-fw pi-th-large',
-        routerLink: "main-dashboard/dashboard"
+        routerLink: "main-dashboard"
       },
       {
         label: 'Email Analytics',
