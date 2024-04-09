@@ -17,3 +17,17 @@
 .space-between{
 justify-content: space-between;
 }
+
+
+hr{
+    margin-top: 5%;
+    margin-bottom: 4%;
+}
+
+b{
+    font-size: 1.1em;
+}
+
+::ng-deep .p-multiselect {
+    width: 100%; /* Set the width to 100% or adjust it as needed */
+  }

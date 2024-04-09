@@ -47,6 +47,7 @@ import { EmailAccCardComponent } from './components/email-acc-card/email-acc-car
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { NotiSendingEmailAccCardComponent } from './components/noti-sending-email-acc-card/noti-sending-email-acc-card.component';
+import { TopicCardComponent } from './components/topic-card/topic-card.component';
 
 
 
@@ -67,6 +68,7 @@ import { NotiSendingEmailAccCardComponent } from './components/noti-sending-emai
     SettingsComponent,
     EmailAccCardComponent,
     NotiSendingEmailAccCardComponent,
+    TopicCardComponent,
   ],
   imports: [
     CommonModule,

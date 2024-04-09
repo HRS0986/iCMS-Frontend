@@ -11,22 +11,17 @@
             <p-tabView class="">
                 <p-tabPanel header="Notifications configuration">
                     <div class="flex flex-col">
-                        <form [formGroup] = "notifications" (ngSubmit)="onSubmit()">
+
+                      <!--Sentiment Shifts configuration form-->
+
+                        <form [formGroup] = "sentimentShiftsForm" (ngSubmit)="onSubmitSentimentShifts()">
 
                             <div class="mt-3 mb-10"> <b>Sentiment Shifts configuration</b></div>
                             <p>Select the email accounts that needs to be checked for sentiment shifts</p>
-                            <p-table [value]="currentSSCheckingEmailAccounts" [tableStyle]="{ 'width': '80%','margin-left': '5%','margin-bottom': '5%', 'margin-top': '1%'  }" class="p-datatable-sm mr-8 " >
-                                <ng-template pTemplate="body" let-emailAccSS>
-                                  <tr class="field-checkbox">
-                                    <td>{{ emailAccSS.name }}</td>
-                                    <td>
-                                      <p-checkbox formControlName="emailAccsToCheckSS" [value]="emailAccSS.name" inputId="{{ emailAccSS.id }}"></p-checkbox>
-                                    </td>
-                                  </tr>
-                                </ng-template>
-                              </p-table>
+                            <p-multiSelect class="mb-20" [options]="currentSSCheckingEmailAccounts" formControlName="emailAccsToCheckSS" optionLabel="name" placeholder="Select Cities"></p-multiSelect>
+                            
 
-                            <div class="w-full flex justify-center items-baseline mb-10 mt-25">
+                            <div class="w-full flex justify-center items-baseline mb-10 " style="margin-top: 5%;">
                                 <span style="color: red;">-10</span>
                                 <img src="./assets/call/rating.png" alt="Image" style="width: 30%;">
                                 <span style="color: rgba(20, 24, 235, 0.877);">+10</span>
@@ -34,7 +29,7 @@
 
                             <div class="flex gap-2 space-between">
                                 <div class="flex align-items-center gap-1 text-sm">
-                                  <p-checkbox name="lowerNotify" formControlName="lowerNotify" value="notify" inputId="ny" [(ngModel)]="checked" 
+                                  <p-checkbox name="lowerNotify" formControlName="lowerNotify" value="notify" inputId="ny" [binary]="true" 
                                   label="Notify me when the sentiment score is below : "></p-checkbox>
                                   
                                 
@@ -42,8 +37,9 @@
                                         [max]="10">
                                     </p-inputNumber>
                                 </div>
+
                                 <div class="flex align-items-center gap-1 text-sm">
-                                    <p-checkbox name="upperNotify" value="notify" formControlName="upperNotify" 
+                                    <p-checkbox name="upperNotify" value="notify" formControlName="upperNotify" [binary]="true"
                                         label="Notify me when the sentiment score is above : "></p-checkbox>
                                     <p-inputNumber [disabled]="true" class="short-input" formControlName="upperSS" mode="decimal" [showButtons]="true"
                                         inputId="minmax-buttons" [min]="-10" [max]="10"
@@ -52,26 +48,35 @@
 
                             </div>
 
+                            <!--Sentiment Shifts configuration update button-->
+                              <div class="flex justify-end mt-20">
+                                <button pButton pRipple label="Update" class="p-button-success" type="submit"></button>
+                              </div>
 
-                            <hr class="mt-20 mb-20">
+                              <hr>
+                            </form>
 
+                            
+                           
+                            <!--Criticality form-->
+                            <form [formGroup] = "criticalityForm" (ngSubmit)="onSubmitCriticality()">
                             <div class="mt-3 mb-10"> <b>Criticality notification configuration</b></div>
                             <p>Select the email accounts that needs to be checked for critical emails</p>
-                            <p-table [value]="currentCritiCheckingEmailAccounts" [tableStyle]="{ 'width': '80%','margin-left': '5%', 'margin-top':'1%' }" class="p-datatable-sm mr-8 border-3 shadow-lg" >
-                                <ng-template pTemplate="body" let-emailAccCriti>
-                                  <tr class="field-checkbox " [style]="{ 'box-shadow': '0px -1px 3px rgba(0, 0, 0, 0.2)' }">
-                                    <td>{{ emailAccCriti.name }}</td>
-                                    <td>
-                                      <p-checkbox formControlName="emailAccsToCheckCriticality" [value]="emailAccCriti.name" inputId="{{ emailAccCriti.id }}" ></p-checkbox>
-                                    </td>
-                                  </tr>
-                                </ng-template>
-                              </p-table>
+                            <p-multiSelect [options]="currentCritiCheckingEmailAccounts" formControlName="emailAccsToCheckCriticality" optionLabel="name" ></p-multiSelect>
 
-                            <hr class="mt-20 mb-20">
+                              
+                              <!--Criticality form submit button-->
+                              <div class="flex justify-end mt-20">
+                                <button pButton pRipple label="Update" class="p-button-success" type="submit"></button>
+                              </div>
+                              
+                              <hr>
+                          </form>
+                            
 
                             <!-- Notification channels configuration-->
                             
+                            <form [formGroup] = "notificationChannelsForm" (ngSubmit)="onSubmitNotificationChannels()">
                             <div class="mt-3 mb-10"> <b>Notification channels configuration</b></div>
                             <div class="flex justify-between ml-20">
                                 <div class="flex items-center">
@@ -88,42 +93,107 @@
 
                             <div class="w-full p-fluid" style="margin-bottom: 5%;">
                                 <p>Add new emails to send notifications</p>
-                                <p-chips formControlName="values"></p-chips>
+                                <p-chips formControlName="notiSendingEmails"></p-chips>
+                                <small *ngIf="notificationChannelsForm.controls['notiSendingEmails'].invalid && notificationChannelsForm.controls['notiSendingEmails'].dirty || notificationChannelsForm.controls['notiSendingEmails'].touched"
+                                  class="block p-error">
+                                  <div *ngIf="notificationChannelsForm.controls['notiSendingEmails'].errors?.['email']">enter valid emails</div>
+                                
+                                  </small>
                             </div>
                             
                             <p>Current notification sending email accounts</p>
                             <div *ngFor="let account of currentNotiSendingEmailAccounts">
                               <app-noti-sending-email-acc-card
-                              emailAddress="johndoe@gmail.com"
+                              [emailAddress]="account.name"
                               (deleteNotiSendingAccount)="deleteNotiSendingEmail(account.name)"
-             
                                   />
                                 </div>
                            
                             
                            <!--update button-->
                             <div class="flex justify-end mt-10">
-                                <button pButton pRipple label="Update" class="p-button-success" type="submit"></button>
+                                <button pButton pRipple label="Update" class="p-button-success" [disabled]="notificationChannelsForm.invalid" type="submit"></button>
                             </div>
                         </form>
                     </div>
                     
                 </p-tabPanel>
+                
+                <!--Topic configuration tab-->
+
+                <p-tabPanel header="Topic configuration">
+                  <div class="min-h-full">
+                      <!--Topic configuration form-->
+                      <form [formGroup]="topicConfiguration" (ngSubmit)="onSubmitTopicConfiguration()">
+                         
+                          <div class="mb-5 mt-8">
+                              
+                              <div class="w-full p-fluid" style="margin-bottom: 5%;">
+                                <p >Enter the new topics that needs to be checked in the analytics</p>
+                                <p-chips formControlName="newTopics"></p-chips>
+                            </div>
+                          </div>
+                       
+                          <div class=" flex justify-end">
+                              <button pButton pRipple label="Add Topics" class="p-button-success" type="submit"></button>
+                          </div>
+                      </form>
+
+                      <hr class="mt-10 mb-10">
+                      
+                      <div class="mt-3 mb-4"> <b>Currently checking topics</b></div>
+                      <div *ngFor="let topic of currentCheckingTopics">
+                        <app-topic-card
+                          [name]="topic.name"
+                         
+                          (deleteCheckingTopic)="deleteCheckingTopic(topic.name)">
+                          
+                        </app-topic-card>
+
+                      </div>
+
+                  </div>
+              </p-tabPanel>
+              
+              <!--Email integration tab-->
                 <p-tabPanel header="Email Integration">
                     <div class="min-h-full">
+                      <!--Email integration form-->
                         <form [formGroup]="emailInetgration" (ngSubmit)="onSubmitEmailIntegration()">
                             <div class="mt-3"> <b>New Email Account Integration</b></div>
                             <div class="mb-5 mt-8">
                                 <p >Enter new email address</p>
                                 <input type="text" style="width: 60%;" pInputText formControlName="newEmailAccount" />
+                                  <!--validation-->
+                                    <small *ngIf="emailInetgration.controls['newEmailAccount'].invalid && emailInetgration.controls['newEmailAccount'].dirty || emailInetgration.controls['newEmailAccount'].touched"
+                                    class="block p-error">
+
+                                        <div *ngIf="emailInetgration.controls['newEmailAccount'].errors?.['email']">enter valid emails</div>
+                                        <div *ngIf="emailInetgration.controls['newEmailAccount'].errors?.['required']">email address is required</div>
+                                  
+                                    </small>
                                 <p class="mt-10">Enter nick name for email address</p>
                                 <input type="text" style="width: 60%;" pInputText formControlName="newEmailNickname" />
+                                       <!--validation-->
+                                            <small *ngIf="emailInetgration.controls['newEmailNickname'].invalid && emailInetgration.controls['newEmailNickname'].dirty || emailInetgration.controls['newEmailNickname'].touched"
+                                            class="block p-error">
+
+                                                       <div *ngIf="emailInetgration.controls['newEmailNickname'].errors?.['required']">email nickname is required</div>
+                                                 
+                                            </small>
                                 <p class="mt-10">Enter client secret</p>
                                 <textarea rows="20" cols="120" pInputTextarea formControlName="newClientSecret"></textarea>
+                                       <!--validation-->
+                                       <small *ngIf="emailInetgration.controls['newClientSecret'].invalid && emailInetgration.controls['newClientSecret'].dirty || emailInetgration.controls['newClientSecret'].touched"
+                                       class="block p-error">
+                                       
+                                                  <div *ngIf="emailInetgration.controls['newClientSecret'].errors?.['required']">email client secret is required</div>
+                                            
+                                       </small>                                
                             </div>
                          
                             <div class=" flex justify-end">
-                                <button pButton pRipple label="Add Account" class="p-button-success" type="submit"></button>
+                                <button pButton pRipple label="Add Account" class="p-button-success" type="submit" [disabled]="emailInetgration.invalid"></button>
                             </div>
                         </form>
 
@@ -141,6 +211,8 @@
 
                     </div>
                 </p-tabPanel>
+
+          
             </p-tabView>
         </p-panel>
     </div>
