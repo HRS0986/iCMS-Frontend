@@ -1,0 +1,15 @@
+<app-page-header
+  pageTitle="User Profile"
+  class="w-full h-fit"
+  [breadcrumbItems]="breadcrumbItems"
+/>
+<div>
+  <p-tabView>
+    <p-tabPanel *ngFor="let tab of tabs" [header]="tab.title">
+      <p>
+        {{ tab.content }}
+      </p>
+    </p-tabPanel>
+  </p-tabView>
+</div>
+

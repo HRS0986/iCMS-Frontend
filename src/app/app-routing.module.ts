@@ -21,6 +21,10 @@ const routes: Routes = [
   {
     path: "main-dashboard",
     loadChildren: () => import("./main-dashboard/main-dashboard.module").then(m => m.MainDashboardModule)
+  },
+  {
+    path:"profile",
+    loadChildren: () => import("./main-dashboard/main-dashboard.module").then(m => m.MainDashboardModule)
   }
 ];
 
