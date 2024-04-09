@@ -36,17 +36,16 @@ export class FileUploadComponent {
         for (let i = 0; i < files.length; i++) {
           const file: File = files[i];
           const description = this.descriptionList[i];
-          const date = this.dateList[i];
+          const dateTime = this.dateList[i];
 
           // Construct the new file name
           const fileExtension = file.name.split('.').pop();
-          const newFileName = `${description}_${date}.${fileExtension}`;
+          const newFileName = this.getFileName(dateTime, description, fileExtension!);
 
           // Create a new File object with the updated name
           const renamedFile = new File([file], newFileName);
-          const callDetails = { description, date };
 
-          this.uploadQueue.push({ file: renamedFile, description, date });
+          this.uploadQueue.push({ file: renamedFile, description: description, date: dateTime });
         }
 
         if (!this.isUploading) {
@@ -56,6 +55,15 @@ export class FileUploadComponent {
         console.warn('No file selected');
       }
 
+  }
+
+  getFileName(dateTime: Date, description: string, extension: string): string {
+    const dateTimeString = dateTime.toISOString();
+    const [date, time] = dateTimeString.split('T');
+    const dateString = date.split('-').join('');
+    let timeString = time.split('.')[0];
+    timeString = timeString.split(':').join('');
+    return `${dateString}_${timeString}_${description}.${extension}`;
   }
 
   onSelectFilesToUpload(event: FileSelectEvent) {

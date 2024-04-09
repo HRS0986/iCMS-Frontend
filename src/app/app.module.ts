@@ -13,6 +13,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CalendarModule } from 'primeng/calendar';
 import { DividerModule } from 'primeng/divider';
 import { SharedModule } from './shared/shared.module';
+import { MessageService } from "primeng/api";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { SharedModule } from './shared/shared.module';
     DividerModule,
     SharedModule,
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}
