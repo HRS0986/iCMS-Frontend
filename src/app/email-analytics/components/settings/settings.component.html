@@ -15,12 +15,12 @@
 
                             <div class="mt-3 mb-10"> <b>Sentiment Shifts configuration</b></div>
                             <p>Select the email accounts that needs to be checked for sentiment shifts</p>
-                            <p-table [value]="emailAccs" [tableStyle]="{ 'width': '80%','margin-left': '5%','margin-bottom': '5%'  }" class="p-datatable-sm mr-8 " >
-                                <ng-template pTemplate="body" let-emailAcc>
+                            <p-table [value]="currentSSCheckingEmailAccounts" [tableStyle]="{ 'width': '80%','margin-left': '5%','margin-bottom': '5%', 'margin-top': '1%'  }" class="p-datatable-sm mr-8 " >
+                                <ng-template pTemplate="body" let-emailAccSS>
                                   <tr class="field-checkbox">
-                                    <td>{{ emailAcc.name }}</td>
+                                    <td>{{ emailAccSS.name }}</td>
                                     <td>
-                                      <p-checkbox formControlName="emailAccsToCheckSS" [value]="emailAcc.name" inputId="{{ emailAcc.id }}"></p-checkbox>
+                                      <p-checkbox formControlName="emailAccsToCheckSS" [value]="emailAccSS.name" inputId="{{ emailAccSS.id }}"></p-checkbox>
                                     </td>
                                   </tr>
                                 </ng-template>
@@ -34,15 +34,17 @@
 
                             <div class="flex gap-2 space-between">
                                 <div class="flex align-items-center gap-1 text-sm">
-                                    <p-checkbox name="notify" formControlName="lowerNotify" value="notify"
-                                        label="Notify when the sentiment score is below the value: "></p-checkbox>
+                                  <p-checkbox name="lowerNotify" formControlName="lowerNotify" value="notify" inputId="ny" [(ngModel)]="checked" 
+                                  label="Notify me when the sentiment score is below : "></p-checkbox>
+                                  
+                                
                                     <p-inputNumber [disabled]="true" class="short-input" formControlName="lowerSS" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
                                         [max]="10">
                                     </p-inputNumber>
                                 </div>
                                 <div class="flex align-items-center gap-1 text-sm">
-                                    <p-checkbox name="notify" value="notify" formControlName="upperNotify"
-                                        label="Notify when the sentiment score is above: "></p-checkbox>
+                                    <p-checkbox name="upperNotify" value="notify" formControlName="upperNotify" 
+                                        label="Notify me when the sentiment score is above : "></p-checkbox>
                                     <p-inputNumber [disabled]="true" class="short-input" formControlName="upperSS" mode="decimal" [showButtons]="true"
                                         inputId="minmax-buttons" [min]="-10" [max]="10"
                                         ></p-inputNumber>
@@ -55,12 +57,12 @@
 
                             <div class="mt-3 mb-10"> <b>Criticality notification configuration</b></div>
                             <p>Select the email accounts that needs to be checked for critical emails</p>
-                            <p-table [value]="emailAccs" [tableStyle]="{ 'width': '80%','margin-left': '5%'  }" class="p-datatable-sm mr-8" >
-                                <ng-template pTemplate="body" let-emailAcc>
-                                  <tr class="field-checkbox">
-                                    <td>{{ emailAcc.name }}</td>
+                            <p-table [value]="currentCritiCheckingEmailAccounts" [tableStyle]="{ 'width': '80%','margin-left': '5%', 'margin-top':'1%' }" class="p-datatable-sm mr-8 border-3 shadow-lg" >
+                                <ng-template pTemplate="body" let-emailAccCriti>
+                                  <tr class="field-checkbox " [style]="{ 'box-shadow': '0px -1px 3px rgba(0, 0, 0, 0.2)' }">
+                                    <td>{{ emailAccCriti.name }}</td>
                                     <td>
-                                      <p-checkbox formControlName="emailAccsToCheckCriticality" [value]="emailAcc.name" inputId="{{ emailAcc.id }}"></p-checkbox>
+                                      <p-checkbox formControlName="emailAccsToCheckCriticality" [value]="emailAccCriti.name" inputId="{{ emailAccCriti.id }}" ></p-checkbox>
                                     </td>
                                   </tr>
                                 </ng-template>
@@ -84,14 +86,24 @@
                               </div>
                             
 
-                            <div class="w-full p-fluid">
-                                <p>add new emails to send notifications</p>
+                            <div class="w-full p-fluid" style="margin-bottom: 5%;">
+                                <p>Add new emails to send notifications</p>
                                 <p-chips formControlName="values"></p-chips>
                             </div>
                             
+                            <p>Current notification sending email accounts</p>
+                            <div *ngFor="let account of currentNotiSendingEmailAccounts">
+                              <app-noti-sending-email-acc-card
+                              emailAddress="johndoe@gmail.com"
+                              (deleteNotiSendingAccount)="deleteNotiSendingEmail(account.name)"
+             
+                                  />
+                                </div>
                            
-                            <div class="flex justify-end">
-                                <button pButton pRipple label="Update" class="p-button-success"></button>
+                            
+                           <!--update button-->
+                            <div class="flex justify-end mt-10">
+                                <button pButton pRipple label="Update" class="p-button-success" type="submit"></button>
                             </div>
                         </form>
                     </div>
@@ -111,17 +123,21 @@
                             </div>
                          
                             <div class=" flex justify-end">
-                                <button pButton pRipple label="Add Account" class="p-button-success"></button>
+                                <button pButton pRipple label="Add Account" class="p-button-success" type="submit"></button>
                             </div>
                         </form>
 
                         <hr class="mt-10 mb-10">
                         
                         <div class="mt-3 mb-4"> <b>Currently reading email accounts</b></div>
-                        <app-email-acc-card
-                            emailAddress="johndoe@gmail.com"
-                            nickName="johndoe1"
-                                />
+                        <div *ngFor="let account of currentReadingEmailAccounts">
+                          <app-email-acc-card
+                            [emailAddress]="account.emailAddress"
+                            [nickName]="account.nickName"
+                            (deleteReadingAccount)="deleteReadingEmail(account.emailAddress)">
+                            
+                          </app-email-acc-card>
+                        </div>
 
                     </div>
                 </p-tabPanel>

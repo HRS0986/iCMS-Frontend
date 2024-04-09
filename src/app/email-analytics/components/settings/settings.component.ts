@@ -13,20 +13,25 @@ interface EmailAcc {
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit{
   breadcrumbItems: MenuItem[] = [
     {label: "Email Analytics"},
     {label: "Settings"}
   ];
 
+  isChecked: boolean = true;
+  checked: boolean = false;
+
+  // notifications!: FormGroup;
+
   notifications = this.fb.group({
     emailAccsToCheckSS: [],
     lowerSS: 0,
     upperSS: 0,
-    lowerNotify: false,
-    upperNotify: false,
+    lowerNotify: new FormControl<string | null>(null),
+    upperNotify: [],
     emailAccsToCheckCriticality:[],
-    emailChannelChecked: [true],
+    emailChannelChecked: [false],
     dashboardChannelChecked: [true],
     notiSendingEmails:[]
   });
@@ -48,21 +53,70 @@ export class SettingsComponent {
 
  ;
 
- emailAccs: EmailAcc[] = [
+ currentSSCheckingEmailAccounts: EmailAcc[] = [
     { name: 'johndoe@gmail.com', id: 'A' },
     { name: 'petermack@outlook.com', id: 'M' }
 ];
 
+currentCritiCheckingEmailAccounts: EmailAcc[] = [
+  { name: 'johndoe@gmail.com', id: 'A' },
+  { name: 'petermack@outlook.com', id: 'M' }
+];
+
+currentNotiSendingEmailAccounts: EmailAcc[] = [
+  { name: 'johndoe@gmail.com', id: 'A' },
+  { name: 'petermack@outlook.com', id: 'M' }
+];
+
+
+currentReadingEmailAccounts = [
+  { emailAddress: 'johndoe@gmail.com', nickName: 'johndoe1' },
+  { emailAddress: 'janedoe@gmail.com', nickName: 'janedoe2' },
+  { emailAddress: 'user123@yahoo.com', nickName: 'user123' }
+  // Add more email accounts as needed
+];
+
+
 formGroup: FormGroup | undefined;
 
+deleteReadingEmail(email: string): void {
+  this.currentReadingEmailAccounts = this.currentReadingEmailAccounts.filter(item => item.emailAddress !== email);
+}
+
+deleteNotiSendingEmail(emailName: string): void {
+  this.currentNotiSendingEmailAccounts = this.currentNotiSendingEmailAccounts.filter(item => item.name !== emailName);
+
+}
+
 ngOnInit() {
+
+  // this.notifications = this.fb.group({
+  //   emailAccsToCheckSS: [],
+  //   lowerSS: 0,
+  //   upperSS: 0,
+  //   lowerNotify: [], // Set the initial value to true here
+  //   upperNotify: [],
+  //   emailAccsToCheckCriticality:[],
+  //   emailChannelChecked: [false],
+  //   dashboardChannelChecked: [true],
+  //   notiSendingEmails:[]
+  // });
+
+
     this.formGroup = new FormGroup({
         values: new FormControl<string[] | null>(null)
     });
 
     this.notifications.patchValue({
       notiSendingEmails: this.formGroup.get('values')?.value
+
   });
+
+
+
+
+    
+  
 
    
 }

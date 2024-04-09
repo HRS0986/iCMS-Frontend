@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-email-acc-card',
@@ -8,5 +8,10 @@ import { Component, Input } from '@angular/core';
 export class EmailAccCardComponent {
   @Input() emailAddress!: string;
   @Input() nickName!: string;
+  @Output() deleteReadingAccount = new EventEmitter<void>();
+
+  onDelete(): void {
+    this.deleteReadingAccount.emit();
+  }
 
 }

@@ -46,6 +46,7 @@ import { InputGroupAddonModule } from "primeng/inputgroupaddon";
 import { EmailAccCardComponent } from './components/email-acc-card/email-acc-card.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
+import { NotiSendingEmailAccCardComponent } from './components/noti-sending-email-acc-card/noti-sending-email-acc-card.component';
 
 
 
@@ -65,6 +66,7 @@ import { TableModule } from 'primeng/table';
     EmailTableComponent,
     SettingsComponent,
     EmailAccCardComponent,
+    NotiSendingEmailAccCardComponent,
   ],
   imports: [
     CommonModule,
