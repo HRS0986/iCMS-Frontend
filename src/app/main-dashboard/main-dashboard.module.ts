@@ -12,6 +12,8 @@ import { UserNotificationComponent } from './components/user-profile/user-notifi
 import { UserSecurityComponent } from './components/user-profile/user-security/user-security.component';
 import {TabViewModule} from "primeng/tabview";
 import {SharedModule} from "../shared/shared.module";
+import {ButtonModule} from "primeng/button";
+import {ImageModule} from "primeng/image";
 
 
 
@@ -31,7 +33,9 @@ import {SharedModule} from "../shared/shared.module";
     MainDashboardRoutingModule,
     ChartModule,
     TabViewModule,
-    SharedModule
+    SharedModule,
+    ButtonModule,
+    ImageModule
   ]
 })
 export class MainDashboardModule { }

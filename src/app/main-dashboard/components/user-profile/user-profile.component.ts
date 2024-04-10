@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import { MenuItem } from "primeng/api";
 
 @Component({
@@ -7,11 +7,15 @@ import { MenuItem } from "primeng/api";
   styleUrl: './user-profile.component.scss'
 })
 export class UserProfileComponent {
-  tabs: { title: string, content: string }[] = [];
-  breadcrumbItems: MenuItem[] = [
-    {label: "Profile"}
-  ];
+  activeIndex: number = 0;
+  //create string array to store tab title and content
+  list: string[] = ["Edit Profile", "Notification Settings", "Security"];
 
+  tabs: { title: string; content: string }[] = [];
+  breadcrumbItems: MenuItem[] = [
+    {label: "Profile"},
+    {label: this.list[this.activeIndex]}
+  ];
 
   ngOnInit() {
     this.tabs = [
@@ -22,4 +26,10 @@ export class UserProfileComponent {
   }
 
 
+  clickTab(event: any) {
+    this.breadcrumbItems = [
+      {label: "Profile"},
+      {label: this.list[this.activeIndex]}
+    ];
+  }
 }

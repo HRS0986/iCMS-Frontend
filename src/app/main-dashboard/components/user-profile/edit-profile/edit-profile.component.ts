@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MenuItem} from "primeng/api";
+import {ImageModule} from "primeng/image";
 
 @Component({
   selector: 'app-edit-profile',
@@ -7,8 +8,6 @@ import {MenuItem} from "primeng/api";
   styleUrl: './edit-profile.component.scss'
 })
 export class EditProfileComponent {
-  breadcrumbItems: MenuItem[] = [
-    {label: "Profile"},
-    {label: "Edit Profile"}
-  ];
+
+
 }
