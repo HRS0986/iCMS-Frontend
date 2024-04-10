@@ -22,6 +22,7 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
 
 import { TableModule } from 'primeng/table';
 import { PanelModule } from "primeng/panel";
+import { ProgressBarModule } from 'primeng/progressbar';
 // import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
 // import { ChartModule } from "primeng/chart";
 // import { LineAreaChartComponent } from './components/charts/line-area-chart/line-area-chart.component';
@@ -30,6 +31,8 @@ import { PanelModule } from "primeng/panel";
 // import { NgxEchartsModule } from "ngx-echarts";
 // import { HorizontalBarChartComponent } from './components/charts/horizontal-bar-chart/horizontal-bar-chart.component';
 import { ButtonModule } from 'primeng/button';
+import { SettingsCampaignComponent } from './pages/settings-campaign/settings-campaign.component';
+import { ProgressBarCampaignComponent } from './pages/settings-campaign/progress-bar-campaign/progress-bar-campaign.component';
 // import { DataViewModule } from "primeng/dataview";
 // import { TagModule } from "primeng/tag";
 // import { TooltipModule } from 'primeng/tooltip';
@@ -60,6 +63,9 @@ import { ButtonModule } from 'primeng/button';
     settingsComponent,
     ProgressBarComponent,
     SettingsAlerts,
+    SettingsCampaignComponent,
+    ProgressBarCampaignComponent,
+    
     // HorizontalBarChartComponent,
     // DoughnutChartComponent,
     // LineAreaChartComponent,
@@ -73,6 +79,7 @@ import { ButtonModule } from 'primeng/button';
     TabsComponent,
     TableModule,
     ButtonModule,
+    ProgressBarModule
     // CardModule,
     // ToastModule,
     // TabViewModule,
