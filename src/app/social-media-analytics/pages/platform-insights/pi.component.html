@@ -5,32 +5,115 @@
     <p-panel>
 
       <tabs>
-        <tab-item [tabItem]="tab1" [templateRef]="firstTemplate" [content]="content1"></tab-item>
-        <tab-item [tabItem]="tab2" [templateRef]="secondTemplate" [content]="content2"></tab-item>
-        <tab-item [tabItem]="tab3" [templateRef]="thirdTemplate" [content]="content3"></tab-item>
+        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [content]="content1"></tab-item>
+        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempInstergram" [content]="content2"></tab-item>
+        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempTwitter" [content]="content3"></tab-item>
       </tabs>
 
-      <ng-template #firstTemplate let-content="content">
-        <div class="first-wrapper">
-          <h3>{{ content.title }}</h3>
-          <div class="first-image"></div>
+      <ng-template #tempFacebook let-content="content">
+
+        <div class="chart-container">
+          <div class="chart">
+            <p class="text-title1">Brand Related Keyword thrends</p>
+          </div>
+          <div class="card-container">
+            <div class="small-card">
+              <p class="text-name">Total Reactions</p>
+            </div>
+            <div class="small-card">
+              <p class="text-name">Total Comments</p>
+            </div>
+          </div>
         </div>
+
+        <div class="line" ></div>
+
+        <div class="h-comments">
+          <div class="h-comments-left">
+            <div>
+              <p class="text-title1">{{content.title}}</p>
+            </div>
+            <div>
+              <p class="text-faded">40+ new comments</p>
+            </div>
+          </div>
+          <div class="h-comments-right">
+            <p-button [outlined]="false">See More</p-button>
+          </div>
+        </div>
+
+        <div class="card">
+          <p-table [value]="items" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width:5%">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="name" style="width:55%">
+                  AUTHORS
+                  <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="company" style="width:15%">
+                  COMPANY
+                  <p-sortIcon field="company"></p-sortIcon>
+                </th>
+                <th pSortableColumn="sentiment_score" style="width:15%">
+                  SENTIMENT
+                  <p-sortIcon field="sentiment_score"></p-sortIcon>
+                </th>
+                <th style="width:10%">
+                  ACTION
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td>
+                  <p-tableCheckbox></p-tableCheckbox>
+                </td>
+                <td>
+                  <div class="flex align-items-start justify-content-center gap-2">
+                    <img class="tab-icon" [src]="item.img" alt="Icon">
+                    <div class="flex-column align-items-start justify-content-center">
+                      <span class="text-name">{{ item.name }}</span>
+                      <span class="text-discription">{{ item.comment }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="flex-column align-items-start justify-content-center">
+                    <span class="text-name">{{ item.company }}</span>
+                    <span class="text-discription">{{ item.company_category }}</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="text-discription">{{ item.sentiment_score }} %</span>
+                  <progress-bar [value]="0" [bufferValue]="item.sentiment_score" [color]="item.color"></progress-bar>
+                </td>
+                <td>
+                  <div class="flex align-items-center justify-content-center gap-2">
+                    <button pButton pRipple type="button" icon="pi pi-pencil" (click)="onRowEdit(item)"
+                      class="p-button-text p-button-Primary"></button>
+                    <button pButton pRipple type="button" icon="pi pi-window-maximize" (click)="onRowOpen(item)"
+                      class="p-button-text p-button-help"></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+
+
       </ng-template>
 
-      <ng-template #secondTemplate let-content="content">
-        <div class="second-wrapper">
-          <h3>{{ content.title }}</h3>
-          <div class="second-image"></div>
-        </div>
+      <ng-template #tempInstergram let-content="content">
+        <h3>{{ content.title }}</h3>
       </ng-template>
 
-      <ng-template #thirdTemplate let-content="content">
-        <div class="third-wrapper">
-            <h3>{{ content.title }}</h3>
-            <div class="third-first-image"></div>
-        </div>
+      <ng-template #tempTwitter let-content="content">
+        <h3>{{ content.title }}</h3>
       </ng-template>
-
 
     </p-panel>
   </div>

@@ -14,8 +14,11 @@ import { SMAnalyticsRoutingModule } from './social-media-analytics-routing.modul
 
 import { TabItemComponent } from './components/tab-item/tab-item.component';
 import { TabsComponent } from './components/tabs/tabs.component';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 
 import { PanelModule } from "primeng/panel";
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 // import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
 // import { ChartModule } from "primeng/chart";
 // import { LineAreaChartComponent } from './components/charts/line-area-chart/line-area-chart.component';
@@ -23,7 +26,6 @@ import { PanelModule } from "primeng/panel";
 // import { GaugeChartComponent } from './pages/gauge-chart/gauge-chart.component';
 // import { NgxEchartsModule } from "ngx-echarts";
 // import { HorizontalBarChartComponent } from './components/charts/horizontal-bar-chart/horizontal-bar-chart.component';
-// import { ButtonModule } from 'primeng/button';
 // import { DataViewModule } from "primeng/dataview";
 // import { TagModule } from "primeng/tag";
 // import { TooltipModule } from 'primeng/tooltip';
@@ -52,6 +54,7 @@ import { PanelModule } from "primeng/panel";
     CAComponent,
     settingsComponent,
     PIComponent,
+    ProgressBarComponent,
     // HorizontalBarChartComponent,
     // DoughnutChartComponent,
     // LineAreaChartComponent,
@@ -63,6 +66,8 @@ import { PanelModule } from "primeng/panel";
     SMAnalyticsRoutingModule,
     TabItemComponent,
     TabsComponent,
+    TableModule,
+    ButtonModule,
     // CardModule,
     // ToastModule,
     // TabViewModule,
