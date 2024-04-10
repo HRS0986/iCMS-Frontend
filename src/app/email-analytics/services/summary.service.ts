@@ -17,4 +17,5 @@ export class SummaryService {
   getSummary(): Observable<Summary> {
     return this.http.get<Summary>('http://127.0.0.1:8000/email/summaries/1');
   }
+
 }
