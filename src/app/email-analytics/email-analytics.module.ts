@@ -29,6 +29,7 @@ import { FilterQueryComponent } from './components/filter-query/filter-query.com
 import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
 import { EmailTableComponent } from './components/email-table/email-table.component';
 import { ViewThreadComponent } from './components/view-thread/view-thread.component';
+import { EmailComponent } from './components/email/email.component';
 
 
 
@@ -46,6 +47,7 @@ import { ViewThreadComponent } from './components/view-thread/view-thread.compon
     EmailFilteringComponent,
     EmailTableComponent,
     ViewThreadComponent,
+    EmailComponent,
   ],
   imports: [
     CommonModule,

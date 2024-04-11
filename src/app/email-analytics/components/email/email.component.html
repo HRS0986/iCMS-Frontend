@@ -1,0 +1,21 @@
+<p-panel [toggleable]="true">
+  <ng-template pTemplate="header">
+    <div class="flex">
+      <span class="">{{ date }}</span>
+      <span class="font-bold">{{ sentiment }}</span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div>
+      <!-- Safe to remove. Kept here if something needed to be added later -->
+    </div>
+  </ng-template>
+  <ng-template pTemplate="icons">
+    <!-- Safe to remove. Kept here if something needed to be added later -->
+  </ng-template>
+  <span>Sender: {{ sender }}</span>
+  <span>Receiver: {{ receiver }}</span>
+  <p>
+    {{ body }}
+  </p>
+</p-panel>
