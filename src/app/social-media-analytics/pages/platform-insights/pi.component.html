@@ -5,17 +5,26 @@
     <p-panel>
 
       <tabs>
-        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [content]="piPageItem1"></tab-item>
-        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempInstergram" [content]="piPageItem2"></tab-item>
-        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempTwitter" [content]="piPageItem3"></tab-item>
+        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="piPageItem1"></tab-item>
+        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="piPageItem2"></tab-item>
+        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="piPageItem3"></tab-item>
       </tabs>
+
+      <ng-template #topBarRight let-content="content">
+          <p class="text-top-right-bar">{{topBarCaption}} : </p>
+          <img src="assets/social-media/svg/view.svg" alt="View Icon" class="right-bar-icon">
+          <img src="assets/social-media/svg/add.svg" alt="Add Icon" class="right-bar-icon">
+      </ng-template>
+
 
       <ng-template #tempFacebook let-content="content">
 
         <div class="chart-container">
           <div class="chart">
             <p class="text-title1">Brand Related Keyword thrends</p>
-            <!-- Chart Eka Methenta -->
+            <div class="chart-kt" >
+              <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+            </div>
           </div>
           <div class="card-container">
             <div class="small-card" style="background-color: #F6D9E3;">

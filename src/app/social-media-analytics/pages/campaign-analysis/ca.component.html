@@ -9,32 +9,28 @@
     <p-panel>
 
       <tabs>
-        <tab-item [tabItem]="tab1" [templateRef]="firstTemplate" [content]="content1"></tab-item>
-        <tab-item [tabItem]="tab2" [templateRef]="secondTemplate" [content]="content2"></tab-item>
-        <tab-item [tabItem]="tab3" [templateRef]="thirdTemplate" [content]="content3"></tab-item>
+        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="caPageItem1"></tab-item>
+        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="caPageItem2"></tab-item>
+        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="caPageItem3"></tab-item>
       </tabs>
+      
+      <ng-template #topBarRight let-content="content">
+        <p class="text-top-right-bar">{{topBarCaption}} : </p>
+        <img src="assets/social-media/svg/view.svg" alt="View Icon" class="right-bar-icon">
+        <img src="assets/social-media/svg/add.svg" alt="Add Icon" class="right-bar-icon">
+    </ng-template>
 
-      <ng-template #firstTemplate let-content="content">
-        <div class="first-wrapper">
-          <h3>{{ content.title }}</h3>
-          <div class="first-image"></div>
-        </div>
+    <ng-template #tempFacebook let-content="content">
+      <h3>{{ content.title }}</h3>
+    </ng-template>
+
+      <ng-template #tempInstergram let-content="content">
+        <h3>{{ content.title }}</h3>
       </ng-template>
 
-      <ng-template #secondTemplate let-content="content">
-        <div class="second-wrapper">
-          <h3>{{ content.title }}</h3>
-          <div class="second-image"></div>
-        </div>
+      <ng-template #tempTwitter let-content="content">
+        <h3>{{ content.title }}</h3>
       </ng-template>
-
-      <ng-template #thirdTemplate let-content="content">
-        <div class="third-wrapper">
-            <h3>{{ content.title }}</h3>
-            <div class="third-first-image"></div>
-        </div>
-      </ng-template>
-
 
     </p-panel>
   </div>

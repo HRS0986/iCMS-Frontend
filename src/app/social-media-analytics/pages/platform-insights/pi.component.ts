@@ -59,6 +59,8 @@ export class PIComponent implements OnInit {
   data1: any;
   data2: any;
   options: any;
+  basicData: any;
+  basicOptions: any;
 
   ngOnInit() {
     this.items = itemService;
@@ -67,6 +69,49 @@ export class PIComponent implements OnInit {
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+    this.basicData = {
+      labels: ['ChargingNet', 'Lia', 'TravelBox', 'Vega'],
+      datasets: [
+        {
+          data: [54, 32, 70, 62],
+          backgroundColor: ['rgba(255, 159, 64, 0.4)', 'rgba(75, 192, 192, 0.4)', 'rgba(54, 162, 235, 0.4)', 'rgba(153, 102, 255, 0.4)'],
+          borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+          borderWidth: 1
+        }
+      ]
+    };
+
+    this.basicOptions = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.65,
+      plugins: {
+        legend: {
+          display: false
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        },
+        x: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        }
+      }
+    };
 
     this.data1 = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -128,9 +173,9 @@ export class PIComponent implements OnInit {
   tabInstergram = { title: 'Instergram', img: 'assets/social-media/icons/instargram.png' };
   tabTwitter = { title: 'Twitter', img: 'assets/social-media/icons/twitter.png' };
 
-  piPageItem1: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40};
-  piPageItem2: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40};
-  piPageItem3: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40};
+  piPageItem1: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
+  piPageItem2: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
+  piPageItem3: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
 
   topBarCaption = "Custom Alerts";
 
