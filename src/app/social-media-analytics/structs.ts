@@ -22,3 +22,13 @@ export interface item {
   min?: number;
   max?: number;
 }
+
+export interface campaign {
+  id?: string;
+  title?: string;
+  company?: string;
+  overall_sentiment?: string;
+  color?:string;
+  min?: number;
+  max?: number;
+}

@@ -24,39 +24,39 @@
                 </div>
 
                 <div class="card">
-                    <p-table [value]="items" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
+                    <p-table [value]="campaign" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="width:5%">
                                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                 </th>
-                                <th pSortableColumn="keyword" style="width:30%">
+                                <th pSortableColumn="title" style="width:30%">
                                     TITLE
-                                    <p-sortIcon field="keyword"></p-sortIcon>
+                                    <p-sortIcon field="title"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="alerttype" style="width:20%">
+                                <th pSortableColumn="company" style="width:20%">
                                     COMPANY
-                                    <p-sortIcon field="alerttype"></p-sortIcon>
+                                    <p-sortIcon field="company"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="threshold" style="width:30%">
+                                <th pSortableColumn="overall_sentiment" style="width:30%">
                                     OVERALL SENTIMENT
-                                    <p-sortIcon field="threshold"></p-sortIcon>
+                                    <p-sortIcon field="overall_sentiment"></p-sortIcon>
                                 </th>
                                 <th style="width:15%">
                                     ACTION
                                 </th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-item>
+                        <ng-template pTemplate="body" let-campaign>
                             <tr>
                                 <td>
                                     <p-tableCheckbox></p-tableCheckbox>
                                 </td>
-                                <td>{{ item.keyword }}</td>
-                                <td>{{ item.alerttype }}</td>
+                                <td>{{ campaign.title }}</td>
+                                <td>{{ campaign.company}}</td>
                                 <td>
-                                    <span>{{ item.threshold }}</span>
-                                    <progress-bar-campaign/>
+                                    <span>{{ campaign.overall_sentiment }}</span>
+                                    <progress-bar [value]="campaign.min" [bufferValue]="campaign.max"[color]="'#3699FF'"></progress-bar>
                                 </td>
                                 <td>
                                     <div class="flex align-items-center justify-content-center gap-2">

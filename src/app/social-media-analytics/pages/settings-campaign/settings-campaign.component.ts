@@ -1,30 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SortEvent } from 'primeng/api';
-import { Content, item } from '../../structs';
+import { Content, campaign} from '../../structs';
 
 
-const itemService: item[] = [
+const campaignService: campaign[] = [
   {
     id: '1000',
-    keyword: 'Vega EVX Electric Super Car Headed To Geneva With 804..',
-    alerttype: 'VEGA',
-    threshold: '92%',
+    title: 'Vega EVX Electric Super Car Headed To Geneva With 804..',
+    company: 'VEGA',
+    overall_sentiment: '92',
+    color: 'green',
     min: 0,
     max: 100
   },
   {
     id: '1001',
-    keyword: 'Lia Demo Video Artificial Intelligence Chatbot Serve Your..',
-    alerttype: 'Codegen',
-    threshold: 'More Than 800',
+    title: 'Lia Demo Video Artificial Intelligence Chatbot Serve Your..',
+    company: 'Codegen',
+    overall_sentiment: 'More Than 800',
     min: 0,
     max: 100
   },
   {
     id: '1002',
-    keyword: 'TravelBox™ Intro Video - Proven Travel Software For...',
-    alerttype: 'Codegen',
-    threshold: 'Less Than 1100',
+    title: 'TravelBox™ Intro Video - Proven Travel Software For...',
+    company: 'Codegen',
+    overall_sentiment: 'Less Than 1100',
     min: 0,
     max: 100
   }
@@ -36,18 +37,18 @@ const itemService: item[] = [
   templateUrl: './settings-campaign.component.html',
   styleUrl: './settings-campaign.component.scss'
 })
-export class SettingsCampaignComponent {
-  items!: item[];
-  selecteditem!: item;
+export class SettingsCampaignComponent implements OnInit{
+  campaigns!: campaign[];
+  selectedcampaign!: campaign;
 
   ngOnInit() {
-    this.items = itemService;
+    this.campaigns = campaignService;
   }
 
-  onRowEdit(item: item) {
+  onRowEdit(campaign: campaign) {
   }
 
-  onRowDelete(item: item) {
+  onRowDelete(campaign: campaign) {
   }
 
   tabFacebook = {title:'Facebook', img: 'assets/social-media/icons/facebook.png'};
