@@ -30,7 +30,7 @@ export class SummaryCardsContainerComponent implements OnInit {
   }
 
   onGetSummaries(): void {
-    this.summaryService.getSummaries().subscribe((res) => this.summaries = res);
+    this.summaryService.getSummaries().subscribe((response) => this.summaries = response);
   }
 
   search(query: string): void {
