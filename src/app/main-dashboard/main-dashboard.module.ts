@@ -14,6 +14,10 @@ import {TabViewModule} from "primeng/tabview";
 import {SharedModule} from "../shared/shared.module";
 import {ButtonModule} from "primeng/button";
 import {ImageModule} from "primeng/image";
+import {FormsModule} from "@angular/forms";
+import {InputTextModule} from "primeng/inputtext";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {PasswordModule} from "primeng/password";
 
 
 
@@ -35,7 +39,11 @@ import {ImageModule} from "primeng/image";
     TabViewModule,
     SharedModule,
     ButtonModule,
-    ImageModule
+    ImageModule,
+    FormsModule,
+    InputTextModule,
+    InputSwitchModule,
+    PasswordModule
   ]
 })
 export class MainDashboardModule { }

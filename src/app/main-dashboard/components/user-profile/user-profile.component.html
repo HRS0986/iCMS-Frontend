@@ -4,7 +4,7 @@
   [breadcrumbItems]="breadcrumbItems"
 />
 <div>
-  <p-tabView [(activeIndex)]="activeIndex" (click)="clickTab($event)" styleClass="xxx">
+  <p-tabView [(activeIndex)]="activeIndex" (click)="clickTab($event)">
     <p-tabPanel *ngFor="let tab of tabs" [header]="tab.title" >
       <app-edit-profile *ngIf="tab.title === 'Edit Profile'" [title]="tab.title" ></app-edit-profile>
       <app-user-notification *ngIf="tab.title === 'Notifications'" [title]="tab.title"></app-user-notification>

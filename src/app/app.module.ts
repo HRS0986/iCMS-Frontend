@@ -13,7 +13,6 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CalendarModule } from 'primeng/calendar';
 import { DividerModule } from 'primeng/divider';
 import { SharedModule } from './shared/shared.module';
-import {UserProfileComponent} from "./main-dashboard/components/user-profile/user-profile.component";
 
 
 @NgModule({
