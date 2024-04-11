@@ -17,7 +17,7 @@ const itemService: highlightedComments[] = [
     id: '1001',
     name: 'Dilhara Siriwardana',
     img: 'assets/social-media/icons/Avatar2.svg',
-    comment: 'Hit and miss with CodeGenCo. Sometimes it"s a lifesaver, other times...',
+    comment: 'Hit and miss with CodeGenCo. Sometimes it"s a lifesaver, other times`...',
     company: 'VEGA',
     company_category: 'EV Cars Manufac..',
     sentiment_score: 83,
