@@ -5,9 +5,9 @@
     <p-panel>
 
       <tabs>
-        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [content]="content1"></tab-item>
-        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempInstergram" [content]="content2"></tab-item>
-        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempTwitter" [content]="content3"></tab-item>
+        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [content]="piPageItem1"></tab-item>
+        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempInstergram" [content]="piPageItem2"></tab-item>
+        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempTwitter" [content]="piPageItem3"></tab-item>
       </tabs>
 
       <ng-template #tempFacebook let-content="content">
@@ -15,13 +15,24 @@
         <div class="chart-container">
           <div class="chart">
             <p class="text-title1">Brand Related Keyword thrends</p>
+            <!-- Chart Eka Methenta -->
           </div>
           <div class="card-container">
-            <div class="small-card">
-              <p class="text-name">Total Reactions</p>
+            <div class="small-card" style="background-color: #F6D9E3;">
+              <p class="text-title2">Total Reactions</p>
+              <p-chart type="line" [data]="data1" [options]="options"></p-chart>
+              <div>
+                <span class="text-total">{{ content.totalReactions }}</span>
+                <span class="text-improvements">{{ content.reactionsImprovement }}% this week</span>
+              </div>
             </div>
-            <div class="small-card">
-              <p class="text-name">Total Comments</p>
+            <div class="small-card" style="background-color: #CBF0F4;">
+              <p class="text-title2">Total Comments</p>
+              <p-chart type="line" [data]="data2" [options]="options"></p-chart>
+              <div>
+                <span class="text-total">{{ content.totalComments }}</span>
+                <span class="text-improvements">{{ content.commentsImprovement }}% this week</span>
+              </div>
             </div>
           </div>
         </div>
@@ -31,10 +42,10 @@
         <div class="h-comments">
           <div class="h-comments-left">
             <div>
-              <p class="text-title1">{{content.title}}</p>
+              <p class="text-title1">Highlighted Comments</p>
             </div>
             <div>
-              <p class="text-faded">40+ new comments</p>
+              <p class="text-faded">{{content.HighlightedComments}}+ new comments</p>
             </div>
           </div>
           <div class="h-comments-right">

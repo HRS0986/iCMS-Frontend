@@ -19,8 +19,8 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
 import { PanelModule } from "primeng/panel";
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { ChartModule } from 'primeng/chart';
 // import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
-// import { ChartModule } from "primeng/chart";
 // import { LineAreaChartComponent } from './components/charts/line-area-chart/line-area-chart.component';
 // import { WordCloudComponent } from './pages/word-cloud/word-cloud.component';
 // import { GaugeChartComponent } from './pages/gauge-chart/gauge-chart.component';
@@ -68,6 +68,7 @@ import { ButtonModule } from 'primeng/button';
     TabsComponent,
     TableModule,
     ButtonModule,
+    ChartModule,
     // CardModule,
     // ToastModule,
     // TabViewModule,
@@ -80,7 +81,6 @@ import { ButtonModule } from 'primeng/button';
     // InputTextModule,
     // ReactiveFormsModule,
     // FileUploadModule,
-    // ChartModule,
     // ButtonModule,
     // TooltipModule,
     // NgxEchartsModule.forRoot({echarts: () => import('echarts')}),

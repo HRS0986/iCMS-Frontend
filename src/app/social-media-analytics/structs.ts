@@ -19,3 +19,12 @@ export interface highlightedComments{
   sentiment_score: number;
   color: string;
 }
+
+export interface piPageItem {
+  title?: string;
+  totalComments: number;
+  commentsImprovement: number;
+  totalReactions: number;
+  reactionsImprovement: number;
+  HighlightedComments: number;
+}
