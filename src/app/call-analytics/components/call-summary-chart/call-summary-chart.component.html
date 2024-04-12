@@ -39,27 +39,8 @@
         <p-tag [style]="{'background': statusColors[selectedCall.status], 'width': '65px'}" value="{{selectedCall.status}}"></p-tag>
       </div>
     </div>
-    <p  style="text-align: justify;">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </p>
-    <p  style="text-align: justify;">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </p>
-    <p  style="text-align: justify;">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </p>
+    <p  style="text-align: justify;">  {{selectedCall.summary}}  </p>
+
     <!-- Move this div to the bottom -->
     <div class="text-right" >
       <p-button label="Close" (click)="visibleSummary = false" icon="pi pi-times"></p-button>
@@ -76,34 +57,23 @@
         </div>
       </div>
       <div>
-        <i class="pi pi-play" style="color: wheat"></i>
+        <!-- Play Button -->
+        <i class="pi pi-play" style="color: wheat" (click)="playAudio(selectedCall.call_url)" *ngIf="selectedCall"></i>
+        <!-- Pause Button -->
+        <i class="pi pi-pause" style="color: wheat" (click)="pauseAudio()"></i>
+        <!-- Resume Button -->
+        <i class="pi pi-play" style="color: wheat" (click)="resumeAudio()" *ngIf="audioPosition !== null"></i>
+        <!-- Volume Up Button -->
+        <i class="pi pi-volume-up" style="color: wheat" (click)="increaseVolume()"></i>
       </div>
-      <div>
-        <i class="pi pi-volume-up" style="color: wheat"></i>
-      </div>
+      <!-- Timeline Indicator -->
+
+    </div>
+    <div class="timeline-container">
+      <progress [value]="currentTime" [max]="selectedCall.call_duration" class="timeline"></progress>
     </div>
     <p class="font-medium text-lg text-start">Transcript</p>
-    <p  style="text-align: justify;">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </p>
-    <p  style="text-align: justify;">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </p>
-    <p  style="text-align: justify;">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </p>
+    <p  style="text-align: justify;">  {{selectedCall.transcription}}  </p>
     <!-- Move this div to the bottom -->
     <div class="text-right" >
       <p-button label="Close" (click)="visiblePlay = false" icon="pi pi-times"></p-button>
@@ -118,7 +88,7 @@
     <!-- Move this div to the bottom -->
     <div class="text-right" >
       <p-button label="No" (click)="visibleConfirmation = false" ></p-button>
-      <p-button label="Yes" (click)="visibleConfirmation = false"  styleClass="p-button-danger"></p-button>
+      <p-button label="Yes" (click)="onConfirmDelete(selectedCall.call_id, selectedCall.analytics_id)" styleClass="p-button-danger"></p-button>
     </div>
   </p-dialog>
 </p-panel>
