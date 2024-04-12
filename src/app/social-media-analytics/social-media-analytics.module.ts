@@ -30,9 +30,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
 // import { GaugeChartComponent } from './pages/gauge-chart/gauge-chart.component';
 // import { NgxEchartsModule } from "ngx-echarts";
 // import { HorizontalBarChartComponent } from './components/charts/horizontal-bar-chart/horizontal-bar-chart.component';
-import { ButtonModule } from 'primeng/button';
+   import { ButtonModule } from 'primeng/button';
 import { SettingsCampaignComponent } from './pages/settings-campaign/settings-campaign.component';
-import { ProgressBarCampaignComponent } from './pages/settings-campaign/progress-bar-campaign/progress-bar-campaign.component';
 // import { DataViewModule } from "primeng/dataview";
 // import { TagModule } from "primeng/tag";
 // import { TooltipModule } from 'primeng/tooltip';
@@ -64,7 +63,7 @@ import { ProgressBarCampaignComponent } from './pages/settings-campaign/progress
     ProgressBarComponent,
     SettingsAlerts,
     SettingsCampaignComponent,
-    ProgressBarCampaignComponent,
+    
     
     // HorizontalBarChartComponent,
     // DoughnutChartComponent,

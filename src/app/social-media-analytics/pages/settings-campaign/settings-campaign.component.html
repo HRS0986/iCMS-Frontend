@@ -1,3 +1,4 @@
+
 <div class="flex flex-col">
     <div>
         <p-panel>
@@ -24,7 +25,7 @@
                 </div>
 
                 <div class="card">
-                    <p-table [value]="campaign" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
+                    <p-table [value]="campaigns" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="width:5%">
@@ -38,25 +39,26 @@
                                     COMPANY
                                     <p-sortIcon field="company"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="overall_sentiment" style="width:30%">
+                                <th pSortableColumn="overallsentiment" style="width:30%">
                                     OVERALL SENTIMENT
-                                    <p-sortIcon field="overall_sentiment"></p-sortIcon>
+                                    <p-sortIcon field="overallsentiment"></p-sortIcon>
                                 </th>
                                 <th style="width:15%">
                                     ACTION
                                 </th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-campaign>
+                        <ng-template pTemplate="body" let-item>
                             <tr>
                                 <td>
                                     <p-tableCheckbox></p-tableCheckbox>
                                 </td>
-                                <td>{{ campaign.title }}</td>
-                                <td>{{ campaign.company}}</td>
+                                <td>{{ item.title }}</td>
+                                <td>{{ item.company }}</td>
                                 <td>
-                                    <span>{{ campaign.overall_sentiment }}</span>
-                                    <progress-bar [value]="campaign.min" [bufferValue]="campaign.max"[color]="'#3699FF'"></progress-bar>
+                                    <span>{{ item.overall_sentiment }}</span>
+                                    <progress-bar [value]="item.min" [bufferValue]="item.overall_sentiment"
+                                        [color]="item.color"></progress-bar>
                                 </td>
                                 <td>
                                     <div class="flex align-items-center justify-content-center gap-2">
@@ -78,119 +80,12 @@
                     <h3>{{ content.title }}</h3>
                     <div class="second-image"></div>
                 </div>
-                <div class="block">
-                    <p class="text-title1">{{content.title}}</p>
-                    <p class="text-faded">{{content.subtitle}}</p>
-                </div>
-
-                <div class="card">
-                    <p-table [value]="items" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th style="width:5%">
-                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                </th>
-                                <th pSortableColumn="keyword" style="width:30%">
-                                    TITLE
-                                    <p-sortIcon field="keyword"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="alerttype" style="width:20%">
-                                    COMPANY
-                                    <p-sortIcon field="alerttype"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="threshold" style="width:30%">
-                                    OVERALL SENTIMENT
-                                    <p-sortIcon field="threshold"></p-sortIcon>
-                                </th>
-                                <th style="width:15%">
-                                    ACTION
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-item>
-                            <tr>
-                                <td>
-                                    <p-tableCheckbox></p-tableCheckbox>
-                                </td>
-                                <td>{{ item.keyword }}</td>
-                                <td>{{ item.alerttype }}</td>
-                                <td>
-                                    <span>{{ item.threshold }}</span>
-                                    <progress-bar-campaign/>
-                                </td>
-                                <td>
-                                    <div class="flex align-items-center justify-content-center gap-2">
-                                        <button pButton pRipple type="button" icon="pi pi-pencil"
-                                            (click)="onRowEdit(item)" class="p-button-text p-button-Primary"></button>
-                                        <button pButton pRipple type="button" icon="pi pi-trash"
-                                            (click)="onRowDelete(item)" class="p-button-text p-button-danger"></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-
-                
             </ng-template>
 
             <ng-template #tempTwitter let-content="content">
                 <div class="third-wrapper">
                     <h3>{{ content.title }}</h3>
                     <div class="third-first-image"></div>
-                </div>
-
-                <div class="block">
-                    <p class="text-title1">{{content.title}}</p>
-                    <p class="text-faded">{{content.subtitle}}</p>
-                </div>
-
-                <div class="card">
-                    <p-table [value]="items" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th style="width:5%">
-                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                </th>
-                                <th pSortableColumn="keyword" style="width:30%">
-                                    TITLE
-                                    <p-sortIcon field="keyword"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="alerttype" style="width:20%">
-                                    COMPANY
-                                    <p-sortIcon field="alerttype"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="threshold" style="width:30%">
-                                    OVERALL SENTIMENT
-                                    <p-sortIcon field="threshold"></p-sortIcon>
-                                </th>
-                                <th style="width:15%">
-                                    ACTION
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-item>
-                            <tr>
-                                <td>
-                                    <p-tableCheckbox></p-tableCheckbox>
-                                </td>
-                                <td>{{ item.keyword }}</td>
-                                <td>{{ item.alerttype }}</td>
-                                <td>
-                                    <span>{{ item.threshold }}</span>
-                                    <progress-bar-campaign/>
-                                </td>
-                                <td>
-                                    <div class="flex align-items-center justify-content-center gap-2">
-                                        <button pButton pRipple type="button" icon="pi pi-pencil"
-                                            (click)="onRowEdit(item)" class="p-button-text p-button-Primary"></button>
-                                        <button pButton pRipple type="button" icon="pi pi-trash"
-                                            (click)="onRowDelete(item)" class="p-button-text p-button-danger"></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
                 </div>
             </ng-template>
 
