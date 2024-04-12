@@ -5,15 +5,18 @@
     <p-panel>
 
       <tabs>
-        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="piPageItem1"></tab-item>
-        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="piPageItem2"></tab-item>
-        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="piPageItem3"></tab-item>
+        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight"
+          [content]="piPageItem1"></tab-item>
+        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight"
+          [content]="piPageItem2"></tab-item>
+        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight"
+          [content]="piPageItem3"></tab-item>
       </tabs>
 
       <ng-template #topBarRight let-content="content">
-          <p class="text-top-right-bar">{{topBarCaption}} : </p>
-          <img src="assets/social-media/svg/view.svg" alt="View Icon" class="right-bar-icon">
-          <img src="assets/social-media/svg/add.svg" alt="Add Icon" class="right-bar-icon">
+        <p class="text-top-right-bar">{{topBarCaption}} : </p>
+        <img src="assets/social-media/svg/view.svg" alt="View Icon" class="right-bar-icon">
+        <img src="assets/social-media/svg/add.svg" alt="Add Icon" class="right-bar-icon">
       </ng-template>
 
 
@@ -22,14 +25,14 @@
         <div class="chart-container">
           <div class="chart">
             <p class="text-title1">Brand Related Keyword thrends</p>
-            <div class="chart-kt" >
-              <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+            <div class="chart-kt">
+              <p-chart type="bar" [data]="DataKeywordThrends" [options]="OptionsKeywordThrends"></p-chart>
             </div>
           </div>
           <div class="card-container">
             <div class="small-card" style="background-color: #F6D9E3;">
               <p class="text-title2">Total Reactions</p>
-              <p-chart type="line" [data]="data1" [options]="options"></p-chart>
+              <p-chart type="line" [data]="DataReactions" [options]="OptionsSideCards"></p-chart>
               <div>
                 <span class="text-total">{{ content.totalReactions }}</span>
                 <span class="text-improvements">{{ content.reactionsImprovement }}% this week</span>
@@ -37,7 +40,7 @@
             </div>
             <div class="small-card" style="background-color: #CBF0F4;">
               <p class="text-title2">Total Comments</p>
-              <p-chart type="line" [data]="data2" [options]="options"></p-chart>
+              <p-chart type="line" [data]="DataComments" [options]="OptionsSideCards"></p-chart>
               <div>
                 <span class="text-total">{{ content.totalComments }}</span>
                 <span class="text-improvements">{{ content.commentsImprovement }}% this week</span>
@@ -46,7 +49,7 @@
           </div>
         </div>
 
-        <div class="line" ></div>
+        <div class="line"></div>
 
         <div class="h-comments">
           <div class="h-comments-left">
@@ -124,6 +127,12 @@
         </div>
 
 
+        <div>
+          <p class="text-title1">Sentiment Over Time</p>
+        </div>
+        <div class="chart-kt">
+          <p-chart type="line" [data]="DataSentimentOverTime" [options]="OptionsSentimentOverTime"></p-chart>
+        </div>
 
       </ng-template>
 

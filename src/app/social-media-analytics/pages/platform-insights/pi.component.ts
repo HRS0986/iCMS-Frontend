@@ -56,11 +56,13 @@ const itemService: highlightedComments[] = [
 export class PIComponent implements OnInit {
   items!: highlightedComments[];
   selecteditem!: highlightedComments;
-  data1: any;
-  data2: any;
-  options: any;
-  basicData: any;
-  basicOptions: any;
+  DataReactions: any;
+  DataComments: any;
+  DataSentimentOverTime: any;
+  DataKeywordThrends: any;
+  OptionsSideCards: any;
+  OptionsKeywordThrends: any;
+  OptionsSentimentOverTime: any;
 
   ngOnInit() {
     this.items = itemService;
@@ -70,7 +72,7 @@ export class PIComponent implements OnInit {
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.basicData = {
+    this.DataKeywordThrends = {
       labels: ['ChargingNet', 'Lia', 'TravelBox', 'Vega'],
       datasets: [
         {
@@ -82,7 +84,53 @@ export class PIComponent implements OnInit {
       ]
     };
 
-    this.basicOptions = {
+    this.DataReactions = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'First Dataset',
+          data: [28, 48, 40, 19, 86, 27, 90],
+          fill: false,
+          borderColor: "#fff",
+          tension: 0.2
+        }
+      ]
+    };
+
+    this.DataComments = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'Second Dataset',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          fill: false,
+          borderColor: "#fff",
+          tension: 0.2
+        }
+      ]
+    };
+
+    this.DataSentimentOverTime = {
+      labels: ['15-May', '16-May', '17-May', '18-May', '19-May', '20-May', '21-May'],
+      datasets: [
+        {
+          label: 'Reacts',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          fill: false,
+          borderColor: documentStyle.getPropertyValue('--blue-500'),
+          tension: 0.2
+        },
+        {
+          label: 'Comments',
+          data: [28, 48, 40, 19, 86, 27, 90],
+          fill: false,
+          borderColor: documentStyle.getPropertyValue('--pink-500'),
+          tension: 0.2
+        }
+      ]
+    };
+
+    this.OptionsKeywordThrends = {
       maintainAspectRatio: false,
       aspectRatio: 0.65,
       plugins: {
@@ -113,33 +161,7 @@ export class PIComponent implements OnInit {
       }
     };
 
-    this.data1 = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'First Dataset',
-          data: [28, 48, 40, 19, 86, 27, 90],
-          fill: false,
-          borderColor: "#fff",
-          tension: 0.2
-        }
-      ]
-    };
-
-    this.data2 = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'Second Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: "#fff",
-          tension: 0.2
-        }
-      ]
-    };
-
-    this.options = {
+    this.OptionsSideCards = {
       maintainAspectRatio: false,
       aspectRatio: 2,
       scales: {
@@ -155,6 +177,38 @@ export class PIComponent implements OnInit {
           display: false
         },
       },
+    };
+
+    this.OptionsSentimentOverTime = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        }
+      }
     };
   }
 
