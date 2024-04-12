@@ -54,9 +54,9 @@ export class SettingsCampaignComponent {
   tabInstergram = {title:'Instergram', img: 'assets/social-media/icons/instargram.png'};
   tabTwitter = {title:'Twitter', img: 'assets/social-media/icons/twitter.png'};
 
-  content1: Content = {title: 'Created Alerts', subtitle: '15 Custom Alerts'};
-  content2: Content = {title: 'Instergram Content'};
-  content3: Content = {title: 'Twitter Content'};
+  content1: Content = {title: '15 Campaigns'};
+  content2: Content = {title: '3 Campaigns'};
+  content3: Content = {title: '8 Campaigns'};
 
   topBarCaption = "Add New";
 

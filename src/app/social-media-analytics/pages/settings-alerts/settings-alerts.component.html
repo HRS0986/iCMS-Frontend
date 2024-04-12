@@ -19,8 +19,7 @@
             <ng-template #tempFacebookContent let-content="content">
 
                 <div class="block">
-                    <p class="text-title1">{{content.title}}</p>
-                    <p class="text-faded">{{content.subtitle}}</p>
+                    <p class="text-faded">{{content.title}}</p>
                 </div>
 
                 <div class="card">
@@ -76,14 +75,14 @@
 
             <ng-template #tempInstergram let-content="content">
                 <div class="second-wrapper">
-                    <h3>{{ content.title }}</h3>
+                    <p class="text-faded">{{content.title}}</p>
                     <div class="second-image"></div>
                 </div>
             </ng-template>
 
             <ng-template #tempTwitter let-content="content">
                 <div class="third-wrapper">
-                    <h3>{{ content.title }}</h3>
+                    <p class="text-faded">{{content.title}}</p>
                     <div class="third-first-image"></div>
                 </div>
             </ng-template>
