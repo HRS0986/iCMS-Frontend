@@ -3,21 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { SharedModule } from "../shared/shared.module";
 
+import { SMAnalyticsRoutingModule } from './social-media-analytics-routing.module';
+
+
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
 import { CAComponent } from "./pages/campaign-analysis/ca.component";
 import { PIComponent } from "./pages/platform-insights/pi.component";
 import { settingsComponent } from "./pages/settings/settings.component";
 
 import { SettingsAlerts } from "./pages/settings-alerts/settings-alerts.component";
-
-import { SMAnalyticsRoutingModule } from './social-media-analytics-routing.module';
-
+import { SettingsCampaignComponent } from './pages/settings-campaign/settings-campaign.component';
 
 
 import { TabItemComponent } from './components/tab-item/tab-item.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
-
 
 
 import { TableModule } from 'primeng/table';
@@ -61,6 +61,9 @@ import { ChartModule } from 'primeng/chart';
     ProgressBarComponent,
     SettingsAlerts,
     ProgressBarComponent,
+    SettingsCampaignComponent,
+    
+    
     // HorizontalBarChartComponent,
     // DoughnutChartComponent,
     // LineAreaChartComponent,
@@ -74,7 +77,7 @@ import { ChartModule } from 'primeng/chart';
     TabsComponent,
     TableModule,
     ButtonModule,
-    ChartModule,
+    ChartModule
     // CardModule,
     // ToastModule,
     // TabViewModule,
