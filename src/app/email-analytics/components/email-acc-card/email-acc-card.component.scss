@@ -41,6 +41,21 @@ html {
     text-align: right;
   }
 
+  .shrink {
+    /* Set the width of the first cell to 45% */
+    width: 45%;
+  }
+  
+  .shrink:nth-child(2) {
+    /* Set the width of the second cell to 25% */
+    width: 25%;
+  }
+  
+  .shrink:nth-child(3) {
+    /* Set the width of the third cell to 30% */
+    width: 30%;
+  }
+
   table td button {
     --primary: #fa333d;
     --secondary: white;

@@ -48,6 +48,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { NotiSendingEmailAccCardComponent } from './components/noti-sending-email-acc-card/noti-sending-email-acc-card.component';
 import { TopicCardComponent } from './components/topic-card/topic-card.component';
+import { ToastModule } from 'primeng/toast';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MessageService } from 'primeng/api';
 
 
 
@@ -95,8 +98,10 @@ import { TopicCardComponent } from './components/topic-card/topic-card.component
     InputGroupModule,
     InputGroupAddonModule,
     MultiSelectModule,
-    TableModule
-  ]
+    TableModule,
+    ToastModule,
+  ],
+  providers: [MessageService],
 })
 export class EmailAnalyticsModule {
 }
