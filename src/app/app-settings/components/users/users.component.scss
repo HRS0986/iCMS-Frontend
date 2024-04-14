@@ -1,19 +1,15 @@
 
 :host ::ng-deep {
+  .p-datatable-header{
+    border-top:none
+  }
   .p-paginator {
     .p-paginator-current {
       margin-left: auto;
     }
   }
 
-  .p-progressbar {
-    height: .5rem;
-    background-color: #D8DADC;
 
-    .p-progressbar-value {
-      background-color: #607D8B;
-    }
-  }
 
   .table-header {
     display: flex;
@@ -51,6 +47,7 @@
       text-transform: uppercase;
     }
   }
+
 
   .p-w-100 {
     width: 100%;

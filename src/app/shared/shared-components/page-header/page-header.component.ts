@@ -13,6 +13,9 @@ export class PageHeaderComponent implements OnInit {
   @Input() showDatePicker: boolean = false;
   @Input() showButton: boolean = false;
   @Input() breadcrumbItems: MenuItem[] = [];
+  @Input() showAddMemberButton: boolean = false;
+
+  sidebarVisible: boolean = false;
 
   rangeDates: Date[] | undefined;
   home: MenuItem | undefined;
@@ -25,5 +28,9 @@ export class PageHeaderComponent implements OnInit {
 
   addCallRecordings() {
     this.router.navigate(['/call/upload']);
+  }
+
+  addMember() {
+    this.router.navigate(['/members/add']);
   }
 }

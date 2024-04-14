@@ -10,6 +10,7 @@ import { CalendarModule } from "primeng/calendar";
 import { FormsModule } from "@angular/forms";
 import { TopMenuComponent } from './shared-components/top-menu/top-menu.component';
 import {HttpClientModule} from "@angular/common/http";
+import {SidebarModule} from "primeng/sidebar";
 
 
 @NgModule({
@@ -23,16 +24,17 @@ import {HttpClientModule} from "@angular/common/http";
     SidenavComponent,
     TopMenuComponent
   ],
-  imports: [
-    CommonModule,
-    PanelMenuModule,
-    PanelModule,
-    BreadcrumbModule,
-    DividerModule,
-    CalendarModule,
-    FormsModule,
-    HttpClientModule,
-  ]
+    imports: [
+        CommonModule,
+        PanelMenuModule,
+        PanelModule,
+        BreadcrumbModule,
+        DividerModule,
+        CalendarModule,
+        FormsModule,
+        HttpClientModule,
+        SidebarModule,
+    ]
 })
 export class SharedModule {
 }

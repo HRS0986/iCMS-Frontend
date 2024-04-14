@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {UserDataService}  from "../../services/user-data.service";
 import {User} from "../../domain/types"
 import {Table} from "primeng/table";
+import {MenuItem} from "primeng/api";
+
 
 @Component({
   selector: 'app-users',
@@ -13,6 +15,10 @@ import {Table} from "primeng/table";
 export class UsersComponent {
   users: User[] =[];
   selectedUsers: User[] = [];
+  breadcrumbItems: MenuItem[] = [
+    {label: "Profile"},
+    {label: 'Users'}
+  ];
 
   constructor(private customerService: UserDataService) {}
 
@@ -39,6 +45,9 @@ export class UsersComponent {
 
   clear(table: Table) {
     table.clear();
+  }
+  addMember() {
+    console.log('Add member');
   }
 }
 

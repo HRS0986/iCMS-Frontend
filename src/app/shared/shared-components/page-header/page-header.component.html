@@ -10,6 +10,15 @@
   <div class="w-fit" *ngIf="showButton">
     <p-button [outlined]="false" (click)="addCallRecordings()">+ Add Call Recordings</p-button>
   </div>
+
+
+  <div class="w-fit" *ngIf="showAddMemberButton">
+    <p-sidebar [(visible)]="sidebarVisible" position="right">
+      <h3>Right Sidebar</h3>
+    </p-sidebar>
+    <p-button type="button" class="mr-2" (click)="sidebarVisible = true" >+ Add Member</p-button>
+  </div>
+
 </div>
 <p-divider></p-divider>
 

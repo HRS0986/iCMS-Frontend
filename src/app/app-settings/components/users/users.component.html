@@ -1,4 +1,13 @@
-<div class="card pt-4">
+<app-page-header
+  pageTitle="User Profile"
+  class="w-full h-fit"
+  [breadcrumbItems]="breadcrumbItems"
+  [showAddMemberButton]="true"
+  (click)="addMember()"
+/>
+
+
+<div>
   <p-table
     #dt1
     [value]="users"
