@@ -24,6 +24,7 @@
                 pTooltip="Delete Recording" [outlined]="true"></p-button>
     </div>
   </div>
+
   <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleSummary" header="Call Summary" [modal]="true" [(visible)]="visibleSummary" [style]="{width: '30vw', height: 'auto'}">
     <div class="flex justify-between items-center px-3 mb-5">
       <!-- Use selectedCall only when it is defined -->
@@ -40,12 +41,11 @@
       </div>
     </div>
     <p  style="text-align: justify;">  {{selectedCall.summary}}  </p>
-
-    <!-- Move this div to the bottom -->
     <div class="text-right" >
       <p-button label="Close" (click)="visibleSummary = false" icon="pi pi-times"></p-button>
     </div>
   </p-dialog>
+
   <p-dialog [draggable]="false" [resizable]="false" *ngIf="visiblePlay" header="Play Call Recording" [(visible)]="visiblePlay" [modal]="true"  [style]="{width: '30vw', height: 'auto'}">
     <div class="flex justify-between items-center px-3 mb-5 play">
       <!-- Use selectedCall only when it is defined -->
@@ -74,18 +74,15 @@
     </div>
     <p class="font-medium text-lg text-start">Transcript</p>
     <p  style="text-align: justify;">  {{selectedCall.transcription}}  </p>
-    <!-- Move this div to the bottom -->
     <div class="text-right" >
       <p-button label="Close" (click)="visiblePlay = false" icon="pi pi-times"></p-button>
     </div>
   </p-dialog>
-  <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleConfirmation" header="Confirmation" [modal]="true" [(visible)]="visibleConfirmation" [style]="{width: '30vw', height: 'auto'}">
 
+  <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleConfirmation" header="Confirmation" [modal]="true" [(visible)]="visibleConfirmation" [style]="{width: '30vw', height: 'auto'}">
     <p  style="text-align: justify;">
       Are you sure you want to Delete this Call Recording?
     </p>
-
-    <!-- Move this div to the bottom -->
     <div class="text-right" >
       <p-button label="No" (click)="visibleConfirmation = false" ></p-button>
       <p-button label="Yes" (click)="onConfirmDelete(selectedCall.call_id, selectedCall.analytics_id)" styleClass="p-button-danger"></p-button>
