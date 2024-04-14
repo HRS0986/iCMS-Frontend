@@ -33,7 +33,7 @@ export class FilteringFeaturesComponent implements OnInit{
       this.topic = [
           { name: 'Pricing', code: 'PCG' },
           { name: 'Product', code: 'PDT' },
-          { name: 'Services', code: 'SVC' },
+          { name: 'services', code: 'SVC' },
           { name: 'Issues', code: 'IS' },
           { name: 'Website', code: 'WS' }
       ];

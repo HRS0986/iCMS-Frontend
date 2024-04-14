@@ -10,6 +10,7 @@ import { CalendarModule } from "primeng/calendar";
 import { FormsModule } from "@angular/forms";
 import { TopMenuComponent } from './shared-components/top-menu/top-menu.component';
 import {HttpClientModule} from "@angular/common/http";
+import {SidebarModule} from "primeng/sidebar";
 import { WordcloudComponent } from './shared-components/wordcloud/wordcloud.component';
 import { ChartModule } from "primeng/chart";
 
@@ -28,17 +29,19 @@ import { ChartModule } from "primeng/chart";
     TopMenuComponent,
     WordcloudComponent
   ],
-  imports: [
-    CommonModule,
-    PanelMenuModule,
-    PanelModule,
-    BreadcrumbModule,
-    DividerModule,
-    CalendarModule,
-    FormsModule,
-    HttpClientModule,
-    ChartModule,
-  ]
+    imports: [
+        CommonModule,
+        PanelMenuModule,
+        PanelModule,
+        BreadcrumbModule,
+        DividerModule,
+        CalendarModule,
+        FormsModule,
+        HttpClientModule,
+        SidebarModule,
+      ChartModule,
+    ]
+
 })
 export class SharedModule {
 }

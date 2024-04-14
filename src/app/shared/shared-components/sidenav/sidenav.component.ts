@@ -14,14 +14,16 @@ export class SidenavComponent implements OnInit {
     this.logoutItems = [
       {
         label: "Logout",
-        icon: "pi pi-fw pi-external-link"
+        icon: "pi pi-fw pi-external-link",
+        routerLink: "auth/signup"
       }
     ];
 
     this.menuItems = [
       {
         label: 'Dashboard',
-        icon: 'pi pi-fw pi-th-large'
+        icon: 'pi pi-fw pi-th-large',
+        routerLink: "main-dashboard"
       },
       {
         label: 'Email Analytics',
@@ -107,13 +109,16 @@ export class SidenavComponent implements OnInit {
           {
             label: 'Users',
             icon: 'pi pi-fw pi-users',
+            routerLink: 'app-settings/users'
           },
           {
             label: 'Permissions',
             icon: 'pi pi-fw pi-unlock',
+            routerLink: 'app-settings/permissions'
           }
         ]
-      }
+      },
+
     ];
   }
 }

@@ -31,6 +31,7 @@ import { MessageService } from "primeng/api";
     CalendarModule,
     DividerModule,
     SharedModule,
+
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],
