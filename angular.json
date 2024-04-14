@@ -39,7 +39,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.slim.min.js",
+              "src/assets/js/jQWCloudv3.4.1.js"
+            ]
           },
           "configurations": {
             "production": {

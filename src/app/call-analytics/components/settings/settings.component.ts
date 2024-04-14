@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
+import UserMessages from "../../../shared/user-messages";
 import { CheckboxChangeEvent } from 'primeng/checkbox';
 
 @Component({
@@ -22,7 +23,7 @@ export class SettingsComponent implements OnInit {
   callIntegrationSettingsForm = this.fb.group({
     dir: '',
   });
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private messageService: MessageService) {}
 
   ngOnInit() {
     let belowAlertsEnabled =
@@ -62,6 +63,8 @@ export class SettingsComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log(this.notificationsSettingsForm.value);
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: UserMessages.SAVED_SUCCESS })
     console.log(this.notificationsSettingsForm.value);
   }
 

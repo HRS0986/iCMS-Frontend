@@ -9,18 +9,24 @@ import { DividerModule } from "primeng/divider";
 import { CalendarModule } from "primeng/calendar";
 import { FormsModule } from "@angular/forms";
 import { TopMenuComponent } from './shared-components/top-menu/top-menu.component';
+import {HttpClientModule} from "@angular/common/http";
+import { WordcloudComponent } from './shared-components/wordcloud/wordcloud.component';
+import { ChartModule } from "primeng/chart";
 
 
 @NgModule({
   declarations: [
     PageHeaderComponent,
     SidenavComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    WordcloudComponent,
+    WordcloudComponent
   ],
   exports: [
     PageHeaderComponent,
     SidenavComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    WordcloudComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +35,9 @@ import { TopMenuComponent } from './shared-components/top-menu/top-menu.componen
     BreadcrumbModule,
     DividerModule,
     CalendarModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    ChartModule,
   ]
 })
 export class SharedModule {

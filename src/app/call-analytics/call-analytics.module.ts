@@ -36,6 +36,17 @@ import { ChipsModule } from 'primeng/chips';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
+import { CallFilteringComponent } from './components/call-filtering/call-filtering.component';
+import { FilteringFeaturesComponent } from './components/filtering-features/filtering-features.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { SliderModule } from 'primeng/slider';
+import { DividerModule } from 'primeng/divider';
+
+
+
+import { InputGroupModule } from "primeng/inputgroup";
+import { InputGroupAddonModule } from "primeng/inputgroupaddon";
+import { CalendarModule } from "primeng/calendar";
 import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
@@ -54,7 +65,9 @@ import { RippleModule } from 'primeng/ripple';
     CallRecordingsComponent,
     RecentCallsCardComponent,
     SettingsComponent,
-  ],
+    CallFilteringComponent,
+    FilteringFeaturesComponent,
+      ],
   imports: [
     CommonModule,
     CallAnalyticsRoutingModule,
@@ -79,8 +92,16 @@ import { RippleModule } from 'primeng/ripple';
     InputTextModule,
     ReactiveFormsModule,
     FileUploadModule,
+    CalendarModule,
+    DropdownModule,
+    SliderModule,
+    DividerModule,
+    InputGroupModule,
+    InputGroupAddonModule,
     RippleModule,
   ],
-  providers: [CallAnalyticsService],
+  providers: [
+    CallAnalyticsService
+  ]
 })
 export class CallAnalyticsModule {}

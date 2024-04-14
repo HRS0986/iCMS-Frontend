@@ -7,7 +7,7 @@
       <app-stat-card title="{{callStatistics.totalMinutes}}" subTitle="Total Minute" imgPath="./call/blue-call.png"/>
     </div>
     <app-line-area-chart title="Sentiment Over Time"/>
-    <app-doughnut-chart title="Call Summary"/>
+    <app-doughnut-chart title="Call Summary" [percentages]="[100, 50, 75]"/>
   </div>
   <div class="flex gap-7 flex-wrap">
     <app-horizontal-bar-chart/>
@@ -19,6 +19,7 @@
     </div>
   </div>
   <div class="flex gap-7 flex-wrap">
-    <app-recent-calls-card/>
+<!--    <app-recent-calls-card/>-->
+  <app-wordcloud [words]="myData" title="Test WordCloud Title" />
   </div>
 </div>

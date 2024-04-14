@@ -1,15 +1,14 @@
 <div class="w-full flex justify-between items-center">
   <div class="w-fit">
     <h2 class="font-bold mb-2">{{ pageTitle }}</h2>
-    <p-breadcrumb class="max-w-full bg-[#f9fafb]" [model]="breadcrumbItems" [home]="home"></p-breadcrumb>
+    <p-breadcrumb class="max-w-full" [model]="breadcrumbItems" [home]="home"></p-breadcrumb>
   </div>
   <div class="flex items-center w-fit" *ngIf="showDatePicker">
     <p>Date Range: &nbsp;&nbsp;</p>
     <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="z-10"></p-calendar>
   </div>
-  <div class="flex items-center w-fit" *ngIf="showButton">
+  <div class="w-fit" *ngIf="showButton">
     <p-button [outlined]="false" (click)="addCallRecordings()">+ Add Call Recordings</p-button>
-
   </div>
 </div>
 <p-divider></p-divider>
