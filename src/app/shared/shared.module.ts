@@ -9,7 +9,7 @@ import { DividerModule } from "primeng/divider";
 import { CalendarModule } from "primeng/calendar";
 import { FormsModule } from "@angular/forms";
 import { TopMenuComponent } from './shared-components/top-menu/top-menu.component';
-import {HttpClientModule} from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 import {SidebarModule} from "primeng/sidebar";
 import { WordcloudComponent } from './shared-components/wordcloud/wordcloud.component';
 import { ChartModule } from "primeng/chart";
