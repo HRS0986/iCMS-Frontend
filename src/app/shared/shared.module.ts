@@ -11,18 +11,23 @@ import { FormsModule } from "@angular/forms";
 import { TopMenuComponent } from './shared-components/top-menu/top-menu.component';
 import {HttpClientModule} from "@angular/common/http";
 import {SidebarModule} from "primeng/sidebar";
+import { WordcloudComponent } from './shared-components/wordcloud/wordcloud.component';
+import { ChartModule } from "primeng/chart";
 
 
 @NgModule({
   declarations: [
     PageHeaderComponent,
     SidenavComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    WordcloudComponent,
+    WordcloudComponent
   ],
   exports: [
     PageHeaderComponent,
     SidenavComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    WordcloudComponent
   ],
     imports: [
         CommonModule,
@@ -34,7 +39,9 @@ import {SidebarModule} from "primeng/sidebar";
         FormsModule,
         HttpClientModule,
         SidebarModule,
+      ChartModule,
     ]
+
 })
 export class SharedModule {
 }

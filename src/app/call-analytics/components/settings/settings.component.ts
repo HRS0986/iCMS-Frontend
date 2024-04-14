@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
+import UserMessages from "../../../shared/user-messages";
 
 @Component({
   selector: 'app-settings',
@@ -23,10 +24,11 @@ export class SettingsComponent {
     autoDeleteStatus: false,
     deleteAfter: 5,
   });
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private messageService: MessageService) {}
 
   onSubmit(): void {
     console.log(this.notifications.value);
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: UserMessages.SAVED_SUCCESS })
   }
 
   onSubmitCall(): void {
