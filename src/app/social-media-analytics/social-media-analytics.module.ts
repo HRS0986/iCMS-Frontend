@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 import { SharedModule } from "../shared/shared.module";
 
@@ -78,7 +79,8 @@ import { SettingsCampaignComponent } from './pages/settings-campaign/settings-ca
     TabsComponent,
     TableModule,
     ButtonModule,
-    ProgressBarModule
+    ProgressBarModule,
+    HttpClientModule
     // CardModule,
     // ToastModule,
     // TabViewModule,

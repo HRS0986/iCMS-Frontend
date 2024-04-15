@@ -1,34 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SortEvent } from 'primeng/api';
-import { Content, item } from '../../structs';
-
-
-const itemService: item[] = [
-  {
-    id: '1000',
-    keyword: 'Vega, Lia',
-    alerttype: 'Email',
-    threshold: '450 - 725',
-    min: 35,
-    max: 45
-  },
-  {
-    id: '1001',
-    keyword: 'CodeGen',
-    alerttype: 'App',
-    threshold: 'More Than 800',
-    min: 55,
-    max: 100
-  },
-  {
-    id: '1002',
-    keyword: 'TravelBox',
-    alerttype: 'App',
-    threshold: 'Less Than 1100',
-    min: 0,
-    max: 50
-  }
-];
+import { SettingAlertsData, AlertItem } from '../../structs';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -36,27 +8,52 @@ const itemService: item[] = [
   templateUrl: './settings-alerts.component.html',
   styleUrls: ['./settings-alerts.component.scss']
 })
+
 export class SettingsAlerts implements OnInit {
-  items!: item[];
-  selecteditem!: item;
+  list_facebook: AlertItem[] = [];
+  list_instagram: AlertItem[] = [];
+  list_twitter: AlertItem[] = [];
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.items = itemService;
+    this.http.get<any>('http://127.0.0.1:8000/social-media/get_keyword_alerts_')
+      .subscribe(response => {
+        const alerts = response[0] as AlertItem[];
+        alerts.forEach(alert => {
+          switch (alert.sm_id) {
+            case "SM01":
+              this.list_facebook.push(alert);
+              break;
+            case "SM02":
+              this.list_instagram.push(alert);
+              break;
+            case "SM03":
+              this.list_twitter.push(alert);
+              break;
+            default:
+              console.log("Invalid sm_id:", alert.sm_id);
+          }
+        });
+      },
+        error => {
+          console.error('Error fetching data:', error);
+        });
   }
 
-  onRowEdit(item: item) {
+  onRowEdit(item: AlertItem) {
   }
 
-  onRowDelete(item: item) {
+  onRowDelete(item: AlertItem) {
   }
 
-  tabFacebook = {title:'Facebook', img: 'assets/social-media/icons/facebook.png'};
-  tabInstergram = {title:'Instergram', img: 'assets/social-media/icons/instargram.png'};
-  tabTwitter = {title:'Twitter', img: 'assets/social-media/icons/twitter.png'};
+  tabFacebook = { title: 'Facebook', img: 'assets/social-media/icons/facebook.png' };
+  tabInstergram = { title: 'Instergram', img: 'assets/social-media/icons/instargram.png' };
+  tabTwitter = { title: 'Twitter', img: 'assets/social-media/icons/twitter.png' };
 
-  content1: Content = {title: '15 Custom Alerts'};
-  content2: Content = {title: '0 Custom Alerts'};
-  content3: Content = {title: '4 Custom Alerts'};
+  contentFacebook: SettingAlertsData = { subtitle: "Facebook", data: this.list_facebook };
+  contentInstergram: SettingAlertsData = { subtitle: "Instergram", data: this.list_instagram };
+  contentTwitter: SettingAlertsData = { subtitle: "Twitter", data: this.list_twitter };
 
   topBarCaption = "Add New";
 }
