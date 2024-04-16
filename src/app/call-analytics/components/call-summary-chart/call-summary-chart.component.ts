@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CallRecordingService } from "../../services/call-recording.service";
-import { CallRecord } from "../../types";
+import {CallRecord, CallRecording} from "../../types";
+import { CallAnalyticsService } from "../../services/call-analytics.service";
 
 @Component({
   selector: 'app-call-summary-chart',
@@ -10,19 +11,20 @@ import { CallRecord } from "../../types";
 export class CallSummaryChartComponent implements OnInit {
   @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
 
-  callRecordings: any = [];
+  callRecordings: CallRecording[] = [];
   statusColors!: { [key: string]: string };
   visibleSummary: boolean = false;
   visiblePlay: boolean = false;
   visibleConfirmation: boolean = false;
-  selectedCall: any; // Add a property to store the selected call details
+  selectedCall!: CallRecording; // Add a property to store the selected call details
   noCalls: boolean = false;
   audio: any;
   audioPosition: any;
   currentTime: any;
   totalTime: any;
+  selectedCallSummary: string = "";
 
-  constructor(private callRecordingService: CallRecordingService) { }
+  constructor(private callRecordingService: CallRecordingService, private callAnalyticsService: CallAnalyticsService) { }
 
   ngOnInit() {
     const documentStyle: CSSStyleDeclaration = getComputedStyle(document.documentElement);
@@ -30,28 +32,26 @@ export class CallSummaryChartComponent implements OnInit {
       // Map the fetched data to match the structure of callRecordings
       if (data.data.length === 0) {
         this.callRecordings = [
-          {"title": "Call Recording Title1", "date": (new Date()).toLocaleDateString(), "status": "Positive"},
-          {"title": "Call Recording Title2", "date": (new Date()).toLocaleDateString(), "status": "Negative"},
-          {"title": "Call Recording Title3", "date": (new Date()).toLocaleDateString(), "status": "Neutral"},
-          {"title": "Call Recording Title4", "date": (new Date()).toLocaleDateString(), "status": "Negative"},
-          {"title": "Call Recording Title5", "date": (new Date()).toLocaleDateString(), "status": "Positive"},
+          {id: "cr_0", description: "Call Recording Title2", date: new Date(), duration: 3.7, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription"},
+          {id: "cr_1", description: "Call Recording Title3", date: new Date(), duration: 3.7, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription"},
+          {id: "cr_2", description: "Call Recording Title4", date: new Date(), duration: 3.7, sentiment: "Neutral", callUrl: "dumyy url", transcription: "dummy transcription"},
+          {id: "cr_3", description: "Call Recording Title5", date: new Date(), duration: 3.7, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription"},
+          {id: "cr_4", description: "Call Recording Title6", date: new Date(), duration: 3.7, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription"},
         ];
         console.log('Initial summaryCalls:', this.callRecordings);
         // TODO: Ask From Eranda
         this.noCalls = this.callRecordings.length == 0;
       } else {
-        this.callRecordings = data.data.map((record: CallRecord) => {
+        this.callRecordings = data.data.map((record: any) => {
           return {
-            "title": record.description,
-            "date": new Date(record.call_date).toLocaleDateString(),
-            "status": record.sentiment_category,
-            "summary": record.summary,
-            "call_url": record.call_recording_url,
-            "transcription": record.transcription,
-            "duration": record.call_duration,
-            "call_id": record.call_id,
-            "analytics_id": record.analytics_id
-          };
+            id: record.id,
+            description: record.description,
+            transcription: record.transcription,
+            callUrl: record.call_recording_url,
+            duration: record.call_duration ?? 4.39,
+            date: new Date(record.call_date),
+            sentiment: record.sentiment
+          } as CallRecording;
         });
         console.log('Fetched callRecordings:', this.callRecordings);
       }
@@ -65,22 +65,31 @@ export class CallSummaryChartComponent implements OnInit {
     }
   }
 
-  onConfirmDelete(callId: string, analyticsId: string) {
+  onConfirmDelete(callId: string) {
     this.visibleConfirmation = false;
-    this.deleteCall(callId, analyticsId);
+    this.deleteCall(callId);
   }
 
-  showDialogSummary(call: any): void {
+  showDialogSummary(call: CallRecording): void {
     this.selectedCall = call;
-    this.visibleSummary = true;
+    this.callAnalyticsService.getCallSummary(call.id).then(response => {
+      this.selectedCallSummary = response.data.summary;
+      console.log(response);
+      console.log(call);
+    }).catch(err => {
+      console.log(err)
+      this.selectedCallSummary = "Sorry, failed to get the call summary."
+    }).finally(() => {
+      this.visibleSummary = true;
+    });
   }
 
-  showDialogPlay(call: any): void {
+  showDialogPlay(call: CallRecording): void {
     this.selectedCall = call;
     this.visiblePlay = true;
   }
 
-  showDialogConfirmation(call: any): void {
+  showDialogConfirmation(call: CallRecording): void {
     this.selectedCall = call;
     this.visibleConfirmation = true;
   }
@@ -128,8 +137,8 @@ export class CallSummaryChartComponent implements OnInit {
     }
   }
 
-  deleteCall(call_id: string, analytics_id: string) {
-    this.callRecordingService.deleteCallsOfList(call_id, analytics_id).subscribe({
+  deleteCall(call_id: string) {
+    this.callRecordingService.deleteCall(call_id).subscribe({
       next: (data) => {
         console.log('Delete successful', data);
         this.refreshCallRecordings();  // Method to refresh the call recordings list
