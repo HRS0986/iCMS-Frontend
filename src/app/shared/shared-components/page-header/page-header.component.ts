@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {booleanAttribute, Component, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router'; // Import Router
 import { MenuItem } from "primeng/api";
+
 
 @Component({
   selector: 'app-page-header',
@@ -13,14 +14,15 @@ export class PageHeaderComponent implements OnInit {
   @Input() showDatePicker: boolean = false;
   @Input() showButton: boolean = false;
   @Input() breadcrumbItems: MenuItem[] = [];
-  @Input() showAddMemberButton: boolean = false;
+  @Input({transform: booleanAttribute}) showAddMemberButton: boolean = false;
+  @Input({transform: booleanAttribute}) showAddWidgetButton: boolean = false;
 
-  sidebarVisible: boolean = false;
 
   rangeDates: Date[] | undefined;
   home: MenuItem | undefined;
 
   constructor(private router: Router) {} // Inject Router in the constructor
+
 
   ngOnInit() {
     this.home = { icon: 'pi pi-home', routerLink: '/' };
