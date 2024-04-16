@@ -14,10 +14,13 @@ export interface OverallCallStatusPercentages {
 }
 
 export interface CallRecording {
-  title: string;
+  id: string;
+  description: string;
   date: Date;
-  status: string;
+  duration: number;
+  sentiment: string;
   callUrl: string;
+  transcription: string;
 }
  export interface QueuedFile {
    file: File;
@@ -43,4 +46,11 @@ interface CallRecord {
   sentiment_score: number;
   call_id: string;
   analytics_id: string;
+}
+
+export interface ApiResponse {
+  status: boolean;
+  data: any;
+  message: string;
+  error_message: string[] | string;
 }
