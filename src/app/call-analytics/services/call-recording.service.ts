@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ApiResponse, CallRecording} from '../types';
+import { ApiResponse, CallRecording, QueuedFile } from '../types';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
@@ -23,9 +23,9 @@ export class CallRecordingService {
     ];
   }
 
-  public uploadFile(file: File): Observable<ApiResponse> {
+  public uploadFile(file: QueuedFile): Observable<ApiResponse> {
     const formData: FormData = new FormData();
-    formData.append('file', file, file.name);
+    formData.append('file', file.file, file.file.name);
     return this.http.post<ApiResponse>(`${this.API_ROOT}/upload-calls`, formData);
   }
 
