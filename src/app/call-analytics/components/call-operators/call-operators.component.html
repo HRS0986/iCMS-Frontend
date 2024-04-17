@@ -1,0 +1,22 @@
+<app-page-header pageTitle="Call Operators" class="h-fit" [breadcrumbItems]="breadcrumbItems"
+                 [showButton]="true" buttonText="+ Add Call Operator" (buttonAction)="onClickAddOperator()"/>
+<p-dialog header="Add New Call Operator" [(visible)]="isModelVisible" [modal]="true" [style]="{ width: '50rem' }"
+          [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+  <form [formGroup]="operatorForm" class="flex flex-col gap-5 p-10">
+    <div class="flex justify-between items-center">
+      <label for="op-id" class="w-1/14">Operator Id: </label>
+      <input id="op-id" class="w-3/4" type="text" pInputText formControlName="operatorId" [readOnly]="true" [disabled]="true"/>
+    </div>
+    <div class="flex justify-between items-center">
+      <label for="op-name" class="w-1/14">Operator Name: </label>
+      <div class="w-3/4">
+        <input id="op-name" class="w-full" type="text" pInputText formControlName="name"/>
+        <p *ngIf="operatorForm.invalid && isSubmitted" class="text-red-500">Operator name is required.</p>
+      </div>
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <p-button (click)="onClickSave()" label="Save" pAutoFocus></p-button>
+    <p-button (click)="onModalClose()" label="Cancel" severity="secondary" [text]="true"></p-button>
+  </ng-template>
+</p-dialog>

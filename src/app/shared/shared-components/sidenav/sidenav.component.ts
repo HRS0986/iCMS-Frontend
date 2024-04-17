@@ -70,9 +70,14 @@ export class SidenavComponent implements OnInit {
             icon: 'pi pi-fw pi-filter',
           },
           {
+            label: 'Call Operators',
+            routerLink: 'call/operators',
+            icon: 'pi pi-users pi-sliders-h',
+          },
+          {
             label: 'Settings',
             routerLink: 'call/settings',
-            icon: 'pi pi-fw pi-sliders-h',
+            icon: 'pi pi-fw pi-sliders-h'
           }
         ]
       },

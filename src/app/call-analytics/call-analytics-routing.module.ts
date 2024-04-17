@@ -5,6 +5,7 @@ import { CallRecordingsComponent } from './components/call-recordings/call-recor
 import { CallFilteringComponent } from './components/call-filtering/call-filtering.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { CallOperatorsComponent } from "./components/call-operators/call-operators.component";
 
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: "upload",
     component: FileUploadComponent
+  },
+  {
+    path: "operators",
+    component: CallOperatorsComponent
   }
 
 ];
