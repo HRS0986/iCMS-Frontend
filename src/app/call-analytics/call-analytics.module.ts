@@ -3,20 +3,20 @@ import { CommonModule } from '@angular/common';
 
 import { CallAnalyticsRoutingModule } from './call-analytics-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { SharedModule } from "../shared/shared.module";
+import { SharedModule } from '../shared/shared.module';
 import { StatCardComponent } from './components/stat-card/stat-card.component';
-import { PanelModule } from "primeng/panel";
+import { PanelModule } from 'primeng/panel';
 import { DoughnutChartComponent } from './components/doughnut-chart/doughnut-chart.component';
-import { ChartModule } from "primeng/chart";
+import { ChartModule } from 'primeng/chart';
 import { LineAreaChartComponent } from './components/line-area-chart/line-area-chart.component';
 import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
 import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.component';
-import { NgxEchartsModule } from "ngx-echarts";
+import { NgxEchartsModule } from 'ngx-echarts';
 import { HorizontalBarChartComponent } from './components/horizontal-bar-chart/horizontal-bar-chart.component';
 import { RecentCallsCardComponent } from './components/recent-calls-card/recent-calls-card.component';
 import { ButtonModule } from 'primeng/button';
-import { DataViewModule } from "primeng/dataview";
-import { TagModule } from "primeng/tag";
+import { DataViewModule } from 'primeng/dataview';
+import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { CallSummaryChartComponent } from './components/call-summary-chart/call-summary-chart.component';
 import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
@@ -24,7 +24,7 @@ import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { ToastModule } from 'primeng/toast';
-import { CallAnalyticsService } from "./services/call-analytics.service";
+import { CallAnalyticsService } from './services/call-analytics.service';
 import { CardModule } from 'primeng/card';
 
 import { SettingsComponent } from './components/settings/settings.component';
@@ -46,6 +46,7 @@ import { DividerModule } from 'primeng/divider';
 import { InputGroupModule } from "primeng/inputgroup";
 import { InputGroupAddonModule } from "primeng/inputgroupaddon";
 import { CalendarModule } from "primeng/calendar";
+import { RippleModule } from 'primeng/ripple';
 
 
 @NgModule({
@@ -77,7 +78,7 @@ import { CalendarModule } from "primeng/calendar";
     ChartModule,
     ButtonModule,
     TooltipModule,
-    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
+    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
     DataViewModule,
     TagModule,
     DialogModule,
@@ -97,6 +98,7 @@ import { CalendarModule } from "primeng/calendar";
     DividerModule,
     InputGroupModule,
     InputGroupAddonModule,
+    RippleModule,
   ],
   providers: [
     CallAnalyticsService
