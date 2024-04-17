@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from "primeng/api";
+import { MenuItem, PrimeIcons } from "primeng/api";
 
 @Component({
   selector: 'app-sidenav',
@@ -72,7 +72,7 @@ export class SidenavComponent implements OnInit {
           {
             label: 'Call Operators',
             routerLink: 'call/operators',
-            icon: 'pi pi-users pi-sliders-h',
+            icon: 'pi pi-fw pi-users',
           },
           {
             label: 'Settings',
