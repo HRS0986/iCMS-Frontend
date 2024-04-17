@@ -29,6 +29,8 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
+import { UnreadNotificationsComponent } from './components/notifications/unread-notifications/unread-notifications.component';
+import { ReadNotificationsComponent } from './components/notifications/read-notifications/read-notifications.component';
 
 
 @NgModule({
@@ -41,6 +43,8 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
     UserNotificationComponent,
     UserSecurityComponent,
     NotificationsComponent,
+    UnreadNotificationsComponent,
+    ReadNotificationsComponent,
 
   ],
   imports: [

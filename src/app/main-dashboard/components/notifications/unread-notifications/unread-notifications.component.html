@@ -1,0 +1,9 @@
+<div class="notification-container" >
+    <div>  
+        <p-messages [(value)]="notifications" [enableService]="true" [closable]="true">{{notifications[0]}}</p-messages>
+        
+        <!-- <div *ngFor="let notificationArray of notifications" >  (click)="showDialog(notificationArray[0])"> 
+            <p-messages [value]="notificationArray" [enableService]="false" [closable]="true"></p-messages>
+        </div> -->
+    </div>
+</div>
