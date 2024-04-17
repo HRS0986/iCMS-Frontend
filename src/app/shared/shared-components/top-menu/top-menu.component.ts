@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
-import { NotificationCountService } from './notification-count-service/notification-count.service';
+// import { NotificationCountService } from './notification-count-service/notification-count.service';
+import { NotificationCountService } from '../../shared-services/notification-count.service';
 @Component({
   selector: 'app-top-menu',
   templateUrl: './top-menu.component.html',
@@ -13,16 +14,19 @@ export class TopMenuComponent implements OnInit {
 
   ngOnInit(): void {
     // Fetch notification count every 1 second
-    timer(0, 1000).subscribe(() => {
-      this.notificationService.getNotificationsCounts().subscribe(
-        (notifications) => {
-          this.notificationCount = notifications;
-        },
-        (error) => {
-          console.error('Error fetching notification count: ', error);
-        }
-      );
-    });
+
+    // timer(0, 1000).subscribe(() => {
+    //   this.notificationService.getNotificationsCounts().subscribe(
+    //     (notifications) => {
+    //       this.notificationCount = notifications;
+    //     },
+    //     (error) => {
+    //       console.error('Error fetching notification count: ', error);
+    //     }
+    //   );
+    // });
+
+
   }
 
 

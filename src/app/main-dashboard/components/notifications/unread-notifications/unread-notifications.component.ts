@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Message } from 'primeng/api';
-import { NotificationService } from '../notification-service/notification.service';
+// import { NotificationService } from '../notification-service/notification.service';
+import {NotificationService} from "../../../services/notification.service"
 import { timer } from 'rxjs';
 
 @Component({
@@ -16,14 +17,14 @@ export class UnreadNotificationsComponent implements OnInit {
   emptyUnread:boolean=true;
   refreshTime:number = 1000;
 
-  constructor(private notificationService: NotificationService) 
+  constructor(private notificationService: NotificationService)
   {}
 
   ngOnInit(): void {
     timer(0, this.refreshTime).subscribe(() => {
-      this.fetchNotifications();
-      this.updateOldNotificationsAsUnread();
-      
+      // this.fetchNotifications();
+      // this.updateOldNotificationsAsUnread();
+
     });
   }
 
@@ -33,15 +34,15 @@ export class UnreadNotificationsComponent implements OnInit {
 
         if(newNotifications.length!==0){
           const newIds = newNotifications.map((notification: { id: any }) => notification.id);
-        
+
           // Remove notifications that are not present in the new API response
           this.notifications = this.notifications.filter(notification => newIds.includes(notification.id));
-    
+
           // Iterate over each new notification
           for (const newNotification of newNotifications) {
             // Check if the notification already exists in the list
             const existingNotificationIndex = this.notifications.findIndex(notification => notification.id === newNotification.id);
-            
+
             if (existingNotificationIndex === -1) {
               // If the notification doesn't exist, add it to the list
               const newMessage: Message = {
@@ -54,18 +55,18 @@ export class UnreadNotificationsComponent implements OnInit {
               this.notifications.push(newMessage);
             }
           }
-          
+
           this.readNotifications = this.notifications;
 
           this.notificationCount = this.notifications.length;
           this.emptyUnread=true
-          
+
         }
         else if (this.emptyUnread) {
           this.notifications = [{severity: "info", summary: "No Notifications", detail: "Empty" }];
-          this. emptyUnread = false      
+          this. emptyUnread = false
         }
-        
+
       },
       (error) => {
         console.error('Error fetching notifications: ', error);
@@ -73,7 +74,7 @@ export class UnreadNotificationsComponent implements OnInit {
     );
   }
 
-  
+
   updateOldNotificationsAsUnread() {
     // Iterate over each read notification array
     for (const readNotificationArray of this.readNotifications) {

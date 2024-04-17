@@ -4,7 +4,7 @@ import { startWith,switchMap } from 'rxjs';
 import { Message } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
-import { NotificationService } from './notification-service/notification.service';
+import {NotificationService} from "../../services/notification.service"
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -25,14 +25,14 @@ export class NotificationsComponent implements OnInit{
     {label: this.list[this.activeIndex]}
   ];
 
-  
+
 
   clickTab(event: any) {
     this.breadcrumbItems = [
       {label: "Notifications"},
       {label: this.list[this.activeIndex]}
     ];
-    
+
   }
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class NotificationsComponent implements OnInit{
       { title: "Unread", content: "Unread Notifications"},
       { title: "Read", content: "Read Notifications"}
     ];
-    
+
 
   }
 

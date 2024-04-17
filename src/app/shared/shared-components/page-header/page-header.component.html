@@ -6,6 +6,7 @@
 <!--  <div class="flex items-right w-fit" *ngIf="showDatePicker">-->
 <!--    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="z-10"></p-calendar>-->
 <!--  </div>-->
+
   <div class="w-fit" *ngIf="showButton">
     <p-button [outlined]="false" (click)="addCallRecordings()">+ Add Call Recordings</p-button>
   </div>
@@ -13,7 +14,6 @@
   <div class="w-fit ms-auto pe-5 pt-1" *ngIf="showDatePicker"> <!--need to give default data range-->
     <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="z-10"></p-calendar>
   </div>
-
 
   <div class="w-fit">
     <app-right-sidebar [showAddMemberButton]="showAddMemberButton" [showAddWidgetButton]="showAddWidgetButton"></app-right-sidebar>

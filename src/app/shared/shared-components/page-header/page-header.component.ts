@@ -14,8 +14,8 @@ export class PageHeaderComponent implements OnInit {
   @Input() showDatePicker: boolean = false;
   @Input() showButton: boolean = false;
   @Input() breadcrumbItems: MenuItem[] = [];
-  @Input({transform: booleanAttribute}) showAddMemberButton: boolean = false;
-  @Input({transform: booleanAttribute}) showAddWidgetButton: boolean = false;
+  @Input() showAddMemberButton: boolean = false;
+  @Input() showAddWidgetButton: boolean = false;
 
 
   rangeDates: Date[] | undefined;

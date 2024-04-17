@@ -114,7 +114,7 @@ export class SidenavComponent implements OnInit {
           {
             label: 'Permissions',
             icon: 'pi pi-fw pi-unlock',
-            routerLink: 'app-settings/permissions'
+            // routerLink: 'app-settings/permissions'
           },
           {
             label: 'Role Management',

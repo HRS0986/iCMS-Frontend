@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Message } from 'primeng/api';
-import { NotificationService } from '../notification-service/notification.service';
+// import { NotificationService } from '../notification-service/notification.service';
+import {NotificationService} from "../../../services/notification.service"
 import { OnInit } from '@angular/core';
 import { timer } from 'rxjs';
 
@@ -16,17 +17,17 @@ export class ReadNotificationsComponent implements OnInit {
   emptyRead:boolean=true;
   refreshTime:number = 1000;
 
-  constructor(private notificationService: NotificationService) 
+  constructor(private notificationService: NotificationService)
   {}
 
   ngOnInit(): void {
     timer(0, this.refreshTime).subscribe(() => {
-      this.readNotification();
-      this.updateOldNotificationsAsRead();
+      // this.readNotification();
+      // this.updateOldNotificationsAsRead();
     });
   }
-  
-  
+
+
   readNotification() {
     this.notificationService.getReadNotifications().subscribe(
       (notifications) => {
@@ -53,25 +54,25 @@ export class ReadNotificationsComponent implements OnInit {
       }
       else if (this.emptyRead) {
         this.readnotifications = [{severity: "success", summary: "No Notifications", detail: "Empty" }];
-        this. emptyRead = false       
+        this. emptyRead = false
       }
         // Update the Read flag
       },
       (error) => {
         console.error('Error fetching notifications: ', error);
       }
-    
+
     );
   }
 
 
-  
+
   updateOldNotificationsAsRead() {
     // Iterate over each read notification
     for (const readNotification of this.unreadnotifications) {
       // Check if the notification exists in the current list of notifications
       const existingNotificationIndex = this.readnotifications.findIndex(notification => notification.id === readNotification.id);
-      
+
       if (existingNotificationIndex === -1) {
         this.refreshTime = 1000;
         // If the notification doesn't exist, mark it as unread
