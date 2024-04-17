@@ -28,12 +28,17 @@ export interface CallRecording {
    date: Date;
  }
 
-interface ApiResponse {
+export interface ApiResponse {
   message: string;
   // Add other properties as needed
 }
 
-interface CallRecord {
+export interface CallOperator {
+  name: string;
+  id: string;
+}
+
+export interface CallRecord {
   description: string;
   transcription: string;
   call_recording_url: string;

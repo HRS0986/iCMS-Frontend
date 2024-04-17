@@ -8,7 +8,7 @@
 <!--  </div>-->
 
   <div class="w-fit" *ngIf="showButton">
-    <p-button [outlined]="false" (click)="addCallRecordings()">+ Add Call Recordings</p-button>
+    <p-button [outlined]="false" (click)="onClickActionButton()">{{ buttonText }}</p-button>
   </div>
 
   <div class="w-fit ms-auto pe-5 pt-1" *ngIf="showDatePicker"> <!--need to give default data range-->
