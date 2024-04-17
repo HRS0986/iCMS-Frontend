@@ -18,7 +18,19 @@ import {FormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {PasswordModule} from "primeng/password";
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
+
+import { HttpClientModule } from '@angular/common/http';
+import { MessagesModule } from 'primeng/messages';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmationService } from 'primeng/api';
+import { DialogModule } from 'primeng/dialog';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { UnreadNotificationsComponent } from './components/notifications/unread-notifications/unread-notifications.component';
+import { ReadNotificationsComponent } from './components/notifications/read-notifications/read-notifications.component';
 
 
 @NgModule({
@@ -30,6 +42,9 @@ import {PasswordModule} from "primeng/password";
     EditProfileComponent,
     UserNotificationComponent,
     UserSecurityComponent,
+    NotificationsComponent,
+    UnreadNotificationsComponent,
+    ReadNotificationsComponent,
 
   ],
   imports: [
@@ -43,7 +58,15 @@ import {PasswordModule} from "primeng/password";
     FormsModule,
     InputTextModule,
     InputSwitchModule,
-    PasswordModule
-  ]
+    PasswordModule,
+    HttpClientModule,
+    MessagesModule,
+    ConfirmPopupModule,
+    ToastModule,
+    DialogModule,
+    AvatarModule,
+    AvatarGroupModule
+  ],
+  providers:[ConfirmationService]
 })
 export class MainDashboardModule { }

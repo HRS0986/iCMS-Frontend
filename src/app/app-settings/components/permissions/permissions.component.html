@@ -1,1 +1,16 @@
-<p>permissions works!</p>
+<app-page-header
+  pageTitle="Permissions"
+  class="w-full h-fit"
+  [breadcrumbItems]="breadcrumbItems"
+/>
+
+  <p-tabView>
+    <p-tabPanel *ngFor="let tab of tabs" [header]="tab.title">
+
+      <p>
+        {{ tab.content }}
+      </p>
+    </p-tabPanel>
+  </p-tabView>
+
+
