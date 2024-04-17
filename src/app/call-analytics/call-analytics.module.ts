@@ -47,6 +47,7 @@ import { InputGroupModule } from "primeng/inputgroup";
 import { InputGroupAddonModule } from "primeng/inputgroupaddon";
 import { CalendarModule } from "primeng/calendar";
 import { RippleModule } from 'primeng/ripple';
+import { CallOperatorsComponent } from './components/call-operators/call-operators.component';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { RippleModule } from 'primeng/ripple';
     SettingsComponent,
     CallFilteringComponent,
     FilteringFeaturesComponent,
+    CallOperatorsComponent,
       ],
   imports: [
     CommonModule,

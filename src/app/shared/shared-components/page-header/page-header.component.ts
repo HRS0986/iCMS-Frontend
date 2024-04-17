@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router'; // Import Router
 import { MenuItem } from "primeng/api";
 
@@ -12,8 +12,11 @@ export class PageHeaderComponent implements OnInit {
   @Input() pageTitle!: string;
   @Input() showDatePicker: boolean = false;
   @Input() showButton: boolean = false;
+  @Input() buttonText: string = "";
   @Input() breadcrumbItems: MenuItem[] = [];
   @Input() showAddMemberButton: boolean = false;
+
+  @Output() buttonAction: EventEmitter<any> = new EventEmitter();
 
   sidebarVisible: boolean = false;
 
@@ -24,6 +27,10 @@ export class PageHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.home = { icon: 'pi pi-home', routerLink: '/' };
+  }
+
+  onClickActionButton(): void {
+    this.buttonAction.emit();
   }
 
   addCallRecordings() {
