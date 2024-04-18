@@ -54,4 +54,5 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
   providers: [MessageService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

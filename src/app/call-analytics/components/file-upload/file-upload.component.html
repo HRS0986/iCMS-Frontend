@@ -1,4 +1,4 @@
-<app-page-header pageTitle="Call Analytics Recordings" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems"
+<app-page-header pageTitle="Call Recordings" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems"
                  [showDatePicker]="false" [showButton]="false"/>
 <div class="flex flex-col">
   <div class="card flex justify-content-center">
@@ -18,7 +18,7 @@
             </p-inputGroupAddon>
           </p-inputGroup>
 
-          <p-calendar [(ngModel)]="dateList[i]" [showIcon]="true" placeholder="Date"></p-calendar>
+          <p-calendar [(ngModel)]="dateList[i]" [showTime]="true" [showIcon]="true" placeholder="Date"></p-calendar>
         </div>
       </ng-template>
 

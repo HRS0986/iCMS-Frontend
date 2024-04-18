@@ -1,8 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { CallRecordingService } from '../../services/call-recording.service';
 import { finalize } from 'rxjs/operators';
-import { FileBeforeUploadEvent, FileSelectEvent, FileUpload, FileUploadEvent } from "primeng/fileupload";
+import { FileSelectEvent, FileUpload, FileUploadEvent } from "primeng/fileupload";
 import { ApiResponse, QueuedFile } from "../../types";
 
 
@@ -36,17 +36,16 @@ export class FileUploadComponent {
         for (let i = 0; i < files.length; i++) {
           const file: File = files[i];
           const description = this.descriptionList[i];
-          const date = this.dateList[i];
+          const dateTime = this.dateList[i];
 
           // Construct the new file name
           const fileExtension = file.name.split('.').pop();
-          const newFileName = `${description}_${date}.${fileExtension}`;
+          const newFileName = this.getFileName(dateTime, description, fileExtension!);
 
           // Create a new File object with the updated name
           const renamedFile = new File([file], newFileName);
-          const callDetails = { description, date };
 
-          this.uploadQueue.push({ file: renamedFile, description, date });
+          this.uploadQueue.push({ file: renamedFile, description: description, date: dateTime });
         }
 
         if (!this.isUploading) {
@@ -56,6 +55,15 @@ export class FileUploadComponent {
         console.warn('No file selected');
       }
 
+  }
+
+  getFileName(dateTime: Date, description: string, extension: string): string {
+    const dateTimeString = dateTime.toISOString();
+    const date = dateTimeString.split('T')[0];
+    const time = dateTime.toTimeString().split(" ")[0]
+    const dateString = date.split('-').join('');
+    let timeString = time.split(':').join('');
+    return `${dateString}_${timeString}_${description}.${extension}`;
   }
 
   onSelectFilesToUpload(event: FileSelectEvent) {
@@ -79,9 +87,9 @@ export class FileUploadComponent {
         this.isUploading = true;
 
         // Rename the file based on the description
-        const renamedFile = new File([file], `${description}_${file.name}`);
+        const renamedFile = new File([file], file.name);
 
-        this.callRecordingService.uploadFile(renamedFile)
+        this.callRecordingService.uploadFile(queuedFile)
           .pipe(finalize(() => {
             this.isUploading = false;
             this.uploadNextFile();
