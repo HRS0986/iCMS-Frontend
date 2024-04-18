@@ -35,7 +35,7 @@ export interface ApiResponse {
 
 export interface CallOperator {
   name: string;
-  id: string;
+  operator_id: string;
 }
 
 export interface CallRecord {
