@@ -1,0 +1,94 @@
+html {
+    background-color: #eee
+  }
+  
+  .card-bg {
+    background-color: #fff;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  
+  table {
+      border: 1px solid white;
+      border-collapse: collapse;
+      width:100%;
+  }
+  
+  table th {
+    text-align: left;
+    font-weight: 500;
+  }
+
+  .subject {
+    font-size: 1.2rem;
+  }
+
+  table td, th {
+    border: 1px solid white;
+    padding: 0.5rem;
+  }
+  
+  table td.shrink, th.shrink {
+      white-space:nowrap
+  }
+  table td.expand, th.expand {
+      width: 98%
+  }
+  table td.align-right {
+    text-align: right;
+  }
+
+  .shrink {
+    /* Set the width of the first cell to 45% */
+    width: 45%;
+  }
+  
+  .shrink:nth-child(2) {
+    /* Set the width of the second cell to 25% */
+    width: 25%;
+  }
+  
+  .shrink:nth-child(3) {
+    /* Set the width of the third cell to 30% */
+    width: 30%;
+  }
+
+  table td button {
+    --primary: #fa333d;
+    --secondary: white;
+    padding: 0.5rem 0;
+    width: 150px;
+    background-color: var(--primary);
+    border-radius: 5px;
+    font-size: 1rem;
+    color: var(--secondary);
+    border: 0;
+   }
+  table td button:hover {
+    background-color: red;
+    color: var(--primary);
+    background-color: var(--secondary);
+    -webkit-box-shadow:inset 0px 0px 0px 2px var(--primary);
+    -moz-box-shadow:inset 0px 0px 0px 2px var(--primary);
+    box-shadow:inset 0px 0px 0px 2px var(--primary);
+    cursor: pointer;
+   }
+  
+  .padding-right {
+    padding-right: 2.5rem;
+  }
+  
+  .align-justify {
+    text-align: justify;
+  }
+
+  th.subject {
+    font-size: 1.2rem;
+    font-weight: 900;
+  }
+  hr {
+    opacity: 0.3;
+  }
