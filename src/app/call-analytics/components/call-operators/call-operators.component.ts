@@ -27,15 +27,15 @@ export class CallOperatorsComponent implements OnInit {
 
   operatorForm = new FormGroup({
     name: new FormControl<string>("", Validators.required),
-    operatorId: new FormControl<string>(""),
+    operatorId: new FormControl<number>(0),
   })
 
   ngOnInit() {
       this.callOperators = [
-        {name: "John Doe", operator_id: "OP01"},
-        {name: "John Doe", operator_id: "OP02"},
-        {name: "John Doe", operator_id: "OP03"},
-        {name: "John Doe", operator_id: "OP04"},
+        {name: "John Doe", operator_id: 1},
+        {name: "John Doe", operator_id: 2},
+        {name: "John Doe", operator_id: 3},
+        {name: "John Doe", operator_id: 4},
       ]
   }
 
@@ -43,7 +43,16 @@ export class CallOperatorsComponent implements OnInit {
     this.isModelVisible = true;
     this.operatorForm.reset();
     this.isSubmitted = false;
-    this.operatorForm.controls["operatorId"].setValue("OP01");
+    this.callOperatorService.getNextOperatorId().then(result => {
+      if (result.status) {
+        console.log(result.data)
+        this.operatorForm.controls["operatorId"].setValue(result.data[0]["operator_id"]);
+      } else {
+        console.log(result.error_message);
+      }
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   onClickSave(): void {
