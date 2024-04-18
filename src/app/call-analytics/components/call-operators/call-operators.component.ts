@@ -20,7 +20,9 @@ export class CallOperatorsComponent implements OnInit {
   ];
 
   isModelVisible: boolean = false;
+  isLoading: boolean = true;
   isConfirmModalVisible: boolean = false;
+  isEditMode: boolean = false;
   selectedOperator!: CallOperator;
   isSubmitted: boolean = false;
   callOperators: CallOperator[] = [];
@@ -28,19 +30,15 @@ export class CallOperatorsComponent implements OnInit {
   operatorForm = new FormGroup({
     name: new FormControl<string>("", Validators.required),
     operatorId: new FormControl<number>(0),
-  })
+  });
 
   ngOnInit() {
-      this.callOperators = [
-        {name: "John Doe", operator_id: 1},
-        {name: "John Doe", operator_id: 2},
-        {name: "John Doe", operator_id: 3},
-        {name: "John Doe", operator_id: 4},
-      ]
+      this.reloadDataSource()
   }
 
   onClickAddOperator(): void {
     this.isModelVisible = true;
+    this.isEditMode = false;
     this.operatorForm.reset();
     this.isSubmitted = false;
     this.callOperatorService.getNextOperatorId().then(result => {
@@ -62,19 +60,45 @@ export class CallOperatorsComponent implements OnInit {
         name: this.operatorForm.controls["name"].value!,
         operator_id: this.operatorForm.controls["operatorId"].value!,
       };
-      this.callOperatorService.addOperator(operator).then(result => {
-        if (result.status) {
-          this.messageService.add({severity: "success", summary: "Success", detail: UserMessages.SAVED_SUCCESS});
-        } else {
-          this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.SAVED_ERROR});
-        }
-      }).catch(error => {
-        this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.SAVED_ERROR});
-        console.log(error);
-      }).finally(() => {
-        this.isModelVisible = false;
-      });
+      if (this.isEditMode) {
+        operator.id = this.selectedOperator.id;
+        this.updateOperator(operator);
+      } else {
+        this.addOperator(operator);
+      }
     }
+  }
+
+  addOperator(operator: CallOperator) {
+    this.callOperatorService.addOperator(operator).then(result => {
+      if (result.status) {
+        this.messageService.add({severity: "success", summary: "Success", detail: UserMessages.SAVED_SUCCESS});
+        this.reloadDataSource()
+      } else {
+        this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.SAVED_ERROR});
+      }
+    }).catch(error => {
+      this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.SAVED_ERROR});
+      console.log(error);
+    }).finally(() => {
+      this.isModelVisible = false;
+    });
+  }
+
+  updateOperator(operator: CallOperator) {
+    this.callOperatorService.updateOperator(operator).then(result => {
+      if (result.status) {
+        this.messageService.add({severity: "success", summary: "Success", detail: UserMessages.SAVED_SUCCESS});
+        this.reloadDataSource();
+      } else {
+        this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.SAVED_ERROR});
+      }
+    }).catch(error => {
+      this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.SAVED_ERROR});
+      console.log(error);
+    }).finally(() => {
+      this.isModelVisible = false;
+    });
   }
 
   onModalClose():void {
@@ -82,11 +106,39 @@ export class CallOperatorsComponent implements OnInit {
   }
 
   onConfirmDelete() {
+    this.callOperatorService.deleteOperator(this.selectedOperator.id!.toString()).then(result => {
+      if (result.status) {
+        this.messageService.add({severity: "success", summary: "Success", detail: UserMessages.deleteSuccess("Operator")});
+        this.reloadDataSource();
+      } else {
+        this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.SAVED_ERROR});
+      }
+      this.isConfirmModalVisible = false;
+    })
+  }
 
+  onClickEditOperator(callOperator: CallOperator) {
+    this.isEditMode = true;
+    this.selectedOperator = callOperator;
+    this.operatorForm.controls["name"].setValue(callOperator.name);
+    this.operatorForm.controls["operatorId"].setValue(callOperator.operator_id);
+    this.isModelVisible = true;
   }
 
   showDialogConfirmation(callOperator: CallOperator) {
     this.selectedOperator = callOperator;
     this.isConfirmModalVisible = true;
+  }
+
+  reloadDataSource() {
+    this.isLoading = true;
+    this.callOperatorService.getAllOperators().subscribe(result => {
+      if (result.status) {
+        this.callOperators = result.data;
+      } else {
+        this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.FETCH_ERROR});
+      }
+      this.isLoading = false;
+    });
   }
 }
