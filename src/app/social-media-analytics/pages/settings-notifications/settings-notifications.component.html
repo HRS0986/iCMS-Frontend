@@ -1,0 +1,190 @@
+<div class="flex flex-col">
+  <div class="container">
+    <div class="panel-wrapper mb-5">
+      <p-panel>
+        <h3>Sentiment Shift Alert Configuration</h3>
+
+        <div class="input-sections">
+          <div class="inputsection">
+            <div class="tag">Platform:</div>
+            <div class="full-width-dropdown">
+              <p-dropdown
+                [options]="socialMediaPlatforms"
+                [(ngModel)]="selectedPlatform"
+                optionLabel="name"
+                [showClear]="true"
+                placeholder="Select a Platform"
+              ></p-dropdown>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full flex justify-center items-baseline mb-10 mt-5">
+          <span style="color: red">-10</span>
+          <img src="./assets/call/rating.png" alt="Image" style="width: 50%" />
+          <span style="color: rgba(20, 24, 235, 0.877)">+10</span>
+        </div>
+        <div class="flex justify-center mb-5 mt-5">
+          <div class="w-1/2">
+            <p-slider [(ngModel)]="rangeValues" [range]="true"></p-slider>
+          </div>
+        </div>
+        <div class="flex gap-2 space-between mb-10">
+          <div class="flex align-items-center gap-1 text-sm">
+            <p-checkbox
+              name="lowerNotify"
+              formControlName="lowerNotify"
+              value="notify"
+              inputId="ny"
+              [binary]="true"
+              label="Notify me when the sentiment score is below : "
+            ></p-checkbox>
+            <p-inputNumber
+              [disabled]="false"
+              class="short-input"
+              formControlName="lowerSS"
+              mode="decimal"
+              [showButtons]="true"
+              inputId="minmax-buttons"
+              [min]="-10"
+              [max]="10"
+            ></p-inputNumber>
+          </div>
+          <div class="flex align-items-center gap-1 text-sm">
+            <p-checkbox
+              name="upperNotify"
+              value="notify"
+              formControlName="upperNotify"
+              [binary]="true"
+              label="Notify me when the sentiment score is above : "
+            ></p-checkbox>
+            <p-inputNumber
+              [disabled]="false"
+              class="short-input"
+              formControlName="upperSS"
+              mode="decimal"
+              [showButtons]="true"
+              inputId="minmax-buttons"
+              [min]="-10"
+              [max]="10"
+            ></p-inputNumber>
+          </div>
+        </div>
+        <div class="input-sections">
+          <div class="inputsection">
+            <div class="tag">Alert Type:</div>
+            <div class="full-width-dropdown">
+              <p-dropdown
+                [options]="alertTypes"
+                [(ngModel)]="selectedAlertType"
+                optionLabel="name"
+                [showClear]="true"
+                placeholder="Select an Alert Type"
+              ></p-dropdown>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-10">
+          <button
+            pButton
+            pRipple
+            label="Set Threshold"
+            class="p-button-primary"
+            type="submit"
+          ></button>
+        </div>
+      </p-panel>
+    </div>
+    <div class="panel-wrapper mb-5">
+      <p-panel>
+        <h3>Keyword Alert Configeraton</h3>
+        <div class="mid-section">
+          <div class="input-sections">
+            <div class="inputsection">
+              <div class="tag">Platform:</div>
+              <div class="full-width-dropdown">
+                <p-dropdown
+                  [options]="socialMediaPlatforms"
+                  [(ngModel)]="selectedPlatform"
+                  optionLabel="name"
+                  [showClear]="true"
+                  placeholder="Select a Platform"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="inputsection">
+              <div class="tag">Keywords:</div>
+              <div class="full-width">
+                <div class="card p-fluid">
+                  <p-chips [(ngModel)]="values"></p-chips>
+                </div>
+              </div>
+            </div>
+            <div class="inputsection">
+              <div class="tag">Alert Type:</div>
+              <div class="full-width-dropdown">
+                <p-dropdown
+                  [options]="alertTypes"
+                  [(ngModel)]="selectedAlertType"
+                  optionLabel="name"
+                  [showClear]="true"
+                  placeholder="Select an Alert Type"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end mt-20">
+            <button
+              pButton
+              pRipple
+              label="Set Threshold"
+              class="p-button-primary"
+              type="submit"
+            ></button>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+    <div class="panel-wrapper mb-5">
+      <p-panel>
+        <h3>Notification Channels Configeration</h3>
+        <div class="latter-section">
+          <div class="latter-section-top">
+            <div class="sec left">
+              <div class="tag">Dashboard Notifications</div>
+              <div class="switch">
+                <p-inputSwitch></p-inputSwitch>
+              </div>
+            </div>
+            <div class="sec left">
+              <div class="tag">Email Notifications</div>
+              <div class="switch">
+                <p-inputSwitch></p-inputSwitch>
+              </div>
+            </div>
+          </div>
+          <div class="latter-inputsection">
+            <div class="latter-tag" style="margin: 2rem 0 2rem 0">
+              Emails to send Notifications to
+            </div>
+            <div class="full-width">
+              <div class="card p-fluid">
+                <p-chips [(ngModel)]="values"></p-chips>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end mt-20">
+            <button
+              pButton
+              pRipple
+              label="Set Threshold"
+              class="p-button-primary"
+              type="submit"
+            ></button>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+</div>
