@@ -12,6 +12,7 @@ import { Content, TabItem } from '../../structs';
 })
 export class TabItemComponent {
   @Input() tabItem: TabItem = { title: 'Default', img: '' };
-  @Input() templateRef!: TemplateRef<any>;
+  @Input() templateContentRef!: TemplateRef<any>;
+  @Input() templateRightRef!: TemplateRef<any>;
   @Input() content?: Content; 
 }

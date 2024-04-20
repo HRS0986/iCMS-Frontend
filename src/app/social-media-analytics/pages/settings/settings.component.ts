@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from "primeng/api";
+import { Content } from '../../structs';
 
 @Component({
   selector: 'app-settings',

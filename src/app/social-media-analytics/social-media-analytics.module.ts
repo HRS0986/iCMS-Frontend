@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from "../shared/shared.module";
 
+
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
 import { CAComponent } from "./pages/campaign-analysis/ca.component";
 import { PIComponent } from "./pages/platform-insights/pi.component";
@@ -13,10 +14,9 @@ import { settingsComponent } from "./pages/settings/settings.component";
 
 import { SMAnalyticsRoutingModule } from './social-media-analytics-routing.module';
 
-import { SettingsAlerts } from "./pages/settings-alerts/settings-alerts.component";
-
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { SettingsAlerts } from "./pages/settings-alerts/settings-alerts.component";
 
 
 import { TabItemComponent } from './components/tab-item/tab-item.component';
@@ -27,12 +27,13 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
 import { SliderModule } from 'primeng/slider';
 
 
-import { ChartModule } from 'primeng/chart';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { TableModule } from 'primeng/table';
-import { PanelModule } from "primeng/panel";
 import { ProgressBarModule } from 'primeng/progressbar';
 import { DropdownModule } from 'primeng/dropdown';
+
+import { TableModule } from 'primeng/table';
+import { PanelModule } from "primeng/panel";
+import { ChartModule } from 'primeng/chart';
 // import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
 // import { LineAreaChartComponent } from './components/charts/line-area-chart/line-area-chart.component';
 // import { WordCloudComponent } from './pages/word-cloud/word-cloud.component';
@@ -69,7 +70,6 @@ import { CardModule } from 'primeng/card';
   declarations: [
     DashboardComponent,
     CAComponent,
-    settingsComponent,
     PIComponent,
     HorizontalBarChartComponent,
     DoughnutChartComponent,
@@ -78,6 +78,11 @@ import { CardModule } from 'primeng/card';
     ProgressBarComponent,
     SettingsCampaignComponent,
     SettingsNotificationsComponent,
+    settingsComponent,
+    ProgressBarComponent,
+    SettingsAlerts,
+    ProgressBarComponent,
+    SettingsCampaignComponent,
     
     
     // HorizontalBarChartComponent,
@@ -103,6 +108,9 @@ import { CardModule } from 'primeng/card';
     ChipsModule,
     InputSwitchModule,
     ChartModule,
+    TableModule,
+    ButtonModule,
+    ChartModule,
     // CardModule,
     // ToastModule,
     // TabViewModule,
@@ -118,6 +126,7 @@ import { CardModule } from 'primeng/card';
     // FileUploadModule,
     ChartModule,
     ButtonModule,
+    // ButtonModule,
     // TooltipModule,
     // NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
     // DataViewModule,

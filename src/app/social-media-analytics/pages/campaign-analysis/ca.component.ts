@@ -14,13 +14,15 @@ export class CAComponent {
     {label: "Campaign Analysis"}
   ];
 
-  tab1 = {title:'Facebook', img: 'assets/social-media/icons/facebook.png'};
-  tab2 = {title:'Instergram', img: 'assets/social-media/icons/instargram.png'};
-  tab3 = {title:'Twitter', img: 'assets/social-media/icons/twitter.png'};
+  tabFacebook = { title: 'Facebook', img: 'assets/social-media/icons/facebook.png' };
+  tabInstergram = { title: 'Instergram', img: 'assets/social-media/icons/instargram.png' };
+  tabTwitter = { title: 'Twitter', img: 'assets/social-media/icons/twitter.png' };
 
-  content1: Content = {title: ''};
-  content2: Content = {title: 'Instergram Content'};
-  content3: Content = {title: 'Twitter Content'};
+  caPageItem1: Content = {title: 'Facebook Content'};
+  caPageItem2: Content = {title: 'Instergram Content'};
+  caPageItem3: Content = {title: 'Twitter Content'};
+
+  topBarCaption = "Custom Campaigns";
 
   showAdditionalCards: boolean = false;
 
