@@ -16,14 +16,14 @@ import { TabItemComponent } from './components/tab-item/tab-item.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 
 import { PanelModule } from "primeng/panel";
-// import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
-// import { ChartModule } from "primeng/chart";
+ import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
+ import { ChartModule } from "primeng/chart";
 // import { LineAreaChartComponent } from './components/charts/line-area-chart/line-area-chart.component';
 // import { WordCloudComponent } from './pages/word-cloud/word-cloud.component';
 // import { GaugeChartComponent } from './pages/gauge-chart/gauge-chart.component';
 // import { NgxEchartsModule } from "ngx-echarts";
-// import { HorizontalBarChartComponent } from './components/charts/horizontal-bar-chart/horizontal-bar-chart.component';
-// import { ButtonModule } from 'primeng/button';
+import { HorizontalBarChartComponent } from './components/charts/horizontal-bar-chart/horizontal-bar-chart.component';
+import { ButtonModule } from 'primeng/button';
 // import { DataViewModule } from "primeng/dataview";
 // import { TagModule } from "primeng/tag";
 // import { TooltipModule } from 'primeng/tooltip';
@@ -33,7 +33,7 @@ import { PanelModule } from "primeng/panel";
 
 // import { FileUploadModule } from 'primeng/fileupload';
 // import { ToastModule } from 'primeng/toast';
-// import { CardModule } from 'primeng/card';
+import { CardModule } from 'primeng/card';
 
 // import { TabViewModule } from 'primeng/tabview';
 // import { ImageModule } from 'primeng/image';
@@ -52,9 +52,9 @@ import { PanelModule } from "primeng/panel";
     CAComponent,
     settingsComponent,
     PIComponent,
-    // HorizontalBarChartComponent,
-    // DoughnutChartComponent,
-    // LineAreaChartComponent,
+    HorizontalBarChartComponent,
+    DoughnutChartComponent,
+    //LineAreaChartComponent,
   ],
   imports: [
     PanelModule,
@@ -63,7 +63,7 @@ import { PanelModule } from "primeng/panel";
     SMAnalyticsRoutingModule,
     TabItemComponent,
     TabsComponent,
-    // CardModule,
+    CardModule,
     // ToastModule,
     // TabViewModule,
     // ImageModule,
@@ -75,8 +75,8 @@ import { PanelModule } from "primeng/panel";
     // InputTextModule,
     // ReactiveFormsModule,
     // FileUploadModule,
-    // ChartModule,
-    // ButtonModule,
+    ChartModule,
+    ButtonModule,
     // TooltipModule,
     // NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
     // DataViewModule,
