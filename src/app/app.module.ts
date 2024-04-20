@@ -30,6 +30,7 @@ import { SharedModule } from './shared/shared.module';
     CalendarModule,
     DividerModule,
     SharedModule,
+   
   ],
   providers: [],
   bootstrap: [AppComponent],
