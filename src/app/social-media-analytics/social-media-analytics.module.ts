@@ -14,6 +14,7 @@ import { settingsComponent } from "./pages/settings/settings.component";
 
 import { SettingsAlerts } from "./pages/settings-alerts/settings-alerts.component";
 
+
 import { SMAnalyticsRoutingModule } from './social-media-analytics-routing.module';
 
 
@@ -48,6 +49,7 @@ import { SettingsNotificationsComponent } from './pages/settings-notifications/s
 // import { BreadcrumbModule } from "primeng/breadcrumb";
 import { ChipsModule } from 'primeng/chips';
 import { TabViewModule } from 'primeng/tabview';
+import { SettingsThresholdsComponent } from './pages/settings-thresholds/settings-thresholds.component';
 // import { FileUploadModule } from 'primeng/fileupload';
 // import { ToastModule } from 'primeng/toast';
 // import { CardModule } from 'primeng/card';
@@ -73,6 +75,7 @@ import { TabViewModule } from 'primeng/tabview';
     SettingsAlerts,
     SettingsCampaignComponent,
     SettingsNotificationsComponent,
+    SettingsThresholdsComponent,
     
     
     // HorizontalBarChartComponent,
