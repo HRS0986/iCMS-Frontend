@@ -1,32 +1,65 @@
 <app-page-header pageTitle="Call Operators" class="h-fit" [breadcrumbItems]="breadcrumbItems"
                  [showButton]="true" buttonText="+ Add Call Operator" (buttonAction)="onClickAddOperator()"/>
 
-
+<p-toast></p-toast>
 <p-panel class="flex flex-col text-center justify-center mb-4">
+  <div class="flex flex-col text-center justify-center mb-4 pt-10 px-10" *ngIf="isLoading">
+    <ul class="m-0 p-0 list-none">
+      <li class="mb-3">
+        <div class="flex">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+          <div style="flex: 1">
+            <p-skeleton width="100%" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="75%"></p-skeleton>
+          </div>
+        </div>
+      </li>
+      <li class="mb-3">
+        <div class="flex">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+          <div style="flex: 1">
+            <p-skeleton width="100%" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="75%"></p-skeleton>
+          </div>
+        </div>
+      </li>
+      <li class="mb-3">
+        <div class="flex">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+          <div style="flex: 1">
+            <p-skeleton width="100%" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="75%"></p-skeleton>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
   <div class="flex justify-between items-center px-3 mb-5"
-       [style.display]="callOperators.length == 0 ? 'block' : 'none'">
+       [style.display]="callOperators.length == 0 && !isLoading ? 'block' : 'none'">
     <p>Currently, there are no operators. You can add new operator by clicking <b>Add Call Operator</b> button</p>
   </div>
-  <div class="pt-5"></div>
-  <div class="flex justify-between items-center px-10 mb-5" *ngFor="let call of callOperators">
-    <div class="flex items-center gap-8">
-      <img src="./assets/call/call-op.png" width="25" height="25">
-      <div class="flex flex-col justify-start m">
-        <p class="mb-0 mt-0">{{ call.name }}</p>
-        <p class="mb-0 mt-0 text-gray-500 w-fit text-xs">{{ call.id }}</p>
+  <div class="pt-5" *ngIf="!isLoading && callOperators.length > 0">
+    <div class="flex justify-between items-center px-10 mb-5" *ngFor="let operator of callOperators">
+      <div class="flex items-center gap-8">
+        <img src="./assets/call/call-op.png" width="25" height="25">
+        <div class="flex flex-col justify-start">
+          <p class="mb-0 mt-0 text-start">{{ operator.name }}</p>
+          <p class="mb-0 mt-0 text-gray-500 w-fit text-xs">Operator ID: {{ operator.operator_id }}</p>
+        </div>
       </div>
-    </div>
-    <div class="flex gap-3">
-      <p-button icon="pi pi-bars" size="small" [outlined]="true"></p-button>
-      <p-button icon="pi pi-trash" (click)="showDialogConfirmation(call)" severity="danger" size="small"
-                [outlined]="true"></p-button>
+      <div class="flex gap-3">
+        <p-button icon="pi pi-bars" size="small" [outlined]="true"></p-button>
+        <p-button icon="pi pi-pencil" size="small" [outlined]="true" severity="success" (click)="onClickEditOperator(operator)"></p-button>
+        <p-button icon="pi pi-trash" (click)="showDialogConfirmation(operator)" severity="danger" size="small"
+                  [outlined]="true"></p-button>
+      </div>
     </div>
   </div>
 </p-panel>
 
 <p-dialog [draggable]="false" [resizable]="false" header="Confirmation" [modal]="true"
           [(visible)]="isConfirmModalVisible" [style]="{width: '30vw', height: 'auto'}" *ngIf="isConfirmModalVisible">
-  <p style="text-align: justify;">
+  <p class="text-left">
     Are you sure you want to delete call operator {{ selectedOperator.name }}?
   </p>
   <div class="justify-end flex gap-5">

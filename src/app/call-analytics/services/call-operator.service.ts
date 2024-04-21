@@ -31,4 +31,9 @@ export class CallOperatorService {
   public updateOperator(operator: CallOperator): Promise<ApiResponse> {
     return firstValueFrom(this.http.put<ApiResponse>(this.API_ROOT + "/update-operator", operator));
   }
+
+  public getNextOperatorId(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(this.API_ROOT + "/get-operator-id"));
+  }
+
 }

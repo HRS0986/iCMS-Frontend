@@ -48,6 +48,7 @@ import { InputGroupAddonModule } from "primeng/inputgroupaddon";
 import { CalendarModule } from "primeng/calendar";
 import { RippleModule } from 'primeng/ripple';
 import { CallOperatorsComponent } from './components/call-operators/call-operators.component';
+import { SkeletonModule } from "primeng/skeleton";
 
 
 @NgModule({
@@ -80,7 +81,7 @@ import { CallOperatorsComponent } from './components/call-operators/call-operato
     ChartModule,
     ButtonModule,
     TooltipModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
     DataViewModule,
     TagModule,
     DialogModule,
@@ -101,6 +102,7 @@ import { CallOperatorsComponent } from './components/call-operators/call-operato
     InputGroupModule,
     InputGroupAddonModule,
     RippleModule,
+    SkeletonModule,
   ],
   providers: [
     CallAnalyticsService

@@ -21,6 +21,7 @@ export interface CallRecording {
   sentiment: string;
   callUrl: string;
   transcription: string;
+  operator_id: number;
 }
  export interface QueuedFile {
    file: File;
@@ -35,22 +36,8 @@ export interface ApiResponse {
 
 export interface CallOperator {
   name: string;
-  id: string;
-}
-
-export interface CallRecord {
-  description: string;
-  transcription: string;
-  call_recording_url: string;
-  call_duration: number;
-  call_date: string;
-  call_code: string;
-  sentiment_category: string;
-  keywords: string[];
-  summary: string;
-  sentiment_score: number;
-  call_id: string;
-  analytics_id: string;
+  operator_id: number;
+  id?: string;
 }
 
 export interface ApiResponse {
