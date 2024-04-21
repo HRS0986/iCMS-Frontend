@@ -1,0 +1,123 @@
+// Dropdown List
+.dropdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  
+    .tag {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+  
+    .dropdown {
+      width: 100%;
+  
+      .dropdownitem {
+        width: 100%;
+  
+        ::ng-deep .p-dropdown {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .panel{
+    margin : 0 0 1rem 0 ;
+    background-color: black;
+  }
+  // General Styles
+  .rightBottom {
+    bottom: 9px;
+    right: 5px;
+  }
+  
+  :host ::ng-deep {
+    .short-input.p-element {
+      .p-inputnumber-input {
+        width: 50px;
+      }
+    }
+  
+    .long-input.p-element {
+      width: 100%;
+    }
+  }
+  
+  .space-between {
+    justify-content: space-between;
+  }
+  
+  hr {
+    margin-top: 5%;
+    margin-bottom: 4%;
+  }
+  
+  b {
+    font-size: 1.1em;
+  }
+  
+  ::ng-deep .p-multiselect {
+    width: 100%; /* Set the width to 100% or adjust it as needed */
+  }
+  
+  .full-width-dropdown {
+    width: 100%;
+  
+    ::ng-deep .p-dropdown {
+      width: 100%;
+  
+      .p-dropdown-label {
+        width: 100%;
+      }
+    }
+  }
+  
+  // Input Sections
+  .inputsections {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inputsection {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5rem 0;
+    align-items: center;
+    justify-content: start;
+  
+    .tag {
+      display: flex;
+      align-items: start;
+      width: 20%;
+    }
+  
+    .full-width {
+      width: 100%;
+  
+      ::ng-deep .p-chips {
+        width: 100%;
+  
+        .p-chips-multiple-container {
+          width: 100%;
+        }
+      }
+    }
+  }
+  
+  // Latter Section
+  .latter-section-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sec {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  
+    .tag {
+      width: 70%;
+    }
+  }
