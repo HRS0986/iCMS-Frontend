@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CallRecordingService } from "../../services/call-recording.service";
-import {CallRecord, CallRecording} from "../../types";
+import { CallRecording} from "../../types";
 import { CallAnalyticsService } from "../../services/call-analytics.service";
 
 @Component({
@@ -32,11 +32,11 @@ export class CallSummaryChartComponent implements OnInit {
       // Map the fetched data to match the structure of callRecordings
       if (data.data.length === 0) {
         this.callRecordings = [
-          {id: "cr_0", description: "Call Recording Title2", date: new Date(), duration: 3.7, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription"},
-          {id: "cr_1", description: "Call Recording Title3", date: new Date(), duration: 3.7, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription"},
-          {id: "cr_2", description: "Call Recording Title4", date: new Date(), duration: 3.7, sentiment: "Neutral", callUrl: "dumyy url", transcription: "dummy transcription"},
-          {id: "cr_3", description: "Call Recording Title5", date: new Date(), duration: 3.7, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription"},
-          {id: "cr_4", description: "Call Recording Title6", date: new Date(), duration: 3.7, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription"},
+          {id: "cr_0", description: "Call Recording Title2", date: new Date(), duration: 3.7, operator_id: 0, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription", },
+          {id: "cr_1", description: "Call Recording Title3", date: new Date(), duration: 3.7, operator_id: 0, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription"},
+          {id: "cr_2", description: "Call Recording Title4", date: new Date(), duration: 3.7, operator_id: 0, sentiment: "Neutral", callUrl: "dumyy url", transcription: "dummy transcription"},
+          {id: "cr_3", description: "Call Recording Title5", date: new Date(), duration: 3.7, operator_id: 0, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription"},
+          {id: "cr_4", description: "Call Recording Title6", date: new Date(), duration: 3.7, operator_id: 0, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription"},
         ];
         console.log('Initial summaryCalls:', this.callRecordings);
         // TODO: Ask From Eranda
@@ -151,16 +151,14 @@ export class CallSummaryChartComponent implements OnInit {
 
   refreshCallRecordings() {
     this.callRecordingService.getCallsList().subscribe((data) => {
-      this.callRecordings = data.data.map((record: CallRecord) => ({
+      this.callRecordings = data.data.map((record: CallRecording) => ({
         "title": record.description,
-        "date": new Date(record.call_date).toLocaleDateString(),
-        "status": record.sentiment_category,
-        "summary": record.summary,
-        "call_url": record.call_recording_url,
+        "date": new Date(record.date).toLocaleDateString(),
+        "status": record.sentiment,
+        "call_url": record.callUrl,
         "transcription": record.transcription,
-        "duration": record.call_duration,
-        "call_id": record.call_id,
-        "analytics_id": record.analytics_id
+        "duration": record.duration,
+        "call_id": record.id,
       }));
       console.log('Call recordings refreshed:', this.callRecordings);
     }, error => {

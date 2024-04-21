@@ -33,7 +33,7 @@ export class CallOperatorsComponent implements OnInit {
   });
 
   ngOnInit() {
-      this.reloadDataSource()
+      this.reloadDataSource();
   }
 
   onClickAddOperator(): void {
