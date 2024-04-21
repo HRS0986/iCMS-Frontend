@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: "filtering",
     component: EmailFilteringComponent
+  },
+  {
+    path: "settings",
+    component: SettingsComponent
   }
 ];
 
