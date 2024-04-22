@@ -1,0 +1,91 @@
+<app-page-header pageTitle="Call Operators" class="h-fit" [breadcrumbItems]="breadcrumbItems"
+                 [showButton]="true" buttonText="+ Add Call Operator" (buttonAction)="onClickAddOperator()"/>
+
+<p-toast></p-toast>
+<p-panel class="flex flex-col text-center justify-center mb-4">
+  <div class="flex flex-col text-center justify-center mb-4 pt-10 px-10" *ngIf="isLoading">
+    <ul class="m-0 p-0 list-none">
+      <li class="mb-3">
+        <div class="flex">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+          <div style="flex: 1">
+            <p-skeleton width="100%" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="75%"></p-skeleton>
+          </div>
+        </div>
+      </li>
+      <li class="mb-3">
+        <div class="flex">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+          <div style="flex: 1">
+            <p-skeleton width="100%" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="75%"></p-skeleton>
+          </div>
+        </div>
+      </li>
+      <li class="mb-3">
+        <div class="flex">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+          <div style="flex: 1">
+            <p-skeleton width="100%" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="75%"></p-skeleton>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="flex justify-between items-center px-3 mb-5"
+       [style.display]="callOperators.length == 0 && !isLoading ? 'block' : 'none'">
+    <p>Currently, there are no operators. You can add new operator by clicking <b>Add Call Operator</b> button</p>
+  </div>
+  <div class="pt-5" *ngIf="!isLoading && callOperators.length > 0">
+    <div class="flex justify-between items-center px-10 mb-5" *ngFor="let operator of callOperators">
+      <div class="flex items-center gap-8">
+        <img src="./assets/call/call-op.png" width="25" height="25">
+        <div class="flex flex-col justify-start">
+          <p class="mb-0 mt-0 text-start">{{ operator.name }}</p>
+          <p class="mb-0 mt-0 text-gray-500 w-fit text-xs">Operator ID: {{ operator.operator_id }}</p>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <p-button icon="pi pi-bars" size="small" [outlined]="true"></p-button>
+        <p-button icon="pi pi-pencil" size="small" [outlined]="true" severity="success" (click)="onClickEditOperator(operator)"></p-button>
+        <p-button icon="pi pi-trash" (click)="showDialogConfirmation(operator)" severity="danger" size="small"
+                  [outlined]="true"></p-button>
+      </div>
+    </div>
+  </div>
+</p-panel>
+
+<p-dialog [draggable]="false" [resizable]="false" header="Confirmation" [modal]="true"
+          [(visible)]="isConfirmModalVisible" [style]="{width: '30vw', height: 'auto'}" *ngIf="isConfirmModalVisible">
+  <p class="text-left">
+    Are you sure you want to delete call operator {{ selectedOperator.name }}?
+  </p>
+  <div class="justify-end flex gap-5">
+    <p-button label="No" (click)="isConfirmModalVisible = false" [text]="true"></p-button>
+    <p-button label="Yes" (click)="onConfirmDelete()" styleClass="p-button-danger"></p-button>
+  </div>
+</p-dialog>
+
+<p-dialog header="Add New Call Operator" [(visible)]="isModelVisible" [modal]="true" [style]="{ width: '50rem' }"
+          [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+  <form [formGroup]="operatorForm" class="flex flex-col gap-5 p-10">
+    <div class="flex justify-between items-center">
+      <label for="op-id" class="w-1/14">Operator Id: </label>
+      <input id="op-id" class="w-3/4" type="text" pInputText formControlName="operatorId" [readOnly]="true"
+             [disabled]="true"/>
+    </div>
+    <div class="flex justify-between items-center">
+      <label for="op-name" class="w-1/14">Operator Name: </label>
+      <div class="w-3/4">
+        <input id="op-name" class="w-full" type="text" pInputText formControlName="name"/>
+        <p *ngIf="operatorForm.invalid && isSubmitted" class="text-red-500">Operator name is required.</p>
+      </div>
+    </div>
+  </form>
+  <ng-template pTemplate="footer">
+    <p-button (click)="onClickSave()" label="Save" pAutoFocus></p-button>
+    <p-button (click)="onModalClose()" label="Cancel" severity="secondary" [text]="true"></p-button>
+  </ng-template>
+</p-dialog>

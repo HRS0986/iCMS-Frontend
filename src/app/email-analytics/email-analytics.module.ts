@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChipModule } from 'primeng/chip';
 
 import { EmailAnalyticsRoutingModule } from './email-analytics-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -21,6 +22,40 @@ import { TooltipModule } from 'primeng/tooltip';
 // import { CallSummaryChartComponent } from './components/call-summary-chart/call-summary-chart.component';
 // import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
 import { DialogModule } from 'primeng/dialog';
+import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.component';
+import { SummaryCardComponent } from './components/summary-card/summary-card.component';
+import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
+import { FilterQueryComponent } from './components/filter-query/filter-query.component';
+import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
+import { EmailTableComponent } from './components/email-table/email-table.component';
+import { SettingsComponent } from './components/settings/settings.component';
+
+import { CardModule } from 'primeng/card';
+
+
+import { TabViewModule } from 'primeng/tabview';
+import { ImageModule } from 'primeng/image';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ChipsModule } from 'primeng/chips';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputGroupModule } from "primeng/inputgroup";
+import { InputGroupAddonModule } from "primeng/inputgroupaddon";
+import { EmailAccCardComponent } from './components/email-acc-card/email-acc-card.component';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { TableModule } from 'primeng/table';
+import { NotiSendingEmailAccCardComponent } from './components/noti-sending-email-acc-card/noti-sending-email-acc-card.component';
+import { TopicCardComponent } from './components/topic-card/topic-card.component';
+import { ToastModule } from 'primeng/toast';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MessageService } from 'primeng/api';
+
+
+
+
+
 
 
 @NgModule({
@@ -30,6 +65,16 @@ import { DialogModule } from 'primeng/dialog';
     DoughnutChartComponent,
     LineAreaChartComponent,
     StatCardComponent,
+    KeywordCloudComponent,
+    SummaryCardComponent,
+    SummaryCardsContainerComponent,
+    FilterQueryComponent,
+    EmailFilteringComponent,
+    EmailTableComponent,
+    SettingsComponent,
+    EmailAccCardComponent,
+    NotiSendingEmailAccCardComponent,
+    TopicCardComponent,
   ],
   imports: [
     CommonModule,
@@ -43,7 +88,23 @@ import { DialogModule } from 'primeng/dialog';
     DataViewModule,
     TagModule,
     DialogModule,
-  ]
+    ChipModule,
+    CardModule,
+    TabViewModule,
+    ImageModule,
+    CheckboxModule,
+    ChipsModule,
+    InputNumberModule,
+    FormsModule,ReactiveFormsModule,
+    InputSwitchModule,
+    InputTextModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    MultiSelectModule,
+    TableModule,
+    ToastModule,
+  ],
+  providers: [MessageService],
 })
 export class EmailAnalyticsModule {
 }

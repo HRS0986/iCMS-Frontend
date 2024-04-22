@@ -1,28 +1,32 @@
 <app-page-header pageTitle="Call Analytics Settings" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" />
 <div class="flex flex-col">
     <div>
+      <p-toast></p-toast>
         <p-panel>
             <p-tabView class="">
                 <p-tabPanel header="Notifications">
                     <div class="flex flex-col">
-                        <form [formGroup] = "notifications" (ngSubmit)="onSubmit()">
+                        <form [formGroup]="notificationsSettingsForm" (ngSubmit)="onSubmit()">
                             <div class="w-full flex justify-center mb-10">
                                 <img src="./assets/call/rating.png" alt="Image">
                             </div>
                             <div class="flex gap-2 space-between">
                                 <div class="flex align-items-center gap-1 text-sm">
-                                    <p-checkbox name="notify" formControlName="bellowNotify" value="notify"
+                                    <p-checkbox name="notify" (onChange)="onChangeBelowScore($event)"
+                                        formControlName="bellowNotify" value="true"
                                         label="Notify me when the sentiment score is below the value: "></p-checkbox>
-                                    <p-inputNumber [disabled]="true" class="short-input" formControlName="bellowScore" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
-                                        [max]="10">
+                                    <p-inputNumber [showButtons]="true" class="short-input"
+                                        formControlName="bellowScore" mode="decimal" inputId="minmax-buttons"
+                                        [min]="-10" [max]="10">
                                     </p-inputNumber>
                                 </div>
                                 <div class="flex align-items-center gap-1 text-sm">
-                                    <p-checkbox name="notify" value="notify" formControlName="aboveNotify"
+                                    <p-checkbox name="notify" (onChange)="onChangeAboveScore($event)" value="true"
+                                        formControlName="aboveNotify"
                                         label="Notify when the sentiment score is above: "></p-checkbox>
-                                    <p-inputNumber [disabled]="true" class="short-input" formControlName="aboveScore" mode="decimal" [showButtons]="true"
-                                        inputId="minmax-buttons" [min]="-10" [max]="10"
-                                        ></p-inputNumber>
+                                    <p-inputNumber [disabled]="true" class="short-input" formControlName="aboveScore"
+                                        mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
+                                        [max]="10"></p-inputNumber>
                                 </div>
 
                             </div>
@@ -36,30 +40,25 @@
                             </div>
                             <div class="w-full p-fluid mb-5">
                                 <p>Email Notifications Receivers</p>
-                                <p-chips formControlName="emails" [disabled]="!notifications.get('checked')?.value"></p-chips>
+                                <p-chips formControlName="emails"
+                                    [disabled]="!notificationsSettingsForm.get('checked')?.value"></p-chips>
                             </div>
                             <div class="flex justify-end">
-                                <button pButton pRipple label="Update" class="p-button-success"></button>
+                                <button pButton pRipple label="Update" class="p-button-primary"></button>
                             </div>
                         </form>
                     </div>
-                    
+
                 </p-tabPanel>
                 <p-tabPanel header="Call Integration">
                     <div class="min-h-full">
-                        <form [formGroup]="callIntegration" (ngSubmit)="onSubmitCall()">
+                        <form [formGroup]="callIntegrationSettingsForm" (ngSubmit)="onSubmitCall()">
                             <div class="mb-5">
                                 <p>Call Directory URL</p>
                                 <input type="text" class="long-input" pInputText formControlName="dir" />
                             </div>
-                            <div class="flex align-items-center gap-3">
-                                <p-checkbox name="autoDelete" formControlName="autoDeleteStatus" value="autoDelete" label="Automatically Delete Calls After"></p-checkbox>
-                                <p-inputNumber class="short-input" formControlName="deleteAfter" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
-                                    [max]="10"></p-inputNumber>
-                                <p>Days</p>
-                            </div>
                             <div class=" flex justify-end">
-                                <button pButton pRipple label="Update" class="p-button-success"></button>
+                                <button pButton pRipple type="submit" label="Update" class="p-button-primary"></button>
                             </div>
                         </form>
                     </div>

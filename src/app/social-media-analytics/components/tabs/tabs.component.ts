@@ -15,7 +15,7 @@ export class TabsComponent {
 
   ngAfterContentInit() {
     this.activeComponent = this.tabs.first;
-    /* YOU CAN SET ANOTHER ACTIVE COMPONENT LIKE THIS
+    /* 
     this.activeComponent = this.tabs.toArray()[1];
     this.activeComponent = this.tabs.last;
      */

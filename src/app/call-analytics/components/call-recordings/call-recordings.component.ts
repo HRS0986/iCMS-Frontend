@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from "primeng/api";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-call-recordings',
@@ -7,10 +8,16 @@ import { MenuItem } from "primeng/api";
   styleUrl: './call-recordings.component.scss'
 })
 export class CallRecordingsComponent {
+  constructor(private router: Router) {  }
+
   breadcrumbItems: MenuItem[] = [
     {label: "Call Analytics"},
     {label: "Call Recordings"}
   ];
+
+  addCallRecording(): void {
+    this.router.navigate(['/call/upload']);
+  }
 
 
 }

@@ -17,6 +17,18 @@ const routes: Routes = [
   {
     path: "auth",
     loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule)
+  },
+  {
+    path: "main-dashboard",
+    loadChildren: () => import("./main-dashboard/main-dashboard.module").then(m => m.MainDashboardModule)
+  },
+  {
+    path:"profile",
+    loadChildren: () => import("./main-dashboard/main-dashboard.module").then(m => m.MainDashboardModule)
+  },
+  {
+    path: "app-settings",
+    loadChildren: () => import("./app-settings/app-settings.module").then(m => m.AppSettingsModule)
   }
 ];
 

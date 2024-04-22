@@ -6,26 +6,21 @@
 <div class="flex flex-col">
   <div class="flex flex-wrap gap-6">
     <div class="stat-cards">
-      <app-doughnut-chart title="Current Overall Sentiments" />
-      <app-doughnut-chart title="Keyword Cloud" />
+      <app-doughnut-chart title="Current Overall Sentiments" [chartData]="chartData" *ngIf="!isLoadingDC"/>
+      <!-- <app-doughnut-chart title="Current Overall Sentiments" /> -->
+      <app-keyword-cloud title="Trending today" [keywords]="keywords"></app-keyword-cloud>
     </div>
     <div class="stat-cards">
-      <app-line-area-chart title="Sentiments Over Time" />
-      <div>
+      <app-line-area-chart title="Sentiments Over Time"  [labels]="labelsForSentimentsByTime" [positive_values]="positive_values_forSentimentsByTime" 
+      [neutral_values]="neutral_values_forSentimentsByTime" [negative_values]="negative_values_forSentimentsbyTime" *ngIf="!isLoadingSBTime"/>
+      <div *ngFor="let item of statsData">
         <app-stat-card
-          title="540"
-          subTitle="Total Emails"
-          imgPath="./email/mail_blue.png"
-          header="Customer Care"
-          sentiment="Positive"
-        />
-        <app-stat-card
-          title="340"
-          subTitle="Total Emails"
-          imgPath="./email/mail_red.png"
-          header="Marketing"
-          sentiment="Negative"
-        />
+          [title]="item.title.toString()"
+          [subTitle]="item.sub_title"
+          [imgPath]="item.imgPath"
+          [header]="item.header"
+          [sentiment]="item.sentiment"
+        ></app-stat-card>
       </div>
     </div>
 
@@ -35,7 +30,7 @@
     <!-- </div> -->
   </div>
   <div class="flex flex-wrap gap-6">
-    <app-horizontal-bar-chart />
+    <app-horizontal-bar-chart [sbtChartLabels]="sbtChartLabels" [sbtChartColors]="sbtChartColors" [sbtChartValues]="sbtChartValues" *ngIf="!isLoadingSBT"/>
     <!-- <div class="stat-cards"> -->
     <!-- <app-stat-card title="540" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
       <app-stat-card title="10 min" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
