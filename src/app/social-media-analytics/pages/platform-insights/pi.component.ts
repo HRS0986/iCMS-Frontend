@@ -56,9 +56,13 @@ const itemService: highlightedComments[] = [
 export class PIComponent implements OnInit {
   items!: highlightedComments[];
   selecteditem!: highlightedComments;
-  data1: any;
-  data2: any;
-  options: any;
+  DataReactions: any;
+  DataComments: any;
+  DataSentimentOverTime: any;
+  DataKeywordThrends: any;
+  OptionsSideCards: any;
+  OptionsKeywordThrends: any;
+  OptionsSentimentOverTime: any;
 
   ngOnInit() {
     this.items = itemService;
@@ -68,7 +72,19 @@ export class PIComponent implements OnInit {
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.data1 = {
+    this.DataKeywordThrends = {
+      labels: ['ChargingNet', 'Lia', 'TravelBox', 'Vega'],
+      datasets: [
+        {
+          data: [54, 32, 70, 62],
+          backgroundColor: ['rgba(255, 159, 64, 0.4)', 'rgba(75, 192, 192, 0.4)', 'rgba(54, 162, 235, 0.4)', 'rgba(153, 102, 255, 0.4)'],
+          borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+          borderWidth: 1
+        }
+      ]
+    };
+
+    this.DataReactions = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
         {
@@ -81,7 +97,7 @@ export class PIComponent implements OnInit {
       ]
     };
 
-    this.data2 = {
+    this.DataComments = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
         {
@@ -94,7 +110,58 @@ export class PIComponent implements OnInit {
       ]
     };
 
-    this.options = {
+    this.DataSentimentOverTime = {
+      labels: ['15-May', '16-May', '17-May', '18-May', '19-May', '20-May', '21-May'],
+      datasets: [
+        {
+          label: 'Reacts',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          fill: false,
+          borderColor: documentStyle.getPropertyValue('--blue-500'),
+          tension: 0.2
+        },
+        {
+          label: 'Comments',
+          data: [28, 48, 40, 19, 86, 27, 90],
+          fill: false,
+          borderColor: documentStyle.getPropertyValue('--pink-500'),
+          tension: 0.2
+        }
+      ]
+    };
+
+    this.OptionsKeywordThrends = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.65,
+      plugins: {
+        legend: {
+          display: false
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        },
+        x: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        }
+      }
+    };
+
+    this.OptionsSideCards = {
       maintainAspectRatio: false,
       aspectRatio: 2,
       scales: {
@@ -110,6 +177,38 @@ export class PIComponent implements OnInit {
           display: false
         },
       },
+    };
+
+    this.OptionsSentimentOverTime = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        }
+      }
     };
   }
 
@@ -128,8 +227,10 @@ export class PIComponent implements OnInit {
   tabInstergram = { title: 'Instergram', img: 'assets/social-media/icons/instargram.png' };
   tabTwitter = { title: 'Twitter', img: 'assets/social-media/icons/twitter.png' };
 
-  piPageItem1: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40};
-  piPageItem2: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40};
-  piPageItem3: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40};
+  piPageItem1: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
+  piPageItem2: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
+  piPageItem3: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
+
+  topBarCaption = "Custom Alerts";
 
 }
