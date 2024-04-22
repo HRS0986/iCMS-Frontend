@@ -16,14 +16,12 @@
                 <img src="assets/social-media/svg/add.svg" alt="Add Icon" class="right-bar-icon">
             </ng-template>
 
-            <ng-template #tempFacebookContent let-content="content">
-
+            <ng-template #tempContent let-content="content">
                 <div class="block">
-                    <p class="text-faded">{{content.title}}</p>
+                    <p class="text-faded">{{content.data.length}} Custom Alerts</p>
                 </div>
-
                 <div class="card">
-                    <p-table [value]="items" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
+                    <p-table [value]="content.data" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="width:5%">

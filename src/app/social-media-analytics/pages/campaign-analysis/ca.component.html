@@ -9,12 +9,12 @@
     <p-panel>
 
       <tabs>
-        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="caPageItem1"></tab-item>
-        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="caPageItem2"></tab-item>
-        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="caPageItem3"></tab-item>
+        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [content]="caPageItem1"></tab-item>
+        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempInstergram" [content]="caPageItem2"></tab-item>
+        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempTwitter" [content]="caPageItem3"></tab-item>
       </tabs>
       <!--First Template-->
-      <ng-template #firstTemplate let-content="content">
+      <ng-template #tempFacebook let-content="content">
         <div class="first-wrapper">
           <h3>{{ content.title }}</h3>
           <div class="flex justify-center">
@@ -125,7 +125,7 @@
         </div>
       </ng-template>
       <!--Second Templete-->
-      <ng-template #secondTemplate let-content="content">
+      <ng-template #tempInstergram let-content="content">
         <div class="first-wrapper">
           <h3>{{ content.title }}</h3>
           <div class="flex justify-center">
@@ -236,7 +236,7 @@
         </div>
       </ng-template>
       <!--Third Templete-->
-      <ng-template #thirdTemplate let-content="content">
+      <ng-template #tempTwitter let-content="content">
         <div class="first-wrapper">
           <h3>{{ content.title }}</h3>
           <div class="flex justify-center">

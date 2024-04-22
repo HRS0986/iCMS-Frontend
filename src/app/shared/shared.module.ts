@@ -9,30 +9,45 @@ import { DividerModule } from "primeng/divider";
 import { CalendarModule } from "primeng/calendar";
 import { FormsModule } from "@angular/forms";
 import { TopMenuComponent } from './shared-components/top-menu/top-menu.component';
-import {HttpClientModule} from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
+import {SidebarModule} from "primeng/sidebar";
+import { WordcloudComponent } from './shared-components/wordcloud/wordcloud.component';
+import { ChartModule } from "primeng/chart";
+import { RightSidebarComponent } from './shared-components/right-sidebar/right-sidebar.component';
+import { WidgetsBarComponent } from './shared-components/right-sidebar/widgets-bar/widgets-bar.component';
+import { AddMemberBarComponent } from './shared-components/right-sidebar/add-member-bar/add-member-bar.component';
 
 
 @NgModule({
   declarations: [
     PageHeaderComponent,
     SidenavComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    WordcloudComponent,
+    WordcloudComponent,
+    RightSidebarComponent,
+    WidgetsBarComponent,
+    AddMemberBarComponent,
   ],
   exports: [
     PageHeaderComponent,
     SidenavComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    WordcloudComponent
   ],
-  imports: [
-    CommonModule,
-    PanelMenuModule,
-    PanelModule,
-    BreadcrumbModule,
-    DividerModule,
-    CalendarModule,
-    FormsModule,
-    HttpClientModule,
-  ]
+    imports: [
+        CommonModule,
+        PanelMenuModule,
+        PanelModule,
+        BreadcrumbModule,
+        DividerModule,
+        CalendarModule,
+        FormsModule,
+        HttpClientModule,
+        SidebarModule,
+      ChartModule,
+    ]
+
 })
 export class SharedModule {
 }

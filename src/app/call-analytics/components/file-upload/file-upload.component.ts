@@ -1,19 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { CallRecordingService } from '../../services/call-recording.service';
 import { finalize } from 'rxjs/operators';
+import { FileSelectEvent, FileUpload, FileUploadEvent } from "primeng/fileupload";
+import { ApiResponse, CallOperator, QueuedFile } from "../../types";
+import { CallOperatorService } from "../../services/call-operator.service";
 
-interface ApiResponse {
-  message: string;
-  // Add other properties as needed
-}
 
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss']
 })
-export class FileUploadComponent {
+export class FileUploadComponent implements OnInit {
+
+  @ViewChild("callUpload") callUpload!: FileUpload;
+
   breadcrumbItems: MenuItem[] = [
     { label: 'Call Analytics' },
     { label: 'Call Recordings' },
@@ -21,32 +23,96 @@ export class FileUploadComponent {
   ];
 
   isUploading = false;
+  uploadQueue: QueuedFile[] = [];
+  selectedFilesCount = 0
+  dateList: Date[] = [];
+  descriptionList: string[] = [];
+  operatorsList: number[] = [];
+  callOperators: CallOperator[] = [];
 
-  constructor(private fileUploadService: CallRecordingService) {}
+  constructor(private callRecordingService: CallRecordingService, private callOperatorService: CallOperatorService) {}
 
-  onFileSelected(event: any): void {
-    const files: FileList | null = event.files;
+  ngOnInit() {
+    this.callOperatorService.getAllOperators().subscribe((data) => {
+      this.callOperators = data.data;
+    });
+  }
 
-    if (files && files.length > 0) {
-      const file: File = files[0];
-      this.isUploading = true;
+  onUploadClick(event: FileUploadEvent): void {
+      const files= event.files;
 
-      this.fileUploadService.uploadFile(file)
-        .pipe(finalize(() => this.isUploading = false))
-        .subscribe(
-          (response: ApiResponse) => {
-            console.log('File uploaded successfully', response.message);
-            // Display success message or update UI as needed
-          },
-          (error: any) => {
-            console.error('Error uploading file', error);
-            // Display error message or update UI as needed
-          }
-        );
-    } else {
-      console.warn('No file selected');
+      if (files && files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const file: File = files[i];
+          const description = this.descriptionList[i];
+          const dateTime = this.dateList[i];
+          const operatorId = this.operatorsList[i];
+
+          // Construct the new file name
+          const fileExtension = file.name.split('.').pop();
+          const newFileName = this.getFileName(dateTime, description, fileExtension!, operatorId);
+
+          // Create a new File object with the updated name
+          const renamedFile = new File([file], newFileName);
+
+          this.uploadQueue.push({ file: renamedFile, description: description, date: dateTime });
+        }
+
+        if (!this.isUploading) {
+          this.uploadNextFile();
+        }
+      } else {
+        console.warn('No file selected');
+      }
+  }
+
+  getFileName(dateTime: Date, description: string, extension: string, operatorId: number): string {
+    const dateTimeString = dateTime.toISOString();
+    const date = dateTimeString.split('T')[0];
+    const time = dateTime.toTimeString().split(" ")[0]
+    const dateString = date.split('-').join('');
+    let timeString = time.split(':').join('');
+    return `${operatorId}_${dateString}_${timeString}_${description}.${extension}`;
+  }
+
+  onSelectFilesToUpload(event: FileSelectEvent) {
+    this.selectedFilesCount = event.currentFiles.length;
+    for (let i = 0; i < this.selectedFilesCount; i++) {
+      this.dateList[i] = new Date();
     }
   }
 
+  onCancel() {
+    this.selectedFilesCount = 0;
+    this.descriptionList.length = 0;
+    this.dateList.length = 0;
+  }
+
+  uploadNextFile(): void {
+    if (this.uploadQueue.length > 0) {
+      const queuedFile = this.uploadQueue.shift();
+      if (queuedFile) {
+        const { file, description, date } = queuedFile;
+        this.isUploading = true;
+
+        // Rename the file based on the description
+        const renamedFile = new File([file], file.name);
+
+        this.callRecordingService.uploadFile(queuedFile)
+          .pipe(finalize(() => {
+            this.isUploading = false;
+            this.uploadNextFile();
+          }))
+          .subscribe(
+            (response: ApiResponse) => {
+              console.log('File uploaded successfully', response.message);
+            },
+            (error: any) => {
+              console.error('Error uploading file', error);
+            }
+          );
+      }
+    }
+  }
 
 }
