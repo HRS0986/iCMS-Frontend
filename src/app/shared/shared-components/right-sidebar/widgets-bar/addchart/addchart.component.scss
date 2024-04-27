@@ -1,0 +1,69 @@
+:host ::ng-deep {
+  .title {
+    font-weight: 500;
+    color: #000000;
+  }
+
+  .p-sidebar-content p-divider div {
+    margin-top: 0;
+    padding: 0 0 0 0;
+  }
+
+  .p-inputtext-sm {
+    font-size: 1rem;
+    height: 40px;
+  }
+  .chartTypeBox{
+    border: 1px solid #d9d9d9;
+    margin: 30px 10px 30px 0;
+  }
+  .btn-square{
+    height:80px;
+    width: 80px;
+  }
+
+  .btn-content {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .chart-content {
+    display: flex;
+    flex-wrap:wrap;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .btn-content i {
+    margin-bottom: 5px;
+  }
+  .p-inverted-icon {
+    transform: scaleY(-1);
+
+  }
+  .p-rotated-icon {
+    transform: rotate(90deg);
+  }
+  .btn-square {
+    position: relative;
+
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%) scale(0.5);
+    padding: 5px;
+    color: #0c8c0c;
+    z-index: 5;
+
+    button{
+      background-color: black;
+    }
+  }
+
+
+
+}

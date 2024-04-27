@@ -16,6 +16,13 @@ import { ChartModule } from "primeng/chart";
 import { RightSidebarComponent } from './shared-components/right-sidebar/right-sidebar.component';
 import { WidgetsBarComponent } from './shared-components/right-sidebar/widgets-bar/widgets-bar.component';
 import { AddMemberBarComponent } from './shared-components/right-sidebar/add-member-bar/add-member-bar.component';
+import { AddchartComponent } from './shared-components/right-sidebar/widgets-bar/addchart/addchart.component';
+import {InputTextModule} from "primeng/inputtext";
+import {FieldsetModule} from "primeng/fieldset";
+import {CardModule} from "primeng/card";
+import {ImageModule} from "primeng/image";
+import {DropdownModule} from "primeng/dropdown";
+
 
 
 @NgModule({
@@ -28,6 +35,7 @@ import { AddMemberBarComponent } from './shared-components/right-sidebar/add-mem
     RightSidebarComponent,
     WidgetsBarComponent,
     AddMemberBarComponent,
+    AddchartComponent,
   ],
   exports: [
     PageHeaderComponent,
@@ -35,18 +43,23 @@ import { AddMemberBarComponent } from './shared-components/right-sidebar/add-mem
     TopMenuComponent,
     WordcloudComponent
   ],
-    imports: [
-        CommonModule,
-        PanelMenuModule,
-        PanelModule,
-        BreadcrumbModule,
-        DividerModule,
-        CalendarModule,
-        FormsModule,
-        HttpClientModule,
-        SidebarModule,
-      ChartModule,
-    ]
+  imports: [
+    CommonModule,
+    PanelMenuModule,
+    PanelModule,
+    BreadcrumbModule,
+    DividerModule,
+    CalendarModule,
+    FormsModule,
+    HttpClientModule,
+    SidebarModule,
+    ChartModule,
+    InputTextModule,
+    FieldsetModule,
+    CardModule,
+    ImageModule,
+    DropdownModule,
+  ]
 
 })
 export class SharedModule {
