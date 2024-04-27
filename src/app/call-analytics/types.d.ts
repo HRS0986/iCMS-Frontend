@@ -34,10 +34,18 @@ export interface ApiResponse {
   // Add other properties as needed
 }
 
-export interface CallOperator {
+export interface OperatorListItem {
   name: string;
   operator_id: number;
   id?: string;
+}
+
+export interface CallOperatorDetails {
+  total_calls: number;
+  avg_handle_time: number;
+  positive_calls: number;
+  negative_calls: number;
+  neutral_calls: number;
 }
 
 export interface ApiResponse {
