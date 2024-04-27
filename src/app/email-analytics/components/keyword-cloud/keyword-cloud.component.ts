@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 interface Keyword {
   text: string;
-  size: number;
+  frequency: number;
 }
 
 @Component({

@@ -13,8 +13,9 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CalendarModule } from 'primeng/calendar';
 import { DividerModule } from 'primeng/divider';
 import { SharedModule } from './shared/shared.module';
-import { MessageService } from "primeng/api";
+import { MultiSelectModule } from 'primeng/multiselect';
 
+import { MessageService } from "primeng/api";
 import { HttpClientModule } from '@angular/common/http';
 import { MessagesModule } from 'primeng/messages';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
@@ -23,6 +24,8 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
+
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +42,7 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
     CalendarModule,
     DividerModule,
     SharedModule,
+    MultiSelectModule,
     HttpClientModule,
     MessagesModule,
     ConfirmPopupModule,
@@ -46,7 +50,6 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
     DialogModule,
     AvatarModule,
     AvatarGroupModule
-
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],

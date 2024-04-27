@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0",
+    "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -20,8 +20,8 @@
     "@angular/router": "^17.1.0",
     "@types/jquery": "^3.2.1",
     "chart.js": "^4.4.1",
+    "jquery": "^3.7.1",
     "mongoose": "^8.3.1",
-    "jquery": "^3.2.1",
     "ngx-echarts": "^17.1.0",
     "primeicons": "^6.0.1",
     "primeng": "^17.4.0",
