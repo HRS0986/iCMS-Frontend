@@ -3,7 +3,6 @@
 <div class="flex flex-col">
   <div>
     <p-panel>
-
       <tabs>
         <tab-item [tabItem]="tabNotifications" [templateContentRef]="TempNotifictions" [content]="content1"></tab-item>
         <tab-item [tabItem]="tabThresholds" [templateContentRef]="TempThresholds" [content]="content2"></tab-item>
@@ -12,22 +11,31 @@
       </tabs>
 
       <ng-template #TempNotifictions let-content="content">
-        <h3>{{ content.title }}</h3>
+        <div class="upper-section">
+          <h3>{{ content.title }}</h3>
+          <div class="exportData-btn">
+            <p class="">{{ topBarCaption }} :</p>
+            <img src="assets/social-media/svg/Duotone.svg" alt="Add Icon" class="right-bar-icon" />
+          </div>
+        </div>
+
+        <settings-notifications></settings-notifications>
       </ng-template>
 
       <ng-template #TempThresholds let-content="content">
         <h3>{{ content.title }}</h3>
+        <settings-thresholds></settings-thresholds>
       </ng-template>
 
       <ng-template #TempAlerts let-content="content">
+        <h3>{{ content.title }}</h3>
         <settings-alerts></settings-alerts>
       </ng-template>
 
       <ng-template #TempCampaigns let-content="content">
         <h3>{{ content.title }}</h3>
+        <settings-campaign></settings-campaign>
       </ng-template>
-
-
     </p-panel>
   </div>
 </div>

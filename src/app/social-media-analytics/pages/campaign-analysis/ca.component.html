@@ -9,29 +9,343 @@
     <p-panel>
 
       <tabs>
-        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="caPageItem1"></tab-item>
-        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="caPageItem2"></tab-item>
-        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempFacebook" [templateRightRef]="topBarRight" [content]="caPageItem3"></tab-item>
+        <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebook" [content]="caPageItem1"></tab-item>
+        <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempInstergram" [content]="caPageItem2"></tab-item>
+        <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempTwitter" [content]="caPageItem3"></tab-item>
       </tabs>
-      
-      <ng-template #topBarRight let-content="content">
-        <p class="text-top-right-bar">{{topBarCaption}} : </p>
-        <img src="assets/social-media/svg/view.svg" alt="View Icon" class="right-bar-icon">
-        <img src="assets/social-media/svg/add.svg" alt="Add Icon" class="right-bar-icon">
-    </ng-template>
-
-    <ng-template #tempFacebook let-content="content">
-      <h3>{{ content.title }}</h3>
-    </ng-template>
-
+      <!--First Template-->
+      <ng-template #tempFacebook let-content="content">
+        <div class="first-wrapper">
+          <h3>{{ content.title }}</h3>
+          <div class="flex justify-center">
+            <p-panel class="flex flex-col items-center justify-center" [style]="{ width: '1080px' }">
+              <!-- Toolbar Section -->
+              <div class="flex justify-between w-full p-4">
+                <div>
+                  <h2>Top Performing Campaigns</h2>
+                  <p>8 top performing campaigns</p>
+                </div>
+                <div>
+                  <button class="p-button p-button-sm p-button-secondary" (click)="toggleAdditionalCards()">See More</button>
+                </div>
+              </div>
+              <!--Card Section-->
+              <!--cards set1-->
+              <div class="flex" *ngIf="topCampaigns">
+                <p-card *ngFor="let campaign of topCampaigns">
+                  <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}" >
+                    <div class="campaign-name-overlay">{{ campaign.name }}</div>
+                  </div>
+                  <div class="text-container">
+                    <div class="campaign-info">
+                      <div class="row1">
+                        <span class="campaign-name">{{ campaign.campaignName }}</span>
+                        <span class="pi pi-facebook"></span>
+                      </div>
+                      <div class="row2">
+                        <div class="sentiment-info">
+                          <span class="overall-sentiment-text">Overall Sentiment:</span>
+                          <span class="overall-sentiment-value">{{ campaign.sentiment }}%</span>
+                        </div>
+                      </div>                      
+                      <div class="row3">
+                        <div class="progress-container">
+                          <div class="progress-bar" [style.width.%]="campaign.progress"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button-container">
+                      <p-button label="View Campaign" [outlined]="true"></p-button>
+                    </div>
+                  </div>
+                </p-card>
+              </div>
+              <!-- Cards set2 -->
+              <div class="flex" *ngIf="showAdditionalCards">
+                <p-card *ngFor="let campaign of additionalCampaigns1">
+                  <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}" >
+                    <div class="campaign-name-overlay">{{ campaign.name }}</div>
+                  </div>
+                  <div class="text-container">
+                    <div class="campaign-info">
+                      <div class="row1">
+                        <span class="campaign-name">{{ campaign.campaignName }}</span>
+                        <span class="pi pi-facebook"></span>
+                      </div>
+                      <div class="row2">
+                        <div class="sentiment-info">
+                          <span class="overall-sentiment-text">Overall Sentiment:</span>
+                          <span class="overall-sentiment-value">{{ campaign.sentiment }}%</span>
+                        </div>
+                      </div>                      
+                      <div class="row3">
+                        <div class="progress-container">
+                          <div class="progress-bar" [style.width.%]="campaign.progress"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button-container">
+                      <p-button label="View Campaign" [outlined]="true"></p-button>
+                    </div>
+                  </div>
+                </p-card>
+              </div>
+              <!-- Cards set3 -->
+              <div class="flex" *ngIf="showAdditionalCards">
+                <p-card *ngFor="let campaign of additionalCampaigns2">
+                  <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}" >
+                    <div class="campaign-name-overlay">{{ campaign.name }}</div>
+                  </div>
+                  <div class="text-container">
+                    <div class="campaign-info">
+                      <div class="row1">
+                        <span class="campaign-name">{{ campaign.campaignName }}</span>
+                        <span class="pi pi-facebook"></span>
+                      </div>
+                      <div class="row2">
+                        <div class="sentiment-info">
+                          <span class="overall-sentiment-text">Overall Sentiment:</span>
+                          <span class="overall-sentiment-value">{{ campaign.sentiment }}%</span>
+                        </div>
+                      </div>                      
+                      <div class="row3">
+                        <div class="progress-container">
+                          <div class="progress-bar" [style.width.%]="campaign.progress"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button-container">
+                      <p-button label="View Campaign" [outlined]="true"></p-button>
+                    </div>
+                  </div>
+                </p-card>
+              </div>
+            </p-panel>         
+          </div>
+        </div>
+      </ng-template>
+      <!--Second Templete-->
       <ng-template #tempInstergram let-content="content">
-        <h3>{{ content.title }}</h3>
+        <div class="first-wrapper">
+          <h3>{{ content.title }}</h3>
+          <div class="flex justify-center">
+            <p-panel class="flex flex-col items-center justify-center" [style]="{ width: '1080px' }">
+              <!-- Toolbar Section -->
+              <div class="flex justify-between w-full p-4">
+                <div>
+                  <h2>Top Performing Campaigns</h2>
+                  <p>8 top performing campaigns</p>
+                </div>
+                <div>
+                  <button class="p-button p-button-sm p-button-secondary" (click)="toggleAdditionalCards()">See More</button>
+                </div>
+              </div>
+              <!--Card Section-->
+              <!--cards set1-->
+              <div class="flex" *ngIf="topCampaigns">
+                <p-card *ngFor="let campaign of topCampaigns">
+                  <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}" >
+                    <div class="campaign-name-overlay">{{ campaign.name }}</div>
+                  </div>
+                  <div class="text-container">
+                    <div class="campaign-info">
+                      <div class="row1">
+                        <span class="campaign-name">{{ campaign.campaignName }}</span>
+                        <span class="pi pi-facebook"></span>
+                      </div>
+                      <div class="row2">
+                        <div class="sentiment-info">
+                          <span class="overall-sentiment-text">Overall Sentiment:</span>
+                          <span class="overall-sentiment-value">{{ campaign.sentiment }}%</span>
+                        </div>
+                      </div>                      
+                      <div class="row3">
+                        <div class="progress-container">
+                          <div class="progress-bar" [style.width.%]="campaign.progress"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button-container">
+                      <p-button label="View Campaign" [outlined]="true"></p-button>
+                    </div>
+                  </div>
+                </p-card>
+              </div>
+              <!-- Cards set2 -->
+              <div class="flex" *ngIf="showAdditionalCards">
+                <p-card *ngFor="let campaign of additionalCampaigns1">
+                  <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}" >
+                    <div class="campaign-name-overlay">{{ campaign.name }}</div>
+                  </div>
+                  <div class="text-container">
+                    <div class="campaign-info">
+                      <div class="row1">
+                        <span class="campaign-name">{{ campaign.campaignName }}</span>
+                        <span class="pi pi-facebook"></span>
+                      </div>
+                      <div class="row2">
+                        <div class="sentiment-info">
+                          <span class="overall-sentiment-text">Overall Sentiment:</span>
+                          <span class="overall-sentiment-value">{{ campaign.sentiment }}%</span>
+                        </div>
+                      </div>                      
+                      <div class="row3">
+                        <div class="progress-container">
+                          <div class="progress-bar" [style.width.%]="campaign.progress"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button-container">
+                      <p-button label="View Campaign" [outlined]="true"></p-button>
+                    </div>
+                  </div>
+                </p-card>
+              </div>
+              <!-- Cards set3 -->
+              <div class="flex" *ngIf="showAdditionalCards">
+                <p-card *ngFor="let campaign of additionalCampaigns2">
+                  <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}" >
+                    <div class="campaign-name-overlay">{{ campaign.name }}</div>
+                  </div>
+                  <div class="text-container">
+                    <div class="campaign-info">
+                      <div class="row1">
+                        <span class="campaign-name">{{ campaign.campaignName }}</span>
+                        <span class="pi pi-facebook"></span>
+                      </div>
+                      <div class="row2">
+                        <div class="sentiment-info">
+                          <span class="overall-sentiment-text">Overall Sentiment:</span>
+                          <span class="overall-sentiment-value">{{ campaign.sentiment }}%</span>
+                        </div>
+                      </div>                      
+                      <div class="row3">
+                        <div class="progress-container">
+                          <div class="progress-bar" [style.width.%]="campaign.progress"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button-container">
+                      <p-button label="View Campaign" [outlined]="true"></p-button>
+                    </div>
+                  </div>
+                </p-card>
+              </div>
+            </p-panel>         
+          </div>
+        </div>
       </ng-template>
-
+      <!--Third Templete-->
       <ng-template #tempTwitter let-content="content">
-        <h3>{{ content.title }}</h3>
+        <div class="first-wrapper">
+          <h3>{{ content.title }}</h3>
+          <div class="flex justify-center">
+            <p-panel class="flex flex-col items-center justify-center" [style]="{ width: '1080px' }">
+              <!-- Toolbar Section -->
+              <div class="flex justify-between w-full p-4">
+                <div>
+                  <h2>Top Performing Campaigns</h2>
+                  <p>8 top performing campaigns</p>
+                </div>
+                <div>
+                  <button class="p-button p-button-sm p-button-secondary" (click)="toggleAdditionalCards()">See More</button>
+                </div>
+              </div>
+              <!--Card Section-->
+              <!--cards set1-->
+              <div class="flex" *ngIf="topCampaigns">
+                <p-card *ngFor="let campaign of topCampaigns">
+                  <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}" >
+                    <div class="campaign-name-overlay">{{ campaign.name }}</div>
+                  </div>
+                  <div class="text-container">
+                    <div class="campaign-info">
+                      <div class="row1">
+                        <span class="campaign-name">{{ campaign.campaignName }}</span>
+                        <span class="pi pi-facebook"></span>
+                      </div>
+                      <div class="row2">
+                        <div class="sentiment-info">
+                          <span class="overall-sentiment-text">Overall Sentiment:</span>
+                          <span class="overall-sentiment-value">{{ campaign.sentiment }}%</span>
+                        </div>
+                      </div>                      
+                      <div class="row3">
+                        <div class="progress-container">
+                          <div class="progress-bar" [style.width.%]="campaign.progress"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button-container">
+                      <p-button label="View Campaign" [outlined]="true"></p-button>
+                    </div>
+                  </div>
+                </p-card>
+              </div>
+              <!-- Cards set2 -->
+              <div class="flex" *ngIf="showAdditionalCards">
+                <p-card *ngFor="let campaign of additionalCampaigns1">
+                  <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}" >
+                    <div class="campaign-name-overlay">{{ campaign.name }}</div>
+                  </div>
+                  <div class="text-container">
+                    <div class="campaign-info">
+                      <div class="row1">
+                        <span class="campaign-name">{{ campaign.campaignName }}</span>
+                        <span class="pi pi-facebook"></span>
+                      </div>
+                      <div class="row2">
+                        <div class="sentiment-info">
+                          <span class="overall-sentiment-text">Overall Sentiment:</span>
+                          <span class="overall-sentiment-value">{{ campaign.sentiment }}%</span>
+                        </div>
+                      </div>                      
+                      <div class="row3">
+                        <div class="progress-container">
+                          <div class="progress-bar" [style.width.%]="campaign.progress"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button-container">
+                      <p-button label="View Campaign" [outlined]="true"></p-button>
+                    </div>
+                  </div>
+                </p-card>
+              </div>
+              <!-- Cards set3 -->
+              <div class="flex" *ngIf="showAdditionalCards">
+                <p-card *ngFor="let campaign of additionalCampaigns2">
+                  <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}" >
+                    <div class="campaign-name-overlay">{{ campaign.name }}</div>
+                  </div>
+                  <div class="text-container">
+                    <div class="campaign-info">
+                      <div class="row1">
+                        <span class="campaign-name">{{ campaign.campaignName }}</span>
+                        <span class="pi pi-facebook"></span>
+                      </div>
+                      <div class="row2">
+                        <div class="sentiment-info">
+                          <span class="overall-sentiment-text">Overall Sentiment:</span>
+                          <span class="overall-sentiment-value">{{ campaign.sentiment }}%</span>
+                        </div>
+                      </div>                      
+                      <div class="row3">
+                        <div class="progress-container">
+                          <div class="progress-bar" [style.width.%]="campaign.progress"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button-container">
+                      <p-button label="View Campaign" [outlined]="true"></p-button>
+                    </div>
+                  </div>
+                </p-card>
+              </div>
+            </p-panel>         
+          </div>
+        </div>
       </ng-template>
-
     </p-panel>
   </div>
 </div>

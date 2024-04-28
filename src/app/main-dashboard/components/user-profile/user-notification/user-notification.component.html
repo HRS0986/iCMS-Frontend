@@ -1,0 +1,9 @@
+<div>
+  <div *ngFor="let setting of notificationSettings" [ngStyle]="{'margin': '0 0px 20px 60px'}">
+    <div style="display: flex; align-items: center;">
+      <p-inputSwitch [(ngModel)]="setting.status" ></p-inputSwitch>
+      <label style="margin-left: 20px">{{ setting.name }}</label>
+    </div>
+  </div>
+</div>
+

@@ -1,56 +1,41 @@
-import { Injectable } from '@angular/core';
-import { CallRecording } from '../types';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import { ApiResponse, CallRecording, QueuedFile } from '../types';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CallRecordingService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
+
+  API_ROOT = "http://127.0.0.1:8000";
 
   public getRecentCalls(): CallRecording[] {
     return [
-      {
-        callUrl: 'lkhfdkghlkjs',
-        title: 'Call Recording 01',
-        date: new Date(),
-        status: 'Positive'
-      },
-      {
-        callUrl: 'lkhfdkghlkjs',
-        title: 'Call Recording 02',
-        date: new Date(),
-        status: 'Positive'
-      },
-      {
-        callUrl: 'lkhfdkghlkjs',
-        title: 'Call Recording 04',
-        date: new Date(),
-        status: 'Neutral'
-      },
-      {
-        callUrl: 'lkhfdkghlkjs',
-        title: 'Call Recording 01',
-        date: new Date(),
-        status: 'Negative'
-      },
-      {
-        callUrl: 'lkhfdkghlkjs',
-        title: 'Call Recording 04',
-        date: new Date(),
-        status: 'Neutral'
-      }
+      {id: "cr_0", operator_id:0, description: "Call Recording Title2", date: new Date(), duration: 3.7, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription"},
+      {id: "cr_1", operator_id:0, description: "Call Recording Title3", date: new Date(), duration: 3.7, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription"},
+      {id: "cr_2", operator_id:0, description: "Call Recording Title4", date: new Date(), duration: 3.7, sentiment: "Neutral", callUrl: "dumyy url", transcription: "dummy transcription"},
+      {id: "cr_3", operator_id:0, description: "Call Recording Title5", date: new Date(), duration: 3.7, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription"},
+      {id: "cr_4", operator_id:0, description: "Call Recording Title6", date: new Date(), duration: 3.7, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription"},
     ];
   }
 
-  // CallRecordingService
-  public uploadFile(file: File): Observable<any> {
+  public uploadFile(file: QueuedFile): Observable<ApiResponse> {
     const formData: FormData = new FormData();
-    formData.append('file', file, file.name);
+    formData.append('file', file.file, file.file.name);
+    return this.http.post<ApiResponse>(`${this.API_ROOT}/upload-calls`, formData);
+  }
 
-    return this.http.post<any>('http://127.0.0.1:8000/uploadcalls', formData);
+  public getCallsList(): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.API_ROOT}/get-calls-list`);
+  }
+
+  public deleteCall(call_id: string): Observable<ApiResponse> {
+    const url = `${this.API_ROOT}/delete-call/${call_id}`;
+    return this.http.delete<ApiResponse>(url);
   }
 
 }

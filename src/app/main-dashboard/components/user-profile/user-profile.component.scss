@@ -1,0 +1,59 @@
+:host ::ng-deep{
+  .p-tabview-nav li{
+    padding:20px 30px 0 0;
+  }
+  .p-tabview-nav li:first-child{
+    padding-left: 50px;
+  }
+
+}
+
+.top-menu {
+  top:0;
+  left:0;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+//---------------------Notification bell css start----------------------------------------------------
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Set full height */
+}
+
+.notification-container {
+  flex: 1;
+  overflow-y: scroll; /* Enable vertical scrollbar if content exceeds container height */
+  padding-left:30%;
+  padding-right:10%; 
+  
+}
+
+.notification-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1; /* Ensure it's above other content */
+}
+
+
+.action-button {
+    padding: 0.25rem 0.25rem;
+    font-size: 0.75rem;
+  }
+
+.top-notification-actions {
+  display: flex;
+  gap: 10px;
+}
+
+
+
+
+//---------------------Notification bell css end----------------------------------------------------

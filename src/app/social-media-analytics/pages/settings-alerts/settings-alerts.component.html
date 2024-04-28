@@ -3,12 +3,12 @@
         <p-panel>
 
             <tabs>
-                <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebookContent"
-                    [templateRightRef]="topBarRight" [content]="content1"></tab-item>
-                <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempInstergram"
-                    [templateRightRef]="topBarRight" [content]="content2"></tab-item>
-                <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempTwitter" [templateRightRef]="topBarRight"
-                    [content]="content3"></tab-item>
+                <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempContent" [templateRightRef]="topBarRight"
+                    [content]="contentFacebook"></tab-item>
+                <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempContent" [templateRightRef]="topBarRight"
+                    [content]="contentInstergram"></tab-item>
+                <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempContent" [templateRightRef]="topBarRight"
+                    [content]="contentTwitter"></tab-item>
             </tabs>
 
             <ng-template #topBarRight let-content="content">
@@ -16,31 +16,28 @@
                 <img src="assets/social-media/svg/add.svg" alt="Add Icon" class="right-bar-icon">
             </ng-template>
 
-            <ng-template #tempFacebookContent let-content="content">
-
+            <ng-template #tempContent let-content="content">
                 <div class="block">
-                    <p class="text-title1">{{content.title}}</p>
-                    <p class="text-faded">{{content.subtitle}}</p>
+                    <p class="text-faded">{{content.data.length}} Custom Alerts</p>
                 </div>
-
                 <div class="card">
-                    <p-table [value]="items" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
+                    <p-table [value]="content.data" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="width:5%">
                                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                 </th>
-                                <th pSortableColumn="keyword" style="width:30%">
+                                <th pSortableColumn="keywords" style="width:30%">
                                     KEYWORDS
-                                    <p-sortIcon field="keyword"></p-sortIcon>
+                                    <p-sortIcon field="keywords"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="alerttype" style="width:20%">
+                                <th pSortableColumn="alert_type" style="width:20%">
                                     ALERT TYPE
-                                    <p-sortIcon field="alerttype"></p-sortIcon>
+                                    <p-sortIcon field="alert_type"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="threshold" style="width:30%">
+                                <th pSortableColumn="min_val" style="width:30%">
                                     THRESHOLD
-                                    <p-sortIcon field="threshold"></p-sortIcon>
+                                    <p-sortIcon field="min_val"></p-sortIcon>
                                 </th>
                                 <th style="width:15%">
                                     ACTION
@@ -52,11 +49,11 @@
                                 <td>
                                     <p-tableCheckbox></p-tableCheckbox>
                                 </td>
-                                <td>{{ item.keyword }}</td>
-                                <td>{{ item.alerttype }}</td>
+                                <td>{{ item.keywords.join(', ') }}</td>
+                                <td>{{ item.alert_type }}</td>
                                 <td>
-                                    <span>{{ item.threshold }}</span>
-                                    <progress-bar [value]="item.min" [bufferValue]="item.max"
+                                    <span>From {{ item.min_val }} to {{ item.max_val }}</span>
+                                    <progress-bar [value]="item.min_val" [bufferValue]="item.max_val"
                                         [color]="'#3699FF'"></progress-bar>
                                 </td>
                                 <td>
@@ -71,23 +68,7 @@
                         </ng-template>
                     </p-table>
                 </div>
-
             </ng-template>
-
-            <ng-template #tempInstergram let-content="content">
-                <div class="second-wrapper">
-                    <h3>{{ content.title }}</h3>
-                    <div class="second-image"></div>
-                </div>
-            </ng-template>
-
-            <ng-template #tempTwitter let-content="content">
-                <div class="third-wrapper">
-                    <h3>{{ content.title }}</h3>
-                    <div class="third-first-image"></div>
-                </div>
-            </ng-template>
-
 
         </p-panel>
     </div>

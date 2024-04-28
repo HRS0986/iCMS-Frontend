@@ -9,19 +9,24 @@ export interface Content {
   subtitle?: string;
 }
 
+export interface SettingAlertsData {
+  subtitle?: string;
+  data?: AlertItem[];
+}
+
 export interface SettingContent{
   title: string;
   content: any;
 }
 
-export interface item {
-  id?: string;
+export interface AlertItem {
   keyword?: string;
+  sm_id?: string;
   alerttype?: string;
   threshold?: string;
-  min?: number;
-  max?: number;
-  description?: string;
+  min_val?: number;
+  max_val?: number;
+  author?: string;
 }
 
 export interface highlightedComments{
@@ -42,4 +47,14 @@ export interface piPageItem {
   totalReactions: number;
   reactionsImprovement: number;
   HighlightedComments: number;
+}
+
+export interface campaign {
+  id?: string;
+  title?: string;
+  company?: string;
+  overall_sentiment?: string;
+  color?:string;
+  min?: number;
+  max?: number;
 }
