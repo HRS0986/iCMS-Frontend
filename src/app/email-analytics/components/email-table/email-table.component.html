@@ -1,6 +1,18 @@
 
 <p-panel>
-  <p-table [value]="rows" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-table 
+    [value]="rows" 
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 15, 20]"
+    [totalRecords]="totalRecords"
+    [lazy] = "true"
+    (onLazyLoad)="loadEmails($event)"
+  >
+
     <ng-template pTemplate="header">
       <tr>
         <th scope="col" id="subject-header">Subject</th>

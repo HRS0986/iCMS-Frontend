@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
-
+import { Component, Input, OnInit } from '@angular/core';
+import { EmailService } from '../../services/email.service';
+import { EmailMetadata, EmailMetadataResponse } from '../../interfaces/emails';
+import { TableLazyLoadEvent } from 'primeng/table';
 export interface EmailRow {
   subject: string;
   sender: string;
@@ -18,9 +20,28 @@ export interface EmailRow {
 
 
 export class EmailTableComponent {
-  @Input() rows!: EmailRow[];
-  getSeverity(sentiment: string): string {
+  rows: EmailMetadata[] = [];
+  totalRecords: number = 0;
+  loading: boolean = true;
 
+  constructor(private emailService: EmailService) {}
+
+  ngOnInit() {
+    this.loadEmails({first: 0, rows: 10});
+  }
+
+  loadEmails($event: TableLazyLoadEvent) {
+    this.loading = true;
+    this.emailService.getEmailMetadata($event.first || 0, 10).subscribe(
+      (response: EmailMetadataResponse) => {
+        this.loading = false;
+        this.rows = response.data;
+        this.totalRecords = response.total;
+      }
+    )
+  }
+
+  getSeverity(sentiment: string): string {
     if (sentiment === 'Positive') {
       return 'success';
     } else if (sentiment === 'Negative') {

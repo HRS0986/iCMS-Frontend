@@ -15,3 +15,15 @@ export interface EmailMetadataResponse {
     skip: number;
     limit: number;
 }
+
+export interface MockEmailMetadata {
+    id: string;
+    title: string;
+    rating: number;
+}
+export interface MockEmailMetadataResponse {
+    data: MockEmailMetadata[];
+    total: number;
+    skip: number;
+    limit: number;
+}
