@@ -13,25 +13,22 @@ export class CallAnalyticsService {
   constructor(private http: HttpClient) {
   }
 
-  public getCallStatistics(): CallStatistics {
-    return {
-      negativeCalls: 50,
-      neutralCalls: 100,
-      positiveCalls: 75,
-      totalCalls: 225,
-      averageCallTime: 10,
-      totalMinutes: 1523
-    };
+  public getCallStatistics(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-call-statistics`));
+  }
+
+  public getSentimentPercentages(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-sentiment-percentages`));
+  }
+
+  public getOperatorCallsOverTime(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-operator-calls-over-time`));
   }
 
   public getOverallCallStatus() {
 
   }
 
-  public getRecentCalls() {
-
-
-  }
 
   public getOverallCallSentimentScore() {
 
