@@ -1,16 +1,16 @@
 <p-panel>
   <p-table
-    [value]="rows"
+    [value]="emailMetaData"
     [tableStyle]="{ 'min-width': '50rem' }"
     [paginator]="true"
-    [rows]="10"
+    [rows]="rowsPerPage"
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10, 15, 20]"
     [totalRecords]="totalRecords"
     [lazy]="true"
     (onLazyLoad)="loadEmails($event)"
-
+    (onPageChange)="onPageChange($event)"
   >
     <ng-template pTemplate="header">
       <tr>
@@ -21,7 +21,7 @@
         <th scope="col" id="topics-header">Topics</th>
       </tr>
     </ng-template>
-
+    
     <ng-template pTemplate="body" let-row>
 
       <ng-container *ngIf="loading">

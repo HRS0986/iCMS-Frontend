@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { EmailService } from '../../services/email.service';
 import { EmailMetadata, EmailMetadataResponse } from '../../interfaces/emails';
 import { TableLazyLoadEvent } from 'primeng/table';
@@ -19,26 +19,37 @@ export interface EmailRow {
 })
 
 
-export class EmailTableComponent implements OnInit {
-  rows: EmailMetadata[] = [];
+export class EmailTableComponent {
+  // array of empty objects to trigger loading skeleton
+  emailMetaData: EmailMetadata[] = new Array(10).fill({
+    subject: '',
+    sender: '',
+    receiver: '',
+    date: '',
+    time: '',
+    sentiment: '',
+    topics: []
+  });
+
   totalRecords: number = 0;
   loading: boolean = true;
+  rowsPerPage: number = 10;
 
   constructor(private emailService: EmailService){}
 
-  ngOnInit() {
-    this.loadEmails({first: 0, rows: 10});
-  }
-
   loadEmails($event: TableLazyLoadEvent) {
     this.loading = true;
-    this.emailService.getEmailMetadata($event.first ?? 0, 10).subscribe(
+    this.emailService.getEmailMetadata($event.first ?? 0, $event.rows ?? 20).subscribe(
       (response: EmailMetadataResponse) => {
-        this.rows = response.data;
+        this.emailMetaData = response.data;
         this.totalRecords = response.total;
         this.loading = false;
       }
     )
+  }
+  onPageChange(event: any) {
+    this.rowsPerPage = event.rows;
+    this.loadEmails({ first: event.first, rows:this.rowsPerPage });
   }
 
   getSeverity(sentiment: string): string {
