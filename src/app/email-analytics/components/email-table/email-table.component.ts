@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 
 export interface EmailRow {
-  subject: String;
-  sender: String;
-  receiver: String;
-  date: String;
-  sentiment: String;
-  topics: String[];
+  subject: string;
+  sender: string;
+  receiver: string;
+  date: string;
+  time: string;
+  sentiment:string;
+  topics: string[];
 };
 
 @Component({
@@ -18,4 +19,14 @@ export interface EmailRow {
 
 export class EmailTableComponent {
   @Input() rows!: EmailRow[];
+  getSeverity(sentiment: string): string {
+
+    if (sentiment === 'Positive') {
+      return 'success';
+    } else if (sentiment === 'Negative') {
+      return 'danger';
+    } else {
+      return 'info';
+    }
+  }
 }

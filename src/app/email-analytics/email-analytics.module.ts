@@ -10,17 +10,15 @@ import { PanelModule } from "primeng/panel";
 import { DoughnutChartComponent } from './components/doughnut-chart/doughnut-chart.component';
 import { ChartModule } from "primeng/chart";
 import { LineAreaChartComponent } from './components/line-area-chart/line-area-chart.component';
-// import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
-// import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.component';
+
 import { NgxEchartsModule } from "ngx-echarts";
 import { HorizontalBarChartComponent } from './components/horizontal-bar-chart/horizontal-bar-chart.component';
-// import { RecentCallsCardComponent } from './components/recent-calls-card/recent-calls-card.component';
+
 import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from "primeng/dataview";
 import { TagModule } from "primeng/tag";
 import { TooltipModule } from 'primeng/tooltip';
-// import { CallSummaryChartComponent } from './components/call-summary-chart/call-summary-chart.component';
-// import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
+
 import { DialogModule } from 'primeng/dialog';
 
 
@@ -51,14 +49,12 @@ import { TableModule } from 'primeng/table';
 import { NotiSendingEmailAccCardComponent } from './components/noti-sending-email-acc-card/noti-sending-email-acc-card.component';
 import { TopicCardComponent } from './components/topic-card/topic-card.component';
 import { ToastModule } from 'primeng/toast';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MessageService } from 'primeng/api';
 
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { DividerModule } from 'primeng/divider';
-
-
 
 
 

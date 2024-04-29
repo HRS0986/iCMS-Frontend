@@ -1,33 +1,25 @@
-<div class="table-container">
-  <table>
-    <tr>
-      <th>Subject</th>
-      <th>Sender</th>
-      <th>Receiver</th>
-      <th>Date</th>
-      <th>Sentiment</th>
-      <th>Topics</th>
-    </tr>
-    <tr *ngFor="let row of rows">
-      <td>{{ row.subject }}</td>
-      <td>{{ row.sender }}</td>
-      <td>{{ row.receiver }}</td>
-      <td>{{ row.date }}</td>
-      <td class="center">
-        <span
-          [ngClass]="{
-            'span-green': row.sentiment === 'Positive',
-            'span-red': row.sentiment === 'Negative',
-            'span-blue': row.sentiment === 'Neutral'
-          }"
-          >{{ row.sentiment }}</span
-        >
-      </td>
-      <td>
-        <span class="span-topic" *ngFor="let topic of row.topics">{{
-          topic
-        }}</span>
-      </td>
-    </tr>
-  </table>
-</div>
+
+<p-panel>
+  <p-table [value]="rows" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" id="subject-header">Subject</th>
+        <th scope="col" id="date-header">Date</th>
+        <th scope="col" id="time-header">Time</th>
+        <th scope="col" id="sentiment-header">Sentiment</th>
+        <th scope="col" id="topics-header">Topics</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+      <tr>
+        <td>{{ row.subject }}</td>
+        <td>{{ row.date }}</td>
+        <td>{{ row.time }}</td>
+        <td><p-tag value="{{ row.sentiment }}" severity="{{ getSeverity(row.sentiment) }}"></p-tag></td>
+        <td>
+          <p-tag *ngFor="let topic of row.topics" value="{{ topic }}" severity="info"></p-tag>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
