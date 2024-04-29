@@ -118,7 +118,10 @@
       <p-skeleton height="200px"/>
     </div>
   </div>
-  <div *ngIf="!isOperatorDataLoading && !isOperatorDataLoadingError">
+  <div *ngIf="!isOperatorDataLoading && !isOperatorDataLoadingError && isNoData">
+    <p>This operator has not handled any calls yet</p>
+  </div>
+  <div *ngIf="!isOperatorDataLoading && !isOperatorDataLoadingError && !isNoData">
     <div class="flex">
       <div class="w-1/2 text-center">
         <p class="font-bold text-2xl">{{operator.total_calls}}</p>
