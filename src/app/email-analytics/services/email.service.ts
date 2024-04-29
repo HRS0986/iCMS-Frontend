@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators'; // TODO: remove in production
+import { map } from 'rxjs/operators'; // BUG: remove in production
 import { EmailMetadataResponse, MockEmailMetadataResponse } from '../interfaces/emails';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class EmailService {
 
   constructor(private http: HttpClient) { }
 
-  // TODO: REMOVE in Production
+  // BUG: REMOVE in Production
   private convertToEmailResponse(mockedResponse: MockEmailMetadataResponse): EmailMetadataResponse {
     const convertedData = mockedResponse.products.map((mockedEmail) => ({
       id: mockedEmail.id.toString(),
@@ -37,6 +37,6 @@ export class EmailService {
   getEmailMetadata(skip: number, limit: number): Observable<EmailMetadataResponse> {
     return this.http
       .get<MockEmailMetadataResponse>(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`)
-      .pipe(map(this.convertToEmailResponse));   // TODO: remove pipe in production
+      .pipe(map(this.convertToEmailResponse));   // BUG: remove pipe in production
   }
 }
