@@ -14,13 +14,13 @@ export class EmailService {
 
   // TODO: REMOVE in Production
   private convertToEmailResponse(mockedResponse: MockEmailMetadataResponse): EmailMetadataResponse {
-    const convertedData = mockedResponse.data.map((mockedEmail) => ({
+    const convertedData = mockedResponse.products.map((mockedEmail) => ({
       id: mockedEmail.id.toString(),
       subject: mockedEmail.title,
       sentiment: mockedEmail.rating.toString(),
       sender: "test",
       receiver: "test",
-      date: "2020-10-10",
+      date: "2020-10-10", 
       time: "10.10 PM",
       topics: ["CG", "VG"],
     }));

@@ -1,7 +1,6 @@
-
 <p-panel>
-  <p-table 
-    [value]="rows" 
+  <p-table
+    [value]="rows"
     [tableStyle]="{ 'min-width': '50rem' }"
     [paginator]="true"
     [rows]="10"
@@ -9,10 +8,10 @@
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10, 15, 20]"
     [totalRecords]="totalRecords"
-    [lazy] = "true"
+    [lazy]="true"
     (onLazyLoad)="loadEmails($event)"
-  >
 
+  >
     <ng-template pTemplate="header">
       <tr>
         <th scope="col" id="subject-header">Subject</th>
@@ -22,16 +21,44 @@
         <th scope="col" id="topics-header">Topics</th>
       </tr>
     </ng-template>
+
     <ng-template pTemplate="body" let-row>
-      <tr>
-        <td>{{ row.subject }}</td>
-        <td>{{ row.date }}</td>
-        <td>{{ row.time }}</td>
-        <td><p-tag value="{{ row.sentiment }}" severity="{{ getSeverity(row.sentiment) }}"></p-tag></td>
-        <td>
-          <p-tag *ngFor="let topic of row.topics" value="{{ topic }}" severity="info"></p-tag>
-        </td>
-      </tr>
+
+      <ng-container *ngIf="loading">
+          <tr>
+            <td><p-skeleton /></td>
+            <td><p-skeleton /></td>
+            <td><p-skeleton /></td>
+            <td><p-skeleton /></td>
+            <td>
+              <p-skeleton />
+            </td>
+          </tr>
+      </ng-container>
+
+      <ng-container *ngIf="!loading">
+        <tr>
+          <td>{{ row.subject }}</td>
+          <td>{{ row.date }}</td>
+          <td>{{ row.time }}</td>
+          <td>
+            <p-tag
+              value="{{ row.sentiment }}"
+              severity="{{ getSeverity(row.sentiment) }}"
+            ></p-tag>
+          </td>
+          <td>
+            <p-tag
+              *ngFor="let topic of row.topics"
+              value="{{ topic }}"
+              severity="info"
+            ></p-tag>
+          </td>
+        </tr>
+      </ng-container>
     </ng-template>
+
+
+
   </p-table>
 </p-panel>

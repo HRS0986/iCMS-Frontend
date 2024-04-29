@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EmailService } from '../../services/email.service';
 import { EmailMetadata, EmailMetadataResponse } from '../../interfaces/emails';
 import { TableLazyLoadEvent } from 'primeng/table';
@@ -19,12 +19,12 @@ export interface EmailRow {
 })
 
 
-export class EmailTableComponent {
+export class EmailTableComponent implements OnInit {
   rows: EmailMetadata[] = [];
   totalRecords: number = 0;
   loading: boolean = true;
 
-  constructor(private emailService: EmailService) {}
+  constructor(private emailService: EmailService){}
 
   ngOnInit() {
     this.loadEmails({first: 0, rows: 10});
@@ -32,11 +32,11 @@ export class EmailTableComponent {
 
   loadEmails($event: TableLazyLoadEvent) {
     this.loading = true;
-    this.emailService.getEmailMetadata($event.first || 0, 10).subscribe(
+    this.emailService.getEmailMetadata($event.first ?? 0, 10).subscribe(
       (response: EmailMetadataResponse) => {
-        this.loading = false;
         this.rows = response.data;
         this.totalRecords = response.total;
+        this.loading = false;
       }
     )
   }

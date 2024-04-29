@@ -22,7 +22,7 @@ export interface MockEmailMetadata {
     rating: number;
 }
 export interface MockEmailMetadataResponse {
-    data: MockEmailMetadata[];
+    products: MockEmailMetadata[];
     total: number;
     skip: number;
     limit: number;

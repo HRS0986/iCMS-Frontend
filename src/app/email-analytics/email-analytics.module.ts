@@ -55,6 +55,7 @@ import { MessageService } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { DividerModule } from 'primeng/divider';
+import { SkeletonModule } from 'primeng/skeleton';
 
 
 
@@ -105,7 +106,8 @@ import { DividerModule } from 'primeng/divider';
     ToastModule,
     DropdownModule,
     CalendarModule,
-    DividerModule
+    DividerModule,
+    SkeletonModule
   ],
   providers: [MessageService],
 })
