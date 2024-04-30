@@ -4,7 +4,7 @@
     <div class="stat-cards">
       <app-stat-card title="{{callStatistics.total_calls}}" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
       <app-stat-card title="{{callStatistics.avg_call_time_in_sec}}" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
-      <app-stat-card title="{{callStatistics.total_duration_in_sec / 60}}" subTitle="Total Minute" imgPath="./call/blue-call.png"/>
+      <app-stat-card title="{{Math.ceil(callStatistics.total_duration_in_sec / 60)}}" subTitle="Total Minute" imgPath="./call/blue-call.png"/>
     </div>
     <app-line-area-chart title="Sentiment Over Time"/>
     <app-doughnut-chart title="Call Summary" [percentages]="[callSentiments.negative, callSentiments.positive, callSentiments.neutral]"/>
