@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CallRecordingService } from "../../services/call-recording.service";
-import { CallRecord, CallRecording } from "../../types";
+import { CallRecording } from "../../types";
 import { CallAnalyticsService } from "../../services/call-analytics.service";
 
 interface Topic {
@@ -183,7 +183,7 @@ export class FilteringFeaturesComponent implements OnInit {
     console.log(this.value)
     console.log(this.selectedSentiCatg)
 
-    
+
     let start_date = this.dateString[0];
     let end_date = this.dateString[1];
 
@@ -197,7 +197,7 @@ export class FilteringFeaturesComponent implements OnInit {
 
   refreshCallRecordings() {
     this.callRecordingService.getCallsList().subscribe((data) => {
-      this.callRecordings = data.data.map((record: CallRecord) => ({
+      this.callRecordings = data.data.map((record: CallRecording) => ({
         "title": record.description,
         "date": new Date(record.call_date).toLocaleDateString(),
         "status": record.sentiment_category,
