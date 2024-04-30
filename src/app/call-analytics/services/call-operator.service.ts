@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { firstValueFrom, Observable } from "rxjs";
-import { ApiResponse, CallOperator } from "../types";
+import { ApiResponse, OperatorListItem } from "../types";
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +16,13 @@ export class CallOperatorService {
     return this.http.get<ApiResponse>(this.API_ROOT + "/get-all-operators");
   }
 
-  public getOperatorDetails(operatorId: string): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(this.API_ROOT + "/get-operator/" + operatorId));
+  public getOperatorDetails(operatorId: number): Promise<ApiResponse> {
+    const url = `${this.API_ROOT}/get-operator/${operatorId}`;
+    debugger;
+    return firstValueFrom(this.http.get<ApiResponse>(url));
   }
 
-  public addOperator(operator: CallOperator): Promise<ApiResponse> {
+  public addOperator(operator: OperatorListItem): Promise<ApiResponse> {
     return firstValueFrom(this.http.post<ApiResponse>(this.API_ROOT + "/add-operator", operator));
   }
 
@@ -28,7 +30,7 @@ export class CallOperatorService {
     return firstValueFrom(this.http.delete<ApiResponse>(this.API_ROOT + "/delete-operator/" + operatorId));
   }
 
-  public updateOperator(operator: CallOperator): Promise<ApiResponse> {
+  public updateOperator(operator: OperatorListItem): Promise<ApiResponse> {
     return firstValueFrom(this.http.put<ApiResponse>(this.API_ROOT + "/update-operator", operator));
   }
 

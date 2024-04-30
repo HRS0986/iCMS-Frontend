@@ -49,6 +49,8 @@ import { CalendarModule } from "primeng/calendar";
 import { RippleModule } from 'primeng/ripple';
 import { CallOperatorsComponent } from './components/call-operators/call-operators.component';
 import { SkeletonModule } from "primeng/skeleton";
+import { AvatarModule } from "primeng/avatar";
+import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked-bar-chart.component';
 
 
 @NgModule({
@@ -70,7 +72,8 @@ import { SkeletonModule } from "primeng/skeleton";
     CallFilteringComponent,
     FilteringFeaturesComponent,
     CallOperatorsComponent,
-      ],
+    StackedBarChartComponent,
+  ],
   imports: [
     CommonModule,
     CallAnalyticsRoutingModule,
@@ -103,9 +106,11 @@ import { SkeletonModule } from "primeng/skeleton";
     InputGroupAddonModule,
     RippleModule,
     SkeletonModule,
+    AvatarModule,
   ],
   providers: [
     CallAnalyticsService
   ]
 })
-export class CallAnalyticsModule {}
+export class CallAnalyticsModule {
+}
