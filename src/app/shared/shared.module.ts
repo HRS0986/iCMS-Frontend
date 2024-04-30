@@ -16,6 +16,15 @@ import { ChartModule } from "primeng/chart";
 import { RightSidebarComponent } from './shared-components/right-sidebar/right-sidebar.component';
 import { WidgetsBarComponent } from './shared-components/right-sidebar/widgets-bar/widgets-bar.component';
 import { AddMemberBarComponent } from './shared-components/right-sidebar/add-member-bar/add-member-bar.component';
+import { AddchartComponent } from './shared-components/right-sidebar/widgets-bar/addchart/addchart.component';
+import {InputTextModule} from "primeng/inputtext";
+import {FieldsetModule} from "primeng/fieldset";
+import {CardModule} from "primeng/card";
+import {ImageModule} from "primeng/image";
+import {DropdownModule} from "primeng/dropdown";
+import {SelectButtonModule} from "primeng/selectbutton";
+import {MultiSelectModule} from "primeng/multiselect";
+
 
 
 @NgModule({
@@ -28,6 +37,7 @@ import { AddMemberBarComponent } from './shared-components/right-sidebar/add-mem
     RightSidebarComponent,
     WidgetsBarComponent,
     AddMemberBarComponent,
+    AddchartComponent,
   ],
   exports: [
     PageHeaderComponent,
@@ -45,7 +55,14 @@ import { AddMemberBarComponent } from './shared-components/right-sidebar/add-mem
         FormsModule,
         HttpClientModule,
         SidebarModule,
-      ChartModule,
+        ChartModule,
+        InputTextModule,
+        FieldsetModule,
+        CardModule,
+        ImageModule,
+        DropdownModule,
+        SelectButtonModule,
+        MultiSelectModule,
     ]
 
 })
