@@ -22,6 +22,8 @@ import {FieldsetModule} from "primeng/fieldset";
 import {CardModule} from "primeng/card";
 import {ImageModule} from "primeng/image";
 import {DropdownModule} from "primeng/dropdown";
+import {SelectButtonModule} from "primeng/selectbutton";
+import {MultiSelectModule} from "primeng/multiselect";
 
 
 
@@ -43,23 +45,25 @@ import {DropdownModule} from "primeng/dropdown";
     TopMenuComponent,
     WordcloudComponent
   ],
-  imports: [
-    CommonModule,
-    PanelMenuModule,
-    PanelModule,
-    BreadcrumbModule,
-    DividerModule,
-    CalendarModule,
-    FormsModule,
-    HttpClientModule,
-    SidebarModule,
-    ChartModule,
-    InputTextModule,
-    FieldsetModule,
-    CardModule,
-    ImageModule,
-    DropdownModule,
-  ]
+    imports: [
+        CommonModule,
+        PanelMenuModule,
+        PanelModule,
+        BreadcrumbModule,
+        DividerModule,
+        CalendarModule,
+        FormsModule,
+        HttpClientModule,
+        SidebarModule,
+        ChartModule,
+        InputTextModule,
+        FieldsetModule,
+        CardModule,
+        ImageModule,
+        DropdownModule,
+        SelectButtonModule,
+        MultiSelectModule,
+    ]
 
 })
 export class SharedModule {

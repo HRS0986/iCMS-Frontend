@@ -10,9 +10,9 @@
     <div class="chart-type mt-5">
       <span>Chart Title</span>
     </div>
-    <div class=" pt-5">
-        <span class="">
-            <input pInputText id="title" type="text" class="p-inputtext-sm"  [(ngModel)]="title" />
+    <div class="pt-5">
+        <span>
+            <input pInputText id="title" type="text" class="p-inputtext-sm title-input"  [(ngModel)]="title" />
         </span>
     </div>
     <div>
@@ -24,57 +24,27 @@
 
       <!--  I need to enter box shape button to choose the chart type they wnat.. each button with coresponding chart icon and name under  the icon.. both are iside the button box  -->
       <div class="chart-content mt-5">
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'line'" (click)="selectChartType('line')">
-          <div class="btn-content">
-            <i class="pi pi-chart-line"></i>
-            <span>Line Chart</span>
-          </div>
-          <p-button class="checkmark" size="small" severity="secondary"  [rounded]="true"  *ngIf="selectedChartType === 'line'" icon="pi pi-check"></p-button>
-        </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'bar'" (click)="selectChartType('bar')">
-          <div class="btn-content">
-            <i class="pi pi-chart-bar"></i>
-            <span>Bar Chart</span>
-          </div>
-          <p-button class="checkmark" size="small" severity="secondary"  [rounded]="true" *ngIf="selectedChartType === 'bar'" icon="pi pi-check">
-          </p-button>
-        </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'horizontalBar'" (click)="selectChartType('horizontalBar')">
-          <div class="btn-content">
-            <i class="pi pi-chart-bar p-inverted-icon p-rotated-icon"></i>
-            <span>Horizontal Bar Chart</span>
-          </div>
-          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true" *ngIf="selectedChartType === 'horizontalBar'" icon="pi pi-check"></p-button>
-        </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'pie'" (click)="selectChartType('pie')">
-          <div class="btn-content">
-            <i class="pi pi-chart-pie"></i>
-            <span>Pie Chart</span>
-          </div>
-          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true" *ngIf="selectedChartType === 'pie'" icon="pi pi-check"></p-button>
-        </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'wordCloud'" (click)="selectChartType('wordCloud')">
-          <div class="btn-content">
-            <i class="pi pi-slack"></i>
-            <span>Word Cloud</span>
-          </div>
-          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true" *ngIf="selectedChartType === 'wordCloud'" icon="pi pi-check"></p-button>
-        </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'doughnut'" (click)="selectChartType('doughnut')">
-          <div class="btn-content">
-            <i class="pi pi-chart-pie"></i>
-            <span>Doughnut Chart</span>
-          </div>
-          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true" *ngIf="selectedChartType === 'doughnut'" icon="pi pi-check"></p-button>
-        </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'table'" (click)="selectChartType('table')">
-          <div class="btn-content">
-            <i class="pi pi-table"></i>
-            <span>Table</span>
-          </div>
-          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true" *ngIf="selectedChartType === 'table'" icon="pi pi-check"></p-button>
-        </button>
+        <p-selectButton class="selectChart" [options]="stateOptions" [(ngModel)]="value"  optionLabel="label" optionValue="value"></p-selectButton>
       </div>
+
+      <div class="choose-source mt-5">
+        <span class="mb-5">Choose source</span>
+        <p-multiSelect [options]="sources" [filter]='false' [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true"></p-multiSelect>
+
+      </div>
+
+      <div class="choose-source mt-5">
+        <span class="mb-5">Add filter keywords</span>
+        <p-multiSelect [options]="keywords"  [showHeader]="true"  [(ngModel)]="selectedKeywords" placeholder="Select keywords" optionLabel="name"></p-multiSelect>
+      </div>
+
+<!--      save button-->
+      <div class="save-button mt-5">
+        <p-button label="Save" class="saveButton" (click)="saveWidget()"></p-button>
+      </div>
+
+
+
 
     </div>
 
