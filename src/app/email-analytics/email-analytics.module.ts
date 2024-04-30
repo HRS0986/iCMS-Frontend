@@ -22,6 +22,8 @@ import { TooltipModule } from 'primeng/tooltip';
 // import { CallSummaryChartComponent } from './components/call-summary-chart/call-summary-chart.component';
 // import { CallRecordingsComponent } from './components/call-recordings/call-recordings.component';
 import { DialogModule } from 'primeng/dialog';
+
+
 import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.component';
 import { SummaryCardComponent } from './components/summary-card/summary-card.component';
 import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
@@ -51,6 +53,11 @@ import { TopicCardComponent } from './components/topic-card/topic-card.component
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
+
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
+import { DividerModule } from 'primeng/divider';
+
 
 
 
@@ -100,6 +107,9 @@ import { MessageService } from 'primeng/api';
     MultiSelectModule,
     TableModule,
     ToastModule,
+    DropdownModule,
+    CalendarModule,
+    DividerModule
   ],
   providers: [MessageService],
 })

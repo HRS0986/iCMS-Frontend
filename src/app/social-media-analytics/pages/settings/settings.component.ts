@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from "primeng/api";
+import { Content } from '../../structs';
 
 @Component({
   selector: 'app-settings',
@@ -13,4 +14,15 @@ export class settingsComponent {
     {label: "Settings"}
   ];
 
+  tabNotifications = {title:'Notifications', img: ''};
+  tabThresholds = {title:'Thresholds', img: ''};
+  tabAlerts = {title:'Alerts', img: ''};
+  tabCampaigns = {title:'Campaigns', img: ''};
+
+  content1: Content = {title: 'Notification Configeration'};
+  content2: Content = {title: 'Created Thresholds'};
+  content3: Content = {title: 'Created Alerts'};
+  content4: Content = {title: 'Created Campaigns'};
+
+  topBarCaption = "Export Data";
 }

@@ -1,9 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { CallRecordingService } from '../../services/call-recording.service';
 import { finalize } from 'rxjs/operators';
 import { FileSelectEvent, FileUpload, FileUploadEvent } from "primeng/fileupload";
-import { ApiResponse, QueuedFile } from "../../types";
+import { ApiResponse, OperatorListItem, QueuedFile } from "../../types";
+import { CallOperatorService } from "../../services/call-operator.service";
 
 
 @Component({
@@ -11,7 +12,7 @@ import { ApiResponse, QueuedFile } from "../../types";
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss']
 })
-export class FileUploadComponent {
+export class FileUploadComponent implements OnInit {
 
   @ViewChild("callUpload") callUpload!: FileUpload;
 
@@ -26,8 +27,16 @@ export class FileUploadComponent {
   selectedFilesCount = 0
   dateList: Date[] = [];
   descriptionList: string[] = [];
+  operatorsList: number[] = [];
+  callOperators: OperatorListItem[] = [];
 
-  constructor(private callRecordingService: CallRecordingService) {}
+  constructor(private callRecordingService: CallRecordingService, private callOperatorService: CallOperatorService) {}
+
+  ngOnInit() {
+    this.callOperatorService.getAllOperators().subscribe((data) => {
+      this.callOperators = data.data;
+    });
+  }
 
   onUploadClick(event: FileUploadEvent): void {
       const files= event.files;
@@ -37,10 +46,11 @@ export class FileUploadComponent {
           const file: File = files[i];
           const description = this.descriptionList[i];
           const dateTime = this.dateList[i];
+          const operatorId = this.operatorsList[i];
 
           // Construct the new file name
           const fileExtension = file.name.split('.').pop();
-          const newFileName = this.getFileName(dateTime, description, fileExtension!);
+          const newFileName = this.getFileName(dateTime, description, fileExtension!, operatorId);
 
           // Create a new File object with the updated name
           const renamedFile = new File([file], newFileName);
@@ -54,16 +64,15 @@ export class FileUploadComponent {
       } else {
         console.warn('No file selected');
       }
-
   }
 
-  getFileName(dateTime: Date, description: string, extension: string): string {
+  getFileName(dateTime: Date, description: string, extension: string, operatorId: number): string {
     const dateTimeString = dateTime.toISOString();
     const date = dateTimeString.split('T')[0];
     const time = dateTime.toTimeString().split(" ")[0]
     const dateString = date.split('-').join('');
     let timeString = time.split(':').join('');
-    return `${dateString}_${timeString}_${description}.${extension}`;
+    return `${operatorId}_${dateString}_${timeString}_${description}.${extension}`;
   }
 
   onSelectFilesToUpload(event: FileSelectEvent) {
