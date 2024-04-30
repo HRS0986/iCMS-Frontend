@@ -24,7 +24,7 @@
             <div>
                 <p>Keyword:</p>
                 <div class="card flex justify-content-center">
-                    <input pInputText type="text" id="keyword" [(ngModel)]="value" placeholder="Keyword" />
+                    <input pInputText type="text" id="keyword" [(ngModel)]="keyword" placeholder="Keyword" />
                 </div>
             </div>
 
@@ -45,12 +45,12 @@
             <div class="flex flex-row justify-between items-center gap-6">
                 <p>Call Duration:</p>
                 <div class="card slider-container">
-                    <p-slider [(ngModel)]="value1"></p-slider>
+                    <p-slider [(ngModel)]="duration"></p-slider>
                 </div>
                 <p>10 mins</p>
             </div>
             <div class="card flex justify-center gap-3">
-                <p-button label="Apply Filter" (click)="applyFeatures()"></p-button> 
+                <p-button label="Apply Filter" (click)="applyFeatures()"></p-button>
                 <p-button label="Clear Filters" [outlined]="true" severity="clsFilter" ></p-button>
             </div>
         </div>

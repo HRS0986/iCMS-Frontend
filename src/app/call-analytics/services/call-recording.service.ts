@@ -44,9 +44,16 @@ export class CallRecordingService {
     return this.http.delete<ApiResponse>(url);
   }
 
-  public applyFeatures(duration: number, keyword: string[], sentiment_category: string, start_date: string, end_date: string, topics: Topic): Observable<ApiResponse> {
+  public applyFeatures(duration: number, keyword: string[], sentiment_category: string, start_date: string, end_date: string, topics: string[]): Observable<ApiResponse> {
     const url = `${this.API_ROOT}/filter-calls/`;
-    const body = { start_date, end_date, keyword, duration, sentiment_category,topics};
+    const body = {
+      start_date: start_date,
+      end_date: end_date,
+      keywords: keyword, // Use the provided keyword array
+      duration: duration, // Use the provided duration
+      sentiment_category: sentiment_category,
+      topics: topics // Use the provided topics array
+    };
 
     // Define HTTP Headers
     const headers = new HttpHeaders({
@@ -60,10 +67,15 @@ export class CallRecordingService {
       headers: headers
     };
 
-    console.log(url);
+    // Log URL and header data
+    console.log("URL:", url);
+    console.log("Headers:", headers);
+    console.log("Body:", body);
+
     // Ensure to return the Observable from the HTTP POST request
     return this.http.post<ApiResponse>(url, body, options);
-}
+  }
 
-    
+
+
 }

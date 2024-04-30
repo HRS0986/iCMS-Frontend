@@ -21,11 +21,13 @@ interface SentiCatg {
 export class FilteringFeaturesComponent implements OnInit {
   rangeDates: Date[] | undefined;
 
-  value: any;   //Keyword
+  keyword: any;   //Keyword
 
-  value1!: number;  //Slider
+  duration!: number;  //Slider
 
   topic: Topic[] | undefined;
+  topics: string[] = [];
+  keywords: string[] = [];
 
   selectedTopic!: Topic;
 
@@ -180,15 +182,18 @@ export class FilteringFeaturesComponent implements OnInit {
     this.dateString = this.rangeDates;
     console.log(this.dateString)
     console.log(this.selectedTopic)
-    console.log(this.value)
+    console.log(this.duration)
     console.log(this.selectedSentiCatg)
 
 
     let start_date = this.dateString[0];
     let end_date = this.dateString[1];
-    
+
+    this.topics.push(this.selectedTopic.name)
+    this.keywords.push(this.keyword)
+
     // Call applyFeatures method from the service with required parameters
-    this.callRecordingService.applyFeatures(this.value1, this.value, this.selectedSentiCatg.name, start_date, end_date, this.selectedTopic)
+    this.callRecordingService.applyFeatures(this.duration, this.keywords,  this.selectedSentiCatg.name, start_date, end_date, this.topics )
       .subscribe((response: any) => {
         // Handle the response here if needed
       });
