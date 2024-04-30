@@ -1,12 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-doughnut-chart',
+  selector: 'doughnut-chart',
   templateUrl: './doughnut-chart.component.html',
   styleUrl: './doughnut-chart.component.scss'
 })
+
 export class DoughnutChartComponent implements OnInit {
   @Input() title!: string;
+  @Input() percentages!: number[];
   data: any;
 
   options: any;
