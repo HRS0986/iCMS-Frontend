@@ -3,6 +3,10 @@ import { ApiResponse, CallRecording, QueuedFile } from '../types';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Header } from 'primeng/api';
+interface Topic {
+  name: string;
+  code: string;
+}
 
 
 @Injectable({
@@ -40,9 +44,9 @@ export class CallRecordingService {
     return this.http.delete<ApiResponse>(url);
   }
 
-  public applyFeatures(call_duration: any, keywords: any, sentiment: any, start_date: any, end_date: any): Observable<ApiResponse> {
-    const url = `${this.API_ROOT}/filter-calls`;
-    const body = { call_duration, keywords, sentiment, start_date, end_date };
+  public applyFeatures(duration: number, keyword: string[], sentiment_category: string, start_date: string, end_date: string, topics: Topic): Observable<ApiResponse> {
+    const url = `${this.API_ROOT}/filter-calls/`;
+    const body = { start_date, end_date, keyword, duration, sentiment_category,topics};
 
     // Define HTTP Headers
     const headers = new HttpHeaders({
@@ -59,5 +63,7 @@ export class CallRecordingService {
     console.log(url);
     // Ensure to return the Observable from the HTTP POST request
     return this.http.post<ApiResponse>(url, body, options);
-  }
+}
+
+    
 }

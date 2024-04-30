@@ -21,17 +21,17 @@ interface SentiCatg {
 export class FilteringFeaturesComponent implements OnInit {
   rangeDates: Date[] | undefined;
 
-  value: string | undefined;   //Keyword
+  value: any;   //Keyword
 
   value1!: number;  //Slider
 
   topic: Topic[] | undefined;
 
-  selectedTopic: Topic | undefined;
+  selectedTopic!: Topic;
 
   sentiCatg: SentiCatg[] | undefined;
 
-  selectedSentiCatg: SentiCatg | undefined;
+  selectedSentiCatg!: SentiCatg;
 
   @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
 
@@ -70,13 +70,13 @@ export class FilteringFeaturesComponent implements OnInit {
     this.callRecordingService.getCallsList().subscribe((data) => {
       // Map the fetched data to match the structure of callRecordings
       if (data.data.length === 0) {
-        this.callRecordings = [
-          { id: "cr_0", description: "Call Recording Title2", date: new Date(), duration: 3.7, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription" },
-          { id: "cr_1", description: "Call Recording Title3", date: new Date(), duration: 3.7, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription" },
-          { id: "cr_2", description: "Call Recording Title4", date: new Date(), duration: 3.7, sentiment: "Neutral", callUrl: "dumyy url", transcription: "dummy transcription" },
-          { id: "cr_3", description: "Call Recording Title5", date: new Date(), duration: 3.7, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription" },
-          { id: "cr_4", description: "Call Recording Title6", date: new Date(), duration: 3.7, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription" },
-        ];
+        // this.callRecordings = [
+        //   { id: "cr_0", description: "Call Recording Title2", date: new Date(), duration: 3.7, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription" },
+        //   { id: "cr_1", description: "Call Recording Title3", date: new Date(), duration: 3.7, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription" },
+        //   { id: "cr_2", description: "Call Recording Title4", date: new Date(), duration: 3.7, sentiment: "Neutral", callUrl: "dumyy url", transcription: "dummy transcription" },
+        //   { id: "cr_3", description: "Call Recording Title5", date: new Date(), duration: 3.7, sentiment: "Negative", callUrl: "dumyy url", transcription: "dummy transcription" },
+        //   { id: "cr_4", description: "Call Recording Title6", date: new Date(), duration: 3.7, sentiment: "Positive", callUrl: "dumyy url", transcription: "dummy transcription" },
+        // ];
         console.log('Initial summaryCalls:', this.callRecordings);
         // TODO: Ask From Eranda
         this.noCalls = this.callRecordings.length == 0;
@@ -186,9 +186,9 @@ export class FilteringFeaturesComponent implements OnInit {
 
     let start_date = this.dateString[0];
     let end_date = this.dateString[1];
-
+    
     // Call applyFeatures method from the service with required parameters
-    this.callRecordingService.applyFeatures(start_date, end_date, this.value, this.selectedSentiCatg, this.selectedTopic)
+    this.callRecordingService.applyFeatures(this.value1, this.value, this.selectedSentiCatg.name, start_date, end_date, this.selectedTopic)
       .subscribe((response: any) => {
         // Handle the response here if needed
       });
@@ -199,14 +199,14 @@ export class FilteringFeaturesComponent implements OnInit {
     this.callRecordingService.getCallsList().subscribe((data) => {
       this.callRecordings = data.data.map((record: CallRecording) => ({
         "title": record.description,
-        "date": new Date(record.call_date).toLocaleDateString(),
-        "status": record.sentiment_category,
-        "summary": record.summary,
-        "call_url": record.call_recording_url,
+        "date": new Date(record.date).toLocaleDateString(),
+        "status": record.sentiment,
+        "summary": record.description,
+        "call_url": record.callUrl,
         "transcription": record.transcription,
-        "duration": record.call_duration,
-        "call_id": record.call_id,
-        "analytics_id": record.analytics_id
+        "duration": record.duration,
+        "call_id": record.id,
+        // "analytics_id": record.analytics_id
       }));
       console.log('Call recordings refreshed:', this.callRecordings);
     }, error => {
