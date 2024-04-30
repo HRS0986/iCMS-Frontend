@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from "primeng/api";
 import { piPageItem, highlightedComments } from '../../structs';
+import { HttpClient } from '@angular/common/http';
 
 const itemService: highlightedComments[] = [
   {
@@ -64,25 +65,44 @@ export class PIComponent implements OnInit {
   OptionsKeywordThrends: any;
   OptionsSentimentOverTime: any;
 
+  constructor(private http: HttpClient) { }
+
   ngOnInit() {
     this.items = itemService;
+    let keywordThrendsLabels: string[] = [];
+    let keywordThrendsData: any[] = [];
 
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.DataKeywordThrends = {
-      labels: ['ChargingNet', 'Lia', 'TravelBox', 'Vega'],
-      datasets: [
-        {
-          data: [54, 32, 70, 62],
-          backgroundColor: ['rgba(255, 159, 64, 0.4)', 'rgba(75, 192, 192, 0.4)', 'rgba(54, 162, 235, 0.4)', 'rgba(153, 102, 255, 0.4)'],
-          borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
-          borderWidth: 1
+    this.http.get<any>('http://127.0.0.1:8000/social-media/keyword_trend_count?startDate=2021-01-01&endDate=2021-01-15')
+      .subscribe(response => {
+        const keyword_trends = response[0];
+
+        for (const [key, value] of Object.entries(keyword_trends)) {
+          keywordThrendsLabels.push(key);
+          keywordThrendsData.push(value);
         }
-      ]
-    };
+
+        this.DataKeywordThrends = {
+          labels: keywordThrendsLabels,
+          datasets: [
+            {
+              data: keywordThrendsData,
+              backgroundColor: ['rgba(255, 159, 64, 0.4)', 'rgba(75, 192, 192, 0.4)', 'rgba(54, 162, 235, 0.4)', 'rgba(153, 102, 255, 0.4)'],
+              borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+              borderWidth: 1
+            }
+          ]
+        };
+
+      },
+        error => {
+          console.error('Error fetching data:', error);
+        });
+
 
     this.DataReactions = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],

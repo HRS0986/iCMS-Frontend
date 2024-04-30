@@ -17,7 +17,7 @@ export class SettingsAlerts implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.http.get<any>('http://127.0.0.1:8000/social-media/get_keyword_alerts_')
+    this.http.get<any>('http://127.0.0.1:8000/social-media/keyword_alerts')
       .subscribe(response => {
         const alerts = response[0] as AlertItem[];
         alerts.forEach(alert => {
