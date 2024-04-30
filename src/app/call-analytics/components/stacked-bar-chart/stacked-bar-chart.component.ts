@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CallAnalyticsService } from "../../services/call-analytics.service";
-import { log } from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+import { OperatorAnalyticsOverTimeRecord } from "../../types";
 
 @Component({
   selector: 'app-stacked-bar-chart',
@@ -57,28 +57,28 @@ export class StackedBarChartComponent implements OnInit {
 
   ngOnInit() {
     this.callAnalyticsService.getOperatorCallsOverTime().then(response =>{
-      let data_over_time = response.data;
+      let data_over_time = response.data as OperatorAnalyticsOverTimeRecord[];
 
       this.data = {
-        labels: data_over_time.map,
+        labels: data_over_time.map(dt => dt.operator_name),
         datasets: [
           {
             type: 'bar',
             label: 'Positive',
             backgroundColor: this.documentStyle.getPropertyValue('--positive-color'),
-            data: [50, 25, 12, 48, 90, 76, 42, 69, 69, 69]
+            data: data_over_time.map(dt => dt.positive)
           },
           {
             type: 'bar',
             label: 'Neutral',
             backgroundColor: this.documentStyle.getPropertyValue('--neutral-color'),
-            data: [21, 84, 24, 75, 37, 65, 34, 69, 69, 69]
+            data: data_over_time.map(dt => dt.neutral)
           },
           {
             type: 'bar',
             label: 'Negative',
             backgroundColor: this.documentStyle.getPropertyValue('--negative-color'),
-            data: [41, 52, 24, 74, 23, 21, 32, 69, 69, 69]
+            data: data_over_time.map(dt => dt.negative)
           }
         ]
       };
