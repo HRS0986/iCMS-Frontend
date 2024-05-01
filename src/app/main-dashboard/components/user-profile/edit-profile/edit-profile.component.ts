@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {MenuItem} from "primeng/api";
-import {ImageModule} from "primeng/image";
-import { InputTextModule } from 'primeng/inputtext';
+import {Component} from '@angular/core';
+
+
+
 
 @Component({
   selector: 'app-edit-profile',

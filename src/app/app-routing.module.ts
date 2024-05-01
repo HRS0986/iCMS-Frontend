@@ -29,6 +29,11 @@ const routes: Routes = [
   {
     path: "app-settings",
     loadChildren: () => import("./app-settings/app-settings.module").then(m => m.AppSettingsModule)
+  },
+  {
+    path: "",
+    redirectTo: "main-dashboard",
+    pathMatch: "full"
   }
 ];
 
