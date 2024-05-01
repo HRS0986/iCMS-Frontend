@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from "primeng/api";
 import { CallAnalyticsService } from "../../services/call-analytics.service";
-import { CallStatistics, OverallCallStatusPercentages } from "../../types";
+import { CallStatistics, OverallCallStatusPercentages, SentimentPercentages } from "../../types";
 
 
 @Component({
@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit{
   ];
 
   callStatistics!: CallStatistics;
+  callSentiments!: SentimentPercentages;
 
   myData = [
     {word: 'Prashant', weight: 40, color: 'green'},
@@ -44,7 +45,14 @@ export class DashboardComponent implements OnInit{
   ]
 
   ngOnInit() {
-    this.callStatistics = this.callAnalyticsService.getCallStatistics();
+    this.callAnalyticsService.getCallStatistics().then(response => {
+      console.log(response);
+      this.callStatistics = response.data;
+    });
+    this.callAnalyticsService.getSentimentPercentages().then(response => {
+      console.log(response);
+      this.callSentiments = response.data
+    })
 
   }
 

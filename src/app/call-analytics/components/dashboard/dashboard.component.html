@@ -2,24 +2,20 @@
 <div class="flex flex-col">
   <div class="flex gap-6 flex-wrap">
     <div class="stat-cards">
-      <app-stat-card title="{{callStatistics.totalCalls}}" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
-      <app-stat-card title="{{callStatistics.averageCallTime}}" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
-      <app-stat-card title="{{callStatistics.totalMinutes}}" subTitle="Total Minute" imgPath="./call/blue-call.png"/>
+      <app-stat-card title="{{callStatistics.total_calls}}" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
+      <app-stat-card title="{{callStatistics.avg_call_time_in_sec}}" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
+      <app-stat-card title="{{callStatistics.total_duration_in_sec / 60}}" subTitle="Total Minute" imgPath="./call/blue-call.png"/>
     </div>
     <app-line-area-chart title="Sentiment Over Time"/>
-    <app-doughnut-chart title="Call Summary" [percentages]="[100, 50, 75]"/>
+    <app-doughnut-chart title="Call Summary" [percentages]="[callSentiments.negative, callSentiments.positive, callSentiments.neutral]"/>
   </div>
   <div class="flex gap-7 flex-wrap">
     <app-horizontal-bar-chart/>
-    <app-gauge-chart/>
-    <div class="stat-cards">
-      <app-stat-card title="{{callStatistics.positiveCalls}}" subTitle="Positive Calls" imgPath="./call/green-call.png"/>
-      <app-stat-card title="{{callStatistics.negativeCalls}}" subTitle="Negative Calls" imgPath="./call/red-phone.png"/>
-      <app-stat-card title="{{callStatistics.neutralCalls}}" subTitle="Neutral Calls" imgPath="./call/yellow-phone.png"/>
-    </div>
+    <app-wordcloud [words]="myData" title="Test WordCloud Title" />
   </div>
   <div class="flex gap-7 flex-wrap">
   <app-wordcloud [words]="myData" title="Trending Hash Tags" />
     <app-recent-calls-card/>
+    <app-stacked-bar-chart />
   </div>
 </div>

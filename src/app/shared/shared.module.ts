@@ -25,6 +25,8 @@ import {DropdownModule} from "primeng/dropdown";
 import { CreateButtonComponent } from './shared-components/right-sidebar/widgets-bar/addchart/create-button/create-button.component';
 import { WidgetsSettingsComponent } from './shared-components/right-sidebar/widgets-bar/addchart/widgets-settings/widgets-settings.component';
 import { InputDataComponent } from './shared-components/right-sidebar/widgets-bar/addchart/input-data/input-data.component';
+import {SelectButtonModule} from "primeng/selectbutton";
+import {MultiSelectModule} from "primeng/multiselect";
 
 
 
@@ -49,23 +51,25 @@ import { InputDataComponent } from './shared-components/right-sidebar/widgets-ba
     TopMenuComponent,
     WordcloudComponent
   ],
-  imports: [
-    CommonModule,
-    PanelMenuModule,
-    PanelModule,
-    BreadcrumbModule,
-    DividerModule,
-    CalendarModule,
-    FormsModule,
-    HttpClientModule,
-    SidebarModule,
-    ChartModule,
-    InputTextModule,
-    FieldsetModule,
-    CardModule,
-    ImageModule,
-    DropdownModule,
-  ]
+    imports: [
+        CommonModule,
+        PanelMenuModule,
+        PanelModule,
+        BreadcrumbModule,
+        DividerModule,
+        CalendarModule,
+        FormsModule,
+        HttpClientModule,
+        SidebarModule,
+        ChartModule,
+        InputTextModule,
+        FieldsetModule,
+        CardModule,
+        ImageModule,
+        DropdownModule,
+        SelectButtonModule,
+        MultiSelectModule,
+    ]
 
 })
 export class SharedModule {

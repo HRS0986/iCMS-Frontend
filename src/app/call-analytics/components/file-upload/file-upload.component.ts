@@ -3,7 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { CallRecordingService } from '../../services/call-recording.service';
 import { finalize } from 'rxjs/operators';
 import { FileSelectEvent, FileUpload, FileUploadEvent } from "primeng/fileupload";
-import { ApiResponse, CallOperator, QueuedFile } from "../../types";
+import { ApiResponse, OperatorListItem, QueuedFile } from "../../types";
 import { CallOperatorService } from "../../services/call-operator.service";
 
 
@@ -28,7 +28,7 @@ export class FileUploadComponent implements OnInit {
   dateList: Date[] = [];
   descriptionList: string[] = [];
   operatorsList: number[] = [];
-  callOperators: CallOperator[] = [];
+  callOperators: OperatorListItem[] = [];
 
   constructor(private callRecordingService: CallRecordingService, private callOperatorService: CallOperatorService) {}
 
