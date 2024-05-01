@@ -24,11 +24,11 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
-
+import { ProductlistComponent } from './main-dashboard/components/charts/productlist/productlist.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ProductlistComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -13,12 +13,14 @@
     font-size: 1rem;
     height: 40px;
   }
-  .chartTypeBox{
+
+  .chartTypeBox {
     border: 1px solid #d9d9d9;
     margin: 30px 10px 30px 0;
   }
-  .btn-square{
-    height:80px;
+
+  .btn-square {
+    height: 80px;
     width: 80px;
   }
 
@@ -28,9 +30,10 @@
     flex-direction: column;
     align-items: center;
   }
+
   .chart-content {
     display: flex;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
   }
@@ -38,13 +41,16 @@
   .btn-content i {
     margin-bottom: 5px;
   }
+
   .p-inverted-icon {
     transform: scaleY(-1);
 
   }
+
   .p-rotated-icon {
     transform: rotate(90deg);
   }
+
   .btn-square {
     position: relative;
 
@@ -59,11 +65,31 @@
     color: #0c8c0c;
     z-index: 5;
 
-    button{
+    button {
       background-color: black;
     }
   }
+}
+.btn:hover {
+  /* Hover effect styles for all buttons */
+  opacity: 0.5; /* Slightly reduce opacity on hover */
+}
+.btn {
+  /* Base styles for all buttons */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer; /* Indicate clickable element */
+  font-size: 16px;
+  margin: 5px;
+}
 
+.reset-btn {
+  background-color: gray;
+  color: rgb(255, 255, 255);
+}
 
-
+.btn:hover {
+  /* Hover effect styles for all buttons */
+  opacity: 0.8; /* Slightly reduce opacity on hover */
 }

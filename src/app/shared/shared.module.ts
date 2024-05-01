@@ -22,6 +22,9 @@ import {FieldsetModule} from "primeng/fieldset";
 import {CardModule} from "primeng/card";
 import {ImageModule} from "primeng/image";
 import {DropdownModule} from "primeng/dropdown";
+import { CreateButtonComponent } from './shared-components/right-sidebar/widgets-bar/addchart/create-button/create-button.component';
+import { WidgetsSettingsComponent } from './shared-components/right-sidebar/widgets-bar/addchart/widgets-settings/widgets-settings.component';
+import { InputDataComponent } from './shared-components/right-sidebar/widgets-bar/addchart/input-data/input-data.component';
 
 
 
@@ -36,6 +39,9 @@ import {DropdownModule} from "primeng/dropdown";
     WidgetsBarComponent,
     AddMemberBarComponent,
     AddchartComponent,
+    CreateButtonComponent,
+    WidgetsSettingsComponent,
+    InputDataComponent
   ],
   exports: [
     PageHeaderComponent,

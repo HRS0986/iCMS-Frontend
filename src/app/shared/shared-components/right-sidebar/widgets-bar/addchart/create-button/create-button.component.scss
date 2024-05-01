@@ -1,0 +1,24 @@
+.btn {
+    /* Base styles for all buttons */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Indicate clickable element */
+    font-size: 16px;
+    color: white; /* Default text color for both buttons */
+    margin: 5px;
+  }
+  
+  .create-btn {
+    background-color: blue;
+  }
+  
+  .reset-btn {
+    background-color: gray;
+  }
+  
+  .btn:hover {
+    /* Hover effect styles for all buttons */
+    opacity: 0.8; /* Slightly reduce opacity on hover */
+  }
+  

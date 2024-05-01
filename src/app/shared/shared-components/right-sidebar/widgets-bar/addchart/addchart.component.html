@@ -11,12 +11,12 @@
       <span>Chart Title</span>
     </div>
     <div class=" pt-5">
-        <span class="">
-            <input pInputText id="title" type="text" class="p-inputtext-sm"  [(ngModel)]="title" />
-        </span>
+      <span class="">
+        <input pInputText id="title" type="text" class="p-inputtext-sm" [(ngModel)]="title" />
+      </span>
     </div>
     <div>
-<!--      add here text showing  "Chart type-->
+      <!--      add here text showing  "Chart type-->
       <div class="chart-type mt-5">
         <span>Chart Type</span>
       </div>
@@ -24,63 +24,105 @@
 
       <!--  I need to enter box shape button to choose the chart type they wnat.. each button with coresponding chart icon and name under  the icon.. both are iside the button box  -->
       <div class="chart-content mt-5">
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'line'" (click)="selectChartType('line')">
+        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'line'"
+          (click)="selectChartType('line')">
           <div class="btn-content">
             <i class="pi pi-chart-line"></i>
             <span>Line Chart</span>
           </div>
-          <p-button class="checkmark" size="small" severity="secondary"  [rounded]="true"  *ngIf="selectedChartType === 'line'" icon="pi pi-check"></p-button>
+          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true"
+            *ngIf="selectedChartType === 'line'" icon="pi pi-check"></p-button>
         </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'bar'" (click)="selectChartType('bar')">
+        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'bar'"
+          (click)="selectChartType('bar')">
           <div class="btn-content">
             <i class="pi pi-chart-bar"></i>
             <span>Bar Chart</span>
           </div>
-          <p-button class="checkmark" size="small" severity="secondary"  [rounded]="true" *ngIf="selectedChartType === 'bar'" icon="pi pi-check">
+          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true"
+            *ngIf="selectedChartType === 'bar'" icon="pi pi-check">
           </p-button>
         </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'horizontalBar'" (click)="selectChartType('horizontalBar')">
+        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'horizontalBar'"
+          (click)="selectChartType('horizontalBar')">
           <div class="btn-content">
             <i class="pi pi-chart-bar p-inverted-icon p-rotated-icon"></i>
             <span>Horizontal Bar Chart</span>
           </div>
-          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true" *ngIf="selectedChartType === 'horizontalBar'" icon="pi pi-check"></p-button>
+          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true"
+            *ngIf="selectedChartType === 'horizontalBar'" icon="pi pi-check"></p-button>
         </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'pie'" (click)="selectChartType('pie')">
+        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'pie'"
+          (click)="selectChartType('pie')">
           <div class="btn-content">
             <i class="pi pi-chart-pie"></i>
             <span>Pie Chart</span>
           </div>
-          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true" *ngIf="selectedChartType === 'pie'" icon="pi pi-check"></p-button>
+          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true"
+            *ngIf="selectedChartType === 'pie'" icon="pi pi-check"></p-button>
         </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'wordCloud'" (click)="selectChartType('wordCloud')">
+        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'wordCloud'"
+          (click)="selectChartType('wordCloud')">
           <div class="btn-content">
             <i class="pi pi-slack"></i>
             <span>Word Cloud</span>
           </div>
-          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true" *ngIf="selectedChartType === 'wordCloud'" icon="pi pi-check"></p-button>
+          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true"
+            *ngIf="selectedChartType === 'wordCloud'" icon="pi pi-check"></p-button>
         </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'doughnut'" (click)="selectChartType('doughnut')">
+        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'doughnut'"
+          (click)="selectChartType('doughnut')">
           <div class="btn-content">
             <i class="pi pi-chart-pie"></i>
             <span>Doughnut Chart</span>
           </div>
-          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true" *ngIf="selectedChartType === 'doughnut'" icon="pi pi-check"></p-button>
+          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true"
+            *ngIf="selectedChartType === 'doughnut'" icon="pi pi-check"></p-button>
         </button>
-        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'table'" (click)="selectChartType('table')">
+        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'table'"
+          (click)="selectChartType('table')">
           <div class="btn-content">
             <i class="pi pi-table"></i>
             <span>Table</span>
           </div>
-          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true" *ngIf="selectedChartType === 'table'" icon="pi pi-check"></p-button>
+          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true"
+            *ngIf="selectedChartType === 'table'" icon="pi pi-check"></p-button>
+        </button>
+        <!-- THis is my new buttons -->
+        <button class="btn btn-primary btn-square" [class.selected]="selectedChartType === 'meter'"
+          (click)="selectChartType('meter')">
+          <div class="btn-content">
+            <i class="pi pi-arrow-up-right"></i>
+            <span>Sentiment Meter</span>
+          </div>
+          <p-button class="checkmark" size="small" severity="secondary" [rounded]="true"
+            *ngIf="selectedChartType === 'meter'" icon="pi pi-check"></p-button>
         </button>
       </div>
 
+      <!-- Enter the data you want -->
+      <br>
+      <div class="Data-you-want mt-5">
+        <span>Data</span>
+      </div>
+      <div class="pt-5">
+        <span class="">
+          <p-dropdown [options]="chartTitles" [(ngModel)]="title" optionLabel="label" [style]="{'width': '100%'}" ></p-dropdown>
+        </span>
+      </div>
+      
+
+      <br>
+      <!-- ket's add a create button -->
+      <app-create-button></app-create-button>
+      <button class="btn reset-btn" label="Reset" (click)="resetWidgetData()">Reset</button>
+
     </div>
+
 
   </ng-template>
 
 
 
 </p-sidebar>
-<p-button severity="secondary" icon="pi pi-chart-bar" class="pe-3 addWidget" (click)="sidebarVisible = true" ></p-button>
+<p-button severity="secondary" icon="pi pi-chart-bar" class="pe-3 addWidget" (click)="sidebarVisible = true"></p-button>
