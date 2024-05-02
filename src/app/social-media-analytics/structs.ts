@@ -58,3 +58,14 @@ export interface campaign {
   min?: number;
   max?: number;
 }
+
+export interface Thresholds {
+  
+  platform: string;
+  alert_type: string;
+  overallSentiment: string | number; // Change the type to string | number
+  color: string;
+  min_val: number;
+  max_val: number;
+  
+}
