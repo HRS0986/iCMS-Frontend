@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Campaign, Content } from '../../structs';
+import { Campaign, campaignData } from '../../structs';
 
 @Component({
   selector: 'settings-campaign',
@@ -16,9 +16,9 @@ export class SettingsCampaignComponent implements OnInit {
   tabInstagram = { title: 'Instagram', img: 'assets/social-media/icons/instargram.png' };
   tabTwitter = { title: 'Twitter', img: 'assets/social-media/icons/twitter.png' };
 
-  content1: Content = { subtitle: 'Facebook', data: [] };
-  content2: Content = { subtitle: 'Instagram', data: [] };
-  content3: Content = { subtitle: 'Twitter', data: [] };
+  content1: campaignData = { subtitle: 'Facebook', data: [] };
+  content2: campaignData = { subtitle: 'Instagram', data: [] };
+  content3: campaignData = { subtitle: 'Twitter', data: [] };
 
   constructor(private http: HttpClient) {}
 

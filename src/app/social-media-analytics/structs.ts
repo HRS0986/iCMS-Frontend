@@ -72,3 +72,7 @@ export interface Thresholds {
   max_val: number;
   
 }
+export interface campaignData {
+  subtitle?: string;
+  data?: Campaign[];
+}
