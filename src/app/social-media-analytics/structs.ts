@@ -49,10 +49,13 @@ export interface piPageItem {
   HighlightedComments: number;
 }
 
-export interface campaign {
+export interface Campaign {
   id?: string;
+  sm_id?: string;
   title?: string;
   company?: string;
+  min_val?: number;
+  max_val?: number;
   overall_sentiment?: string;
   color?:string;
   min?: number;
