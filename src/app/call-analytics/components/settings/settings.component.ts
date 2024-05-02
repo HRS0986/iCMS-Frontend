@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MenuItem, MessageService } from 'primeng/api';
-import UserMessages from "../../../shared/user-messages";
+import { CallSettingsService } from '../../services/call-settings.service';
+import { CallSettingsDetails } from '../../types';
+import UserMessages from '../../../shared/user-messages';
 import { CheckboxChangeEvent } from 'primeng/checkbox';
 
 @Component({
@@ -19,11 +21,14 @@ export class SettingsComponent implements OnInit {
     bellowNotify: false,
     checked: [true],
   });
-
   callIntegrationSettingsForm = this.fb.group({
     dir: '',
   });
-  constructor(private fb: FormBuilder, private messageService: MessageService) {}
+  constructor(
+    private fb: FormBuilder,
+    private messageService: MessageService,
+    private CallSettingsService: CallSettingsService
+  ) {}
 
   ngOnInit() {
     let belowAlertsEnabled =
@@ -64,7 +69,47 @@ export class SettingsComponent implements OnInit {
 
   onSubmit(): void {
     console.log(this.notificationsSettingsForm.value);
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: UserMessages.SAVED_SUCCESS })
+    const formValue = this.notificationsSettingsForm.value;
+
+    const callSettingsDetails: CallSettingsDetails = {
+      keywords: formValue.keywords || [],
+      emails: formValue.emails || [],
+      bellowScore: formValue.bellowScore || 0,
+      aboveScore: formValue.aboveScore || 0,
+      aboveNotify: formValue.aboveNotify || false,
+      bellowNotify: formValue.bellowNotify || false,
+      checked: formValue.checked || false,
+    };
+
+    this.CallSettingsService.updateNotificationSettings(callSettingsDetails)
+      .then((response) => {
+        if (response.status) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: UserMessages.SAVED_SUCCESS,
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: UserMessages.SAVED_ERROR,
+          });
+        }
+      })
+      .catch((error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: UserMessages.SAVED_ERROR,
+        });
+        console.log(error);
+      });
+    // this.messageService.add({
+    //   severity: 'success',
+    //   summary: 'Success',
+    //   detail: UserMessages.SAVED_SUCCESS,
+    // });
     console.log(this.notificationsSettingsForm.value);
   }
 

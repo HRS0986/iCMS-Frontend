@@ -23,11 +23,11 @@ export interface OperatorAnalyticsOverTimeRecord {
   neutral: number;
 }
 
- export interface QueuedFile {
-   file: File;
-   description: string;
-   date: Date;
- }
+export interface QueuedFile {
+  file: File;
+  description: string;
+  date: Date;
+}
 
 export interface ApiResponse {
   message: string;
@@ -38,6 +38,17 @@ export interface OperatorListItem {
   name: string;
   operator_id: number;
   id?: string;
+}
+
+export interface CallSettingsDetails {
+  bellowNotify?: boolean;
+  bellowScore?: number;
+  aboveNotify?: boolean;
+  aboveScore?: number;
+  keywords?: string[];
+  emails?: string[];
+  checked?: boolean; //enable/disable email notifications
+  dir?: string;
 }
 
 export interface CallOperatorDetails {
