@@ -58,4 +58,7 @@ export class DashboardComponent {
     
   ]
 
+  
+  data_doughnut: number[] = [100, 50, 100];
+ 
 }

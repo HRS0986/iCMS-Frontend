@@ -21,7 +21,7 @@ export class DoughnutChartComponent implements OnInit {
       labels: ['Negative', 'Positive', 'Neutral'],
       datasets: [
         {
-          data: [300, 50, 100],
+          data: this.percentages,
           backgroundColor: [
             documentStyle.getPropertyValue('--negative-color'),
             documentStyle.getPropertyValue('--positive-color'),
