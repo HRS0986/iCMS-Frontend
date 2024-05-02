@@ -9,10 +9,22 @@ import { DividerModule } from "primeng/divider";
 import { CalendarModule } from "primeng/calendar";
 import { FormsModule } from "@angular/forms";
 import { TopMenuComponent } from './shared-components/top-menu/top-menu.component';
-import {HttpClientModule} from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 import {SidebarModule} from "primeng/sidebar";
 import { WordcloudComponent } from './shared-components/wordcloud/wordcloud.component';
 import { ChartModule } from "primeng/chart";
+import { RightSidebarComponent } from './shared-components/right-sidebar/right-sidebar.component';
+import { WidgetsBarComponent } from './shared-components/right-sidebar/widgets-bar/widgets-bar.component';
+import { AddMemberBarComponent } from './shared-components/right-sidebar/add-member-bar/add-member-bar.component';
+import { AddchartComponent } from './shared-components/right-sidebar/widgets-bar/addchart/addchart.component';
+import {InputTextModule} from "primeng/inputtext";
+import {FieldsetModule} from "primeng/fieldset";
+import {CardModule} from "primeng/card";
+import {ImageModule} from "primeng/image";
+import {DropdownModule} from "primeng/dropdown";
+import {SelectButtonModule} from "primeng/selectbutton";
+import {MultiSelectModule} from "primeng/multiselect";
+
 
 
 @NgModule({
@@ -21,7 +33,11 @@ import { ChartModule } from "primeng/chart";
     SidenavComponent,
     TopMenuComponent,
     WordcloudComponent,
-    WordcloudComponent
+    WordcloudComponent,
+    RightSidebarComponent,
+    WidgetsBarComponent,
+    AddMemberBarComponent,
+    AddchartComponent,
   ],
   exports: [
     PageHeaderComponent,
@@ -39,7 +55,14 @@ import { ChartModule } from "primeng/chart";
         FormsModule,
         HttpClientModule,
         SidebarModule,
-      ChartModule,
+        ChartModule,
+        InputTextModule,
+        FieldsetModule,
+        CardModule,
+        ImageModule,
+        DropdownModule,
+        SelectButtonModule,
+        MultiSelectModule,
     ]
 
 })

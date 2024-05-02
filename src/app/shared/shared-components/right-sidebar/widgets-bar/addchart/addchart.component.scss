@@ -1,0 +1,100 @@
+:host ::ng-deep {
+  .title {
+    font-weight: 500;
+    color: #000000;
+  }
+  .title-input{
+    width: 400px;
+
+  }
+
+  .p-sidebar-content p-divider div {
+    margin-top: 0;
+    padding: 0 0 0 0;
+  }
+
+  .p-inputtext-sm {
+    font-size: 1rem;
+    height: 40px;
+  }
+  .chartTypeBox{
+    border: 1px solid #d9d9d9;
+    margin: 30px 10px 30px 0;
+  }
+  .btn-square{
+    height:80px;
+    width: 80px;
+  }
+
+  .btn-content {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .chart-content {
+    display: flex;
+    flex-wrap:wrap;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .btn-content i {
+    margin-bottom: 5px;
+  }
+  .p-inverted-icon {
+    transform: scaleY(-1);
+
+  }
+  .p-rotated-icon {
+    transform: rotate(90deg);
+  }
+  .btn-square {
+    position: relative;
+
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%) scale(0.5);
+    padding: 5px;
+    color: #0c8c0c;
+    z-index: 5;
+
+    button{
+      background-color: black;
+    }
+  }
+
+  .selectChart{
+    .p-ripple{
+      flex-direction: column;
+      height: 100px;
+      width: 100px;
+      border: 1px solid #d9d9d9;
+      border-radius: 0;
+
+    }
+    span{
+      font-weight: 400;
+      margin-top: 10px;
+      font-size:inherit;
+    }
+
+  }
+  .choose-source{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 20px;
+    .p-element .p-multiselect-label-container{
+      width:350px
+    }
+
+  }
+
+
+
+}

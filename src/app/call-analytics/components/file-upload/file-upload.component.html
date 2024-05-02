@@ -1,4 +1,4 @@
-<app-page-header pageTitle="Call Analytics Recordings" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems"
+<app-page-header pageTitle="Call Recordings" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems"
                  [showDatePicker]="false" [showButton]="false"/>
 <div class="flex flex-col">
   <div class="card flex justify-content-center">
@@ -17,7 +17,7 @@
               <i class="pi pi-book"></i>
             </p-inputGroupAddon>
           </p-inputGroup>
-
+          <p-dropdown [(ngModel)]="operatorsList[i]" class="mb-5" optionValue="operator_id" [options]="callOperators" optionLabel="name" placeholder="Select a call operator"></p-dropdown>
           <p-calendar [(ngModel)]="dateList[i]" [showTime]="true" [showIcon]="true" placeholder="Date"></p-calendar>
         </div>
       </ng-template>

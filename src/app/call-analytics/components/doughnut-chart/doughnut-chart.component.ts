@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CallAnalyticsConfig } from "../../config";
 
 @Component({
   selector: 'app-doughnut-chart',
@@ -18,7 +19,7 @@ export class DoughnutChartComponent implements OnInit {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     this.data = {
-      labels: ['Negative', 'Positive', 'Neutral'],
+      labels: CallAnalyticsConfig.SentimentCategories,
       datasets: [
         {
           data: this.percentages,
@@ -35,7 +36,6 @@ export class DoughnutChartComponent implements OnInit {
         }
       ]
     };
-
 
     this.options = {
       cutout: '50%',
@@ -56,5 +56,6 @@ export class DoughnutChartComponent implements OnInit {
         }
       }
     };
+
   }
 }

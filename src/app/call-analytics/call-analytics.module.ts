@@ -47,6 +47,10 @@ import { InputGroupModule } from "primeng/inputgroup";
 import { InputGroupAddonModule } from "primeng/inputgroupaddon";
 import { CalendarModule } from "primeng/calendar";
 import { RippleModule } from 'primeng/ripple';
+import { CallOperatorsComponent } from './components/call-operators/call-operators.component';
+import { SkeletonModule } from "primeng/skeleton";
+import { AvatarModule } from "primeng/avatar";
+import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked-bar-chart.component';
 
 
 @NgModule({
@@ -67,7 +71,9 @@ import { RippleModule } from 'primeng/ripple';
     SettingsComponent,
     CallFilteringComponent,
     FilteringFeaturesComponent,
-      ],
+    CallOperatorsComponent,
+    StackedBarChartComponent,
+  ],
   imports: [
     CommonModule,
     CallAnalyticsRoutingModule,
@@ -78,7 +84,7 @@ import { RippleModule } from 'primeng/ripple';
     ChartModule,
     ButtonModule,
     TooltipModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
     DataViewModule,
     TagModule,
     DialogModule,
@@ -99,9 +105,12 @@ import { RippleModule } from 'primeng/ripple';
     InputGroupModule,
     InputGroupAddonModule,
     RippleModule,
+    SkeletonModule,
+    AvatarModule,
   ],
   providers: [
     CallAnalyticsService
   ]
 })
-export class CallAnalyticsModule {}
+export class CallAnalyticsModule {
+}

@@ -7,8 +7,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DoughnutChartComponent implements OnInit {
   @Input() title!: string;
-  data: any;
+  @Input() chartData!: any[];
 
+  data: any;
   options: any;
 
   ngOnInit() {
@@ -19,7 +20,7 @@ export class DoughnutChartComponent implements OnInit {
       labels: ['Negative', 'Positive', 'Neutral'],
       datasets: [
         {
-          data: [300, 50, 100],
+          data: this.chartData || [100, 30, 10],
           backgroundColor: [
             documentStyle.getPropertyValue('--negative-color'),
             documentStyle.getPropertyValue('--positive-color'),
@@ -50,5 +51,11 @@ export class DoughnutChartComponent implements OnInit {
         }
       }
     };
+  }
+
+  ngOnChanges(changes: any) {
+    if (changes.chartData && changes.chartData.currentValue) {
+      this.data.datasets[0].data = changes.chartData.currentValue;
+    }
   }
 }
