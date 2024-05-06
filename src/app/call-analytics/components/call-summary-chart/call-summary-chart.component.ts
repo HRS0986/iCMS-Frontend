@@ -112,6 +112,7 @@ export class CallSummaryChartComponent implements OnInit {
     }
   }
 
+
   increaseVolume() {
     const audioElement = document.querySelector('audio') as HTMLAudioElement;
     if (audioElement) {
