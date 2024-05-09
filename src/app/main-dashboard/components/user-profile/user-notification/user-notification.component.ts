@@ -19,6 +19,7 @@ export class UserNotificationComponent {
     { name: "Product Offers", status: true },
     { name: "Product Discounts", status: false }
   ];
+  
 
 
 }

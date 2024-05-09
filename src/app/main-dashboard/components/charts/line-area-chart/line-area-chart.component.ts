@@ -1,28 +1,54 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ChartsService } from '../../../services/charts.service';
 
 @Component({
   selector: 'app-line-area-chart',
   templateUrl: './line-area-chart.component.html',
-  styleUrl: './line-area-chart.component.scss'
+  styleUrls: ['./line-area-chart.component.scss']
 })
 export class LineAreaChartComponent implements OnInit {
   @Input() title!: string;
   data: any;
-
   options: any;
 
+  dates: any =  ["Jan 2020", "Feb 2020", "Mar 2020"];
+  positive:any =   [50,15,6];
+  negative:any = [25,10,15];
+  neutral:any = [55,62,70];
+
+  constructor(private http: HttpClient, private authService : ChartsService) { }
+
   ngOnInit() {
+  this.lineChartShow();
+  // this.countFetch();
+  }
+
+
+  countFetch(){
+    this.authService.lineChart().subscribe(data => {
+      const DateWithSentiments = data;
+        this.dates = Object.values(DateWithSentiments).map((entry: any) => entry.Date);
+        this.positive = Object.values(DateWithSentiments).map((entry: any) => entry.Positive);
+        this.negative = Object.values(DateWithSentiments).map((entry: any) => entry.Negative);
+        this.neutral = Object.values(DateWithSentiments).map((entry: any) => entry.Neutral);
+    }
+  );
+  }
+
+  lineChartShow(){
+
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: this.dates,
       datasets: [
         {
           label: 'Positive',
-          data: [65, 59, 80, 81, 56, 55, 40],
+          data: this.positive,
           fill: true,
           borderColor: documentStyle.getPropertyValue('--green-500'),
           tension: 0.4,
@@ -30,7 +56,7 @@ export class LineAreaChartComponent implements OnInit {
         },
         {
           label: 'Negative',
-          data: [28, 48, 40, 19, 86, 27, 90],
+          data: this.negative,
           fill: true,
           borderColor: documentStyle.getPropertyValue('--red-500'),
           tension: 0.4,
@@ -38,7 +64,7 @@ export class LineAreaChartComponent implements OnInit {
         },
         {
           label: 'Neutral',
-          data: [12, 51, 62, 33, 21, 62, 45],
+          data: this.neutral,
           fill: true,
           borderColor: documentStyle.getPropertyValue('--yellow-500'),
           tension: 0.4,
@@ -46,35 +72,38 @@ export class LineAreaChartComponent implements OnInit {
         }
       ]
     };
+  
 
-    this.options = {
-      maintainAspectRatio: false,
-      aspectRatio: 1.1,
-      plugins: {
-        legend: {
-          labels: {
-            color: textColor
-          }
-        }
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: textColorSecondary
-          },
-          grid: {
-            color: surfaceBorder
-          }
-        },
-        y: {
-          ticks: {
-            color: textColorSecondary
-          },
-          grid: {
-            color: surfaceBorder
-          }
+  this.options = {
+    maintainAspectRatio: false,
+    aspectRatio: 1.1,
+    plugins: {
+      legend: {
+        labels: {
+          color: textColor
         }
       }
-    };
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: textColorSecondary
+        },
+        grid: {
+          color: surfaceBorder
+        }
+      },
+      y: {
+        ticks: {
+          color: textColorSecondary
+        },
+        grid: {
+          color: surfaceBorder
+        }
+      }
+    }
+  };
+
   }
+
 }
