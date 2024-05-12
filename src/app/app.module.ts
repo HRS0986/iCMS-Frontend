@@ -24,6 +24,8 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ChartModule } from 'primeng/chart';
 
 
 
@@ -49,7 +51,9 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
     ToastModule,
     DialogModule,
     AvatarModule,
-    AvatarGroupModule
+    AvatarGroupModule,
+    DragDropModule,
+    ChartModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],

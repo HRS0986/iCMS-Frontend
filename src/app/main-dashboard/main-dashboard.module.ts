@@ -35,7 +35,15 @@ import {LineAreaChartComponent} from "./components/charts/line-area-chart/line-a
 import {HorizontalBarChartComponent} from "./components/charts/horizontal-bar-chart/horizontal-bar-chart.component";
 import {GaugeChartComponent} from "./components/charts/gauge-chart/gauge-chart.component";
 import { NgxEchartsModule } from 'ngx-echarts';
+import {GridComponent} from "./components/grid/grid.component";
+import {GridsterComponent, GridsterItemComponent} from "angular-gridster2";
 
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { GridsterModule } from 'angular-gridster2';
 
 @NgModule({
   declarations: [
@@ -50,7 +58,9 @@ import { NgxEchartsModule } from 'ngx-echarts';
     UnreadNotificationsComponent,
     ReadNotificationsComponent,
     HorizontalBarChartComponent,
-    GaugeChartComponent
+    GaugeChartComponent,
+    GridComponent
+
 
   ],
   imports: [
@@ -73,7 +83,17 @@ import { NgxEchartsModule } from 'ngx-echarts';
     AvatarModule,
     AvatarGroupModule,
     PanelModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
+    GridsterComponent,
+    GridsterItemComponent,
+    FormsModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    GridsterModule
+
 
   ],
   providers:[ConfirmationService]

@@ -3,11 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {UserProfileComponent} from "./components/user-profile/user-profile.component";
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import {GridComponent} from "./components/grid/grid.component";
 
 const routes: Routes = [
   {
     path: "dashboard",
     component: DashboardComponent
+  },{
+    path: "grid",
+    component: GridComponent
   },
   {
     path: "",
