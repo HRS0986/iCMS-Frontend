@@ -14,6 +14,15 @@ export interface CallRecording {
   transcription: string;
   operator_id: number;
 }
+
+export interface OperatorAnalyticsOverTimeRecord {
+  operator_id: number;
+  operator_name: string;
+  positive: number;
+  negative: number;
+  neutral: number;
+}
+
  export interface QueuedFile {
    file: File;
    description: string;

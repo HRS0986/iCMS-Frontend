@@ -25,8 +25,8 @@ export class CallAnalyticsService {
     return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-operator-calls-over-time`));
   }
 
-  public getOverallCallStatus() {
-
+  public getTopicsDistribution(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-topics-distribution`));
   }
 
 
@@ -34,11 +34,11 @@ export class CallAnalyticsService {
 
   }
 
-  public getSentimentTimeDetails() {
-
+  public getSentimentTimeDetails(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-sentiment-time-details`));
   }
 
   public getCallSummary(call_id: string): Promise<ApiResponse> {
-    return firstValueFrom<ApiResponse>(this.http.get<ApiResponse>(`${this.API_ROOT}/get-call-summary/${call_id}`));
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-call-summary/${call_id}`));
   }
 }
