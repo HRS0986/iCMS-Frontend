@@ -1,6 +1,7 @@
 // user-security.component.ts
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AuthendicationService } from '../../../services/authendication.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-user-security',
@@ -14,7 +15,7 @@ export class UserSecurityComponent {
   newPassword: string = '';
   confirmPassword: string = '';
 
-  constructor(private authService: AuthendicationService) { }
+  constructor(private authService: AuthendicationService, private cookieService:CookieService) { }
 
   sendDataToParentMethod(dataToSend: any) {
     this.sendDataToParent.emit(dataToSend);
@@ -31,7 +32,7 @@ export class UserSecurityComponent {
       "conpassword": this.confirmPassword
     };
 
-    const token = localStorage.getItem('token') || '';
+    const token = this.cookieService.get('token');
     this.authService.changePassword(changePasswordData, token).subscribe(
       (response) => {
       }

@@ -22,6 +22,7 @@
     "chart.js": "^4.4.1",
     "jquery": "^3.7.1",
     "mongoose": "^8.3.1",
+    "ngx-cookie-service": "^17.1.0",
     "ngx-echarts": "^17.1.0",
     "primeicons": "^6.0.1",
     "primeng": "^17.4.0",

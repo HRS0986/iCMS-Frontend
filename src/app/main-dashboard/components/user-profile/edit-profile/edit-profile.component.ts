@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthendicationService } from '../../../services/authendication.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -19,7 +20,7 @@ export class EditProfileComponent implements OnInit {
   email: string = this.user.email;
   phone: string = this.user.phone;
   
-  constructor(private authService: AuthendicationService) { }
+  constructor(private authService: AuthendicationService,private cookieService:CookieService) { }
 
   ngOnInit(): void {
     this.fetchUserDetails();
@@ -27,7 +28,7 @@ export class EditProfileComponent implements OnInit {
 
 
   fetchUserDetails(): void {
-    const token = localStorage.getItem('token');
+    const token = this.cookieService.get('token');
     if (token) {
       // Call the AuthService method to fetch user details
       this.authService.userDetails(token).subscribe(
@@ -53,7 +54,7 @@ export class EditProfileComponent implements OnInit {
     
 
     console.log("Profile update data:", profileUpdateData);
-    this.authService.profileUpdate(profileUpdateData, localStorage.getItem('token') || '').subscribe(
+    this.authService.profileUpdate(profileUpdateData, this.cookieService.get('token')).subscribe(
       (response) => {
 
       },
