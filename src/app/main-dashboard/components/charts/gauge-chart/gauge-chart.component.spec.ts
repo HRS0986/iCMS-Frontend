@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { settingsComponent } from './settings.component';
+import { GaugeChartComponent } from './gauge-chart.component';
 
-describe('settingsComponent', () => {
-  let component: settingsComponent;
-  let fixture: ComponentFixture<settingsComponent>;
+describe('GaugeChartComponent', () => {
+  let component: GaugeChartComponent;
+  let fixture: ComponentFixture<GaugeChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [settingsComponent]
+      declarations: [GaugeChartComponent]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(settingsComponent);
+    fixture = TestBed.createComponent(GaugeChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

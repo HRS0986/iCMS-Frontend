@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LineChartComponent } from './line-chart.component';
+import { StackedBarChartComponent } from './stacked-bar-chart.component';
 
-describe('LineChartComponent', () => {
-  let component: LineChartComponent;
-  let fixture: ComponentFixture<LineChartComponent>;
+describe('StackedBarChartComponent', () => {
+  let component: StackedBarChartComponent;
+  let fixture: ComponentFixture<StackedBarChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LineChartComponent]
+      declarations: [StackedBarChartComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(LineChartComponent);
+    fixture = TestBed.createComponent(StackedBarChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

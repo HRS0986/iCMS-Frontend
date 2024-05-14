@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PIComponent } from './pi.component';
+import { LineAreaChartComponent } from './line-area-chart.component';
 
-describe('PIComponent', () => {
-  let component: PIComponent;
-  let fixture: ComponentFixture<PIComponent>;
+describe('LineAreaChartComponent', () => {
+  let component: LineAreaChartComponent;
+  let fixture: ComponentFixture<LineAreaChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PIComponent]
+      declarations: [LineAreaChartComponent]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(PIComponent);
+    fixture = TestBed.createComponent(LineAreaChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

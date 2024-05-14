@@ -13,6 +13,8 @@ export default class UserMessages {
   // Common
   public static readonly SAVED_SUCCESS = 'Your changes have been saved successfully';
   public static readonly SAVED_ERROR = 'Failed to save changes';
+  public static readonly FETCH_ERROR = 'Failed to get the data';
+  public static readonly FETCH_ERROR_USER_MSG = 'Oops! It seems we\'re having trouble fetching the data right now. Please try again later.';
   public static deleteSuccess(entity: string): string {
     return `${entity} deleted successfully`;
   }

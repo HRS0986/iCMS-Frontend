@@ -1,12 +1,3 @@
-export interface CallStatistics {
-  totalCalls: number;
-  positiveCalls: number;
-  negativeCalls: number;
-  neutralCalls: number;
-  averageCallTime: number;
-  totalMinutes: number;
-}
-
 export interface OverallCallStatusPercentages {
   positive: number;
   negative: number;
@@ -21,7 +12,17 @@ export interface CallRecording {
   sentiment: string;
   callUrl: string;
   transcription: string;
+  operator_id: number;
 }
+
+export interface OperatorAnalyticsOverTimeRecord {
+  operator_id: number;
+  operator_name: string;
+  positive: number;
+  negative: number;
+  neutral: number;
+}
+
  export interface QueuedFile {
    file: File;
    description: string;
@@ -33,24 +34,18 @@ export interface ApiResponse {
   // Add other properties as needed
 }
 
-export interface CallOperator {
+export interface OperatorListItem {
   name: string;
-  id: string;
+  operator_id: number;
+  id?: string;
 }
 
-export interface CallRecord {
-  description: string;
-  transcription: string;
-  call_recording_url: string;
-  call_duration: number;
-  call_date: string;
-  call_code: string;
-  sentiment_category: string;
-  keywords: string[];
-  summary: string;
-  sentiment_score: number;
-  call_id: string;
-  analytics_id: string;
+export interface CallOperatorDetails {
+  total_calls: number;
+  avg_handle_time: number;
+  positive_calls: number;
+  negative_calls: number;
+  neutral_calls: number;
 }
 
 export interface ApiResponse {
@@ -58,4 +53,16 @@ export interface ApiResponse {
   data: any;
   message: string;
   error_message: string[] | string;
+}
+
+export interface CallStatistics {
+  total_calls: number;
+  total_duration_in_sec: number;
+  avg_call_time_in_sec: number;
+}
+
+export interface SentimentPercentages {
+  positive: number;
+  negative: number;
+  neutral: number;
 }
