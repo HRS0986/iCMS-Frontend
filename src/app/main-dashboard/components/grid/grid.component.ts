@@ -98,6 +98,7 @@ export class GridComponent implements OnInit {
 }
 
 
+
   removeItem($event: MouseEvent | TouchEvent, item:any): void {
     $event.preventDefault();
     $event.stopPropagation();
