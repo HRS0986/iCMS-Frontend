@@ -12,10 +12,10 @@ export class LineAreaChartComponent implements OnInit {
   data: any;
   options: any;
 
-  dates: any =  ["Jan 2020", "Feb 2020", "Mar 2020"];
-  positive:any =   [50,15,6];
-  negative:any = [25,10,15];
-  neutral:any = [55,62,70];
+  dates: any =  ["Jan 2020", "Feb 2020", "Mar 2020", "APR 2020", "MAY 2020"];
+  positive:any =   [50,15,6,10,13];
+  negative:any = [25,10,15,20,25];
+  neutral:any = [55,62,70,50,60];
 
   constructor(private http: HttpClient, private authService : ChartsService) { }
 
@@ -72,7 +72,7 @@ export class LineAreaChartComponent implements OnInit {
         }
       ]
     };
-  
+
 
   this.options = {
     maintainAspectRatio: false,
