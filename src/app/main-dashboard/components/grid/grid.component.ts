@@ -1,6 +1,6 @@
 import { Component,OnInit } from '@angular/core';
-import { GridsterConfig, GridsterItem, GridsterItemComponentInterface }  from 'angular-gridster2';
-import {CompactType, DisplayGrid, Draggable, GridType, PushDirections, Resizable} from 'angular-gridster2';
+import { GridsterConfig, GridsterItem }  from 'angular-gridster2';
+import { DisplayGrid, Draggable, PushDirections, Resizable} from 'angular-gridster2';
 import { ChartData, ChartOptions } from 'chart.js';
 
 interface Safe extends GridsterConfig {
