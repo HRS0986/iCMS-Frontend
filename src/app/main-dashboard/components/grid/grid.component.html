@@ -1,0 +1,31 @@
+
+<div class="options-header">
+  <button mat-mini-fab (click)="addItem()" class="add-button cols-2">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<gridster [options]="options">
+  <gridster-item [item]="item" *ngFor="let item of dashboard">
+    <div class="button-holder">
+<!--      <div class="gridster-item-content" *ngIf="item['hasContent']">-->
+<!--      </div>-->
+      <div class="card">
+        <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+      </div>
+
+      <div class="item-buttons" *ngIf="item['hasContent']">
+        <button mat-icon-button class="remove-button" (mousedown)="removeItem($event, item)" (touchstart)="removeItem($event, item)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+<!--      <label *ngIf="!item['hasContent']">{{ item['label'] }}</label>-->
+
+      <button mat-mini-fab *ngIf="!item['hasContent']" (mousedown)="removeItem($event, item)" (touchstart)="removeItem($event, item)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+
+  </gridster-item>
+</gridster>
