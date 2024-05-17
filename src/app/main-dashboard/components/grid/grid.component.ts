@@ -33,11 +33,6 @@ export class GridComponent implements OnInit {
       outerMarginTop: null,
       outerMarginRight: null,
       outerMarginBottom: null,
-      // outerMarginLeft: null,
-      // useTransformPositioning: true,
-      // mobileBreakpoint: 640,
-      // useCssTransforms: true,
-      // useBodyForBreakpoint: false,
       minCols: 6,
       maxCols: 6,
       minRows: 6,
@@ -52,18 +47,8 @@ export class GridComponent implements OnInit {
       defaultItemRows: 1,
       fixedColWidth: 20,
       fixedRowHeight: 10,
-      // keepFixedHeightInMobile: false,
-      // keepFixedWidthInMobile: false,
       scrollSensitivity: 10,
       scrollSpeed: 8,
-      // enableEmptyCellClick: false,
-      // enableEmptyCellContextMenu: false,
-      // enableEmptyCellDrop: false,
-      // enableEmptyCellDrag: false,
-      // enableOccupiedCellDrop: false,
-      // emptyCellDragMaxCols: 50,
-      // emptyCellDragMaxRows: 50,
-      // ignoreMarginInRow: false,
       draggable: {
         enabled: true,
 
@@ -112,11 +97,6 @@ export class GridComponent implements OnInit {
   };
 }
 
-  // changedOptions(): void {
-  //   if (this.options.api && this.options.api.optionsChanged) {
-  //     this.options.api.optionsChanged();
-  //   }
-  // }
 
   removeItem($event: MouseEvent | TouchEvent, item:any): void {
     $event.preventDefault();
