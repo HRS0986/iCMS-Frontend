@@ -5,7 +5,7 @@
         <label for="currentpassword">Current Password</label>
       </div>
       <div>
-        <p-password id="currentpassword" [toggleMask]="true"></p-password>
+        <p-password id="currentpassword" [toggleMask]="true" [(ngModel)]="currentPassword"></p-password>
       </div>
     </div>
   <div>
@@ -13,7 +13,7 @@
       <label for="newpassword">New Password</label>
     </div>
     <div>
-      <p-password id="newpassword" [toggleMask]="true"></p-password>
+      <p-password id="newpassword" [toggleMask]="true" [(ngModel)]="newPassword"></p-password>
     </div>
   </div>
   <div>
@@ -21,11 +21,11 @@
       <label for="confirmpassword">Confirm Password</label>
     </div>
     <div>
-      <p-password id="confirmpassword" [toggleMask]="true"></p-password>
+      <p-password id="confirmpassword" [toggleMask]="true" [(ngModel)]="confirmPassword"></p-password>
     </div>
   </div>
   <div class="updateButton">
-    <p-button label="Update" size="small" ></p-button>
+    <p-button label="Update" size="small" (click)="changePassword()"></p-button>
   </div>
 </div>
 
