@@ -93,7 +93,7 @@
             "polyfills": [
               "zone.js",
               "zone.js/testing",
-              "/Users/janith/WebstormProjects/iCMS-Frontend/src/polyfills.ts"
+              "./src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
