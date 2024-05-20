@@ -6,11 +6,15 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from "@angular/forms";
+import { SigninComponent } from './components/signin/signin.component';
+import { SignoutComponent } from './components/signout/signout.component';
 
 
 @NgModule({
   declarations: [
-    SignupComponent
+    SignupComponent,
+    SigninComponent,
+    SignoutComponent
   ],
   imports: [
     CommonModule,

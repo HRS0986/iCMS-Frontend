@@ -15,7 +15,7 @@ export class SidenavComponent implements OnInit {
       {
         label: "Logout",
         icon: "pi pi-fw pi-external-link",
-        routerLink: "auth/signup"
+        routerLink: "auth/signout"
       }
     ];
 
