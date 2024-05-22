@@ -35,6 +35,10 @@ import {LineAreaChartComponent} from "./components/charts/line-area-chart/line-a
 import {HorizontalBarChartComponent} from "./components/charts/horizontal-bar-chart/horizontal-bar-chart.component";
 import {GaugeChartComponent} from "./components/charts/gauge-chart/gauge-chart.component";
 import { NgxEchartsModule } from 'ngx-echarts';
+import { GridComponent } from './components/grid/grid.component';
+import {GridsterComponent, GridsterItemComponent} from "angular-gridster2";
+import {MatIcon} from "@angular/material/icon";
+import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
 
 
 @NgModule({
@@ -50,7 +54,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     UnreadNotificationsComponent,
     ReadNotificationsComponent,
     HorizontalBarChartComponent,
-    GaugeChartComponent
+    GaugeChartComponent,
+    GridComponent
 
   ],
   imports: [
@@ -73,7 +78,12 @@ import { NgxEchartsModule } from 'ngx-echarts';
     AvatarModule,
     AvatarGroupModule,
     PanelModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
+    GridsterItemComponent,
+    GridsterComponent,
+    MatIcon,
+    MatIconButton,
+    MatMiniFabButton,
 
   ],
   providers:[ConfirmationService]

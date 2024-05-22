@@ -3,6 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path:"auth",
+    loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule)
+  },
+  {
     path: "call",
     loadChildren: () => import("./call-analytics/call-analytics.module").then(m => m.CallAnalyticsModule)
   },
@@ -30,6 +34,7 @@ const routes: Routes = [
     path: "app-settings",
     loadChildren: () => import("./app-settings/app-settings.module").then(m => m.AppSettingsModule)
   },
+ //default path redirect to auth
   {
     path: "",
     redirectTo: "main-dashboard",
