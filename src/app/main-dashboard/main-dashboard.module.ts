@@ -55,7 +55,8 @@ import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
     ReadNotificationsComponent,
     HorizontalBarChartComponent,
     GaugeChartComponent,
-    GridComponent
+    GridComponent,
+    WordcloudComponent
 
   ],
   imports: [

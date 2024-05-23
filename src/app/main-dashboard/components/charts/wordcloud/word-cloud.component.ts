@@ -15,7 +15,7 @@ export interface WordCloudItem {
 })
 export class WordcloudComponent implements OnInit {
   @Input() title!: string;
-  @Input() sources!: any;
+  @Input() sources!:string[];
   words: WordCloudItem[] = [];
 
   selectedDateRange: string[] | undefined;
