@@ -35,6 +35,10 @@ import {HorizontalBarChartComponent} from "./components/charts/horizontal-bar-ch
 import {GaugeChartComponent} from "./components/charts/gauge-chart/gauge-chart.component";
 import { NgxEchartsModule } from 'ngx-echarts';
 import { WordcloudComponent } from './components/charts/wordcloud/word-cloud.component';
+import { GridComponent } from './components/grid/grid.component';
+import {GridsterComponent, GridsterItemComponent} from "angular-gridster2";
+import {MatIcon} from "@angular/material/icon";
+import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
 
 
 @NgModule({
@@ -50,8 +54,7 @@ import { WordcloudComponent } from './components/charts/wordcloud/word-cloud.com
     UnreadNotificationsComponent,
     ReadNotificationsComponent,
     HorizontalBarChartComponent,
-    GaugeChartComponent,
-    WordcloudComponent
+    GaugeChartComponent
 
   ],
   imports: [
@@ -74,7 +77,12 @@ import { WordcloudComponent } from './components/charts/wordcloud/word-cloud.com
     AvatarModule,
     AvatarGroupModule,
     PanelModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
+    GridsterItemComponent,
+    GridsterComponent,
+    MatIcon,
+    MatIconButton,
+    MatMiniFabButton,
 
 
   ],
