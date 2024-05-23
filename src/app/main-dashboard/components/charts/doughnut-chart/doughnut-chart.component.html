@@ -1,4 +1,6 @@
 <p-panel class="flex flex-col text-center justify-center w-[300px]">
   <p class="font-medium text-xl">{{ title }}</p>
   <p-chart type="doughnut" [data]="data" [options]="options"></p-chart>
+  <p *ngIf="selectedDateRange && selectedDateRange.length === 2 && selectedDateRange[0] && selectedDateRange[1]">{{ selectedDateRange[0]}} - {{ selectedDateRange[1]}}</p>
+  <p *ngIf="Date">{{ Date}}</p>
 </p-panel>

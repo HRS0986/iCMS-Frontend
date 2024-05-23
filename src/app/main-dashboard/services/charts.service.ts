@@ -16,6 +16,14 @@ export class ChartsService {
     return this.http.get<any>(`${this.baseUrl}/doughnutChart`);
   }
 
+  chartData(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/chartData`);
+  }
+
+  wordCloud(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/wordCloud`);
+  }
+  
   lineChart(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/lineChart`);
   }
@@ -36,6 +44,15 @@ export class ChartsService {
     });
   
     return this.http.get<any>(`${this.baseUrl}/allWidgets`,{headers});
+  }
+
+  widgetsUser(token :string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return this.http.get<any>(`${this.baseUrl}/widgetsUser`,{headers});
   }
   
 

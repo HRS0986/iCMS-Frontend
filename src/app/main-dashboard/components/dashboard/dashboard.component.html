@@ -32,23 +32,23 @@
 
 
 <div class="flex flex-col">
-  <div class="flex gap-4 flex-wrap" *ngFor="let title of chartTitle; let i = index">
-    <ng-container *ngIf="chartValues[i] === 'pie-chart'">
-      <app-doughnut-chart [title]="title" [percentages]="extractPercentages(chartData[i])"></app-doughnut-chart>
+  <div class="flex gap-4 flex-wrap" *ngFor="let Data of widgetData; let i = index">
+    <ng-container *ngIf="Data.chartType === 'pie-chart'">
+      <app-doughnut-chart [title]="Data.title" [source]="Data.sources"></app-doughnut-chart>
     </ng-container>
-    <ng-container *ngIf="chartValues[i] === 'line-chart'">
-      <app-line-area-chart [title]="title" [dates]="extractPLineChart(chartData[i])" [positive]="lineChartpositive" [negative]="lineChartnegative" [neutral]="lineChartneutral"></app-line-area-chart>
+    <ng-container *ngIf="Data.chartType === 'line-chart'">
+      <app-line-area-chart [title]="Data.title" [sources]="Data.sources"></app-line-area-chart>
     </ng-container>
-    <ng-container *ngIf="chartValues[i] === 'gauge-chart'">
-      <app-gauge-chart/>
+    <ng-container *ngIf="Data.chartType === 'gauge-chart'">
+    <app-gauge-chart/>
     </ng-container>
-    <ng-container *ngIf="chartValues[i] === 'horizontal-bar-chart'">
+    <ng-container *ngIf="Data.chartType === 'horizontal-bar-chart'">
       <app-horizontal-bar-chart/>
     </ng-container>
-    <ng-container *ngIf="chartValues[i] === 'word-cloud'">
-      <app-wordcloud [words]="chartData[i]" [title]="title" />
+    <ng-container *ngIf="Data.chartType === 'word-cloud'">
+      <app-word-cloud [title]="Data.title"  [sources]="Data.sources"></app-word-cloud>
     </ng-container>
-    
-    <!-- Add more conditions for other chart types if needed -->
   </div>
 </div>
+<!-- <app-gauge-chart/> -->
+    <!-- <app-horizontal-bar-chart/> -->

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MainDashboardRoutingModule } from './main-dashboard-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
@@ -35,6 +34,7 @@ import {LineAreaChartComponent} from "./components/charts/line-area-chart/line-a
 import {HorizontalBarChartComponent} from "./components/charts/horizontal-bar-chart/horizontal-bar-chart.component";
 import {GaugeChartComponent} from "./components/charts/gauge-chart/gauge-chart.component";
 import { NgxEchartsModule } from 'ngx-echarts';
+import { WordcloudComponent } from './components/charts/wordcloud/word-cloud.component';
 
 
 @NgModule({
@@ -50,7 +50,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     UnreadNotificationsComponent,
     ReadNotificationsComponent,
     HorizontalBarChartComponent,
-    GaugeChartComponent
+    GaugeChartComponent,
+    WordcloudComponent
 
   ],
   imports: [
@@ -74,6 +75,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     AvatarGroupModule,
     PanelModule,
     NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+
 
   ],
   providers:[ConfirmationService]

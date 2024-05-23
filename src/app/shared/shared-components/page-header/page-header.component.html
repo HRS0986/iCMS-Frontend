@@ -12,7 +12,7 @@
   </div>
 
   <div class="w-fit ms-auto pe-5 pt-1" *ngIf="showDatePicker"> <!--need to give default data range-->
-    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="z-10"></p-calendar>
+    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" (onSelect)="onDateRangeChange()" class="z-10"></p-calendar>
   </div>
 
   <div class="w-fit">
