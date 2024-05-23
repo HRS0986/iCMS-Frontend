@@ -54,7 +54,8 @@ import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
     UnreadNotificationsComponent,
     ReadNotificationsComponent,
     HorizontalBarChartComponent,
-    GaugeChartComponent
+    GaugeChartComponent,
+    GridComponent
 
   ],
   imports: [
@@ -77,13 +78,7 @@ import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
     AvatarModule,
     AvatarGroupModule,
     PanelModule,
-    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
-    GridsterItemComponent,
-    GridsterComponent,
-    MatIcon,
-    MatIconButton,
-    MatMiniFabButton,
-
+    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
 
   ],
   providers:[ConfirmationService]

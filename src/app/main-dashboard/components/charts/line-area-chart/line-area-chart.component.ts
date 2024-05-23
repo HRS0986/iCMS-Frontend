@@ -283,7 +283,7 @@ export class LineAreaChartComponent implements OnInit {
         }
       ]
     };
-  
+
 
     this.options = {
       maintainAspectRatio: false,
