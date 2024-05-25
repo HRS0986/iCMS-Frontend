@@ -62,8 +62,16 @@ import * as panel from 'primeng/panel';
 
 
 import { DropdownModule } from 'primeng/dropdown';
-import { CalendarModule } from 'primeng/calendar';
 import { DividerModule } from 'primeng/divider';
+import { Dashboard2Component } from './components/dashboard2/dashboard2.component';
+import { StatCardMgrAnalyticsComponent } from './components/stat-card-mgr-analytics/stat-card-mgr-analytics.component';
+import { EffiEffecDonoughtChartComponent } from './components/effi-effec-donought-chart/effi-effec-donought-chart.component';
+import { ProgressDonoughtChartComponent } from './components/progress-donought-chart/progress-donought-chart.component';
+import { MultiVerticalBarChartComponent } from './components/multi-vertical-bar-chart/multi-vertical-bar-chart.component';
+import { DynamicStackedBarChartComponent } from './components/dynamic-stacked-bar-chart/dynamic-stacked-bar-chart.component';
+import { BestWorstCardComponent } from './components/best-worst-card/best-worst-card.component';
+
+
 
 
 
@@ -89,7 +97,14 @@ import { DividerModule } from 'primeng/divider';
     WordCloudComponent,
     StackedBarChartComponent,
     MultiHorizontalBarChartComponent,
-    GaugeChartComponent
+    GaugeChartComponent,
+    Dashboard2Component,
+    StatCardMgrAnalyticsComponent,
+    EffiEffecDonoughtChartComponent,
+    ProgressDonoughtChartComponent,
+    MultiVerticalBarChartComponent,
+    DynamicStackedBarChartComponent,
+    BestWorstCardComponent
     
     
   ],
@@ -121,10 +136,11 @@ import { DividerModule } from 'primeng/divider';
     TableModule,
     ToastModule,
     CalendarModule,
-    PanelModule 
+    PanelModule, 
     DropdownModule,
     CalendarModule,
-    DividerModule
+    DividerModule,
+   
   ],
   providers: [MessageService],
 })

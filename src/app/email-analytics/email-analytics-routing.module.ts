@@ -4,11 +4,16 @@ import { SummaryCardsContainerComponent } from './components/summary-cards-conta
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { Dashboard2Component } from './components/dashboard2/dashboard2.component';
 
 const routes: Routes = [
   {
-    path: "dashboard",
+    path: "dashboard1",
     component: DashboardComponent
+  },
+  {
+    path: "dashboard2",
+    component: Dashboard2Component
   },
   {
     path: "summaries",

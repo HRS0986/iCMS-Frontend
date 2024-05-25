@@ -22,29 +22,29 @@
                             
 
                             <div class="w-full flex justify-center items-baseline mb-10 " style="margin-top: 5%;">
-                                <span style="color: red;">-10</span>
+                                <span style="color: red;">-1</span>
                                 <img src="./assets/call/rating.png" alt="Image" style="width: 30%;">
-                                <span style="color: rgba(20, 24, 235, 0.877);">+10</span>
+                                <span style="color: rgba(20, 24, 235, 0.877);">+1</span>
                             </div>
 
-                            <div class="flex gap-2 space-between">
-                                <div class="flex align-items-center gap-1 text-sm">
+                            <div class="flex gap-10 space-between"  style="width: 120%; justify-content: space-between;">
+                                <div class="flex align-items-center gap-5 text-sm justify-start">
                                   <p-checkbox name="lowerNotify" formControlName="lowerNotify" 
                                   value="notify" inputId="ny" [binary]="true" [disabled]="sentimentShiftsForm.get('emailAccsToCheckSS')?.value === null || (sentimentShiftsForm.get('emailAccsToCheckSS')?.value?.length ?? 0) === 0"
                                   label="Notify me when the sentiment score is below : "></p-checkbox>
                                   
                                 
                                     <p-inputNumber  class="short-input" 
-                                    formControlName="lowerSS" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
-                                        [max]="10">
+                                    formControlName="lowerSS"  [showButtons]="true" inputId="minmax-buttons" [min]="-1.0"
+                                        [max]="1.0" [minFractionDigits]="1" [maxFractionDigits]="2" [step]="0.1" [style]="{width: '105px'}">
                                     </p-inputNumber>
                                 </div>
 
-                                <div class="flex align-items-center gap-1 text-sm">
+                                <div class="flex align-items-center gap-5 text-sm justify-end">
                                     <p-checkbox name="upperNotify" value="notify" formControlName="upperNotify" [binary]="true" [disabled]="sentimentShiftsForm.get('emailAccsToCheckSS')?.value === null || (sentimentShiftsForm.get('emailAccsToCheckSS')?.value?.length ?? 0) === 0"
                                         label="Notify me when the sentiment score is above : "></p-checkbox>
-                                    <p-inputNumber  class="short-input" formControlName="upperSS" mode="decimal" [showButtons]="true"
-                                        inputId="minmax-buttons" [min]="-10" [max]="10"
+                                    <p-inputNumber  class="short-input wider-input" formControlName="upperSS" mode="decimal" [showButtons]="true"
+                                        inputId="minmax-buttons" [min]="-1" [max]="1" [minFractionDigits]="1" [maxFractionDigits]="2" [step]="0.1" [style]="{width: '105px'}"
                                         ></p-inputNumber>
                                 </div>                                
 

@@ -1,0 +1,148 @@
+<app-page-header
+  pageTitle="Email Analytics Dashboard"
+  class="w-full h-fit"
+  [breadcrumbItems]="breadcrumbItems"
+  [showDatePicker]="true"
+  (rangeDatesChanged)="onRangeDatesChanged($event)"
+  [minDate]="minDate"
+  [maxDate]="maxDate"
+/>
+
+<!-- the calendars
+
+<p-calendar [(ngModel)]="fromDate" [minDate]="minDate" [maxDate]="maxDate" [readonlyInput]="true" 
+(ngModelChange)="onFromDateChange($event)" [showIcon]="true"  [ngStyle]="{ 'width.px': '100', 'height.px': '100' }"></p-calendar>
+<p-calendar [(ngModel)]="toDate" [minDate]="minDate" [maxDate]="maxDate" [readonlyInput]="true" 
+    (ngModelChange)="onToDateChange($event)" [showIcon]="true"></p-calendar> -->
+
+
+
+<div class="flex flex-col">
+  <div class="flex flex-wrap gap-6">
+    <div class="stat-cards">
+      <!-- <app-doughnut-chart title="Current Overall Sentiments" [chartData]="chartData" *ngIf="!isLoadingDC"/> -->
+
+      <app-effi-effec-donought-chart title="Current Overall Efficiency" 
+      [chartData]="dntChartDataOverallEfficiency"  
+      [chartLabels]="dntChartOverallEfficiencyLabels" 
+      *ngIf="!isLoadingDCOverallEfficiency"/>
+
+      <app-effi-effec-donought-chart title="Current Overall Effectiveness" 
+      [chartData]="dntChartDataOverallEffeftiveness"  
+      [chartLabels]="dntChartOverallEffectivenessLabels" 
+      *ngIf="!isLoadingDCOverallEffectiveness"/>
+
+    </div>
+    <div class="stat-cards" *ngIf="!isLoadingStatcards">
+      <!-- <app-line-area-chart title="Sentiments Over Time"  [labels]="labelsForSentimentsByTime" [positive_values]="positive_values_forSentimentsByTime" 
+      [neutral_values]="neutral_values_forSentimentsByTime" [negative_values]="negative_values_forSentimentsbyTime" *ngIf="!isLoadingSBTime"/> -->
+      <div *ngFor="let item of statsData">
+
+        <app-stat-card-mgr-analytics
+        [title]="item.title.toString()"
+        [subTitle]="item.sub_title"
+        [header]="item.header"
+        [fontColor]="item.fontColor"
+        [subheader]="item.subheader"></app-stat-card-mgr-analytics>
+      </div>
+    </div>
+
+    <app-progress-donought-chart title="Current Progress" [chartData]="dntChartDataProgress" [chartLabels]="dntChartProgressLabels" *ngIf="!isLoadingDCProgress"></app-progress-donought-chart>
+
+    <!-- <div class="flex flex-wrap gap-6">
+        <app-wordcloud [words]="wordCloudData" title="Trending Topics" *ngIf="!isLoadingWCC"/>
+    </div> -->
+    
+    <div class="flex flex-wrap gap-6">
+    
+      <app-multi-vertical-bar-chart
+      title="Efficiency Distribution"
+      [labels]="effi_dstri_vert_bar_labels"
+      [efficiency_dataset_for_issues]="effi_distri_vert_var_issues_data"
+      [efficiency_dataset_for_inquiries]="effi_distri_vert_var_inquiries_data"
+      *ngIf="!isLoadingEffiDistri"
+      />
+  
+  
+  
+      <app-multi-vertical-bar-chart
+      title="Effectiveness Distribution"
+      [labels]="effect_dstri_vert_bar_labels"
+      [efficiency_dataset_for_issues]="effect_distri_vert_var_issues_data"
+      [efficiency_dataset_for_inquiries]="effect_distri_vert_var_inquiries_data"
+      *ngIf="!isLoadingEffectDistri"
+      />
+  </div>
+
+  </div>
+
+    <div class="flex flex-wrap gap-6">
+        <app-horizontal-bar-chart 
+        title = "Issue Types Distribution"
+        [sbtChartLabels]="issue_types_distri_labels" 
+        [sbtChartColors]="issue_types_distri_colors" 
+        [sbtChartValues]="issue_types_distri_data" 
+        *ngIf="!isLoadingIssueTypes"/>
+
+        <app-horizontal-bar-chart title="Inquiry Types Distribution"
+        [sbtChartLabels]="inquiry_types_distri_labels" 
+        [sbtChartColors]="inquiry_types_distri_colors" 
+        [sbtChartValues]="inquiry_types_distri_data" 
+        *ngIf="!isLoadingInquiryTypes"/>
+
+    </div>
+
+
+    <div class="flex flex-wrap gap-6">
+
+      <app-best-worst-card 
+      header="Best Peforming Product"
+      [card_content]="bestProduct"
+      [bgcolor]="bestProductColor"
+      *ngIf="!isLoadingBestProduct"/>
+  
+      <app-best-worst-card 
+      header="Worst Peforming Product"
+      [card_content]="worstProduct"
+      [bgcolor]="worstProductColor"
+      *ngIf="!isLoadingWorstProduct"/>
+    </div>
+
+
+    <div class="flex flex-wrap gap-6">
+      <app-dynamic-stacked-bar-chart
+      title="Issue and Inquiry Distribution of Products"
+      [labels]="prodcuts_distri_of_issues_and_inquiries_labels"
+      [datasets]="prodcuts_distri_of_issues_and_inquiries_datasets"
+      *ngIf="!isLoadingProductdistriOfIssuesnInquirires"/>
+    </div>
+
+ 
+    
+     <div class="flex flex-wrap gap-6"> 
+      <app-best-worst-card 
+      header="Best Peforming Email Account"
+      [card_content]="bestEmail"
+      [bgcolor]="bestEmailColor"
+      *ngIf="!isLoadingBestPerfEmail"/>
+    </div>
+
+    <div class="flex flex-wrap gap-6">
+      <app-dynamic-stacked-bar-chart
+      title="Efficiency"
+      [labels]="email_acc_effi_labels"
+      [datasets]="email_acc_effi_dataset"
+      *ngIf="!isLoadingEffiByEmailAcc"/>
+    </div>
+
+
+
+
+  
+
+  
+
+  
+
+</div>
+
