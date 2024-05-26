@@ -498,6 +498,7 @@ getOverdueIssuesdata(){
     this.overallOverdueIssuesHeader = `${data["sum_overdue_issues"]} OVERDUE ISSUES recorded`
     this.overallOverdueIssuesContent = `out of ${data["total_ongoing_issues"]} ongoing issues `
     this.isLoadingoverallOverdueIssuesCount = false
+    
     this.overdueIssByEmailsLabels = data["reading_email_accs"]
     this.overdueIssByEmailsData = data["overdue_issues_count_per_each_email"]
     this.overdueIssByEmailsColors = []
