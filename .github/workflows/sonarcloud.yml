@@ -1,0 +1,26 @@
+name: Code Quality Analysis With SonarCloud
+
+on:
+  pull_request:
+    branches: [ "master","release","dev" ]
+  workflow_dispatch:
+
+permissions:
+  pull-requests: read
+
+jobs:
+  Analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Analyze with SonarCloud
+
+        uses: SonarSource/sonarcloud-github-action@v2.1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+
+          args:
+            -Dsonar.projectKey=HRS0986_iCMS-Frontend
+            -Dsonar.organization=hrs0986
