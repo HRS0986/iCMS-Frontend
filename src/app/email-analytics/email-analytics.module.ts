@@ -31,6 +31,7 @@ import { FilterQueryComponent } from './components/filter-query/filter-query.com
 import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
 import { EmailTableComponent } from './components/email-table/email-table.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.component';
 
 import { CardModule } from 'primeng/card';
 
@@ -53,6 +54,12 @@ import { TopicCardComponent } from './components/topic-card/topic-card.component
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
+import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
+import { CalendarModule } from 'primeng/calendar';
+import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked-bar-chart.component';
+import { MultiHorizontalBarChartComponent } from './components/multi-horizontal-bar-chart/multi-horizontal-bar-chart.component';
+import * as panel from 'primeng/panel';
+
 
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
@@ -79,6 +86,12 @@ import { DividerModule } from 'primeng/divider';
     EmailAccCardComponent,
     NotiSendingEmailAccCardComponent,
     TopicCardComponent,
+    WordCloudComponent,
+    StackedBarChartComponent,
+    MultiHorizontalBarChartComponent,
+    GaugeChartComponent
+    
+    
   ],
   imports: [
     CommonModule,
@@ -107,6 +120,8 @@ import { DividerModule } from 'primeng/divider';
     MultiSelectModule,
     TableModule,
     ToastModule,
+    CalendarModule,
+    PanelModule 
     DropdownModule,
     CalendarModule,
     DividerModule
