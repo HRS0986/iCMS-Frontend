@@ -70,6 +70,7 @@ import { ProgressDonoughtChartComponent } from './components/progress-donought-c
 import { MultiVerticalBarChartComponent } from './components/multi-vertical-bar-chart/multi-vertical-bar-chart.component';
 import { DynamicStackedBarChartComponent } from './components/dynamic-stacked-bar-chart/dynamic-stacked-bar-chart.component';
 import { BestWorstCardComponent } from './components/best-worst-card/best-worst-card.component';
+import { DynamicHorizontalBarchartComponent } from './components/dynamic-horizontal-barchart/dynamic-horizontal-barchart.component';
 
 
 
@@ -104,7 +105,8 @@ import { BestWorstCardComponent } from './components/best-worst-card/best-worst-
     ProgressDonoughtChartComponent,
     MultiVerticalBarChartComponent,
     DynamicStackedBarChartComponent,
-    BestWorstCardComponent
+    BestWorstCardComponent,
+    DynamicHorizontalBarchartComponent
     
     
   ],

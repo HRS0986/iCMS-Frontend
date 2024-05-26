@@ -75,6 +75,11 @@ getBestPerformingEmail(userId: number, intervalIndays: number) {
   return this.http.get<any[]>(url);
 }
 
+getOverdueIssuesdata(userId: number, intervalIndays: number) {
+  const url = `http://127.0.0.1:8000/email/dashboard/get_data_for_overdue_issues/${userId}?intervalIndays=${intervalIndays}`;
+  return this.http.get<any[]>(url);
+}
+
 
 
 

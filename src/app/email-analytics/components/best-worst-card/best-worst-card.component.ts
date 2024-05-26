@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 export class BestWorstCardComponent {
 
   @Input() header!: string;
-  @Input() card_content!: string;
+  @Input() card_content!: any;
   @Input() bgcolor!: string;
 
   

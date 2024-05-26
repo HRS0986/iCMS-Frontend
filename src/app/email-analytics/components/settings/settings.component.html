@@ -15,9 +15,14 @@
                       <!--Sentiment Shifts configuration form-->
 
                         <form [formGroup] = "sentimentShiftsForm" (ngSubmit)="onSubmitSentimentShifts()">
-
+                       
                             <div class="mt-3 mb-10"> <b>Sentiment Shifts configuration</b></div>
-                            <p>Select the email accounts that needs to be checked for sentiment shifts</p>
+
+                            <div class="flex items-center">
+                              <p class="mr-20">Enable Sentiment Thresholds Notifications</p>
+                              <p-inputSwitch formControlName="ssThresholdNotiEnabled"></p-inputSwitch>
+                            </div>
+                            <p>Select the email accounts that needs to be checked for overall sentiment shifts</p>
                             <p-multiSelect class="mb-20" [options]="currentReadingEmailAccountsForNotificationPage" formControlName="emailAccsToCheckSS" optionLabel="address" placeholder="Select Email Accounts"></p-multiSelect>
                             
 
@@ -31,7 +36,7 @@
                                 <div class="flex align-items-center gap-5 text-sm justify-start">
                                   <p-checkbox name="lowerNotify" formControlName="lowerNotify" 
                                   value="notify" inputId="ny" [binary]="true" [disabled]="sentimentShiftsForm.get('emailAccsToCheckSS')?.value === null || (sentimentShiftsForm.get('emailAccsToCheckSS')?.value?.length ?? 0) === 0"
-                                  label="Notify me when the sentiment score is below : "></p-checkbox>
+                                  label="Notify me when the overall sentiment score is below : "></p-checkbox>
                                   
                                 
                                     <p-inputNumber  class="short-input" 
@@ -42,7 +47,7 @@
 
                                 <div class="flex align-items-center gap-5 text-sm justify-end">
                                     <p-checkbox name="upperNotify" value="notify" formControlName="upperNotify" [binary]="true" [disabled]="sentimentShiftsForm.get('emailAccsToCheckSS')?.value === null || (sentimentShiftsForm.get('emailAccsToCheckSS')?.value?.length ?? 0) === 0"
-                                        label="Notify me when the sentiment score is above : "></p-checkbox>
+                                        label="Notify me when the overall sentiment score is above : "></p-checkbox>
                                     <p-inputNumber  class="short-input wider-input" formControlName="upperSS" mode="decimal" [showButtons]="true"
                                         inputId="minmax-buttons" [min]="-1" [max]="1" [minFractionDigits]="1" [maxFractionDigits]="2" [step]="0.1" [style]="{width: '105px'}"
                                         ></p-inputNumber>
@@ -62,8 +67,8 @@
                            
                             <!--Criticality form-->
                             <form [formGroup] = "criticalityForm" (ngSubmit)="onSubmitCriticality()">
-                            <div class="mt-3 mb-10"> <b>Criticality notification configuration</b></div>
-                            <p>Select the email accounts that needs to be checked for critical emails</p>
+                            <div class="mt-3 mb-10"> <b>Overdue issues notification configuration</b></div>
+                            <p>Select the email accounts that needs to be checked for ongoing issues which has taken more than two weeks to resolve</p>
                             <p-multiSelect [options]="currentReadingEmailAccountsForNotificationPage" formControlName="emailAccsToCheckCriticality" optionLabel="address" ></p-multiSelect>
 
                               
@@ -73,6 +78,7 @@
                               </div>
                               
                               <hr>
+
                           </form>
                             
 
@@ -119,7 +125,7 @@
                                 <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleConfirmationNotiSending" header="Confirmation" [modal]="true" [(visible)]="visibleConfirmationNotiSending" [style]="{width: '30vw', height: 'auto'}">
 
                                   <p  style="text-align: justify;">
-                                    Are you sure you want to Delete this Call Recording?
+                                    Are you sure you want to remove this email account from being a recepient of the system notifications?
                                   </p>
                               
                                   <!-- Move this div to the bottom -->
@@ -240,7 +246,72 @@
 
                     </div>
                 </p-tabPanel>
+                 
+                <!--System configurations tab-->
+                <p-tabPanel header="System Configurations">
 
+                  <div class="min-h-full">
+                    <!--System configurations form-->
+                      <form [formGroup]="systemConfigurations" (ngSubmit)="onSubmitSystemConfigurations()">
+                        
+                        <div class="flex items-center">
+                          <p class="mr-20">
+                            Choose the number of days needs to be passed for an issue to be considered as an overdue issue:
+                          </p>
+                          <p-inputNumber  class="short-input" 
+                          formControlName="overdueInterval"  [showButtons]="true" inputId="minmax-buttons" [min]="1"
+                              [max]="25"  [step]="1" [style]="{width: '105px'}">
+                          </p-inputNumber>
+
+                        </div>
+
+                         
+                        
+                        <!--adding products part-->
+                        <!-- <div>
+                          <div class="w-full p-fluid" style="margin-bottom: 5%;">
+                            <p>Add the prodcuts/services/brands offered by your company</p>
+                            <p-chips formControlName="newProductInputs"></p-chips> 
+                          </div>
+
+                          <p>Current considering Products or Services of your company</p>
+                          <div *ngFor="let product of currentConsideringProducts">
+                            <app-noti-sending-email-acc-card
+                            [emailAddress]="product.name"
+                            (deleteNotiSendingAccount)="showDialogConfirmationProductDeleting(product.name)"
+                                />
+                              </div>
+                              <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleProductDeleting" header="Confirmation" [modal]="true" [(visible)]="visibleProductDeleting" [style]="{width: '30vw', height: 'auto'}">
+
+                                <p  style="text-align: justify;">
+                                  Are you sure you want to remove this product from consideration when calculating analytics?
+                                </p>-->
+                            
+                                <!-- Move this div to the bottom -->
+                                <!-- <div class="text-right" >
+                                  <p-button label="No" (click)="visibleProductDeleting = false" ></p-button>
+                                  <p-button label="Yes" (click)="ConfirmProductDelete()"  styleClass="p-button-danger"></p-button>
+                                </div>
+                              </p-dialog>      
+                              
+                            </div> --> 
+
+
+                       
+                        
+
+                    
+
+                            <!--update button-->
+                            <div class="flex justify-end mt-10">
+                              <button pButton pRipple label="Update" class="p-button-success" [disabled]="systemConfigurations.invalid" type="submit"></button>
+                          </div>
+                      
+                      </form>
+                    </div>
+
+                </p-tabPanel>
+            
           
             </p-tabView>
         </p-panel>

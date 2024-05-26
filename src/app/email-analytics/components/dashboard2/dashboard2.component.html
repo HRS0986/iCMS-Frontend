@@ -27,12 +27,8 @@
       [chartLabels]="dntChartOverallEfficiencyLabels" 
       *ngIf="!isLoadingDCOverallEfficiency"/>
 
-      <app-effi-effec-donought-chart title="Current Overall Effectiveness" 
-      [chartData]="dntChartDataOverallEffeftiveness"  
-      [chartLabels]="dntChartOverallEffectivenessLabels" 
-      *ngIf="!isLoadingDCOverallEffectiveness"/>
-
     </div>
+
     <div class="stat-cards" *ngIf="!isLoadingStatcards">
       <!-- <app-line-area-chart title="Sentiments Over Time"  [labels]="labelsForSentimentsByTime" [positive_values]="positive_values_forSentimentsByTime" 
       [neutral_values]="neutral_values_forSentimentsByTime" [negative_values]="negative_values_forSentimentsbyTime" *ngIf="!isLoadingSBTime"/> -->
@@ -46,13 +42,27 @@
         [subheader]="item.subheader"></app-stat-card-mgr-analytics>
       </div>
     </div>
-
-    <app-progress-donought-chart title="Current Progress" [chartData]="dntChartDataProgress" [chartLabels]="dntChartProgressLabels" *ngIf="!isLoadingDCProgress"></app-progress-donought-chart>
-
-    <!-- <div class="flex flex-wrap gap-6">
-        <app-wordcloud [words]="wordCloudData" title="Trending Topics" *ngIf="!isLoadingWCC"/>
-    </div> -->
     
+    <app-progress-donought-chart title="Current Progress of both issues and inquiries" [chartData]="dntChartDataProgress" [chartLabels]="dntChartProgressLabels" *ngIf="!isLoadingDCProgress"></app-progress-donought-chart>
+
+    
+    <app-effi-effec-donought-chart title="Current Overall Effectiveness" 
+    [chartData]="dntChartDataOverallEffeftiveness"  
+    [chartLabels]="dntChartOverallEffectivenessLabels" 
+    *ngIf="!isLoadingDCOverallEffectiveness"/>
+
+        
+
+
+    <div class="flex flex-wrap gap-6"> 
+      <app-best-worst-card 
+      [header]="overallOverdueIssuesHeader"
+      [card_content]="overallOverdueIssuesContent"
+      [bgcolor]="noOfOverdueIssuesColor"
+      *ngIf="!isLoadingoverallOverdueIssuesCount"/>
+    </div>
+
+
     <div class="flex flex-wrap gap-6">
     
       <app-multi-vertical-bar-chart
@@ -129,11 +139,21 @@
 
     <div class="flex flex-wrap gap-6">
       <app-dynamic-stacked-bar-chart
-      title="Efficiency"
+      title="Efficiency distribution of email accounts"
       [labels]="email_acc_effi_labels"
       [datasets]="email_acc_effi_dataset"
       *ngIf="!isLoadingEffiByEmailAcc"/>
     </div>
+
+    <div class="flex flex-wrap gap-6">
+      <app-horizontal-bar-chart
+      title="Overdue issues distribution among email accounts"
+      [sbtChartLabels]="overdueIssByEmailsLabels"
+      [sbtChartColors]="overdueIssByEmailsColors"
+      [sbtChartValues]="overdueIssByEmailsData"
+      *ngIf="!isLoadingOverdueIssByEmailAcc"/>
+    </div>
+  
 
 
 

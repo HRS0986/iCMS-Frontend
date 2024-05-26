@@ -100,6 +100,18 @@ export class Dashboard2Component implements OnInit{
   email_acc_effi_dataset: any[]=[]
   isLoadingEffiByEmailAcc: boolean = false
 
+  overallOverdueIssuesHeader!: string
+  overallOverdueIssuesContent!: string
+  noOfOverdueIssuesColor = 'var(--red-400)'
+  isLoadingoverallOverdueIssuesCount: boolean = false
+
+  overdueIssByEmailsLabels: string[]=[]
+  overdueIssByEmailsColors: any[]=[]
+  overdueIssByEmailsData: number[]=[]
+  isLoadingOverdueIssByEmailAcc: boolean = false
+
+
+
 
   // wordcloudMostOccuringProblemTypes
   wordCloudData: TrendingWord[] = []
@@ -146,7 +158,7 @@ export class Dashboard2Component implements OnInit{
       this.dntChartOverallEffectivenessLabels = ['Ineffective', 'Minimally Effective', 'Moderately Effective', 'Highly Effective' ]
       
       this.dntChartDataProgress= [30,70]
-      this.dntChartProgressLabels = ["ongoing", "closed"]
+      this.dntChartProgressLabels = ["ongoing percentage", "closed percentage"]
 
       this.effi_dstri_vert_bar_labels = ['Highly Efficient', 'Moderately Efficient', 'Less Efficient', 'Inefficient']
       this.effi_distri_vert_var_issues_data = [5,7,8,4]
@@ -234,12 +246,25 @@ export class Dashboard2Component implements OnInit{
       ]
 
 
+      this.overallOverdueIssuesHeader = `8 OVERDUE ISSUES recorded`
+      this.overallOverdueIssuesContent = `out of 15 ongoing issues `
+
+
+      this.overdueIssByEmailsLabels = ['emailAcc1', "emailAcc2", "emailAcc3"]
+      for (let i of this.overdueIssByEmailsLabels){
+        this.overdueIssByEmailsColors.push(this.documentStyle.getPropertyValue('--issue-color'))
+      }
+
+      this.overdueIssByEmailsData = [3,4,5]
+
+
       this.getDataForStatCards()
       this.getDataForOverallEfficiencyandEffectivenessDntChart()
       this.getDataForEfficiencyDstriandEffectivenessDistri()
       this.getDataForIssueandInquiryTypes()
       this.getDataForIssuenadInquiryByProducts()
       this.getDataForEfficiencyByEmaiAcss()
+      this.getOverdueIssuesdata()
 
       
   }
@@ -457,6 +482,29 @@ getBestPerformingEmail(){
  
     this.bestEmail = data["best_performing_email_acc"]
     this.isLoadingBestPerfEmail = false
+  
+       
+   });
+}
+
+
+getOverdueIssuesdata(){
+  type dict = { [key: string]: any };
+  
+
+  this.dataService.getOverdueIssuesdata(this.userId, this.intervalInDays).subscribe((data: dict) => {
+    console.log("overdue issues related data", data)
+ 
+    this.overallOverdueIssuesHeader = `${data["sum_overdue_issues"]} OVERDUE ISSUES recorded`
+    this.overallOverdueIssuesContent = `out of ${data["total_ongoing_issues"]} ongoing issues `
+    this.isLoadingoverallOverdueIssuesCount = false
+    this.overdueIssByEmailsLabels = data["reading_email_accs"]
+    this.overdueIssByEmailsData = data["overdue_issues_count_per_each_email"]
+    this.overdueIssByEmailsColors = []
+    for (let i of this.overdueIssByEmailsLabels){
+      this.overdueIssByEmailsColors.push(this.documentStyle.getPropertyValue('--issue-color'))
+    }
+    this.isLoadingOverdueIssByEmailAcc = false
   
        
    });

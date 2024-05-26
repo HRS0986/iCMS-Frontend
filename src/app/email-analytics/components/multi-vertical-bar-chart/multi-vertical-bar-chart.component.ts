@@ -18,6 +18,7 @@ export class MultiVerticalBarChartComponent implements OnInit{
   @Input() labels!: string[];
   @Input() efficiency_dataset_for_issues!: number[];
   @Input() efficiency_dataset_for_inquiries!: number[];
+  @Input() datasets!: any[];
 
 
     ngOnInit() {
