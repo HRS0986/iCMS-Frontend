@@ -29,7 +29,7 @@
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js",
-              "/Users/janith/WebstormProjects/iCMS-Frontend/src/polyfills.ts"
+              "/src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",

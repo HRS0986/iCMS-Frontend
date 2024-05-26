@@ -35,7 +35,6 @@ import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.compon
 
 import { CardModule } from 'primeng/card';
 
-
 import { TabViewModule } from 'primeng/tabview';
 import { ImageModule } from 'primeng/image';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -52,21 +51,13 @@ import { TableModule } from 'primeng/table';
 import { NotiSendingEmailAccCardComponent } from './components/noti-sending-email-acc-card/noti-sending-email-acc-card.component';
 import { TopicCardComponent } from './components/topic-card/topic-card.component';
 import { ToastModule } from 'primeng/toast';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
 import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
 import { CalendarModule } from 'primeng/calendar';
 import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked-bar-chart.component';
 import { MultiHorizontalBarChartComponent } from './components/multi-horizontal-bar-chart/multi-horizontal-bar-chart.component';
-import * as panel from 'primeng/panel';
-
-
 import { DropdownModule } from 'primeng/dropdown';
-import { CalendarModule } from 'primeng/calendar';
 import { DividerModule } from 'primeng/divider';
-
-
-
 
 
 @NgModule({
@@ -90,8 +81,8 @@ import { DividerModule } from 'primeng/divider';
     StackedBarChartComponent,
     MultiHorizontalBarChartComponent,
     GaugeChartComponent
-    
-    
+
+
   ],
   imports: [
     CommonModule,
@@ -121,7 +112,7 @@ import { DividerModule } from 'primeng/divider';
     TableModule,
     ToastModule,
     CalendarModule,
-    PanelModule 
+    PanelModule,
     DropdownModule,
     CalendarModule,
     DividerModule

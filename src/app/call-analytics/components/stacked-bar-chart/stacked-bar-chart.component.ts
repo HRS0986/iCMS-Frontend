@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CallAnalyticsService } from "../../services/call-analytics.service";
 import { OperatorAnalyticsOverTimeRecord } from "../../types";
 
@@ -8,6 +8,8 @@ import { OperatorAnalyticsOverTimeRecord } from "../../types";
   styleUrl: './stacked-bar-chart.component.scss'
 })
 export class StackedBarChartComponent implements OnInit {
+  @Output() updateLoading = new EventEmitter<string>();
+
   data: any;
   documentStyle = getComputedStyle(document.documentElement);
   textColor = this.documentStyle.getPropertyValue('--text-color');
@@ -58,9 +60,8 @@ export class StackedBarChartComponent implements OnInit {
   ngOnInit() {
     this.callAnalyticsService.getOperatorCallsOverTime().then(response =>{
       let data_over_time = response.data as OperatorAnalyticsOverTimeRecord[];
-
       this.data = {
-        labels: data_over_time.map(dt => dt.operator_name),
+        labels: data_over_time.map(dt => dt.operator_name.slice(0, 5)),
         datasets: [
           {
             type: 'bar',
@@ -82,9 +83,16 @@ export class StackedBarChartComponent implements OnInit {
           }
         ]
       };
+      console.log(data_over_time)
+
+      this.updateLoading.emit('operatorAnalytics');
     }).catch(err => {
       console.log(err);
+      this.updateLoading.emit('operatorAnalytics');
       }
-    );
+    ).finally(() => {
+      console.log("ok")
+      this.updateLoading.emit('operatorAnalytics');
+    });
   }
 }
