@@ -2,20 +2,19 @@ import { Component, Input } from '@angular/core';
 import { FilterService } from '../../services/filter.service';
 import { EmailMetadataResponse } from '../../interfaces/emails';
 import { ThreadSummaryResponse } from '../../interfaces/threads';
+
 @Component({
-  selector: 'app-filter-query',
-  templateUrl: './filter-query.component.html',
-  styleUrl: './filter-query.component.scss'
+  selector: 'app-filter-query-suggestions',
+  templateUrl: './filter-query-suggestions.component.html',
+  styleUrl: './filter-query-suggestions.component.scss'
 })
-export class FilterQueryComponent {
+export class FilterQuerySuggestionsComponent {
+
   dateRange: Date[] | undefined;
   products: string[] | undefined;
   productSelected: string | undefined;
-  subject: string | undefined;
-  sentiments: string[] | undefined;
-  sentimentSelected: string | undefined;
-  senders: string[] | undefined;
-  senderSelected: string | undefined | null;
+  recipientEmails: string[] | undefined;
+  recipientEmailSelected: string | undefined;
   receivers: string[] | undefined;
   receiverSelected: string | undefined | null;
   @Input() type: 'email' | 'thread' = 'email';
@@ -35,17 +34,12 @@ export class FilterQueryComponent {
         "ChargeNet",
     ];
 
-    this.sentiments = [
-      "Positive",
-      "Neutral",
-      "Negative",
+    this.recipientEmails = [
+      "readingEmail1",
+      "readingEmail2",
+      "readingEmail3",
     ];
 
-    this.senders = [
-      "john@gmail.com",
-      "kate@hotmail.com",
-      "susan@yahoo.com",
-    ];
 
     this.receivers = [
       "vega@codegen.net",
@@ -57,14 +51,12 @@ export class FilterQueryComponent {
   clearFilters() {
     this.dateRange = [];
     this.productSelected = undefined;
-    this.subject = '';
-    this.sentimentSelected = undefined;
-    this.senderSelected = null;
+    this.recipientEmailSelected = undefined;
     this.receiverSelected = null;
   }
 
   applyFilters() {
-    this.filterFunction(this.dateRange, this.productSelected, this.subject, this.sentimentSelected, this.senderSelected, this.receiverSelected).subscribe(
+    this.filterFunction(this.dateRange, this.productSelected, this.recipientEmailSelected, this.receiverSelected).subscribe(
       (response: EmailMetadataResponse | ThreadSummaryResponse) => {
         if (this.type === 'email') {
           this.emailMetadataResponse = response as EmailMetadataResponse;
@@ -74,9 +66,5 @@ export class FilterQueryComponent {
       }
     );
   }
-}
 
-// TODO: applyFilter() need attention
-// TODO: complete the search function. Use of data params, use of limits and skips
-// TODO: filter component has two forms, one for email and one for thread.
-// TODO: bind datasources of email and thread pages to filter components respective variables
+}

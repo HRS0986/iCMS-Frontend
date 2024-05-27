@@ -19,8 +19,9 @@
 
 <div class="flex flex-col">
   <div class="flex flex-wrap gap-6">
+
+    <!-- Current Overall efficiency donought chart-->
     <div class="stat-cards">
-      <!-- <app-doughnut-chart title="Current Overall Sentiments" [chartData]="chartData" *ngIf="!isLoadingDC"/> -->
 
       <app-effi-effec-donought-chart title="Current Overall Efficiency" 
       [chartData]="dntChartDataOverallEfficiency"  
@@ -28,10 +29,9 @@
       *ngIf="!isLoadingDCOverallEfficiency"/>
 
     </div>
-
+     
+    <!-- 'No of stats' stat cards-->
     <div class="stat-cards" *ngIf="!isLoadingStatcards">
-      <!-- <app-line-area-chart title="Sentiments Over Time"  [labels]="labelsForSentimentsByTime" [positive_values]="positive_values_forSentimentsByTime" 
-      [neutral_values]="neutral_values_forSentimentsByTime" [negative_values]="negative_values_forSentimentsbyTime" *ngIf="!isLoadingSBTime"/> -->
       <div *ngFor="let item of statsData">
 
         <app-stat-card-mgr-analytics
@@ -43,9 +43,10 @@
       </div>
     </div>
     
+      <!-- Current Overall progress donought chart-->
     <app-progress-donought-chart title="Current Progress of both issues and inquiries" [chartData]="dntChartDataProgress" [chartLabels]="dntChartProgressLabels" *ngIf="!isLoadingDCProgress"></app-progress-donought-chart>
 
-    
+    <!-- Current Overall efficiency donought chart-->
     <app-effi-effec-donought-chart title="Current Overall Effectiveness" 
     [chartData]="dntChartDataOverallEffeftiveness"  
     [chartLabels]="dntChartOverallEffectivenessLabels" 

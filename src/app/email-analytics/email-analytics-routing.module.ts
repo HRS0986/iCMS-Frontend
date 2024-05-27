@@ -5,6 +5,7 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { Dashboard2Component } from './components/dashboard2/dashboard2.component';
+import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
 
 const routes: Routes = [
   {
@@ -20,8 +21,8 @@ const routes: Routes = [
     component: SummaryCardsContainerComponent
   },
   {
-    path: "filtering",
-    component: EmailFilteringComponent
+    path: "suggestions",
+    component: SuggestionFilteringComponent
   },
   {
     path: "settings",
