@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-
+import { Component, Input } from '@angular/core';
+import { FilterService } from '../../services/filter.service';
+import { EmailMetadataResponse } from '../../interfaces/emails';
+import { ThreadSummaryResponse } from '../../interfaces/threads';
 @Component({
   selector: 'app-filter-query',
   templateUrl: './filter-query.component.html',
@@ -16,8 +18,17 @@ export class FilterQueryComponent {
   senderSelected: string | undefined | null;
   receivers: string[] | undefined;
   receiverSelected: string | undefined | null;
+  @Input() type: 'email' | 'thread' = 'email';
+  filterFunction!: Function;
+  emailMetadataResponse: EmailMetadataResponse | undefined;
+  threadSummaryResponse: ThreadSummaryResponse | undefined;
+
+  constructor(private filterService: FilterService) { }
 
   ngOnInit() {
+
+    this.filterFunction = this.type === 'email' ? this.filterService.getEmailMetadata : this.filterService.getThreadSummaries;
+
     this.topics = [
         "VEGA",
         "TravelBox",
@@ -51,4 +62,21 @@ export class FilterQueryComponent {
     this.senderSelected = null;
     this.receiverSelected = null;
   }
+
+  applyFilters() {
+    this.filterFunction(this.dateRange, this.topicSelected, this.subject, this.sentimentSelected, this.senderSelected, this.receiverSelected).subscribe(
+      (response: EmailMetadataResponse | ThreadSummaryResponse) => {
+        if (this.type === 'email') {
+          this.emailMetadataResponse = response as EmailMetadataResponse;
+        } else {
+          this.threadSummaryResponse = response as ThreadSummaryResponse;
+        }
+      }
+    );
+  }
 }
+
+// TODO: applyFilter() need attention
+// TODO: complete the search function. Use of data params, use of limits and skips
+// TODO: filter component has two forms, one for email and one for thread.
+// TODO: bind datasources of email and thread pages to filter components respective variables
