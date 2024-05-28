@@ -63,9 +63,7 @@ export class SuggestionFilteringComponent {
     this.dateRange = [];
     this.productSelected = "";
     this.recipientEmailSelected = "";
-    this.recipientEmailSelected = "";
-
-    this.getFilteredSuggestions(30, this.productSelected, this.recipientEmailSelected)
+    this.getFilteredSuggestions(29, this.productSelected, this.recipientEmailSelected)
   }
 
 
