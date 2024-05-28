@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MenuItem, MessageService } from 'primeng/api';
 import { CallSettingsService } from '../../services/call-settings.service';
-import { CallSettingsDetails } from '../../types';
+import { CallDirSettingsDetails, CallSettingsDetails } from '../../types';
 import UserMessages from '../../../shared/user-messages';
 import { CheckboxChangeEvent } from 'primeng/checkbox';
 
@@ -68,19 +68,25 @@ export class SettingsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.notificationsSettingsForm.value);
     const formValue = this.notificationsSettingsForm.value;
-
+    // console.log(formValue.aboveNotify == true ? true : false);
+    console.log(Array.isArray(formValue.aboveNotify) ? true : false);
     const callSettingsDetails: CallSettingsDetails = {
-      keywords: formValue.keywords || [],
-      emails: formValue.emails || [],
-      bellowScore: formValue.bellowScore || 0,
-      aboveScore: formValue.aboveScore || 0,
-      aboveNotify: formValue.aboveNotify || false,
-      bellowNotify: formValue.bellowNotify || false,
-      checked: formValue.checked || false,
+      id: '6655e8e7ee448447a31e4899',
+      user_id: '1',
+      alert_keywords: formValue.keywords || [],
+      alert_email_receptions: formValue.emails || [],
+      sentiment_lower_threshold: formValue.bellowScore || 0,
+      sentiment_upper_threshold: formValue.aboveScore || 0,
+      is_upper_threshold_enabled: Array.isArray(formValue.aboveNotify)
+        ? true
+        : false || false,
+      is_lower_threshold_enabled: Array.isArray(formValue.bellowNotify)
+        ? true
+        : false || false,
+      is_email_alerts_enabled: formValue.checked || false,
     };
-
+    console.log(callSettingsDetails);
     this.CallSettingsService.updateNotificationSettings(callSettingsDetails)
       .then((response) => {
         if (response.status) {
@@ -105,15 +111,39 @@ export class SettingsComponent implements OnInit {
         });
         console.log(error);
       });
-    // this.messageService.add({
-    //   severity: 'success',
-    //   summary: 'Success',
-    //   detail: UserMessages.SAVED_SUCCESS,
-    // });
-    console.log(this.notificationsSettingsForm.value);
   }
 
   onSubmitCall(): void {
+    const dir = this.callIntegrationSettingsForm.value.dir || '';
+    const settings: CallDirSettingsDetails = {
+      id: '6655e8e7ee448447a31e4899',
+      dir: dir,
+    };
+
+    this.CallSettingsService.updateDirSettings(settings)
+      .then((response) => {
+        if (response.status) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: UserMessages.SAVED_SUCCESS,
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: UserMessages.SAVED_ERROR,
+          });
+        }
+      })
+      .catch((error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: UserMessages.SAVED_ERROR,
+        });
+        console.log(error);
+      });
     console.log(this.callIntegrationSettingsForm.value);
   }
   breadcrumbItems: MenuItem[] = [

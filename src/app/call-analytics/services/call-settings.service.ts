@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
-import { ApiResponse, CallSettingsDetails } from '../types';
+import {
+  ApiResponse,
+  CallDirSettingsDetails,
+  CallSettingsDetails,
+} from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -17,16 +21,16 @@ export class CallSettingsService {
     );
   }
 
-  public saveNotificationSettings(
-    settings: CallSettingsDetails
-  ): Promise<ApiResponse> {
-    return firstValueFrom(
-      this.http.post<ApiResponse>(
-        this.API_ROOT + '/add-notification-settings',
-        settings
-      )
-    );
-  }
+  // public saveNotificationSettings(
+  //   settings: CallSettingsDetails
+  // ): Promise<ApiResponse> {
+  //   return firstValueFrom(
+  //     this.http.post<ApiResponse>(
+  //       this.API_ROOT + '/add-notification-settings',
+  //       settings
+  //     )
+  //   );
+  // }
 
   public updateNotificationSettings(
     settings: CallSettingsDetails
@@ -34,6 +38,17 @@ export class CallSettingsService {
     return firstValueFrom(
       this.http.post<ApiResponse>(
         this.API_ROOT + '/update-notification-settings',
+        settings
+      )
+    );
+  }
+
+  public updateDirSettings(
+    settings: CallDirSettingsDetails
+  ): Promise<ApiResponse> {
+    return firstValueFrom(
+      this.http.post<ApiResponse>(
+        this.API_ROOT + '/update-dir-settings',
         settings
       )
     );

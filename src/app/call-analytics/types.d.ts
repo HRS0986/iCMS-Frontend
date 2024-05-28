@@ -41,14 +41,20 @@ export interface OperatorListItem {
 }
 
 export interface CallSettingsDetails {
-  bellowNotify?: boolean;
-  bellowScore?: number;
-  aboveNotify?: boolean;
-  aboveScore?: number;
-  keywords?: string[];
-  emails?: string[];
-  checked?: boolean; //enable/disable email notifications
-  dir?: string;
+  id?: string;
+  is_lower_threshold_enabled?: boolean;
+  sentiment_lower_threshold?: number;
+  is_upper_threshold_enabled?: boolean = false;
+  sentiment_upper_threshold?: number;
+  user_id: string;
+  alert_keywords?: string[];
+  alert_email_receptions?: string[];
+  is_email_alerts_enabled?: boolean; //enable/disable email notifications
+}
+
+export interface CallDirSettingsDetails {
+  id: string;
+  dir: string;
 }
 
 export interface CallOperatorDetails {
