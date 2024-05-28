@@ -2,6 +2,13 @@ import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { DataService } from './suggestion-filtering.component.service';
 
+interface PageEvent {
+  first: number | undefined;
+  rows: number;
+  page: number;
+  pageCount: number;
+}
+
 @Component({
   selector: 'app-suggestion-filtering',
   templateUrl: './suggestion-filtering.component.html',
@@ -24,6 +31,10 @@ export class SuggestionFilteringComponent {
   productSelected!: string;
   recipientEmails: string[] | undefined;
   recipientEmailSelected!: string;
+
+  first: number | undefined;
+
+  rows: number = 10;
 
 
   constructor(private dataservice: DataService) { }
@@ -113,9 +124,6 @@ export class SuggestionFilteringComponent {
   }
 
 
-
-  
-
   calculateDatesInterval(rangeDates: Date[]) {
     
     if (rangeDates.length !== 0){
@@ -138,6 +146,11 @@ export class SuggestionFilteringComponent {
 
   
 
+  }
+
+  onPageChange(event: PageEvent) {
+    this.first = event.first;
+    this.rows = event.rows;
   }
 
 

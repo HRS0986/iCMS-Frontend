@@ -78,14 +78,22 @@
 <br />
 
 <div *ngFor="let item of suggestionsData">
-    <app-suggestion-card
+    <app-suggestion-card style="margin-bottom: 20px;"
     [receiver] = "item.receiver"
     [date] = "item.date"
     [productsList] = "item.products"
     [suggestion]="item.suggestion"
     />
+    
 
 </div>
+
+<!-- <p-paginator 
+(onPageChange)="onPageChange($event)" 
+[first]="first" 
+[rows]="rows" 
+[totalRecords]="120" 
+[rowsPerPageOptions]="[10, 20, 30]" /> -->
 
 <!-- <app-email-table /> -->
 

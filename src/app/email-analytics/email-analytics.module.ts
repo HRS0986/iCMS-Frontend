@@ -77,6 +77,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { FilterQuerySuggestionsComponent } from './components/filter-query-suggestions/filter-query-suggestions.component';
 import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 
@@ -147,7 +148,7 @@ import { SuggestionFilteringComponent } from './components/suggestion-filtering/
     DropdownModule,
     CalendarModule,
     DividerModule,
-   
+    PaginatorModule,
     DividerModule,
     SkeletonModule
   ],
