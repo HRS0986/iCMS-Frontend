@@ -77,8 +77,8 @@
 
 <br />
 
-<div *ngFor="let item of suggestionsData">
-    <app-suggestion-card style="margin-bottom: 20px;"
+<div style="margin-bottom: 20px;" *ngFor="let item of suggestionsData">
+    <app-suggestion-card 
     [receiver] = "item.receiver"
     [date] = "item.date"
     [productsList] = "item.products"
