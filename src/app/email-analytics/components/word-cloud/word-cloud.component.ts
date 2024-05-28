@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './word-cloud.component.scss'
 })
 export class WordCloudComponent {
-
+  
 }
