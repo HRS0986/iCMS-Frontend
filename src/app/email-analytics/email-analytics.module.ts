@@ -33,7 +33,6 @@ import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.compon
 
 import { CardModule } from 'primeng/card';
 
-
 import { TabViewModule } from 'primeng/tabview';
 import { ImageModule } from 'primeng/image';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -56,11 +55,9 @@ import { WordCloudComponent } from './components/word-cloud/word-cloud.component
 import { CalendarModule } from 'primeng/calendar';
 import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked-bar-chart.component';
 import { MultiHorizontalBarChartComponent } from './components/multi-horizontal-bar-chart/multi-horizontal-bar-chart.component';
-import * as panel from 'primeng/panel';
-
-
 import { DropdownModule } from 'primeng/dropdown';
 import { DividerModule } from 'primeng/divider';
+
 import { Dashboard2Component } from './components/dashboard2/dashboard2.component';
 import { StatCardMgrAnalyticsComponent } from './components/stat-card-mgr-analytics/stat-card-mgr-analytics.component';
 import { EffiEffecDonoughtChartComponent } from './components/effi-effec-donought-chart/effi-effec-donought-chart.component';
@@ -70,16 +67,11 @@ import { DynamicStackedBarChartComponent } from './components/dynamic-stacked-ba
 import { BestWorstCardComponent } from './components/best-worst-card/best-worst-card.component';
 import { DynamicHorizontalBarchartComponent } from './components/dynamic-horizontal-barchart/dynamic-horizontal-barchart.component';
 
-
-
-
 import { SkeletonModule } from 'primeng/skeleton';
 import { FilterQuerySuggestionsComponent } from './components/filter-query-suggestions/filter-query-suggestions.component';
 import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
 import { PaginatorModule } from 'primeng/paginator';
-
-
 
 @NgModule({
   declarations: [
@@ -101,6 +93,7 @@ import { PaginatorModule } from 'primeng/paginator';
     WordCloudComponent,
     StackedBarChartComponent,
     MultiHorizontalBarChartComponent,
+
     GaugeChartComponent,
     Dashboard2Component,
     StatCardMgrAnalyticsComponent,
@@ -114,7 +107,7 @@ import { PaginatorModule } from 'primeng/paginator';
     SuggestionCardComponent,
     SuggestionFilteringComponent
     
-    
+   
   ],
   imports: [
     CommonModule,
@@ -146,10 +139,8 @@ import { PaginatorModule } from 'primeng/paginator';
     CalendarModule,
     PanelModule, 
     DropdownModule,
-    CalendarModule,
     DividerModule,
     PaginatorModule,
-    DividerModule,
     SkeletonModule
   ],
   providers: [MessageService],
