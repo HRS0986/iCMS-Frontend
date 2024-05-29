@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { MainDashboardRoutingModule } from './main-dashboard-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
-import { LineChartComponent } from './components/charts/line-chart/line-chart.component';
 import {ChartModule} from "primeng/chart";
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { EditProfileComponent } from './components/user-profile/edit-profile/edit-profile.component';
@@ -31,13 +30,18 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { UnreadNotificationsComponent } from './components/notifications/unread-notifications/unread-notifications.component';
 import { ReadNotificationsComponent } from './components/notifications/read-notifications/read-notifications.component';
+import {PanelModule} from "primeng/panel";
+import {LineAreaChartComponent} from "./components/charts/line-area-chart/line-area-chart.component";
+import {HorizontalBarChartComponent} from "./components/charts/horizontal-bar-chart/horizontal-bar-chart.component";
+import {GaugeChartComponent} from "./components/charts/gauge-chart/gauge-chart.component";
+import { NgxEchartsModule } from 'ngx-echarts';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     DoughnutChartComponent,
-    LineChartComponent,
+    LineAreaChartComponent,
     UserProfileComponent,
     EditProfileComponent,
     UserNotificationComponent,
@@ -45,6 +49,8 @@ import { ReadNotificationsComponent } from './components/notifications/read-noti
     NotificationsComponent,
     UnreadNotificationsComponent,
     ReadNotificationsComponent,
+    HorizontalBarChartComponent,
+    GaugeChartComponent
 
   ],
   imports: [
@@ -65,7 +71,10 @@ import { ReadNotificationsComponent } from './components/notifications/read-noti
     ToastModule,
     DialogModule,
     AvatarModule,
-    AvatarGroupModule
+    AvatarGroupModule,
+    PanelModule,
+    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+
   ],
   providers:[ConfirmationService]
 })

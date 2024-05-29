@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundComponent } from "./shared/shared-components/page-not-found/page-not-found.component";
 
 const routes: Routes = [
   {
@@ -29,6 +30,15 @@ const routes: Routes = [
   {
     path: "app-settings",
     loadChildren: () => import("./app-settings/app-settings.module").then(m => m.AppSettingsModule)
+  },
+  {
+    path: "",
+    redirectTo: "main-dashboard",
+    pathMatch: "full"
+  },
+  {
+    path: "**",
+    component: PageNotFoundComponent
   }
 ];
 

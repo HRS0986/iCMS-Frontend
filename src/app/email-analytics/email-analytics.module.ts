@@ -29,9 +29,9 @@ import { FilterQueryComponent } from './components/filter-query/filter-query.com
 import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
 import { EmailTableComponent } from './components/email-table/email-table.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.component';
 
 import { CardModule } from 'primeng/card';
-
 
 import { TabViewModule } from 'primeng/tabview';
 import { ImageModule } from 'primeng/image';
@@ -49,14 +49,14 @@ import { TableModule } from 'primeng/table';
 import { NotiSendingEmailAccCardComponent } from './components/noti-sending-email-acc-card/noti-sending-email-acc-card.component';
 import { TopicCardComponent } from './components/topic-card/topic-card.component';
 import { ToastModule } from 'primeng/toast';
-
 import { MessageService } from 'primeng/api';
-
-import { DropdownModule } from 'primeng/dropdown';
+import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
 import { CalendarModule } from 'primeng/calendar';
+import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked-bar-chart.component';
+import { MultiHorizontalBarChartComponent } from './components/multi-horizontal-bar-chart/multi-horizontal-bar-chart.component';
+import { DropdownModule } from 'primeng/dropdown';
 import { DividerModule } from 'primeng/divider';
 import { SkeletonModule } from 'primeng/skeleton';
-
 
 
 @NgModule({
@@ -76,6 +76,12 @@ import { SkeletonModule } from 'primeng/skeleton';
     EmailAccCardComponent,
     NotiSendingEmailAccCardComponent,
     TopicCardComponent,
+    WordCloudComponent,
+    StackedBarChartComponent,
+    MultiHorizontalBarChartComponent,
+    GaugeChartComponent
+
+
   ],
   imports: [
     CommonModule,
@@ -104,6 +110,8 @@ import { SkeletonModule } from 'primeng/skeleton';
     MultiSelectModule,
     TableModule,
     ToastModule,
+    CalendarModule,
+    PanelModule,
     DropdownModule,
     CalendarModule,
     DividerModule,

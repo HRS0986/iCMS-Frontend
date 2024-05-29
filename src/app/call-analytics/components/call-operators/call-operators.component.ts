@@ -20,6 +20,7 @@ export class CallOperatorsComponent implements OnInit {
   ];
   isModelVisible: boolean = false;
   isLoading: boolean = true;
+  isNoData: boolean = false;
   isOperatorDataLoading: boolean = false;
   isOperatorDataLoadingError: boolean = false;
   isConfirmModalVisible: boolean = false;
@@ -115,9 +116,10 @@ export class CallOperatorsComponent implements OnInit {
     this.selectedOperator = operator;
 
     this.callOperatorService.getOperatorDetails(operator.operator_id).then(response => {
-      this.operator = response.data[0] as CallOperatorDetails;
-      this.isOperatorDataLoading = false;
-      console.log(response.data)
+        this.isNoData = response.data.length == 0;
+        this.operator = response.data[0] as CallOperatorDetails;
+        this.isOperatorDataLoading = false;
+        console.log(response.data)
     }).catch(err => {
       this.isOperatorDataLoading = false;
       this.isOperatorDataLoadingError = true;
