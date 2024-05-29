@@ -89,7 +89,11 @@
     </div>
     <!-- Buttons -->
     <div class="card flex justify-center gap-3 items-end">
-      <p-button label="Apply Filter"></p-button>
+      <p-button 
+        label="Apply Filter"
+        (click)="applyFilters()"
+        (keydown.enter)="applyFilters()"
+      ></p-button>
       <p-button
         label="Clear Filters"
         [outlined]="true"
