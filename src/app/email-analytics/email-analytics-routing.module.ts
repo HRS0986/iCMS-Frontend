@@ -25,6 +25,10 @@ const routes: Routes = [
     component: SuggestionFilteringComponent
   },
   {
+    path: "filtering",
+    component: EmailFilteringComponent
+  },
+  {
     path: "settings",
     component: SettingsComponent
   }
