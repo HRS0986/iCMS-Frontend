@@ -6,6 +6,7 @@ import { EmailFilteringComponent } from './components/email-filtering/email-filt
 import { SettingsComponent } from './components/settings/settings.component';
 import { Dashboard2Component } from './components/dashboard2/dashboard2.component';
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
+import { IssueDataviewComponent } from './components/issue-dataview/issue-dataview.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: "settings",
     component: SettingsComponent
+  },
+  {
+    path: "test",
+    component: IssueDataviewComponent
   }
 ];
 

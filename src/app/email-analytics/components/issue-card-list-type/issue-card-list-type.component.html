@@ -1,0 +1,80 @@
+<div class="grid grid-cols-4 px-5 py-3 bg-gray-100">
+  <div class="col-span-3 grid grid-rows-4">
+    <div class="-ml-1">
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="issueData.isNew"
+        severity="info"
+        value="New"
+      >
+        <i class="pi pi-info-circle text-sm pr-2"></i>
+      </p-tag>
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="issueData.isOverdue"
+        severity="warning"
+        value="Overdue"
+      >
+        <i class="pi pi-exclamation-triangle text-sm pr-2"></i>
+      </p-tag>
+
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="issueData.isClosed"
+        severity="success"
+        value="Closed"
+      >
+        <i class="pi pi-check-circle text-sm pr-2"></i>
+      </p-tag>
+    </div>
+    <div class="row-span-2 flex items-center text-base font-semibold">
+      {{ issueData.issue }}
+    </div>
+    <div class="flex justify-between text-base font-light">
+      <!-- TODO: make these spans fixed size and truncate if text is too long -->
+      <span class="pr-5">
+        <i class="pi pi-send text-sm font-thin pr-2"></i>
+        Sent: {{ issueData.sender }}</span
+      >
+      <span class="w-auto">
+        <span>
+          <i class="pi pi-flag text-sm font-thin pr-2"></i>
+          opened: {{ displayedOpenedDate }}</span
+        >
+        <span *ngIf="issueData.isClosed" class="pl-10">
+          <i class="pi pi-check text-sm font-thin pr-2"></i>
+          closed: {{ displayedClosedDate }}</span
+        >
+      </span>
+    </div>
+  </div>
+  <div class="grid grid-rows-4 justify-center">
+    <div class="row-span-2 flex items-center justify-center">
+      <!-- TODO: truncate additional tags if overflowing and add a tag with +n where n is the number of hidden tags -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        severity="primary"
+        *ngFor="let tag of issueData.tags"
+        value="{{ tag }}"
+      />
+    </div>
+    <div *ngIf="issueData.isClosed" class="flex flex-col row-span-2 justify-center items-center">
+      <div class="p-1">
+        <i class="pi pi-shield text-sm font-thin pr-2"></i>
+        Effectivity: {{ issueData.effectivity }}
+      </div>
+      <div class="p-1">
+        <i class="pi pi-clock text-sm font-thin pr-2"></i>
+        Efficiency: {{ issueData.efficiency }}
+      </div>
+    </div>
+    <div *ngIf="!issueData.isClosed" class="flex row-span-2 justify-center items-center">
+      <i class="pi pi-forward text-sm font-thin pr-2"></i>
+      Pending
+    </div>
+  </div>
+</div>

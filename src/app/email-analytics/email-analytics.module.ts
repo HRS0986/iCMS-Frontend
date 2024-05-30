@@ -72,6 +72,8 @@ import { FilterQuerySuggestionsComponent } from './components/filter-query-sugge
 import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
 import { PaginatorModule } from 'primeng/paginator';
+import { IssueCardListTypeComponent } from './components/issue-card-list-type/issue-card-list-type.component';
+import { IssueDataviewComponent } from './components/issue-dataview/issue-dataview.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +107,9 @@ import { PaginatorModule } from 'primeng/paginator';
     DynamicHorizontalBarchartComponent,
     FilterQuerySuggestionsComponent,
     SuggestionCardComponent,
-    SuggestionFilteringComponent
+    SuggestionFilteringComponent,
+    IssueCardListTypeComponent,
+    IssueDataviewComponent
     
    
   ],
