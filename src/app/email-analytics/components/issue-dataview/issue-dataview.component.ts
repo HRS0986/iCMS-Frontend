@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Issue } from '../../interfaces/issues';
+import { getLocaleEraNames } from '@angular/common';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-issue-dataview',
@@ -9,7 +11,7 @@ import { Issue } from '../../interfaces/issues';
 export class IssueDataviewComponent {
   issueData: Issue[] = [
     {
-      issue: 'Issue 1',
+      issue: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       isNew: true,
       isOverdue: true,
       isClosed: false,
@@ -46,4 +48,10 @@ export class IssueDataviewComponent {
       efficiency: 5
     }
   ];
+
+  breadcrumbItems: MenuItem[] = [
+    {label: "Email Analytics"},
+    {label: "Email Issues"}
+  ];
+
 }

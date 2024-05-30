@@ -50,6 +50,7 @@ import { NotiSendingEmailAccCardComponent } from './components/noti-sending-emai
 import { TopicCardComponent } from './components/topic-card/topic-card.component';
 import { ToastModule } from 'primeng/toast';
 
+
 import { MessageService } from 'primeng/api';
 import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
 import { CalendarModule } from 'primeng/calendar';
@@ -145,7 +146,7 @@ import { IssueDataviewComponent } from './components/issue-dataview/issue-datavi
     DropdownModule,
     DividerModule,
     PaginatorModule,
-    SkeletonModule
+    SkeletonModule,
   ],
   providers: [MessageService],
 })
