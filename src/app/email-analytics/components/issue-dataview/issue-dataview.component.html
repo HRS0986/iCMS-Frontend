@@ -1,8 +1,3 @@
-<ng-container *ngFor="let issueItem of issueData">
-  <app-issue-card-list-type [issueData]="issueItem"></app-issue-card-list-type>
-  <hr />
-</ng-container>
-
 <app-page-header
   pageTitle="Email Filtering"
   class="w-full h-fit"
@@ -10,6 +5,7 @@
   [showButton]="false"
 />
 
+<app-filter-query></app-filter-query>
 <p-panel>
   <p-dataView [value]="issueData" layout="list">
     <ng-template pTemplate="list" let-issues>

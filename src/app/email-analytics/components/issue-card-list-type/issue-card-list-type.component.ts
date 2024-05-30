@@ -59,4 +59,16 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
       return 'just now';
     }
   }
+
+  loading: boolean = false;
+
+  load() {
+    // this is to load the additional data from BE
+    // wait until all data available, then display the popup showing the additional data
+      this.loading = true;
+
+      setTimeout(() => {
+          this.loading = false
+      }, 2000);
+  }
 }
