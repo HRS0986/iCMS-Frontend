@@ -50,6 +50,7 @@ import { NotiSendingEmailAccCardComponent } from './components/noti-sending-emai
 import { TopicCardComponent } from './components/topic-card/topic-card.component';
 import { ToastModule } from 'primeng/toast';
 
+
 import { MessageService } from 'primeng/api';
 import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
 import { CalendarModule } from 'primeng/calendar';
@@ -72,6 +73,8 @@ import { FilterQuerySuggestionsComponent } from './components/filter-query-sugge
 import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
 import { PaginatorModule } from 'primeng/paginator';
+import { IssueCardListTypeComponent } from './components/issue-card-list-type/issue-card-list-type.component';
+import { IssueDataviewComponent } from './components/issue-dataview/issue-dataview.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +108,9 @@ import { PaginatorModule } from 'primeng/paginator';
     DynamicHorizontalBarchartComponent,
     FilterQuerySuggestionsComponent,
     SuggestionCardComponent,
-    SuggestionFilteringComponent
+    SuggestionFilteringComponent,
+    IssueCardListTypeComponent,
+    IssueDataviewComponent
     
    
   ],
@@ -141,7 +146,7 @@ import { PaginatorModule } from 'primeng/paginator';
     DropdownModule,
     DividerModule,
     PaginatorModule,
-    SkeletonModule
+    SkeletonModule,
   ],
   providers: [MessageService],
 })

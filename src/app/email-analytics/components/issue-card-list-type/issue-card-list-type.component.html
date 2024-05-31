@@ -1,0 +1,119 @@
+<div class="bg-gray-50 rounded my-5 border border-solid border-gray-200">
+  <div class="grid grid-cols-4 px-5 py-3">
+    <div class="col-span-3 grid grid-rows-4">
+      <div class="-ml-1 flex items-center">
+        <span>
+          <p-tag
+            class="p-1"
+            styleClass="text-sm"
+            *ngIf="issueData.isNew"
+            severity="info"
+            value="New"
+          >
+            <i class="pi pi-info-circle text-sm pr-2"></i>
+          </p-tag>
+          <p-tag
+            class="p-1"
+            styleClass="text-sm"
+            *ngIf="issueData.isOverdue"
+            severity="warning"
+            value="Overdue"
+          >
+            <i class="pi pi-exclamation-triangle text-sm pr-2"></i>
+          </p-tag>
+
+          <p-tag
+            class="p-1"
+            styleClass="text-sm"
+            *ngIf="issueData.isClosed"
+            severity="success"
+            value="Closed"
+          >
+            <i class="pi pi-check-circle text-sm pr-2"></i>
+          </p-tag>
+        </span>
+        <span *ngIf="issueData.isClosed">
+          <p-tag
+            class="p-1"
+            severity="info"
+            styleClass="text-sm"
+            value="Effectivity: {{ issueData.effectivity }}"
+          >
+            <i class="pi pi-shield text-sm font-thin pr-2"></i>
+          </p-tag>
+          <p-tag
+            class="p-1"
+            severity="info"
+            styleClass="text-sm"
+            value="Efficiency: {{ issueData.efficiency }}"
+          >
+            <i class="pi pi-clock text-sm font-thin pr-2"></i>
+          </p-tag>
+        </span>
+      </div>
+      <div
+        class="row-span-2 flex items-center text-base font-medium py-2 text-justify"
+      >
+        {{ issueData.issue }}
+      </div>
+      <div class="grid grid-cols-3 gap-x-8">
+        <!-- TODO: make these spans fixed size and truncate if text is too long -->
+
+
+        <span class="flex items-center">
+          <i class="pi pi-send text-sm font-thin pr-2"></i>
+          Sent: {{ issueData.sender }}</span
+        >
+        <span *ngIf="issueData.isClosed" class="flex items-center">
+          <i class="pi pi-check text-sm font-thin pr-2"></i>
+          Closed: {{ displayedClosedDate }}</span
+        >
+        <span *ngIf="!issueData.isClosed" class="flex items-center">
+          <i class="pi pi-forward text-sm font-thin pr-2"></i>
+          Pending
+        </span>
+        <span class="flex items-center">
+          <i class="pi pi-flag text-sm font-thin pr-2"></i>
+          Opened: {{ displayedOpenedDate }}</span
+        >
+      </div>
+    </div>
+    <div class="grid grid-rows-2 justify-center gap-4 py-2">
+      <div class="flex items-center justify-center">
+        <!-- TODO: truncate additional tags if overflowing and add a tag with +n where n is the number of hidden tags -->
+        <p-tag
+          class="p-1"
+          styleClass="text-sm"
+          severity="primary"
+          *ngFor="let tag of issueData.tags"
+          value="{{ tag }}"
+        />
+      </div>
+      <div class="flex justify-center items-center">
+        <p-button
+          label="View"
+          icon="pi pi-arrow-right"
+          [loading]="loading"
+          (onClick)="load()"
+          [rounded]="true"
+          size="small"
+          [raised]="true"
+          [text]="true"
+          [outlined]="true"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  header="Additional Details"
+  [(visible)]="dialogVisible"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div *ngIf="!errorMessage">{{ additionalData.gibberish }}</div>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+</p-dialog>
