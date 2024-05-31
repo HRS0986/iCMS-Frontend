@@ -13,6 +13,10 @@ export interface Issue {
     efficiency: number;
 }
 
+export interface IssueAdditionalData {
+    gibberish: string;  // TODO: replace with actual data
+}
+
 export interface IssueMetaDataResponse {
     data: Issue[];
     total: number;
@@ -37,3 +41,9 @@ export interface MockIssueMetadataResponse {
     limit: number;
 }
 // ---
+
+
+export interface MockIssueAdditionalDataResponse {
+    title: string;
+    body: string;
+}

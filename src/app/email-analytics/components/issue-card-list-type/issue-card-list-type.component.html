@@ -33,10 +33,20 @@
           </p-tag>
         </span>
         <span *ngIf="issueData.isClosed">
-          <p-tag class="p-1" severity="info" styleClass="text-sm" value="Effectivity: {{ issueData.effectivity }}">
+          <p-tag
+            class="p-1"
+            severity="info"
+            styleClass="text-sm"
+            value="Effectivity: {{ issueData.effectivity }}"
+          >
             <i class="pi pi-shield text-sm font-thin pr-2"></i>
           </p-tag>
-          <p-tag class="p-1" severity="info" styleClass="text-sm" value="Efficiency: {{ issueData.efficiency }}">
+          <p-tag
+            class="p-1"
+            severity="info"
+            styleClass="text-sm"
+            value="Efficiency: {{ issueData.efficiency }}"
+          >
             <i class="pi pi-clock text-sm font-thin pr-2"></i>
           </p-tag>
         </span>
@@ -93,9 +103,7 @@
           value="{{ tag }}"
         />
       </div>
-      <div
-        class="flex row-span-2 justify-center items-center"
-      >
+      <div class="flex row-span-2 justify-center items-center">
         <p-button
           label="View"
           icon="pi pi-arrow-right"
@@ -111,3 +119,15 @@
     </div>
   </div>
 </div>
+
+<p-dialog
+  header="Additional Details"
+  [(visible)]="dialogVisible"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div *ngIf="!errorMessage">{{ additionalData.gibberish }}</div>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+</p-dialog>

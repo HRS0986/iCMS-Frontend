@@ -34,7 +34,7 @@ const routes: Routes = [
     component: SettingsComponent
   },
   {
-    path: "test",
+    path: "issues",
     component: IssueDataviewComponent
   }
 ];

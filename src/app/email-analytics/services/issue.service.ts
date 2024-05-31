@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IssueMetaDataResponse, MockIssueMetadataResponse } from '../interfaces/issues';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators'; // BUG: remove in production
+import { IssueMetaDataResponse, MockIssueMetadataResponse, IssueAdditionalData, MockIssueAdditionalDataResponse } from '../interfaces/issues';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, timeout } from 'rxjs/operators'; // BUG: remove in production
 
 
 @Injectable({
@@ -36,12 +36,45 @@ export class IssueService {
       limit: mockedResponse.limit,
     };
   }
+
+
+  private convertToIssueAdditionalData(response: MockIssueAdditionalDataResponse): IssueAdditionalData {
+    return {
+      gibberish: response.body
+    }
+  }
   // ---
+  private timeoutDuration = 5000; // Timeout duration in milliseconds
 
   getIssueMetadata(skip: number, limit: number): Observable<IssueMetaDataResponse> {
     return this.http
       .get<MockIssueMetadataResponse>(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`)
-      .pipe(map(this.convertToIssueResponse));   // BUG: remove pipe in production
+      .pipe(
+        map(this.convertToIssueResponse),
+        timeout(this.timeoutDuration),
+        catchError(e => {
+          if (e.name === 'TimeoutError') {
+            return throwError(() => new Error("Request timed out. Please try again later."));
+          } else {
+            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+          }
+        })
+      );   // BUG: remove map part in production
   }
 
+  getIssueAdditionalData(issueId: string): Observable<IssueAdditionalData> {
+    return this.http
+      .get<MockIssueAdditionalDataResponse>(`https://dummyjson.com/posts/${issueId}`)
+      .pipe(
+        map(this.convertToIssueAdditionalData),
+        timeout(this.timeoutDuration),
+        catchError(e => {
+          if (e.name === 'TimeoutError') {
+            return throwError(() => new Error("Request timed out. Please try again later."));
+          } else {
+            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+          }
+        })
+      );  // BUG: remove map part in production
+  }
 }

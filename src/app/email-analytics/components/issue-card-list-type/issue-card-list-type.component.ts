@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
-import { Issue } from '../../interfaces/issues';
+import { Issue, IssueAdditionalData } from '../../interfaces/issues';
 
 import { DataViewModule } from 'primeng/dataview';
 import { TagModule } from 'primeng/tag';
@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 
 import { formatDate } from '@angular/common';
+import { IssueService } from '../../services/issue.service';
 // import product interface
 // import product service
 
@@ -60,15 +61,34 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
     }
   }
 
+  constructor(private issueService: IssueService) { }
+
   loading: boolean = false;
+  dialogVisible: boolean = false;
+  emptyAdditionalData: IssueAdditionalData = {
+    gibberish: ''
+  }
+  additionalData: IssueAdditionalData = this.emptyAdditionalData;
+  errorMessage: string = "";
 
   load() {
     // this is to load the additional data from BE
     // wait until all data available, then display the popup showing the additional data
       this.loading = true;
-
-      setTimeout(() => {
-          this.loading = false
-      }, 2000);
+      this.issueService.getIssueAdditionalData(this.issueData.id).subscribe({
+        next: data => {
+          this.additionalData = data;
+          this.dialogVisible = true;
+          this.loading = false;
+        },
+        error: error => {
+          this.errorMessage = error;
+          this.dialogVisible = true;
+          this.loading = false;
+        }
+      });
+      // setTimeout(() => {
+      //     this.loading = false
+      // }, 2000);
   }
 }
