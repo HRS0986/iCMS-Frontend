@@ -56,23 +56,9 @@
       >
         {{ issueData.issue }}
       </div>
-      <!-- <div class="flex justify-between text-base font-light items-center"> -->
       <div class="grid grid-cols-3 gap-x-8">
         <!-- TODO: make these spans fixed size and truncate if text is too long -->
-        <!-- <span class="pr-5">
-          <i class="pi pi-send text-sm font-thin pr-2"></i>
-          Sent: {{ issueData.sender }}</span
-        >
-        <span class="w-auto">
-          <span>
-            <i class="pi pi-flag text-sm font-thin pr-2"></i>
-            opened: {{ displayedOpenedDate }}</span
-          >
-          <span *ngIf="issueData.isClosed" class="pl-10">
-            <i class="pi pi-check text-sm font-thin pr-2"></i>
-            closed: {{ displayedClosedDate }}</span
-          >
-        </span> -->
+
 
         <span class="flex items-center">
           <i class="pi pi-send text-sm font-thin pr-2"></i>
@@ -92,8 +78,8 @@
         >
       </div>
     </div>
-    <div class="grid grid-rows-4 justify-center py-5">
-      <div class="row-span-2 flex items-center justify-center">
+    <div class="grid grid-rows-2 justify-center gap-4 py-2">
+      <div class="flex items-center justify-center">
         <!-- TODO: truncate additional tags if overflowing and add a tag with +n where n is the number of hidden tags -->
         <p-tag
           class="p-1"
@@ -103,7 +89,7 @@
           value="{{ tag }}"
         />
       </div>
-      <div class="flex row-span-2 justify-center items-center">
+      <div class="flex justify-center items-center">
         <p-button
           label="View"
           icon="pi pi-arrow-right"
