@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Issue } from '../../interfaces/issues';
-import { getLocaleEraNames } from '@angular/common';
+import { Issue, IssueMetaDataResponse } from '../../interfaces/issues';
+import { DataViewLazyLoadEvent } from 'primeng/dataview';
 import { MenuItem } from 'primeng/api';
+import { IssueService } from '../../services/issue.service';
 
 @Component({
   selector: 'app-issue-dataview',
@@ -11,6 +12,7 @@ import { MenuItem } from 'primeng/api';
 export class IssueDataviewComponent {
   issueData: Issue[] = [
     {
+      id: '1',
       issue: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       isNew: true,
       isOverdue: true,
@@ -23,6 +25,7 @@ export class IssueDataviewComponent {
       efficiency: 4
     },
     {
+      id: '2',
       issue: 'Issue 2',
       isNew: false,
       isOverdue: true,
@@ -35,6 +38,7 @@ export class IssueDataviewComponent {
       efficiency: 3
     },
     {
+      id: '3',
       issue: 'Issue 3',
       isNew: false,
       isOverdue: false,
@@ -48,6 +52,43 @@ export class IssueDataviewComponent {
       efficiency: 5
     }
   ];
+
+  issueData_: Issue[] = new Array(10).fill({
+    issue: '',
+    isNew: false,
+    isOverdue: false,
+    isClosed: false,
+    sender: '',
+    recipient: '',
+    dateOpened: new Date(),
+    tags: [],
+    effectivity: 0,
+    efficiency: 0
+  });
+
+  totalRecords: number = 0;
+  loading: boolean = true;
+  rowsPerPage: number = 10;
+  // default sort field and order - latest issues first
+  sortField: string = 'dateOpened';
+  sortOrder: number = -1;
+
+  constructor(private issueService: IssueService) {}
+
+  loadIssues($event: DataViewLazyLoadEvent) {
+    this.loading = true;
+    this.issueService.getIssueMetadata($event.first ?? 0, $event.rows ?? 20).subscribe(
+      (response: IssueMetaDataResponse) => {
+        this.issueData = response.data;
+        this.totalRecords = response.total;
+        this.loading = false;
+      }
+    )
+  }
+  onPageChange(event: any) {
+    this.rowsPerPage = event.rows;
+    this.loadIssues({ first: event.first, rows:this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder});
+  }
 
   breadcrumbItems: MenuItem[] = [
     {label: "Email Analytics"},
