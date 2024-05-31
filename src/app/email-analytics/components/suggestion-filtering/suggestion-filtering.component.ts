@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { DataService } from './suggestion-filtering.component.service';
+import { DataViewLazyLoadEvent } from 'primeng/dataview';
+import { SuggestionService } from '../../services/suggestion.service';
+import { Suggestion, SuggestionMetaDataResponse } from '../../interfaces/suggestions';
 
 interface PageEvent {
   first: number | undefined;
@@ -15,33 +18,46 @@ interface PageEvent {
   styleUrl: './suggestion-filtering.component.scss'
 })
 export class SuggestionFilteringComponent {
+  // suggestionsData = [
+  //   {receiver:"readingEmail1@gmail.com", date:"2024.05.06", products:["VEGA"], suggestion:"bla bla bla suggestion."},
+  //   {receiver:"readingEmail2@gmail.com", date:"2024.06.06", products:["EV"], suggestion:"some other suggestion."}
+  // ]
 
-  breadcrumbItems: MenuItem[] = [
-    {label: "Email Analytics"},
-    {label: "Email Filtering"}
-  ];
+  suggestionData: Suggestion[] = new Array(10).fill({
+    id: '',
+    suggestion: '',
+    isNew: false,
+    isPopular: false,
+    dateSuggested: new Date(),
+    tags: [],
+    sender: '',
+    recipient: '',
+  });
 
-  suggestionsData = [
-    {receiver:"readingEmail1@gmail.com", date:"2024.05.06", products:["VEGA"], suggestion:"bla bla bla suggestion."},
-    {receiver:"readingEmail2@gmail.com", date:"2024.06.06", products:["EV"], suggestion:"some other suggestion."}
-  ]
+  totalRecords: number = 0;
+  loading: boolean = true;
+  rowsPerPage = 10;
+  sortField: string = 'dateSuggested';
+  sortOrder: number = -1;
+  errorMessage: string = '';
+  dialogVisible: boolean = false;
   
+  // Ranindu's vars
   dateRange: Date[] = [];
   products: string[] | undefined;
   productSelected!: string;
   recipientEmails: string[] | undefined;
   recipientEmailSelected!: string;
+  // ----
 
-  first: number | undefined;
+  // first: number | undefined;
 
-  rows: number = 10;
+  // rows: number = 10;
 
+  constructor(private dataservice: DataService, private suggestionService: SuggestionService) { }
 
-  constructor(private dataservice: DataService) { }
-
+  // Ranindu's functions
   ngOnInit() {
-
-
     this.products = [
         "VEGA",
         "TravelBox",
@@ -68,8 +84,6 @@ export class SuggestionFilteringComponent {
 
   }
 
-
-
   clearFilters() {
     this.dateRange = [];
     this.productSelected = "";
@@ -77,27 +91,22 @@ export class SuggestionFilteringComponent {
     this.getFilteredSuggestions(29, this.productSelected, this.recipientEmailSelected)
   }
 
-
-
   applyFilters() {
     const intervalInDays = this.calculateDatesInterval(this.dateRange)
     this.getFilteredSuggestions(intervalInDays, this.productSelected, this.recipientEmailSelected)
   }
-
-
   getFilteredSuggestions(intervalInDays: number, productSelected: string, recipientEmailSelected:string){
 
     type dict = { [key: string]: any };
 
     this.dataservice.getDataForFilterSuggestions( intervalInDays, productSelected, recipientEmailSelected).subscribe((data: dict) => {
       console.log("suggestions data", data)
-      this.suggestionsData= data["suggestionsData"]
+      // this.suggestionsData= data["suggestionsData"]
       
      });
 
   }
 
-  
   getAllRecepientEmails(){
 
     type dict = { [key: string]: any };
@@ -143,16 +152,33 @@ export class SuggestionFilteringComponent {
     else{
       return 29
     }
+  }
+  // ---- End of Ranindu's functions
 
-  
-
+  loadSuggestions($event: DataViewLazyLoadEvent) {
+    this.loading = true;
+    this.suggestionService.getSuggestionMetadata($event.first ?? 0, $event.rows ?? 20).subscribe({
+      next: (response: SuggestionMetaDataResponse) => {
+        this.suggestionData = response.data;
+        this.totalRecords = response.total;
+        this.loading = false;
+      },
+      error: (error: any) => {
+        this.errorMessage = error;
+        this.loading = false;
+        this.dialogVisible = true;
+      }
+    });
   }
 
-  onPageChange(event: PageEvent) {
-    this.first = event.first;
-    this.rows = event.rows;
+  onPageChange(event: any) {
+    this.rowsPerPage = event.rows;
+    this.loadSuggestions({ first: event.first, rows: this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder });
   }
 
-
+  breadcrumbItems: MenuItem[] = [
+    {label: "Email Analytics"},
+    {label: "Email Suggestions"}
+  ];
 
 }

@@ -75,6 +75,7 @@ import { SuggestionFilteringComponent } from './components/suggestion-filtering/
 import { PaginatorModule } from 'primeng/paginator';
 import { IssueCardListTypeComponent } from './components/issue-card-list-type/issue-card-list-type.component';
 import { IssueDataviewComponent } from './components/issue-dataview/issue-dataview.component';
+import { SuggestionCardListTypeComponent } from './components/suggestion-card-list-type/suggestion-card-list-type.component';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { IssueDataviewComponent } from './components/issue-dataview/issue-datavi
     SuggestionCardComponent,
     SuggestionFilteringComponent,
     IssueCardListTypeComponent,
-    IssueDataviewComponent
+    IssueDataviewComponent,
+    SuggestionCardListTypeComponent
     
    
   ],
