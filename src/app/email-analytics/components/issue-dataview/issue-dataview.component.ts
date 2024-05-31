@@ -3,6 +3,7 @@ import { Issue, IssueMetaDataResponse } from '../../interfaces/issues';
 import { DataViewLazyLoadEvent } from 'primeng/dataview';
 import { MenuItem } from 'primeng/api';
 import { IssueService } from '../../services/issue.service';
+import { identifierName } from '@angular/compiler';
 
 @Component({
   selector: 'app-issue-dataview',
@@ -12,6 +13,7 @@ import { IssueService } from '../../services/issue.service';
 export class IssueDataviewComponent {
   
   issueData: Issue[] = new Array(10).fill({
+    id: '',
     issue: '',
     isNew: false,
     isOverdue: false,
