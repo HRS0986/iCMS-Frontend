@@ -38,8 +38,6 @@ import { WordcloudComponent } from './components/charts/wordcloud/word-cloud.com
 import { GridComponent } from './components/grid/grid.component';
 import {GridsterComponent, GridsterItemComponent} from "angular-gridster2";
 import {MatIcon} from "@angular/material/icon";
-import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
-
 
 @NgModule({
   declarations: [
@@ -79,7 +77,10 @@ import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
     AvatarModule,
     AvatarGroupModule,
     PanelModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
+    GridsterItemComponent,
+    GridsterComponent,
+    MatIcon,
 
   ],
   providers:[ConfirmationService]
