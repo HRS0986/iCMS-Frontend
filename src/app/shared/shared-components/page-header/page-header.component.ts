@@ -19,20 +19,29 @@ export class PageHeaderComponent implements OnInit {
   @Input() showAddMemberButton: boolean = false;
   @Input() showAddWidgetButton: boolean = false;
 
+  @Input() minDate: Date = new Date();
+  @Input() maxDate: Date = new Date();
+
   @Output() buttonAction: EventEmitter<any> = new EventEmitter();
+
+
+  @Output() rangeDatesChanged: EventEmitter<Date[]> = new EventEmitter<Date[]>();
 
   sidebarVisible: boolean = false;
 
   rangeDates: Date[] | undefined;
-
   home: MenuItem | undefined;
 
-  constructor(private router: Router,private dateRangeService: DateRangeService) {} // Inject Router in the constructor
+  constructor(private router: Router, private dateRangeService: DateRangeService) {} // Inject Router in the constructor
+
+
+
+  onRangeDateChange(rangeDates: Date[]) {
+    this.rangeDatesChanged.emit(rangeDates);
+  }
 
 
   ngOnInit() {
-    // this.showOldDate();
-    // console.log(this.rangeDates);
     this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
