@@ -1,16 +1,17 @@
 import { Component, Input } from '@angular/core';
-import { Suggestion, SuggestionAdditionalData } from '../../interfaces/suggestions';
-import { SuggestionService } from '../../services/suggestion.service';
+import { Inquiry, InquiryAdditionalData } from '../../interfaces/inquiries';
+import { InquiryService } from '../../services/inquiry.service';
 
 @Component({
-  selector: 'app-suggestion-card-list-type',
-  templateUrl: './suggestion-card-list-type.component.html',
-  styleUrl: './suggestion-card-list-type.component.scss'
+  selector: 'app-inquiry-card-list-type',
+  templateUrl: './inquiry-card-list-type.component.html',
+  styleUrl: './inquiry-card-list-type.component.scss'
 })
-export class SuggestionCardListTypeComponent {
-  @Input() suggestionData!: Suggestion;
+export class InquiryCardListTypeComponent {
+  @Input() inquiryData!: Inquiry;
 
-  displayedSuggestedDate: string = '';
+  displayedOpenedDate: string = '';
+  displayedClosedDate: string = '';
 
   ngOnInit() {
     this.updateDisplayedDates();
@@ -22,8 +23,15 @@ export class SuggestionCardListTypeComponent {
 
   private updateDisplayedDates() {
     const now = new Date();
-    const suggestedDiff = now.getTime() - this.suggestionData.dateSuggested.getTime();
-    this.displayedSuggestedDate = this.formatTimeDifference(suggestedDiff);
+    const openedDiff = now.getTime() - this.inquiryData.dateInquired.getTime();
+    this.displayedOpenedDate = this.formatTimeDifference(openedDiff);
+
+    if (this.inquiryData.dateAnswered) {
+      const closedDiff = now.getTime() - this.inquiryData.dateAnswered.getTime();
+      this.displayedClosedDate = this.formatTimeDifference(closedDiff);
+    } else {
+      this.displayedClosedDate = '';
+    }
   }
 
   private formatTimeDifference(diff: number): string {
@@ -43,19 +51,19 @@ export class SuggestionCardListTypeComponent {
     }
   }
 
-  constructor(private suggestionService: SuggestionService) { }
+  constructor(private inquiryService: InquiryService) { }
 
   loading: boolean = false;
   dialogVisible: boolean = false;
-  additionalData: SuggestionAdditionalData = {
+  additionalData: InquiryAdditionalData = {
     gibberish: ''
   };
   errorMessage: string = '';
 
   load() {
     this.loading = true;
-    this.suggestionService.getSuggestionAdditionalData(this.suggestionData.id).subscribe({
-      next: (response: SuggestionAdditionalData) => {
+    this.inquiryService.getInquiryAdditionalData(this.inquiryData.id).subscribe({
+      next: (response: InquiryAdditionalData) => {
         this.additionalData = response;
         this.loading = false;
         this.dialogVisible = true;
