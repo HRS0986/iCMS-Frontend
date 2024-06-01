@@ -76,6 +76,8 @@ import { PaginatorModule } from 'primeng/paginator';
 import { IssueCardListTypeComponent } from './components/issue-card-list-type/issue-card-list-type.component';
 import { IssueDataviewComponent } from './components/issue-dataview/issue-dataview.component';
 import { SuggestionCardListTypeComponent } from './components/suggestion-card-list-type/suggestion-card-list-type.component';
+import { InquiryCardListTypeComponent } from './components/inquiry-card-list-type/inquiry-card-list-type.component';
+import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +114,9 @@ import { SuggestionCardListTypeComponent } from './components/suggestion-card-li
     SuggestionFilteringComponent,
     IssueCardListTypeComponent,
     IssueDataviewComponent,
-    SuggestionCardListTypeComponent
+    SuggestionCardListTypeComponent,
+    InquiryCardListTypeComponent,
+    InquiryDataviewComponent
     
    
   ],
