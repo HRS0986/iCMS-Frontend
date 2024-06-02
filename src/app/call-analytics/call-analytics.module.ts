@@ -50,6 +50,8 @@ import { RippleModule } from 'primeng/ripple';
 import { CallOperatorsComponent } from './components/call-operators/call-operators.component';
 import { SkeletonModule } from "primeng/skeleton";
 import { AvatarModule } from "primeng/avatar";
+import {FilePickerModule} from "ngx-awesome-uploader";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
 
 
 @NgModule({
@@ -73,6 +75,7 @@ import { AvatarModule } from "primeng/avatar";
     CallOperatorsComponent,
   ],
   imports: [
+    FilePickerModule,
     CommonModule,
     CallAnalyticsRoutingModule,
     CardModule,
@@ -105,6 +108,7 @@ import { AvatarModule } from "primeng/avatar";
     RippleModule,
     SkeletonModule,
     AvatarModule,
+    ConfirmPopupModule,
   ],
   providers: [
     CallAnalyticsService
