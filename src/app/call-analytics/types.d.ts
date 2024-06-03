@@ -27,6 +27,7 @@ export interface OperatorAnalyticsOverTimeRecord {
    file: File;
    description: string;
    date: Date;
+   operatorId: number;
  }
 
 export interface ApiResponse {
