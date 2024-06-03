@@ -38,6 +38,7 @@ import { WordcloudComponent } from './components/charts/wordcloud/word-cloud.com
 import { GridComponent } from './components/grid/grid.component';
 import {GridsterComponent, GridsterItemComponent} from "angular-gridster2";
 import {MatIcon} from "@angular/material/icon";
+import {FileUploadModule} from "primeng/fileupload";
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import {MatIcon} from "@angular/material/icon";
     GridsterItemComponent,
     GridsterComponent,
     MatIcon,
+    FileUploadModule,
 
   ],
   providers:[ConfirmationService]

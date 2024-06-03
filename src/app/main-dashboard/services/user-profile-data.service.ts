@@ -1,0 +1,26 @@
+import { Injectable } from '@angular/core';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserProfileDataService {
+
+  apiUrl = 'http://localhost:8000/getUserProfileData';
+
+  constructor(private http: HttpClient) { }
+
+  getUserProfileData(token: string): any {
+    let headers = new HttpHeaders();
+    console.log(token);
+    headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+    return this.http.get<any>(this.apiUrl, {headers});
+
+  }
+
+
+
+
+}
