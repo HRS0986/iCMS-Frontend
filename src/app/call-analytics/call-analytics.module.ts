@@ -9,7 +9,6 @@ import { PanelModule } from 'primeng/panel';
 import { DoughnutChartComponent } from './components/doughnut-chart/doughnut-chart.component';
 import { ChartModule } from 'primeng/chart';
 import { LineAreaChartComponent } from './components/line-area-chart/line-area-chart.component';
-import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
 import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { HorizontalBarChartComponent } from './components/horizontal-bar-chart/horizontal-bar-chart.component';
@@ -50,7 +49,9 @@ import { RippleModule } from 'primeng/ripple';
 import { CallOperatorsComponent } from './components/call-operators/call-operators.component';
 import { SkeletonModule } from "primeng/skeleton";
 import { AvatarModule } from "primeng/avatar";
-import {FilePickerModule} from "ngx-awesome-uploader";
+import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked-bar-chart.component';
+import { ProgressSpinnerModule } from "primeng/progressspinner";
+import { BestOperatorsCardComponent } from './components/best-operators-card/best-operators-card.component';
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 
 
@@ -60,7 +61,6 @@ import {ConfirmPopupModule} from "primeng/confirmpopup";
     StatCardComponent,
     DoughnutChartComponent,
     LineAreaChartComponent,
-    WordCloudComponent,
     GaugeChartComponent,
     HorizontalBarChartComponent,
     RecentCallsCardComponent,
@@ -73,43 +73,45 @@ import {ConfirmPopupModule} from "primeng/confirmpopup";
     CallFilteringComponent,
     FilteringFeaturesComponent,
     CallOperatorsComponent,
+    StackedBarChartComponent,
+    BestOperatorsCardComponent,
   ],
-  imports: [
-    FilePickerModule,
-    CommonModule,
-    CallAnalyticsRoutingModule,
-    CardModule,
-    SharedModule,
-    ToastModule,
-    PanelModule,
-    ChartModule,
-    ButtonModule,
-    TooltipModule,
-    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
-    DataViewModule,
-    TagModule,
-    DialogModule,
-    TabViewModule,
-    ImageModule,
-    CheckboxModule,
-    InputNumberModule,
-    ChipsModule,
-    FormsModule,
-    InputSwitchModule,
-    InputTextModule,
-    ReactiveFormsModule,
-    FileUploadModule,
-    CalendarModule,
-    DropdownModule,
-    SliderModule,
-    DividerModule,
-    InputGroupModule,
-    InputGroupAddonModule,
-    RippleModule,
-    SkeletonModule,
-    AvatarModule,
-    ConfirmPopupModule,
-  ],
+    imports: [
+        CommonModule,
+        CallAnalyticsRoutingModule,
+        CardModule,
+        SharedModule,
+        ToastModule,
+        PanelModule,
+        ChartModule,
+        ButtonModule,
+        TooltipModule,
+        NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
+        DataViewModule,
+        TagModule,
+        DialogModule,
+        TabViewModule,
+        ImageModule,
+        CheckboxModule,
+        InputNumberModule,
+        ChipsModule,
+        FormsModule,
+        InputSwitchModule,
+        InputTextModule,
+        ReactiveFormsModule,
+        FileUploadModule,
+        CalendarModule,
+        DropdownModule,
+        SliderModule,
+        DividerModule,
+        InputGroupModule,
+        InputGroupAddonModule,
+        RippleModule,
+        SkeletonModule,
+        AvatarModule,
+        ProgressSpinnerModule,
+       ConfirmPopupModule,
+    ],
   providers: [
     CallAnalyticsService
   ]

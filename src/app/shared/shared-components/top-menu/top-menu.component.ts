@@ -13,18 +13,14 @@ export class TopMenuComponent implements OnInit {
   constructor(private notificationService: NotificationCountService) {}
 
   ngOnInit(): void {
-    // Fetch notification count every 1 second
 
-    // timer(0, 1000).subscribe(() => {
-    //   this.notificationService.getNotificationsCounts().subscribe(
-    //     (notifications) => {
-    //       this.notificationCount = notifications;
-    //     },
-    //     (error) => {
-    //       console.error('Error fetching notification count: ', error);
-    //     }
-    //   );
-    // });
+    timer(0, 1000).subscribe(() => {
+      // this.notificationService.getNotificationsCounts().subscribe(
+      //   (notifications) => {
+      //     this.notificationCount = notifications;
+      //   },
+      // );
+    });
 
 
   }

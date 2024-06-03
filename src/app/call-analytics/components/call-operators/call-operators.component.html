@@ -3,6 +3,12 @@
 
 <p-toast></p-toast>
 <p-panel class="flex flex-col text-center justify-center mb-4">
+  <div class="flex justify-between items-center px-3 mb-5" [style.display]="isDataFetchError ? 'block' : 'none'">
+    <img src="./assets/img/500.jpg" style="width: 60%;">
+    <p class="text-4xl">Internal Server Error</p>
+    <p>{{ userMessages.FETCH_ERROR_USER_MSG }}</p>
+  </div>
+
   <div class="flex flex-col text-center justify-center mb-4 pt-10 px-10" *ngIf="isLoading">
     <ul class="m-0 p-0 list-none">
       <li class="mb-3">
@@ -37,9 +43,6 @@
   <div class="flex justify-between items-center px-3 mb-5"
        [style.display]="!isDataFetchError && callOperators.length == 0 && !isLoading ? 'block' : 'none'">
     <p>Currently, there are no operators. You can add new operator by clicking <b>Add Call Operator</b> button</p>
-  </div>
-  <div class="flex justify-between items-center px-3 mb-5" [style.display]="isDataFetchError && !isLoading ? 'block' : 'none'">
-      <p>{{ userMessages.FETCH_ERROR_USER_MSG }}</p>
   </div>
   <div class="pt-5" *ngIf="!isDataFetchError && !isLoading && callOperators.length > 0">
     <div class="flex justify-between items-center px-10 mb-5" *ngFor="let operator of callOperators">
@@ -118,7 +121,10 @@
       <p-skeleton height="200px"/>
     </div>
   </div>
-  <div *ngIf="!isOperatorDataLoading && !isOperatorDataLoadingError">
+  <div *ngIf="!isOperatorDataLoading && !isOperatorDataLoadingError && isNoData">
+    <p>This operator has not handled any calls yet</p>
+  </div>
+  <div *ngIf="!isOperatorDataLoading && !isOperatorDataLoadingError && !isNoData">
     <div class="flex">
       <div class="w-1/2 text-center">
         <p class="font-bold text-2xl">{{operator.total_calls}}</p>

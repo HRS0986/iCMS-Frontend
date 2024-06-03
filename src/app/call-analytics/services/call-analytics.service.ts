@@ -13,35 +13,36 @@ export class CallAnalyticsService {
   constructor(private http: HttpClient) {
   }
 
-  public getCallStatistics(): CallStatistics {
-    return {
-      negativeCalls: 50,
-      neutralCalls: 100,
-      positiveCalls: 75,
-      totalCalls: 225,
-      averageCallTime: 10,
-      totalMinutes: 1523
-    };
+  public getCallStatistics(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-call-statistics`));
   }
 
-  public getOverallCallStatus() {
-
+  public getSentimentPercentages(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-sentiment-percentages`));
   }
 
-  public getRecentCalls() {
-
-
+  public getOperatorCallsOverTime(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-operator-calls-over-time`));
   }
+
+  public getTopicsDistribution(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-topics-distribution`));
+  }
+
 
   public getOverallCallSentimentScore() {
 
   }
 
-  public getSentimentTimeDetails() {
-
+  public getSentimentTimeDetails(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-sentiment-time-details`));
   }
 
   public getCallSummary(call_id: string): Promise<ApiResponse> {
-    return firstValueFrom<ApiResponse>(this.http.get<ApiResponse>(`${this.API_ROOT}/get-call-summary/${call_id}`));
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-call-summary/${call_id}`));
+  }
+
+  public getAllKeywords(): Promise<ApiResponse> {
+    return  firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-all-keywords`));
   }
 }

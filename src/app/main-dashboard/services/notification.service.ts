@@ -7,31 +7,32 @@ import { Observable } from 'rxjs';
 })
 export class NotificationService {
 
+  private baseUrl = 'http://127.0.0.1:8000/Notifications';
   constructor(private http: HttpClient) {}
 
   getNotifications(): Observable<any> {
     // Replace 'apiEndpoint' with your actual API endpoint
-    return this.http.get('http://127.0.0.1:8000/CallAnalysis/Newnotification');
+    return this.http.get<any>(`${this.baseUrl}/Newnotification`);
   }
 
   getNotificationsCounts(): Observable<any> {
     // Replace 'apiEndpoint' with your actual API endpoint
-    return this.http.get('http://127.0.0.1:8000/CallAnalysis/NewnotificationCounts');
+    return this.http.get<any>(`${this.baseUrl}/NewnotificationCounts`);
   }
 
   updateUnreadNotifications(notificationData: any): Observable<any> {
     // Replace 'apiEndpoint' with your actual API endpoint
-    return this.http.post('http://127.0.0.1:8000/CallAnalysis/Unreadpost', notificationData);
+    return this.http.post<any>(`${this.baseUrl}/Unreadpost`,notificationData);
   }
 
   updateReadNotifications(notificationData: any): Observable<any> {
     // Replace 'apiEndpoint' with your actual API endpoint
-    return this.http.post('http://127.0.0.1:8000/CallAnalysis/Readpost', notificationData);
+    return this.http.post<any>(`${this.baseUrl}/Readpost`,notificationData);
   }
 
   getReadNotifications(): Observable<any> {
     // Replace 'apiEndpoint' with your actual API endpoint
-    return this.http.get('http://127.0.0.1:8000/CallAnalysis/Readnotification');
+    return this.http.get<any>(`${this.baseUrl}/Readnotification`);
   }
 
 }

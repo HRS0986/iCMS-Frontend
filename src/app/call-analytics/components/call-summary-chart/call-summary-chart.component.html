@@ -1,7 +1,46 @@
+<p-toast></p-toast>
 <p-panel class="flex flex-col text-center justify-center mb-4">
 
   <div class="flex justify-between items-center px-3 mb-5" [style.display]="noCalls ? 'block' : 'none'">
     <img src="./assets/call/noresult.png">
+  </div>
+
+  <div class="flex justify-between items-center px-3 mb-5" [style.display]="isError ? 'block' : 'none'">
+    <img src="./assets/img/500.jpg" style="width: 60%;">
+    <p class="text-4xl">Internal Server Error</p>
+    <p>{{ userMessages.FETCH_ERROR_USER_MSG }}</p>
+  </div>
+
+  <div class="flex flex-col text-center justify-center mb-4 pt-10 px-10" *ngIf="isLoading">
+    <ul class="m-0 p-0 list-none">
+      <li class="mb-3">
+        <div class="flex">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+          <div style="flex: 1">
+            <p-skeleton width="100%" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="75%"></p-skeleton>
+          </div>
+        </div>
+      </li>
+      <li class="mb-3">
+        <div class="flex">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+          <div style="flex: 1">
+            <p-skeleton width="100%" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="75%"></p-skeleton>
+          </div>
+        </div>
+      </li>
+      <li class="mb-3">
+        <div class="flex">
+          <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+          <div style="flex: 1">
+            <p-skeleton width="100%" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="75%"></p-skeleton>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 
   <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of callRecordings">
@@ -17,11 +56,11 @@
     </div>
     <div class="flex gap-3">
       <p-button icon="pi pi-bars" (click)="showDialogSummary(call)" severity="success" size="small"
-                pTooltip="View Transcription" [outlined]="true"></p-button>
+                [outlined]="true"></p-button>
       <p-button icon="pi pi-play" (click)="showDialogPlay(call)" [outlined]="true" size="small"
-                pTooltip="Play Recording"></p-button>
+                ></p-button>
       <p-button icon="pi pi-trash" (click)="showDialogConfirmation(call)" severity="danger" size="small"
-                pTooltip="Delete Recording" [outlined]="true"></p-button>
+                [outlined]="true"></p-button>
     </div>
   </div>
 
