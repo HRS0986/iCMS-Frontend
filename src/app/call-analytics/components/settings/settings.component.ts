@@ -1,39 +1,47 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MenuItem, MessageService } from 'primeng/api';
 import { CallSettingsService } from '../../services/call-settings.service';
 import { CallDirSettingsDetails, CallSettingsDetails } from '../../types';
 import UserMessages from '../../../shared/user-messages';
 import { CheckboxChangeEvent } from 'primeng/checkbox';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrl: './settings.component.scss',
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-  notificationsSettingsForm = this.fb.group({
-    keywords: [],
-    emails: [],
-    bellowScore: 0,
-    aboveScore: 0,
-    aboveNotify: false,
-    bellowNotify: false,
-    checked: [true],
-  });
-  callIntegrationSettingsForm = this.fb.group({
-    dir: '',
-  });
+  notificationsSettingsForm: FormGroup;
+  notification: CallSettingsDetails[] = [];
+  callIntegrationSettingsForm: FormGroup;
+
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private CallSettingsService: CallSettingsService
-  ) {}
+    private callSettingsService: CallSettingsService
+  ) {
+    this.notificationsSettingsForm = this.fb.group({
+      keywords: [[]],
+      emails: [[]],
+      bellowScore: [0],
+      aboveScore: [0],
+      aboveNotify: [false],
+      bellowNotify: [false],
+      checked: [true],
+    });
+
+    this.callIntegrationSettingsForm = this.fb.group({
+      dir: [''],
+    });
+  }
 
   ngOnInit() {
-    let belowAlertsEnabled =
+    this.reloadDataSource();
+    const belowAlertsEnabled =
       this.notificationsSettingsForm.get('bellowNotify')?.value;
-    let aboveAlertsEnabled =
+    const aboveAlertsEnabled =
       this.notificationsSettingsForm.get('aboveNotify')?.value;
 
     if (!belowAlertsEnabled) {
@@ -49,8 +57,48 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  reloadDataSource() {
+    this.callSettingsService.getNotificationSettings('1').subscribe(
+      (result) => {
+        if (result.status) {
+          this.notification = result.data;
+          console.log(this.notification);
+          this.notificationsSettingsForm.setValue({
+            keywords: this.notification[0]['alert_keywords'] || [],
+            emails: this.notification[0]['alert_email_receptions'] || [],
+            bellowScore: this.notification[0]['sentiment_lower_threshold'] || 0,
+            aboveScore: this.notification[0]['sentiment_upper_threshold'] || 0,
+            aboveNotify: [
+              this.notification[0]['is_upper_threshold_enabled'],
+            ] || [false],
+            bellowNotify: [
+              this.notification[0]['is_lower_threshold_enabled'],
+            ] || [false],
+            checked: this.notification[0]['is_email_alerts_enabled'] || [false],
+          });
+          console.log(this.notificationsSettingsForm.value);
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: UserMessages.FETCH_ERROR,
+            life: 5000,
+          });
+        }
+      },
+      (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: UserMessages.FETCH_ERROR,
+          life: 5000,
+        });
+      }
+    );
+  }
+
   onChangeBelowScore(event: CheckboxChangeEvent) {
-    let belowAlertsEnabled = event.checked.length !== 0;
+    const belowAlertsEnabled = event.checked.length !== 0;
     if (belowAlertsEnabled) {
       this.notificationsSettingsForm.get('bellowScore')?.enable();
     } else {
@@ -59,7 +107,7 @@ export class SettingsComponent implements OnInit {
   }
 
   onChangeAboveScore(event: CheckboxChangeEvent) {
-    let aboveAlertsEnabled = event.checked.length !== 0;
+    const aboveAlertsEnabled = event.checked.length !== 0;
     if (aboveAlertsEnabled) {
       this.notificationsSettingsForm.get('aboveScore')?.enable();
     } else {
@@ -69,10 +117,9 @@ export class SettingsComponent implements OnInit {
 
   onSubmit(): void {
     const formValue = this.notificationsSettingsForm.value;
-    // console.log(formValue.aboveNotify == true ? true : false);
     console.log(Array.isArray(formValue.aboveNotify) ? true : false);
     const callSettingsDetails: CallSettingsDetails = {
-      id: '6655e8e7ee448447a31e4899',
+      id: '',
       user_id: '1',
       alert_keywords: formValue.keywords || [],
       alert_email_receptions: formValue.emails || [],
@@ -87,7 +134,8 @@ export class SettingsComponent implements OnInit {
       is_email_alerts_enabled: formValue.checked || false,
     };
     console.log(callSettingsDetails);
-    this.CallSettingsService.updateNotificationSettings(callSettingsDetails)
+    this.callSettingsService
+      .updateNotificationSettings(callSettingsDetails)
       .then((response) => {
         if (response.status) {
           this.messageService.add({
@@ -116,11 +164,13 @@ export class SettingsComponent implements OnInit {
   onSubmitCall(): void {
     const dir = this.callIntegrationSettingsForm.value.dir || '';
     const settings: CallDirSettingsDetails = {
-      id: '6655e8e7ee448447a31e4899',
+      id: '',
+      user_id: '1',
       dir: dir,
     };
 
-    this.CallSettingsService.updateDirSettings(settings)
+    this.callSettingsService
+      .updateDirSettings(settings)
       .then((response) => {
         if (response.status) {
           this.messageService.add({
@@ -146,6 +196,7 @@ export class SettingsComponent implements OnInit {
       });
     console.log(this.callIntegrationSettingsForm.value);
   }
+
   breadcrumbItems: MenuItem[] = [
     { label: 'Call Analytics' },
     { label: 'Settings' },

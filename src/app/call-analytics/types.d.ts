@@ -54,6 +54,7 @@ export interface CallSettingsDetails {
 
 export interface CallDirSettingsDetails {
   id: string;
+  user_id: string;
   dir: string;
 }
 
