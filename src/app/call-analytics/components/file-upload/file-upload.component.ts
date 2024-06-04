@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ConfirmationService, MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { CallRecordingService } from '../../services/call-recording.service';
-import { catchError, finalize } from 'rxjs/operators';
 import { FileSelectEvent, FileUpload } from "primeng/fileupload";
 import { OperatorListItem, QueuedFile, } from "../../types";
 import { CallOperatorService } from "../../services/call-operator.service";
-import { forkJoin, of } from 'rxjs';
+import UserMessages from "../../../shared/user-messages";
 
 @Component({
   selector: 'app-file-upload',
@@ -23,8 +22,6 @@ export class FileUploadComponent implements OnInit {
   ];
 
   files: any[] = [];
-  isUploading = false;
-  uploadQueue: QueuedFile[] = [];
   selectedFilesCount = 0
   dateList: Date[] = [];
   descriptionList: string[] = [];
@@ -35,7 +32,8 @@ export class FileUploadComponent implements OnInit {
   constructor(
     private confirmationService: ConfirmationService,
     private callRecordingService: CallRecordingService,
-    private callOperatorService: CallOperatorService
+    private callOperatorService: CallOperatorService,
+    private messageService: MessageService
   ) {
   }
 
@@ -49,27 +47,16 @@ export class FileUploadComponent implements OnInit {
     this.files = event.files;
     if (this.files && this.files.length > 0) {
       let queuedFiles = this.createUploadQueue(this.files);
-      const uploadObservables = [];
-
-      const uploadObservable = this.callRecordingService.uploadFiles(queuedFiles)
-        .pipe(
-          catchError(error => {
-            console.error('Error uploading file:', error);
-            return of(null); // Continue with other uploads even if one fails
-          })
-        );
-
-      uploadObservables.push(uploadObservable);
-
-      // Use forkJoin to execute all upload observables in parallel
-      forkJoin(uploadObservables).pipe(
-        finalize(() => {
-          this.isUploading = false;
-          this.uploadQueue = [];
-        })
-      ).subscribe();
-
-      this.clearFiles();
+      this.callRecordingService.uploadFiles(queuedFiles).then(response => {
+        this.clearFiles();
+        if (response!.status) {
+          this.messageService.add({severity: "success", summary: "Success", detail: UserMessages.SAVED_SUCCESS});
+        } else {
+          this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.SAVED_ERROR});
+        }
+      }).catch(error  => {
+        this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.SAVED_ERROR});
+      });
     } else {
       console.warn('No file selected');
     }
