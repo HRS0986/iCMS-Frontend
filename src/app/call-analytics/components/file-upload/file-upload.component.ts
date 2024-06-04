@@ -50,12 +50,12 @@ export class FileUploadComponent implements OnInit {
       this.callRecordingService.uploadFiles(queuedFiles).then(response => {
         this.clearFiles();
         if (response!.status) {
-          this.messageService.add({severity: "success", summary: "Success", detail: UserMessages.SAVED_SUCCESS});
+          this.messageService.add({severity: "success", summary: "Success", detail: UserMessages.UPLOAD_SUCCESS});
         } else {
-          this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.SAVED_ERROR});
+          this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.UPLOAD_ERROR});
         }
       }).catch(error  => {
-        this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.SAVED_ERROR});
+        this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.UPLOAD_ERROR});
       });
     } else {
       console.warn('No file selected');
