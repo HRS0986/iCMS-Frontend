@@ -1,8 +1,11 @@
 <p-panel class="flex flex-col text-center justify-center mb-4">
+  <div class="text-center text-gray-600 mt-4" [style.display]="visible ? 'block' : 'none'">
+    <h2>{{ resultMessage }}</h2>      
+  </div>
   <div class="flex justify-between items-center px-3 mb-5" *ngIf="callRecordings.length === 0">
     <img src="./assets/call/phone-call.gif" alt="No results found" [style.display]="callRecordings.length == 0 ? 'block' : 'none'">
   </div>
-
+  
   <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of callRecordings">
     <div class="flex justify-between" style="width:60%;">
       <div class="flex items-center gap-8">

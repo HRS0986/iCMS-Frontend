@@ -28,6 +28,9 @@ export class FilteringFeaturesComponent implements OnInit{
   end_date : string = '';
   start_date : string = '';
   sentimentCatg : string = '';
+  noResultsMessage: string = 'Search Recordings';
+  callRecordings: never[] | undefined;
+  visibility: boolean = true;
   constructor(private callRecordingService: CallRecordingService) { }
 
   ngOnInit(): void {
@@ -84,19 +87,27 @@ export class FilteringFeaturesComponent implements OnInit{
       // Call applyFeatures method from the service with required parameters
       this.callRecordingService.applyFeatures(duration, this.keywords, this.sentimentCatg , this.start_date, this.end_date, this.topics)
         .subscribe((response: any) => {
-          console.log("response ", response)
-          this.callFiltering = response.data.map((record: any) => {
-            return {
-              id: record["_id"]["$oid"],
-              description: record.description,
-              transcription: record.transcription,
-              callUrl: record.call_recording_url,
-              duration: record.call_duration ?? 4.39,
-              date: new Date(record.call_date['$date']),
-              sentiment: record.sentiment_category,
-              call_id : record.call_id
-            } as CallRecording;
-          });
+          console.log("response ", response);
+          if (response.data.length == 0) {
+            this.noResultsMessage = "Oops! There are no results matching your search criteria.";
+            this.visibility = true;
+            this.callFiltering = [];
+          } else {
+            this.noResultsMessage = '';
+            this.visibility = false;
+            this.callFiltering = response.data.map((record: any) => {
+              return {
+                id: record["_id"]["$oid"],
+                description: record.description,
+                transcription: record.transcription,
+                callUrl: record.call_recording_url,
+                duration: record.call_duration ?? 4.39,
+                date: new Date(record.call_date['$date']),
+                sentiment: record.sentiment_category,
+                call_id : record.call_id
+              } as CallRecording;
+            });
+          }          
           console.log('Call recordings refreshed:', this.callFiltering);
         });
     } catch (error) {
@@ -109,5 +120,16 @@ export class FilteringFeaturesComponent implements OnInit{
   cleanDate() : void {
     this.end_date  = '';
     this.start_date  = '';
+  }
+
+  clearFields() {
+    this.rangeDates = undefined;
+    this.keyword = '';
+    this.duration = 0;
+    this.selectedTopic = [];
+    this.sentiCatg = undefined;
+    this.keywords = [];
+    this.topics = [];
+    console.log('Fields cleared');
   }
 }

@@ -18,6 +18,7 @@ export class CallFilteringCartComponent {
   @Input() filteredStartDate : string = "";
   @Input() filteredEndDate : string = "";
   @Input() filteredDuration : number = 0;
+  @Input() visible :  boolean = true;
   statusColors!: { [key: string]: string };
   visibleSummary: boolean = false;
   visiblePlay: boolean = false;
@@ -28,7 +29,7 @@ export class CallFilteringCartComponent {
   currentTime: any;
   totalTime: any;
   selectedCallSummary: string = "";
-
+  @Input() resultMessage: string = "";
   constructor(private callRecordingService: CallRecordingService, private callAnalyticsService: CallAnalyticsService) { }
 
   ngOnInit() {
