@@ -1,0 +1,52 @@
+:host ::ng-deep p-button {
+  padding: 6px;
+}
+
+:host ::ng-deep .p-button.p-button-sm {
+  padding: 6px;
+}
+
+:host ::ng-deep .p-button-surface-200 {
+  background-color: var(--surface-200) !important;
+  color: var(--text-on-surface-200) !important;
+  /* You can adjust the styles based on your design system */
+}
+
+:host ::ng-deep .play {
+  background-color: black;
+  padding: 20px;
+  border-radius: 30px;
+}
+
+:host ::ng-deep .title {
+  color: blanchedalmond;
+}
+
+:host ::ng-deep .date {
+  color: rgb(158, 156, 152);
+}
+.timeline-container {
+  width: 100%; /* Set the width of the timeline container */
+}
+
+.timeline {
+  width: 100%; /* Set the width of the progress bar to fill the container */
+  height: 10px; /* Set the height of the progress bar */
+  margin-top: 5px; /* Add some space above the progress bar */
+  border-radius: 5px; /* Round the corners of the progress bar */
+  background-color: #e0e0e0; /* Set the background color of the progress bar */
+}
+
+.timeline::-webkit-progress-bar {
+  background-color: #e0e0e0; /* Set the background color of the progress bar */
+}
+
+.timeline::-webkit-progress-value {
+  background-color: #007ad9; /* Set the color of the progress bar fill */
+}
+
+.timeline::-moz-progress-bar {
+  background-color: #007ad9; /* Set the color of the progress bar fill */
+}
+
+
