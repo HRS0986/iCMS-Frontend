@@ -1,12 +1,69 @@
-<app-page-header
-  pageTitle="Email Analytics Dashboard"
-  class="w-full h-fit"
-  [breadcrumbItems]="breadcrumbItems"
-  [showDatePicker]="true"
-  (rangeDatesChanged)="onRangeDatesChanged($event)"
-  [minDate]="minDate"
-  [maxDate]="maxDate"
-/>
+<div class="my-container flex flex-col h-auto">
+  <div class="my-child-1 flex-none">
+    <app-page-header
+      pageTitle="Email Analytics Dashboard"
+      class="w-full h-fit"
+      [breadcrumbItems]="breadcrumbItems"
+      [showDatePicker]="true"
+      (rangeDatesChanged)="onRangeDatesChanged($event)"
+      [minDate]="minDate"
+      [maxDate]="maxDate"
+    />
+  </div>
+  <div class="my-child-2 flex-grow grid grid-cols-2 md:grid-cols-3 md:grid-rows-4 gap-5 h-screen">
+    <div
+      class="bg-purple-500 col-span-2 row-span-2 md:col-span-1 md:row-span-2 flex flex-col items-center justify-center overflow-hidden"
+    >
+      <span class="text-5xl">1</span>
+      <span class="text-3xl">summary</span>
+      <!-- The most important overall KPI  -->
+    </div>
+    <div class=" flex flex-col items-center overflow-hidden relative">
+      <!-- <span class="text-5xl">2</span>
+      <span class="text-3xl">issues</span> -->
+      <app-dashboard-small-card></app-dashboard-small-card>
+    </div>
+    <div class="bg-orange-500 flex flex-col items-center justify-center overflow-hidden">
+      <span class="text-5xl">3</span>
+      <span class="text-3xl">inquiries</span>
+    </div>
+    <div class="bg-blue-500 flex flex-col items-center justify-center overflow-hidden">
+      <span class="text-5xl">4</span>
+      <span class="text-3xl">suggestions</span>
+    </div>
+
+    <div class="bg-red-400 flex flex-col items-center justify-center overflow-hidden">
+      <span class="text-5xl">5</span>
+      <span class="text-3xl">sentiment score</span>
+    </div>
+    <div
+      class="bg-green-400 col-span-2 row-span-2 md:col-span-2 md:row-span-2 flex flex-col items-center justify-center overflow-hidden"
+    >
+      <span class="text-5xl">6</span>
+      <span class="text-3xl">email volume metrics</span>
+    </div>
+    <div
+      class="bg-teal-500 col-span-2 row-span-2 md:col-span-1 md:row-span-2 flex flex-col items-center justify-center overflow-hidden"
+    >
+      <span class="text-5xl">7</span>
+      <span class="text-3xl">actionable insights</span>
+      <!-- actionable insights: followups, overdues, recommendations (LLM) -->
+
+      <!-- Dashboard is over -->
+      <!-- </div>
+    <div class="bg-yellow-400 h-40 flex items-center justify-center">
+      <span class="text-5xl">8</span>
+    </div>
+  
+    <div class="bg-red-500 h-40 col-span-2 flex items-center justify-center">
+      <span class="text-5xl">8</span>
+    </div>
+    <div class="bg-pink-500 h-40 flex items-center justify-center">
+      <span class="text-5xl">9</span>
+    </div> -->
+    </div>
+  </div>
+</div>
 
 <!-- the calendars
 
@@ -15,155 +72,147 @@
 <p-calendar [(ngModel)]="toDate" [minDate]="minDate" [maxDate]="maxDate" [readonlyInput]="true" 
     (ngModelChange)="onToDateChange($event)" [showIcon]="true"></p-calendar> -->
 
+<!-- TODO: Dashboard interface link: https://chatgpt.com/share/0de7e86e-c8e0-47d0-b7a7-b329cde45d49 -->
 
+<div class="size-1/2"></div>
 
 <div class="flex flex-col">
   <div class="flex flex-wrap gap-6">
-
-    <!-- Current Overall efficiency donought chart-->
-    <div class="stat-cards">
-
-      <app-effi-effec-donought-chart title="Current Overall Efficiency" 
-      [chartData]="dntChartDataOverallEfficiency"  
-      [chartLabels]="dntChartOverallEfficiencyLabels" 
-      *ngIf="!isLoadingDCOverallEfficiency"/>
-
-    </div>
-     
     <!-- 'No of stats' stat cards-->
     <div class="stat-cards" *ngIf="!isLoadingStatcards">
       <div *ngFor="let item of statsData">
-
         <app-stat-card-mgr-analytics
-        [title]="item.title.toString()"
-        [subTitle]="item.sub_title"
-        [header]="item.header"
-        [fontColor]="item.fontColor"
-        [subheader]="item.subheader"></app-stat-card-mgr-analytics>
+          [title]="item.title.toString()"
+          [subTitle]="item.sub_title"
+          [header]="item.header"
+          [fontColor]="item.fontColor"
+          [subheader]="item.subheader"
+        ></app-stat-card-mgr-analytics>
       </div>
     </div>
-    
-      <!-- Current Overall progress donought chart-->
-    <app-progress-donought-chart title="Current Progress of both issues and inquiries" [chartData]="dntChartDataProgress" [chartLabels]="dntChartProgressLabels" *ngIf="!isLoadingDCProgress"></app-progress-donought-chart>
+    <!-- Current Overall efficiency donought chart-->
+    <div class="stat-cards h-40">
+      <app-effi-effec-donought-chart
+        title="Current Overall Efficiency"
+        [chartData]="dntChartDataOverallEfficiency"
+        [chartLabels]="dntChartOverallEfficiencyLabels"
+        *ngIf="!isLoadingDCOverallEfficiency"
+      />
+    </div>
+    <!-- Current Overall progress donought chart-->
+    <app-progress-donought-chart
+      title="Current Progress of both issues and inquiries"
+      [chartData]="dntChartDataProgress"
+      [chartLabels]="dntChartProgressLabels"
+      *ngIf="!isLoadingDCProgress"
+    ></app-progress-donought-chart>
 
     <!-- Current Overall efficiency donought chart-->
-    <app-effi-effec-donought-chart title="Current Overall Effectiveness" 
-    [chartData]="dntChartDataOverallEffeftiveness"  
-    [chartLabels]="dntChartOverallEffectivenessLabels" 
-    *ngIf="!isLoadingDCOverallEffectiveness"/>
+    <app-effi-effec-donought-chart
+      title="Current Overall Effectiveness"
+      [chartData]="dntChartDataOverallEffeftiveness"
+      [chartLabels]="dntChartOverallEffectivenessLabels"
+      *ngIf="!isLoadingDCOverallEffectiveness"
+    />
 
-        
-
-
-    <div class="flex flex-wrap gap-6"> 
-      <app-best-worst-card 
-      [header]="overallOverdueIssuesHeader"
-      [card_content]="overallOverdueIssuesContent"
-      [bgcolor]="noOfOverdueIssuesColor"
-      *ngIf="!isLoadingoverallOverdueIssuesCount"/>
+    <div class="flex flex-wrap gap-6">
+      <app-best-worst-card
+        [header]="overallOverdueIssuesHeader"
+        [card_content]="overallOverdueIssuesContent"
+        [bgcolor]="noOfOverdueIssuesColor"
+        *ngIf="!isLoadingoverallOverdueIssuesCount"
+      />
     </div>
 
-
     <div class="flex flex-wrap gap-6">
-    
       <app-multi-vertical-bar-chart
-      title="Efficiency Distribution"
-      [labels]="effi_dstri_vert_bar_labels"
-      [efficiency_dataset_for_issues]="effi_distri_vert_var_issues_data"
-      [efficiency_dataset_for_inquiries]="effi_distri_vert_var_inquiries_data"
-      *ngIf="!isLoadingEffiDistri"
+        title="Efficiency Distribution"
+        [labels]="effi_dstri_vert_bar_labels"
+        [efficiency_dataset_for_issues]="effi_distri_vert_var_issues_data"
+        [efficiency_dataset_for_inquiries]="effi_distri_vert_var_inquiries_data"
+        *ngIf="!isLoadingEffiDistri"
       />
-  
-  
-  
+
       <app-multi-vertical-bar-chart
-      title="Effectiveness Distribution"
-      [labels]="effect_dstri_vert_bar_labels"
-      [efficiency_dataset_for_issues]="effect_distri_vert_var_issues_data"
-      [efficiency_dataset_for_inquiries]="effect_distri_vert_var_inquiries_data"
-      *ngIf="!isLoadingEffectDistri"
+        title="Effectiveness Distribution"
+        [labels]="effect_dstri_vert_bar_labels"
+        [efficiency_dataset_for_issues]="effect_distri_vert_var_issues_data"
+        [efficiency_dataset_for_inquiries]="
+          effect_distri_vert_var_inquiries_data
+        "
+        *ngIf="!isLoadingEffectDistri"
       />
-  </div>
-
-  </div>
-
-    <div class="flex flex-wrap gap-6">
-        <app-horizontal-bar-chart 
-        title = "Issue Types Distribution"
-        [sbtChartLabels]="issue_types_distri_labels" 
-        [sbtChartColors]="issue_types_distri_colors" 
-        [sbtChartValues]="issue_types_distri_data" 
-        *ngIf="!isLoadingIssueTypes"/>
-
-        <app-horizontal-bar-chart title="Inquiry Types Distribution"
-        [sbtChartLabels]="inquiry_types_distri_labels" 
-        [sbtChartColors]="inquiry_types_distri_colors" 
-        [sbtChartValues]="inquiry_types_distri_data" 
-        *ngIf="!isLoadingInquiryTypes"/>
-
     </div>
+  </div>
 
+  <div class="flex flex-wrap gap-6">
+    <app-horizontal-bar-chart
+      title="Issue Types Distribution"
+      [sbtChartLabels]="issue_types_distri_labels"
+      [sbtChartColors]="issue_types_distri_colors"
+      [sbtChartValues]="issue_types_distri_data"
+      *ngIf="!isLoadingIssueTypes"
+    />
 
-    <div class="flex flex-wrap gap-6">
+    <app-horizontal-bar-chart
+      title="Inquiry Types Distribution"
+      [sbtChartLabels]="inquiry_types_distri_labels"
+      [sbtChartColors]="inquiry_types_distri_colors"
+      [sbtChartValues]="inquiry_types_distri_data"
+      *ngIf="!isLoadingInquiryTypes"
+    />
+  </div>
 
-      <app-best-worst-card 
+  <div class="flex flex-wrap gap-6">
+    <app-best-worst-card
       header="Best Peforming Product"
       [card_content]="bestProduct"
       [bgcolor]="bestProductColor"
-      *ngIf="!isLoadingBestProduct"/>
-  
-      <app-best-worst-card 
+      *ngIf="!isLoadingBestProduct"
+    />
+
+    <app-best-worst-card
       header="Worst Peforming Product"
       [card_content]="worstProduct"
       [bgcolor]="worstProductColor"
-      *ngIf="!isLoadingWorstProduct"/>
-    </div>
+      *ngIf="!isLoadingWorstProduct"
+    />
+  </div>
 
-
-    <div class="flex flex-wrap gap-6">
-      <app-dynamic-stacked-bar-chart
+  <div class="flex flex-wrap gap-6">
+    <app-dynamic-stacked-bar-chart
       title="Issue and Inquiry Distribution of Products"
       [labels]="prodcuts_distri_of_issues_and_inquiries_labels"
       [datasets]="prodcuts_distri_of_issues_and_inquiries_datasets"
-      *ngIf="!isLoadingProductdistriOfIssuesnInquirires"/>
-    </div>
+      *ngIf="!isLoadingProductdistriOfIssuesnInquirires"
+    />
+  </div>
 
- 
-    
-     <div class="flex flex-wrap gap-6"> 
-      <app-best-worst-card 
+  <div class="flex flex-wrap gap-6">
+    <app-best-worst-card
       header="Best Peforming Email Account"
       [card_content]="bestEmail"
       [bgcolor]="bestEmailColor"
-      *ngIf="!isLoadingBestPerfEmail"/>
-    </div>
+      *ngIf="!isLoadingBestPerfEmail"
+    />
+  </div>
 
-    <div class="flex flex-wrap gap-6">
-      <app-dynamic-stacked-bar-chart
+  <div class="flex flex-wrap gap-6">
+    <app-dynamic-stacked-bar-chart
       title="Efficiency distribution of email accounts"
       [labels]="email_acc_effi_labels"
       [datasets]="email_acc_effi_dataset"
-      *ngIf="!isLoadingEffiByEmailAcc"/>
-    </div>
+      *ngIf="!isLoadingEffiByEmailAcc"
+    />
+  </div>
 
-    <div class="flex flex-wrap gap-6">
-      <app-horizontal-bar-chart
+  <div class="flex flex-wrap gap-6">
+    <app-horizontal-bar-chart
       title="Overdue issues distribution among email accounts"
       [sbtChartLabels]="overdueIssByEmailsLabels"
       [sbtChartColors]="overdueIssByEmailsColors"
       [sbtChartValues]="overdueIssByEmailsData"
-      *ngIf="!isLoadingOverdueIssByEmailAcc"/>
-    </div>
-  
-
-
-
-
-  
-
-  
-
-  
-
+      *ngIf="!isLoadingOverdueIssByEmailAcc"
+    />
+  </div>
 </div>
-

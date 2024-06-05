@@ -78,6 +78,7 @@ import { IssueDataviewComponent } from './components/issue-dataview/issue-datavi
 import { SuggestionCardListTypeComponent } from './components/suggestion-card-list-type/suggestion-card-list-type.component';
 import { InquiryCardListTypeComponent } from './components/inquiry-card-list-type/inquiry-card-list-type.component';
 import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
+import { DashboardSmallCardComponent } from './components/dashboard-small-card/dashboard-small-card.component';
 
 @NgModule({
   declarations: [
@@ -116,7 +117,8 @@ import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-
     IssueDataviewComponent,
     SuggestionCardListTypeComponent,
     InquiryCardListTypeComponent,
-    InquiryDataviewComponent
+    InquiryDataviewComponent,
+    DashboardSmallCardComponent
     
    
   ],
