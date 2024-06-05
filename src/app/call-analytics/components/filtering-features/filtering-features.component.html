@@ -6,8 +6,9 @@
         <div>
             <p>Date Range:</p>
             <div class="card flex justify-content-center">
-                <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true"
-                    [showButtonBar]="true"></p-calendar>
+              <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true"
+                          [showButtonBar]="true" (ngModelChange)="cleanDate()"></p-calendar>
+
             </div>
         </div>
 
@@ -62,5 +63,6 @@
     </div>
     <br><br>
     <p-divider></p-divider>
-    <app-call-summary-chart></app-call-summary-chart>
+    <app-call-filtering-cart [callRecordings]="callFiltering" [filteredDuration]="duration"  [filteredEndDate]="end_date" [filteredKeywords]="keywords"
+                             [filteredSentimentCategory]="sentimentCatg" [filteredStartDate]="start_date" [filteredTopics]="topics" ></app-call-filtering-cart>
 </p-panel>

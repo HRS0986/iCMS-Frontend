@@ -52,6 +52,7 @@ import { SkeletonModule } from "primeng/skeleton";
 import { AvatarModule } from "primeng/avatar";
 import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked-bar-chart.component';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { CallFilteringCartComponent } from './components/call-filtering-cart/call-filtering-cart.component';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     FilteringFeaturesComponent,
     CallOperatorsComponent,
     StackedBarChartComponent,
+    CallFilteringCartComponent,
   ],
   imports: [
     CommonModule,

@@ -17,7 +17,6 @@ export class CallSummaryChartComponent implements OnInit {
   visiblePlay: boolean = false;
   visibleConfirmation: boolean = false;
   selectedCall!: CallRecording; // Add a property to store the selected call details
-  noCalls: boolean = false;
   audio: any;
   audioPosition: any;
   currentTime: any;
