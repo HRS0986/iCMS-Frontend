@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CallRecordingService } from "../../services/call-recording.service";
 import { CallRecording } from "../../types";
 import { CallAnalyticsService } from "../../services/call-analytics.service";
+import { SomeService } from "../../services/some.service";
+
 
 interface Topic {
   name: string;
@@ -17,19 +19,20 @@ interface SentiCatg {
   selector: 'app-filtering-features',
   templateUrl: './filtering-features.component.html',
   styleUrl: './filtering-features.component.scss',
+
 })
 export class FilteringFeaturesComponent implements OnInit {
   rangeDates: Date[] | undefined;
 
   keyword: any;   //Keyword
 
-  duration!: number;  //Slider
+  duration: number = 0;  //Slider
 
   topic: Topic[] | undefined;
   topics: string[] = [];
   keywords: string[] = [];
 
-  selectedTopic!: Topic;
+  selectedTopic!: any;
 
   sentiCatg: SentiCatg[] | undefined;
 
@@ -51,7 +54,7 @@ export class FilteringFeaturesComponent implements OnInit {
   selectedCallSummary: string = "";
   dateString: any;
 
-  constructor(private callRecordingService: CallRecordingService, private callAnalyticsService: CallAnalyticsService) { }
+  constructor(private callRecordingService: CallRecordingService, private callAnalyticsService: CallAnalyticsService, private someService: SomeService) { }
 
   ngOnInit() {
     this.topic = [
@@ -179,24 +182,60 @@ export class FilteringFeaturesComponent implements OnInit {
   }
 
   applyFeatures() {
-    this.dateString = this.rangeDates;
-    console.log(this.dateString)
-    console.log(this.selectedTopic)
-    console.log(this.duration)
-    console.log(this.selectedSentiCatg)
+    try {
+      this.dateString = this.rangeDates;
 
+      // Check if dateString is null
+      let start_date = '';
+      let end_date = '';
+      if (this.dateString != null || this.dateString != undefined) {
+        start_date = this.dateString[0];
+        end_date = this.dateString[1];
+      }
 
-    let start_date = this.dateString[0];
-    let end_date = this.dateString[1];
+      // Check if keywords string array is null
+      //let keywords: string[] = [];
+      if (this.keyword != null && this.keyword != undefined) {
+        //this.keywords = this.keyword.split(',');
+        //const keywords = this.someService.getSomeValue(); // Ensure this method returns a valid string
+        //if (keywords) {
+        console.log(this.keyword);
+        this.keywords = this.keyword.split(',');
+        console.log(this.keywords);
+        // Continue with processing...
+      }
+      // {
+      //   console.error('someVariable is undefined');
+      //   // Handle the case where someVariable is undefined
+      // }
+      // }
+      this.topics = [] ;
+      // Check if duration is null, if so, assign 0
+      const duration = this.duration == null || undefined ? 0 : this.duration;
 
-    this.topics.push(this.selectedTopic.name)
-    this.keywords.push(this.keyword)
+      // Check if selectedSentiCatg is null, if so, assign an empty string
+      const sentiCatg = this.selectedSentiCatg == null || undefined? '' : this.selectedSentiCatg.name;
 
-    // Call applyFeatures method from the service with required parameters
-    this.callRecordingService.applyFeatures(this.duration, this.keywords,  this.selectedSentiCatg.name, start_date, end_date, this.topics )
-      .subscribe((response: any) => {
-        // Handle the response here if needed
-      });
+      // Check if selectedTopic is null, if so, assign an empty string
+      //const topic = this.selectedTopic == null || undefined? '' : this.selectedTopic.name;
+
+      console.log(duration, sentiCatg);
+      if(this.selectedTopic != null && this.selectedTopic != undefined){
+        for (let item of this.selectedTopic) {
+          this.topics.push(item.name);
+        }
+      }
+  
+      console.log(this.topics);
+      
+      // Call applyFeatures method from the service with required parameters
+      this.callRecordingService.applyFeatures(duration, this.keywords, sentiCatg, start_date, end_date, this.topics)
+        .subscribe((response: any) => {
+          // Handle the response here if needed
+        });
+    } catch (error) {
+      console.log("There's an error");
+    }
   }
 
 

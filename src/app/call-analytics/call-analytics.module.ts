@@ -51,6 +51,7 @@ import { CallOperatorsComponent } from './components/call-operators/call-operato
 import { SkeletonModule } from "primeng/skeleton";
 import { AvatarModule } from "primeng/avatar";
 import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked-bar-chart.component';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 
 @NgModule({
@@ -107,6 +108,7 @@ import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked
     RippleModule,
     SkeletonModule,
     AvatarModule,
+    MultiSelectModule
   ],
   providers: [
     CallAnalyticsService

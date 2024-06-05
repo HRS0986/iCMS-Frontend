@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ApiResponse, CallRecording, QueuedFile } from '../types';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Header } from 'primeng/api';
+
 interface Topic {
   name: string;
   code: string;
@@ -44,22 +45,22 @@ export class CallRecordingService {
     return this.http.delete<ApiResponse>(url);
   }
 
-  public applyFeatures(duration: number, keyword: string[], sentiment_category: string, start_date: string, end_date: string, topics: string[]): Observable<ApiResponse> {
+  public applyFeatures(duration: number, keyword: string[], sentiment_category: string, start_date: string, end_date: string, topic: string[]): Observable<ApiResponse> {
     const url = `${this.API_ROOT}/filter-calls/`;
+    // Adjust the duration value
+    const adjustedDuration = duration * 60;
     const body = {
       start_date: start_date,
       end_date: end_date,
       keywords: keyword, // Use the provided keyword array
-      duration: duration, // Use the provided duration
+      duration: adjustedDuration, // Use the provided duration
       sentiment_category: sentiment_category,
-      topics: topics // Use the provided topics array
+      topics: topic // Use the provided topics array
     };
 
     // Define HTTP Headers
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'X-Custom-Header': 'value'  // Example custom header
-      // Add more headers if needed
     });
 
     // Options including headers
@@ -73,7 +74,12 @@ export class CallRecordingService {
     console.log("Body:", body);
 
     // Ensure to return the Observable from the HTTP POST request
-    return this.http.post<ApiResponse>(url, body, options);
+    return this.http.post<ApiResponse>(url, body, options).pipe(
+      tap((response: any) => {
+        // Log the response
+        console.log("Response:", response);
+      })
+    )
   }
 
 
