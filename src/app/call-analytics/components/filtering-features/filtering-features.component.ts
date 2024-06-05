@@ -92,7 +92,7 @@ export class FilteringFeaturesComponent implements OnInit{
               transcription: record.transcription,
               callUrl: record.call_recording_url,
               duration: record.call_duration ?? 4.39,
-              date: new Date(record.call_date),
+              date: new Date(record.call_date['$date']),
               sentiment: record.sentiment_category,
               call_id : record.call_id
             } as CallRecording;
