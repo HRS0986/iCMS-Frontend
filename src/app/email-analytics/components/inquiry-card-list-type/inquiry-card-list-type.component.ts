@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Inquiry, InquiryAdditionalData } from '../../interfaces/inquiries';
+import { Inquiry, InquiryPopupData } from '../../interfaces/inquiries';
 import { InquiryService } from '../../services/inquiry.service';
-
+import { format } from 'date-fns';
 @Component({
   selector: 'app-inquiry-card-list-type',
   templateUrl: './inquiry-card-list-type.component.html',
@@ -55,15 +55,19 @@ export class InquiryCardListTypeComponent {
 
   loading: boolean = false;
   dialogVisible: boolean = false;
-  additionalData: InquiryAdditionalData = {
-    gibberish: ''
-  };
+  additionalData: InquiryPopupData = { emails: [
+    {
+      body: "",
+      isClient: false,
+      dateTime: new Date()
+    }
+  ] };
   errorMessage: string = '';
 
   load() {
     this.loading = true;
     this.inquiryService.getInquiryAdditionalData(this.inquiryData.id).subscribe({
-      next: (response: InquiryAdditionalData) => {
+      next: (response: InquiryPopupData) => {
         this.additionalData = response;
         this.loading = false;
         this.dialogVisible = true;
@@ -74,5 +78,8 @@ export class InquiryCardListTypeComponent {
         this.loading = false;
       }
     });
+  }
+  formatDate(date: Date): string {
+    return format(date, 'EEE, MMM do') + ' @ ' + format(date, 'HH:mm')
   }
 }

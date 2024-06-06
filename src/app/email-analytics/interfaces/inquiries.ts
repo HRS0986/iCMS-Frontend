@@ -16,8 +16,14 @@ export interface Inquiry {
     efficiency: number;
 }
 
-export interface InquiryAdditionalData {
-    gibberish: string;  // TODO: replace with actual data
+export interface PopupEmail {
+    body: string;
+    isClient: boolean;
+    dateTime: Date;
+}
+
+export interface InquiryPopupData {
+    emails: PopupEmail[];
 }
 
 export interface InquiryMetaDataResponse {
