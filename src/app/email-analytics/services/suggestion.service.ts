@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, throwError, timeout } from 'rxjs';
-import { MockSuggestionAdditionalDataResponse, MockSuggestionMetadataResponse, SuggestionAdditionalData, SuggestionMetaDataResponse } from '../interfaces/suggestions';
-import { MockSuggestionMetadata } from '../interfaces/suggestions';
-
+import { MockSuggestionMetadataResponse, SuggestionMetaDataResponse, SuggestionPopupData } from '../interfaces/suggestions';
 
 @Injectable({
   providedIn: 'root'
@@ -34,10 +32,21 @@ export class SuggestionService {
       limit: mockedResponse.limit,
     };
   }
-
-  private convertToSuggestionAdditionalData(response: MockSuggestionAdditionalDataResponse): SuggestionAdditionalData {
+  private convertToSuggestionAdditionalData(response: any): SuggestionPopupData {
     return {
-      gibberish: response.body
+      // gibberish: response.body
+      emails: [
+        "We are experiencing a critical issue in our production environment with the Mercury API. We are seeing extremely high latency and frequent 500 errors. This is causing major disruption to our services.\n\nWe are currently using Mercury language version 1.2.5 and our API is deployed on AWS.\n\nWe have checked our API logs and can't seem to pinpoint the root cause. The issue started around [mention approximate time] today.\n\nWe need immediate assistance to resolve this issue. Please contact us as soon as possible.", 
+        "Dear John,\n\nThank you for contacting Aetheros Support. We understand the urgency of the issue you are experiencing with the Mercury API in your production environment.\n\nWe have escalated your case to our senior engineers who are investigating the issue.  To assist them in resolving this issue quickly, could you please provide us with the following information:\n\n* The specific endpoint(s) experiencing issues.\n* A copy of your API logs from the time the issue started.\n* Any recent changes made to your code or infrastructure.\n\nWe will keep you updated on our progress. In the meantime, please do not hesitate to contact us if you have any further questions.\n\nSincerely,\nAetheros Support Team", 
+        "Hi,\n\nThanks for the quick response. \n\nThe endpoint experiencing the issue is: `/api/v2/processOrder`\n\nI've attached the relevant API logs. \n\nWe haven't made any recent changes to our code, but we did update our AWS load balancer configuration yesterday.\n\nLet me know if you need any further information.\n\nThanks,\nJohn", 
+        "Our production environment is currently down. We are unable to access any of our instances and our monitoring tools are not providing any insights.\n\nWe are experiencing a complete outage and this is severely impacting our business operations. \n\nWe require immediate assistance to resolve this issue.\n\nPlease advise on the next steps ASAP.", 
+        "Dear John,\n\nThank you for contacting Aetheros Support.\n\nWe understand that you are experiencing a critical issue with your production environment. Our team is currently investigating the issue and will provide an update as soon as possible. \n\nIn the meantime, could you please provide us with your Aetheros account ID and the approximate time the issue began?\n\nBest regards,\nAetheros Support Team", 
+        "Our Aetheros Account ID is 857492 and the outage started around 08:05 AM UTC."
+      ].map((email: any) => ({
+        body: email,
+        isClient: Math.random() < 0.5,
+        dateTime: new Date(new Date().valueOf() - Math.random()*(1e+9))
+      }))
     }
   }
   // ---
@@ -58,9 +67,9 @@ export class SuggestionService {
       );  // BUG: remove pipe in production
   }
 
-  getSuggestionAdditionalData(suggestionId: string): Observable<SuggestionAdditionalData> {
+  getSuggestionAdditionalData(suggestionId: string): Observable<SuggestionPopupData> {
     return this.http
-      .get<MockSuggestionAdditionalDataResponse>(`https://dummyjson.com/posts/${suggestionId}`)
+      .get<any>(`https://dummyjson.com/posts/${suggestionId}`)
       .pipe(
         map(this.convertToSuggestionAdditionalData),
         timeout(this.timeoutDuration),
