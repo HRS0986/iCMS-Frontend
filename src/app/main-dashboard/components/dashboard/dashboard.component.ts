@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {MenuItem} from "primeng/api";
+import { AuthendicationService } from '../../services/authendication.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
   breadcrumbItems: MenuItem[] = [
     {label: "Main Dashboard"},
   ];
@@ -31,5 +32,19 @@ export class DashboardComponent {
     {word: 'Rishi', weight: 80},
     {word: 'Chintan', weight: 22}
   ]
+
+  constructor(private authService: AuthendicationService) { }
+  ngOnInit(): void {
+    // this.loginAndFetchUserDetails();
+  }
+
+  loginAndFetchUserDetails(): void {
+    const loginData: any = { "email": "Thenujan@gmail.com", "password": "Thenujan" };
+    this.authService.login(loginData).subscribe(
+      (response) => {
+        localStorage.setItem('token', response.access_token);
+      },
+    );
+  }
 
 }

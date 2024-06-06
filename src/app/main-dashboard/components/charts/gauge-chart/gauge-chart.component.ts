@@ -8,6 +8,7 @@ import { EChartsOption } from 'echarts';
 })
 export class GaugeChartComponent {
 
+  value:number = 7
   options: EChartsOption = {
 
     series: [
@@ -55,7 +56,7 @@ export class GaugeChartComponent {
         },
         data: [
           {
-            value: 7
+            value: this.value
           }
         ]
       }

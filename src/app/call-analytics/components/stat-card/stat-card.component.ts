@@ -9,5 +9,5 @@ export class StatCardComponent {
   @Input() title!: string;
   @Input() subTitle!: string;
   @Input() imgPath!: string;
-
+  @Input() isLoading!: boolean;
 }
