@@ -3,8 +3,17 @@ export interface OverallCallStatusPercentages {
   negative: number;
   neutral: number;
 }
+export interface Topic {
+  name: string;
+  code: string;
+}
 
+export interface SentiCatg {
+  name: string;
+  code: string;
+}
 export interface CallRecording {
+  call_id: string;
   id: string;
   description: string;
   date: Date;
@@ -23,11 +32,12 @@ export interface OperatorAnalyticsOverTimeRecord {
   neutral: number;
 }
 
-export interface QueuedFile {
-  file: File;
-  description: string;
-  date: Date;
-}
+ export interface QueuedFile {
+   file: File;
+   description: string;
+   date: Date;
+   operatorId: number;
+ }
 
 export interface ApiResponse {
   message: string;
@@ -38,24 +48,6 @@ export interface OperatorListItem {
   name: string;
   operator_id: number;
   id?: string;
-}
-
-export interface CallSettingsDetails {
-  id?: string;
-  is_lower_threshold_enabled?: boolean;
-  sentiment_lower_threshold?: number;
-  is_upper_threshold_enabled?: boolean = false;
-  sentiment_upper_threshold?: number;
-  user_id: string;
-  alert_keywords?: string[];
-  alert_email_receptions?: string[];
-  is_email_alerts_enabled?: boolean; //enable/disable email notifications
-}
-
-export interface CallDirSettingsDetails {
-  id: string;
-  user_id: string;
-  dir: string;
 }
 
 export interface CallOperatorDetails {
