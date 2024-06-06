@@ -8,7 +8,6 @@
             <div class="card flex justify-content-center">
               <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true"
                           [showButtonBar]="true" (ngModelChange)="cleanDate()"></p-calendar>
-
             </div>
         </div>
 
@@ -21,10 +20,6 @@
                 </p-multiSelect>
             </div>
         </div>
-
-
-        <!-- <p-dropdown [options]="topic" [(ngModel)]="selectedTopic" optionLabel="name" [showClear]="true"
-                    placeholder="Topic"></p-dropdown> -->
 
         <!--Keyword-->
         <div>
@@ -45,7 +40,8 @@
             </div>
         </div>
     </div>
-    <br><br>
+    <br>
+    <br>
 
     <!--Slider-->
     <div class="w-100 flex justify-between">
@@ -58,12 +54,17 @@
             <p>{{duration}} mins</p>
         </div>
         <div class="card flex justify-center gap-3">
-            <p-button label="Apply Filter" (click)="applyFeatures()"></p-button>
+            <p-button label="Apply Filters" (click)="applyFeatures()"></p-button>
             <p-button label="Clear Filters" [outlined]="true" severity="clsFilter" (click)="clearFields()"></p-button>
         </div>
     </div>
     <br><br>
     <p-divider></p-divider>
+<<<<<<< HEAD
     <app-call-filtering-chart [callRecordings]="callFiltering" [filteredDuration]="duration"  [filteredEndDate]="end_date" [filteredKeywords]="keywords"
                              [filteredSentimentCategory]="sentimentCatg" [filteredStartDate]="start_date" [filteredTopics]="topics" [visible]="visibility" [resultMessage]="noResultsMessage"></app-call-filtering-chart>
+=======
+    <app-call-filtering-result [callRecordings]="callFiltering" [filteredDuration]="duration"  [filteredEndDate]="end_date" [filteredKeywords]="keywords"
+                             [filteredSentimentCategory]="sentimentCatg" [filteredStartDate]="start_date" [filteredTopics]="topics" [visible]="visibility"></app-call-filtering-result>
+>>>>>>> a7ccb7290a2bd40c35aea9ffd95d793b53f8daa4
 </p-panel>

@@ -41,4 +41,8 @@ export class CallAnalyticsService {
   public getCallSummary(call_id: string): Promise<ApiResponse> {
     return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-call-summary/${call_id}`));
   }
+
+  public getAllKeywords(): Promise<ApiResponse> {
+    return  firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-all-keywords`));
+  }
 }
