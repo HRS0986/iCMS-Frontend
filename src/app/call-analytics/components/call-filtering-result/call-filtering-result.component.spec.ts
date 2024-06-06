@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CallFilteringCartComponent } from './call-filtering-cart.component';
+import { CallFilteringResultComponent } from './call-filtering-result.component';
 
 describe('CallFilteringCartComponent', () => {
-  let component: CallFilteringCartComponent;
-  let fixture: ComponentFixture<CallFilteringCartComponent>;
+  let component: CallFilteringResultComponent;
+  let fixture: ComponentFixture<CallFilteringResultComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CallFilteringCartComponent]
+      declarations: [CallFilteringResultComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(CallFilteringCartComponent);
+
+    fixture = TestBed.createComponent(CallFilteringResultComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

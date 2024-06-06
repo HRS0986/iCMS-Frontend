@@ -50,7 +50,7 @@ import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { BestOperatorsCardComponent } from './components/best-operators-card/best-operators-card.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { CallFilteringCartComponent } from './components/call-filtering-cart/call-filtering-cart.component';
+import { CallFilteringResultComponent } from './components/call-filtering-result/call-filtering-result.component';
 
 
 @NgModule({
@@ -72,7 +72,7 @@ import { CallFilteringCartComponent } from './components/call-filtering-cart/cal
     FilteringFeaturesComponent,
     CallOperatorsComponent,
     StackedBarChartComponent,
-    CallFilteringCartComponent,
+    CallFilteringResultComponent,
     BestOperatorsCardComponent,
   ],
   imports: [

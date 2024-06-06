@@ -1,24 +1,25 @@
-import {Component, ElementRef,  Input, ViewChild} from '@angular/core';
-import {CallRecording} from "../../types";
-import {CallRecordingService} from "../../services/call-recording.service";
-import {CallAnalyticsService} from "../../services/call-analytics.service";
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { CallRecording } from "../../types";
+import { CallRecordingService } from "../../services/call-recording.service";
+import { CallAnalyticsService } from "../../services/call-analytics.service";
 
 @Component({
-  selector: 'app-call-filtering-cart',
-  templateUrl: './call-filtering-cart.component.html',
-  styleUrl: './call-filtering-cart.component.scss'
+  selector: 'app-call-filtering-result',
+  templateUrl: './call-filtering-result.component.html',
+  styleUrl: './call-filtering-result.component.scss'
 })
-export class CallFilteringCartComponent {
+export class CallFilteringResultComponent implements OnInit {
   @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
 
   @Input() callRecordings: CallRecording[] = [];
   @Input() filteredTopics: string[] = [];
   @Input() filteredKeywords: string[] = [];
-  @Input() filteredSentimentCategory : string = "";
-  @Input() filteredStartDate : string = "";
-  @Input() filteredEndDate : string = "";
-  @Input() filteredDuration : number = 0;
-  @Input() visible :  boolean = true;
+  @Input() filteredSentimentCategory: string = "";
+  @Input() filteredStartDate: string = "";
+  @Input() filteredEndDate: string = "";
+  @Input() filteredDuration: number = 0;
+  @Input() visible: boolean = true;
+
   statusColors!: { [key: string]: string };
   visibleSummary: boolean = false;
   visiblePlay: boolean = false;
@@ -29,8 +30,12 @@ export class CallFilteringCartComponent {
   currentTime: any;
   totalTime: any;
   selectedCallSummary: string = "";
-  @Input() resultMessage: string = "";
-  constructor(private callRecordingService: CallRecordingService, private callAnalyticsService: CallAnalyticsService) { }
+
+  constructor(
+    private callRecordingService: CallRecordingService,
+    private callAnalyticsService: CallAnalyticsService
+  ) {
+  }
 
   ngOnInit() {
     const documentStyle: CSSStyleDeclaration = getComputedStyle(document.documentElement);
@@ -39,7 +44,6 @@ export class CallFilteringCartComponent {
       "Negative": documentStyle.getPropertyValue("--negative-color"),
       "Neutral": documentStyle.getPropertyValue("--neutral-color")
     }
-
   }
 
   onConfirmDelete(callId: string) {
@@ -60,7 +64,7 @@ export class CallFilteringCartComponent {
           duration: record.call_duration ?? 4.39,
           date: new Date(record.call_date),
           sentiment: record.sentiment_category,
-          call_id : record.call_id
+          call_id: record.call_id
         } as CallRecording;
       });
       console.log('Fetched callRecordings:', this.callRecordings);
@@ -92,7 +96,7 @@ export class CallFilteringCartComponent {
   }
 
   // Function to play the audio
-  playAudio(audioUrl: string) {
+  playAudio(audioUrl: string){
     if (!this.audio) {
       this.audio = new Audio(audioUrl);
       this.audio.play();

@@ -1,11 +1,11 @@
-<p-panel class="flex flex-col text-center justify-center mb-4">
+  <div class="flex justify-between items-center px-3 mb-5" [style.display]="callRecordings.length == 0 ? 'block' : 'none'">
+    <img src="./assets/call/no-search.png" alt="No results found" width="300">
+  </div>
+
   <div class="text-center text-gray-600 mt-4" [style.display]="visible ? 'block' : 'none'">
-    <h2>{{ resultMessage }}</h2>      
+    <p>Search result will display here</p>
   </div>
-  <div class="flex justify-between items-center px-3 mb-5" *ngIf="callRecordings.length === 0">
-    <img src="./assets/call/phone-call.gif" alt="No results found" [style.display]="callRecordings.length == 0 ? 'block' : 'none'">
-  </div>
-  
+
   <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of callRecordings">
     <div class="flex justify-between" style="width:60%;">
       <div class="flex items-center gap-8">
@@ -26,6 +26,7 @@
                 [outlined]="true"></p-button>
     </div>
   </div>
+
 
   <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleSummary" header="Call Summary" [modal]="true"
             [(visible)]="visibleSummary" [style]="{width: '30vw', height: 'auto'}">
@@ -94,4 +95,3 @@
       <p-button label="Yes" (click)="onConfirmDelete(selectedCall.call_id)" styleClass="p-button-danger"></p-button>
     </div>
   </p-dialog>
-</p-panel>
