@@ -3,8 +3,17 @@ export interface OverallCallStatusPercentages {
   negative: number;
   neutral: number;
 }
+export interface Topic {
+  name: string;
+  code: string;
+}
 
+export interface SentiCatg {
+  name: string;
+  code: string;
+}
 export interface CallRecording {
+  call_id: string;
   id: string;
   description: string;
   date: Date;
@@ -27,6 +36,7 @@ export interface OperatorAnalyticsOverTimeRecord {
    file: File;
    description: string;
    date: Date;
+   operatorId: number;
  }
 
 export interface ApiResponse {
