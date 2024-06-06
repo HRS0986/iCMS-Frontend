@@ -49,6 +49,8 @@ import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { BestOperatorsCardComponent } from './components/best-operators-card/best-operators-card.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CallFilteringResultComponent } from './components/call-filtering-result/call-filtering-result.component';
 
 
 @NgModule({
@@ -70,6 +72,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     FilteringFeaturesComponent,
     CallOperatorsComponent,
     StackedBarChartComponent,
+    CallFilteringResultComponent,
     BestOperatorsCardComponent,
   ],
   imports: [
@@ -107,6 +110,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     AvatarModule,
     ProgressSpinnerModule,
     ConfirmDialogModule,
+    MultiSelectModule
   ],
   providers: [
     CallAnalyticsService
