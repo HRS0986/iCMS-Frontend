@@ -4,38 +4,27 @@ import { CallRecordingService } from "../../services/call-recording.service";
 import { CallAnalyticsService } from "../../services/call-analytics.service";
 
 @Component({
-<<<<<<<< HEAD:src/app/call-analytics/components/call-filtering-chart/call-filtering-chart.component.ts
-  selector: 'app-call-filtering-chart',
-  templateUrl: './call-filtering-chart.component.html',
-  styleUrl: './call-filtering-chart.component.scss'
-})
-export class CallFilteringChartComponent {
-========
   selector: 'app-call-filtering-result',
   templateUrl: './call-filtering-result.component.html',
   styleUrl: './call-filtering-result.component.scss'
 })
+// export class CallFilteringResultComponent {
+//   selector: 'app-call-filtering-result',
+//   templateUrl: './call-filtering-result.component.html',
+//   styleUrl: './call-filtering-result.component.scss'
+// })
 export class CallFilteringResultComponent implements OnInit {
->>>>>>>> a7ccb7290a2bd40c35aea9ffd95d793b53f8daa4:src/app/call-analytics/components/call-filtering-result/call-filtering-result.component.ts
   @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
 
   @Input() callRecordings: CallRecording[] = [];
   @Input() filteredTopics: string[] = [];
   @Input() filteredKeywords: string[] = [];
-<<<<<<<< HEAD:src/app/call-analytics/components/call-filtering-chart/call-filtering-chart.component.ts
   @Input() filteredSentimentCategory : string[] = [];
   @Input() filteredStartDate : string = "";
   @Input() filteredEndDate : string = "";
   @Input() filteredDuration : number = 0;
   @Input() visible :  boolean = true;
-========
-  @Input() filteredSentimentCategory: string = "";
-  @Input() filteredStartDate: string = "";
-  @Input() filteredEndDate: string = "";
-  @Input() filteredDuration: number = 0;
-  @Input() visible: boolean = true;
-
->>>>>>>> a7ccb7290a2bd40c35aea9ffd95d793b53f8daa4:src/app/call-analytics/components/call-filtering-result/call-filtering-result.component.ts
+  @Input() resultMessage : string = "";
   statusColors!: { [key: string]: string };
   visibleSummary: boolean = false;
   visiblePlay: boolean = false;

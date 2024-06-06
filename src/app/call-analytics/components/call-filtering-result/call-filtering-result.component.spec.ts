@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CallFilteringResultComponent } from './call-filtering-result.component';
 
-describe('CallFilteringCartComponent', () => {
+describe('CallFilteringResultComponent', () => {
   let component: CallFilteringResultComponent;
   let fixture: ComponentFixture<CallFilteringResultComponent>;
 

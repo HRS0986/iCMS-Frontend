@@ -50,7 +50,6 @@ import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { BestOperatorsCardComponent } from './components/best-operators-card/best-operators-card.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { CallFilteringChartComponent } from './components/call-filtering-chart/call-filtering-chart.component';
 import { CallFilteringResultComponent } from './components/call-filtering-result/call-filtering-result.component';
 
 
@@ -73,7 +72,6 @@ import { CallFilteringResultComponent } from './components/call-filtering-result
     FilteringFeaturesComponent,
     CallOperatorsComponent,
     StackedBarChartComponent,
-    CallFilteringChartComponent,
     CallFilteringResultComponent,
     BestOperatorsCardComponent,
   ],
