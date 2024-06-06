@@ -4,17 +4,17 @@ import {CallRecordingService} from "../../services/call-recording.service";
 import {CallAnalyticsService} from "../../services/call-analytics.service";
 
 @Component({
-  selector: 'app-call-filtering-cart',
-  templateUrl: './call-filtering-cart.component.html',
-  styleUrl: './call-filtering-cart.component.scss'
+  selector: 'app-call-filtering-chart',
+  templateUrl: './call-filtering-chart.component.html',
+  styleUrl: './call-filtering-chart.component.scss'
 })
-export class CallFilteringCartComponent {
+export class CallFilteringChartComponent {
   @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
 
   @Input() callRecordings: CallRecording[] = [];
   @Input() filteredTopics: string[] = [];
   @Input() filteredKeywords: string[] = [];
-  @Input() filteredSentimentCategory : string = "";
+  @Input() filteredSentimentCategory : string[] = [];
   @Input() filteredStartDate : string = "";
   @Input() filteredEndDate : string = "";
   @Input() filteredDuration : number = 0;

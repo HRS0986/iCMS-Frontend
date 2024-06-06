@@ -4,7 +4,7 @@
 
         <!--Calendar-->
         <div>
-            <p>Date Range:</p>
+            <p class="left-align-label">Date Range:</p>
             <div class="card flex justify-content-center">
               <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true"
                           [showButtonBar]="true" (ngModelChange)="cleanDate()"></p-calendar>
@@ -14,7 +14,7 @@
 
         <!--Dropdown-->
         <div>
-            <p>Topic:</p>
+            <p class="left-align-label">Topic:</p>
             <div class="card flex justify-content-center">
                 <p-multiSelect [options]="topic" [(ngModel)]="selectedTopic" optionLabel="name"
                     placeholder="Select Topics" display="chip">
@@ -28,19 +28,20 @@
 
         <!--Keyword-->
         <div>
-            <p>Keyword:</p>
+            <p class="left-align-label">Keyword:</p>
             <div class="card flex justify-content-center">
                 <input pInputText type="text" id="keyword" [(ngModel)]="keyword" placeholder="Keyword" />
             </div>
-            <p>Enter keywords separated by a comma</p>
+            <p class="left-align-label" style="font-size: 13px;">Enter keywords separated by a comma</p>
         </div>
 
         <!--Sentiment Category-->
         <div>
-            <p>Sentiment Category:</p>
+            <p class="left-align-label">Sentiment Category:</p>
             <div class="card flex justify-content-center">
-                <p-dropdown [options]="sentiCatg" [(ngModel)]="selectedSentiCatg" optionLabel="name" [showClear]="true"
-                    placeholder="Sentiment Category"></p-dropdown>
+                <p-multiSelect [options]="sentiCatg" [(ngModel)]="selectedSentiCatg" optionLabel="name"
+                placeholder="Sentiment Category" display="chip">
+            </p-multiSelect>
             </div>
         </div>
     </div>
@@ -63,6 +64,6 @@
     </div>
     <br><br>
     <p-divider></p-divider>
-    <app-call-filtering-cart [callRecordings]="callFiltering" [filteredDuration]="duration"  [filteredEndDate]="end_date" [filteredKeywords]="keywords"
-                             [filteredSentimentCategory]="sentimentCatg" [filteredStartDate]="start_date" [filteredTopics]="topics" [visible]="visibility" [resultMessage]="noResultsMessage"></app-call-filtering-cart>
+    <app-call-filtering-chart [callRecordings]="callFiltering" [filteredDuration]="duration"  [filteredEndDate]="end_date" [filteredKeywords]="keywords"
+                             [filteredSentimentCategory]="sentimentCatg" [filteredStartDate]="start_date" [filteredTopics]="topics" [visible]="visibility" [resultMessage]="noResultsMessage"></app-call-filtering-chart>
 </p-panel>
