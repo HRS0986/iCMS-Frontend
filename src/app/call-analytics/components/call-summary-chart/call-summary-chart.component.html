@@ -43,7 +43,7 @@
     </ul>
   </div>
 
-  <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of callRecordings">
+  <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of callRecordings" [style.display]="isLoading ? 'none':''">
     <div class="flex justify-between" style="width:60%;">
       <div class="flex items-center gap-8">
         <img src="./assets/call/phone.png" width="25" height="25">

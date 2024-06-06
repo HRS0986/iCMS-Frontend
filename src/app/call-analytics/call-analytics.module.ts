@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { CallAnalyticsRoutingModule } from './call-analytics-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared.module';
@@ -25,7 +24,6 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
 import { ToastModule } from 'primeng/toast';
 import { CallAnalyticsService } from './services/call-analytics.service';
 import { CardModule } from 'primeng/card';
-
 import { SettingsComponent } from './components/settings/settings.component';
 import { TabViewModule } from 'primeng/tabview';
 import { ImageModule } from 'primeng/image';
@@ -40,8 +38,6 @@ import { FilteringFeaturesComponent } from './components/filtering-features/filt
 import { DropdownModule } from 'primeng/dropdown';
 import { SliderModule } from 'primeng/slider';
 import { DividerModule } from 'primeng/divider';
-
-
 import { InputGroupModule } from "primeng/inputgroup";
 import { InputGroupAddonModule } from "primeng/inputgroupaddon";
 import { CalendarModule } from "primeng/calendar";
@@ -52,6 +48,7 @@ import { AvatarModule } from "primeng/avatar";
 import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked-bar-chart.component';
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { BestOperatorsCardComponent } from './components/best-operators-card/best-operators-card.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
 @NgModule({
@@ -75,41 +72,42 @@ import { BestOperatorsCardComponent } from './components/best-operators-card/bes
     StackedBarChartComponent,
     BestOperatorsCardComponent,
   ],
-    imports: [
-        CommonModule,
-        CallAnalyticsRoutingModule,
-        CardModule,
-        SharedModule,
-        ToastModule,
-        PanelModule,
-        ChartModule,
-        ButtonModule,
-        TooltipModule,
-        NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
-        DataViewModule,
-        TagModule,
-        DialogModule,
-        TabViewModule,
-        ImageModule,
-        CheckboxModule,
-        InputNumberModule,
-        ChipsModule,
-        FormsModule,
-        InputSwitchModule,
-        InputTextModule,
-        ReactiveFormsModule,
-        FileUploadModule,
-        CalendarModule,
-        DropdownModule,
-        SliderModule,
-        DividerModule,
-        InputGroupModule,
-        InputGroupAddonModule,
-        RippleModule,
-        SkeletonModule,
-        AvatarModule,
-        ProgressSpinnerModule,
-    ],
+  imports: [
+    CommonModule,
+    CallAnalyticsRoutingModule,
+    CardModule,
+    SharedModule,
+    ToastModule,
+    PanelModule,
+    ChartModule,
+    ButtonModule,
+    TooltipModule,
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
+    DataViewModule,
+    TagModule,
+    DialogModule,
+    TabViewModule,
+    ImageModule,
+    CheckboxModule,
+    InputNumberModule,
+    ChipsModule,
+    FormsModule,
+    InputSwitchModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    FileUploadModule,
+    CalendarModule,
+    DropdownModule,
+    SliderModule,
+    DividerModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    RippleModule,
+    SkeletonModule,
+    AvatarModule,
+    ProgressSpinnerModule,
+    ConfirmDialogModule,
+  ],
   providers: [
     CallAnalyticsService
   ]

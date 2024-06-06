@@ -23,10 +23,12 @@ export class CallRecordingService {
     ];
   }
 
-  public uploadFile(file: QueuedFile): Observable<ApiResponse> {
+  public uploadFiles(files: QueuedFile[]): Promise<ApiResponse|undefined> {
     const formData: FormData = new FormData();
-    formData.append('file', file.file, file.file.name);
-    return this.http.post<ApiResponse>(`${this.API_ROOT}/upload-calls`, formData);
+    files.forEach(file => {
+      formData.append('files', file.file, file.file.name);
+    });
+    return this.http.post<ApiResponse>(`${this.API_ROOT}/upload-calls`, formData).toPromise();
   }
 
   public getCallsList(): Observable<ApiResponse> {
