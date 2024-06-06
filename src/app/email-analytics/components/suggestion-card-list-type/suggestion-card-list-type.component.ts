@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Suggestion, SuggestionAdditionalData } from '../../interfaces/suggestions';
+import { Suggestion, SuggestionPopupData } from '../../interfaces/suggestions';
 import { SuggestionService } from '../../services/suggestion.service';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-suggestion-card-list-type',
@@ -47,15 +48,19 @@ export class SuggestionCardListTypeComponent {
 
   loading: boolean = false;
   dialogVisible: boolean = false;
-  additionalData: SuggestionAdditionalData = {
-    gibberish: ''
-  };
+  additionalData: SuggestionPopupData = { emails: [
+    {
+      body: "",
+      isClient: false,
+      dateTime: new Date()
+    }
+  ] };
   errorMessage: string = '';
 
   load() {
     this.loading = true;
     this.suggestionService.getSuggestionAdditionalData(this.suggestionData.id).subscribe({
-      next: (response: SuggestionAdditionalData) => {
+      next: (response: SuggestionPopupData) => {
         this.additionalData = response;
         this.loading = false;
         this.dialogVisible = true;
@@ -66,5 +71,9 @@ export class SuggestionCardListTypeComponent {
         this.loading = false;
       }
     });
+  }
+
+  formatDate(date: Date): string {
+    return format(date, 'EEE, MMM do') + ' @ ' + format(date, 'HH:mm')
   }
 }

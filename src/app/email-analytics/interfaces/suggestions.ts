@@ -16,10 +16,18 @@ export interface SuggestionMetaDataResponse {
     limit: number;
 }
 
-export interface SuggestionAdditionalData {
-    gibberish: string;
-}
+// export interface SuggestionAdditionalData {
+//     gibberish: string;
+// }
 
+export interface PopupEmail {
+    body: string;
+    isClient: boolean;
+    dateTime: Date;
+}
+export interface SuggestionPopupData {
+    emails: PopupEmail[];
+}
 // BUG: REMOVE in Production (everything with name Mock___)
 export interface MockSuggestionMetadata {
     id: string;
