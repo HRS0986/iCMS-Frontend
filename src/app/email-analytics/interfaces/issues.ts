@@ -13,8 +13,17 @@ export interface Issue {
     efficiency: number;
 }
 
-export interface IssueAdditionalData {
-    gibberish: string;  // TODO: replace with actual data
+// export interface IssueAdditionalData {
+//     gibberish: string;  
+// }
+
+export interface PopupEmail {
+    body: string;
+    isClient: boolean;
+    dateTime: Date;
+}
+export interface IssuePopupData {
+    emails: PopupEmail[];
 }
 
 export interface IssueMetaDataResponse {
@@ -43,7 +52,7 @@ export interface MockIssueMetadataResponse {
 // ---
 
 
-export interface MockIssueAdditionalDataResponse {
-    title: string;
-    body: string;
-}
+// export interface MockIssueAdditionalDataResponse {
+//     title: string;
+//     body: string;
+// }

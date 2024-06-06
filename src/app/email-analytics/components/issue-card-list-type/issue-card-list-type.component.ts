@@ -1,13 +1,7 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
-import { Issue, IssueAdditionalData } from '../../interfaces/issues';
+import { Issue, IssuePopupData } from '../../interfaces/issues';
+import { format } from 'date-fns';
 
-import { DataViewModule } from 'primeng/dataview';
-import { TagModule } from 'primeng/tag';
-import { RatingModule } from 'primeng/rating';
-import { ButtonModule } from 'primeng/button';
-import { CommonModule } from '@angular/common';
-
-import { formatDate } from '@angular/common';
 import { IssueService } from '../../services/issue.service';
 // import product interface
 // import product service
@@ -65,10 +59,13 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
 
   loading: boolean = false;
   dialogVisible: boolean = false;
-  emptyAdditionalData: IssueAdditionalData = {
-    gibberish: ''
-  }
-  additionalData: IssueAdditionalData = this.emptyAdditionalData;
+  additionalData: IssuePopupData = { emails: [
+    {
+      body: "",
+      isClient: false,
+      dateTime: new Date()
+    }
+  ] };
   errorMessage: string = "";
 
   load() {
@@ -87,8 +84,9 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
           this.loading = false;
         }
       });
-      // setTimeout(() => {
-      //     this.loading = false
-      // }, 2000);
+  }
+
+  formatDate(date: Date): string {
+    return format(date, 'EEE, MMM do') + ' @ ' + format(date, 'HH:mm')
   }
 }
