@@ -50,6 +50,20 @@ export interface OperatorListItem {
   id?: string;
 }
 
+export interface CallSettingsDetails {
+  _id?: string;
+  is_lower_threshold_enabled?: boolean;
+  sentiment_lower_threshold?: number;
+  is_upper_threshold_enabled?: boolean;
+  sentiment_upper_threshold?: number;
+  alert_keywords?: string[];
+  is_keyword_alerts_enabled: boolean;
+  topics?: string[];
+  alert_email_receptions?: string[];
+  is_email_alerts_enabled?: boolean;
+  is_push_notifications_enabled?: boolean;
+}
+
 export interface CallOperatorDetails {
   total_calls: number;
   avg_handle_time: number;
