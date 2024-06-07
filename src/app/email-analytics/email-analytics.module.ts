@@ -78,6 +78,7 @@ import { FilterQuerySuggestionsComponent } from './components/filter-query-sugge
 import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
 import { PaginatorModule } from 'primeng/paginator';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -150,7 +151,8 @@ import { PaginatorModule } from 'primeng/paginator';
     DividerModule,
     PaginatorModule,
     DividerModule,
-    SkeletonModule
+    SkeletonModule,
+    NgxPaginationModule
   ],
   providers: [MessageService],
 })

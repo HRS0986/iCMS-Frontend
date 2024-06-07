@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { DataService } from './suggestion-filtering.component.service';
 
+
 interface PageEvent {
   first: number | undefined;
   rows: number;
@@ -33,8 +34,12 @@ export class SuggestionFilteringComponent {
   recipientEmailSelected!: string;
 
   first: number | undefined;
-
   rows: number = 10;
+
+  totalRecords: number = 0;
+  page: number = 1;
+  rowsPerPage: number = 10;
+  loading: boolean = false;
 
 
   constructor(private dataservice: DataService) { }
@@ -148,9 +153,30 @@ export class SuggestionFilteringComponent {
 
   }
 
-  onPageChange(event: PageEvent) {
-    this.first = event.first;
-    this.rows = event.rows;
+  // onPageChange(event: PageEvent) {
+  //   this.first = event.first;
+  //   this.rows = event.rows;
+  // }
+
+ 
+
+
+  loadSuggestions() {
+    this.loading = true;
+
+    // following is a chatGPT example
+    
+    // this.emailService.getEmailMetadata(this.page, this.rowsPerPage).subscribe(
+    //   (response: EmailMetadataResponse) => {
+    //     this.suggestionsData = response.data;
+    //     this.totalRecords = response.total;
+    //     this.loading = false;
+    //   },
+    //   (error) => {
+    //     console.error('Failed to load email metadata', error);
+    //     this.loading = false;
+    //   }
+    // );
   }
 
 
