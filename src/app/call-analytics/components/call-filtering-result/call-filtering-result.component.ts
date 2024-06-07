@@ -8,18 +8,23 @@ import { CallAnalyticsService } from "../../services/call-analytics.service";
   templateUrl: './call-filtering-result.component.html',
   styleUrl: './call-filtering-result.component.scss'
 })
+// export class CallFilteringResultComponent {
+//   selector: 'app-call-filtering-result',
+//   templateUrl: './call-filtering-result.component.html',
+//   styleUrl: './call-filtering-result.component.scss'
+// })
 export class CallFilteringResultComponent implements OnInit {
   @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
 
   @Input() callRecordings: CallRecording[] = [];
   @Input() filteredTopics: string[] = [];
   @Input() filteredKeywords: string[] = [];
-  @Input() filteredSentimentCategory: string = "";
-  @Input() filteredStartDate: string = "";
-  @Input() filteredEndDate: string = "";
-  @Input() filteredDuration: number = 0;
-  @Input() visible: boolean = true;
-
+  @Input() filteredSentimentCategory : string[] = [];
+  @Input() filteredStartDate : string = "";
+  @Input() filteredEndDate : string = "";
+  @Input() filteredDuration : number = 0;
+  @Input() visible :  boolean = true;
+  @Input() resultMessage : string = "";
   statusColors!: { [key: string]: string };
   visibleSummary: boolean = false;
   visiblePlay: boolean = false;

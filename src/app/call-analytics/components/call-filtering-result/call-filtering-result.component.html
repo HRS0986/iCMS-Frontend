@@ -1,10 +1,13 @@
   <div class="flex justify-between items-center px-3 mb-5" [style.display]="callRecordings.length == 0 ? 'block' : 'none'">
+    <div class="text-center text-gray-600 mt-4">
+      <h2>{{ resultMessage }}</h2>      
+    </div>
     <img src="./assets/call/no-search.png" alt="No results found" width="300">
   </div>
 
-  <div class="text-center text-gray-600 mt-4" [style.display]="visible ? 'block' : 'none'">
+  <!-- <div class="text-center text-gray-600 mt-4" [style.display]="visible ? 'block' : 'none'">
     <p>Search result will display here</p>
-  </div>
+  </div> -->
 
   <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of callRecordings">
     <div class="flex justify-between" style="width:60%;">

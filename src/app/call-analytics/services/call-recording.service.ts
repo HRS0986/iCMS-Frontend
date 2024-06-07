@@ -47,7 +47,7 @@ export class CallRecordingService {
     return this.http.delete<ApiResponse>(url);
   }
 
-  public applyFeatures(duration: number, keyword: string[], sentiment_category: string, start_date: string, end_date: string, topic: string[]): Observable<ApiResponse> {
+  public applyFeatures(duration: number, keyword: string[], sentiment_category: string[], start_date: string, end_date: string, topic: string[]): Observable<ApiResponse> {
     const url = `${this.API_ROOT}/filter-calls/`;
     // Adjust the duration value
     const adjustedDuration = duration * 60;

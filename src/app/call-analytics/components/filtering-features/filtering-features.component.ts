@@ -21,13 +21,13 @@ export class FilteringFeaturesComponent implements OnInit{
   keywords: string[] = [];
   selectedTopic!: any;
   sentiCatg: SentiCatg[] | undefined;
-  selectedSentiCatg!: SentiCatg;
+  selectedSentiCatg!: any; //changed
   callFiltering: CallRecording[] = [];
   currentTime: any;
   dateString: any;
   end_date : string = '';
   start_date : string = '';
-  sentimentCatg : string = '';
+  sentimentCatg : string[] = [];  //changed
   noResultsMessage: string = 'Search Recordings';
   callRecordings: never[] | undefined;
   visibility: boolean = true;
@@ -73,9 +73,16 @@ export class FilteringFeaturesComponent implements OnInit{
       this.duration = duration
 
       // Check if selectedSentiCatg is null, if so, assign an empty string
-      this.sentimentCatg = this.selectedSentiCatg == null || undefined? '' : this.selectedSentiCatg.name;
+      //this.sentimentCatg = this.selectedSentiCatg == null || undefined? '' : this.selectedSentiCatg.name;
+
+      if(this.selectedSentiCatg != null){
+        for (let item of this.selectedSentiCatg) {
+          this.sentimentCatg.push(item.name);
+        }
+      }
 
       console.log(duration, this.sentimentCatg );
+
       if(this.selectedTopic != null){
         for (let item of this.selectedTopic) {
           this.topics.push(item.name);
@@ -127,7 +134,7 @@ export class FilteringFeaturesComponent implements OnInit{
     this.keyword = '';
     this.duration = 0;
     this.selectedTopic = [];
-    this.sentiCatg = undefined;
+    this.selectedSentiCatg = [];
     this.keywords = [];
     this.topics = [];
     console.log('Fields cleared');
