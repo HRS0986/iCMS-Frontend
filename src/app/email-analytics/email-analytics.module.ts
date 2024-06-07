@@ -33,7 +33,6 @@ import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.compon
 
 import { CardModule } from 'primeng/card';
 
-
 import { TabViewModule } from 'primeng/tabview';
 import { ImageModule } from 'primeng/image';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -51,16 +50,15 @@ import { NotiSendingEmailAccCardComponent } from './components/noti-sending-emai
 import { TopicCardComponent } from './components/topic-card/topic-card.component';
 import { ToastModule } from 'primeng/toast';
 
+
 import { MessageService } from 'primeng/api';
 import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
 import { CalendarModule } from 'primeng/calendar';
 import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked-bar-chart.component';
 import { MultiHorizontalBarChartComponent } from './components/multi-horizontal-bar-chart/multi-horizontal-bar-chart.component';
-import * as panel from 'primeng/panel';
-
-
 import { DropdownModule } from 'primeng/dropdown';
 import { DividerModule } from 'primeng/divider';
+
 import { Dashboard2Component } from './components/dashboard2/dashboard2.component';
 import { StatCardMgrAnalyticsComponent } from './components/stat-card-mgr-analytics/stat-card-mgr-analytics.component';
 import { EffiEffecDonoughtChartComponent } from './components/effi-effec-donought-chart/effi-effec-donought-chart.component';
@@ -70,17 +68,17 @@ import { DynamicStackedBarChartComponent } from './components/dynamic-stacked-ba
 import { BestWorstCardComponent } from './components/best-worst-card/best-worst-card.component';
 import { DynamicHorizontalBarchartComponent } from './components/dynamic-horizontal-barchart/dynamic-horizontal-barchart.component';
 
-
-
-
 import { SkeletonModule } from 'primeng/skeleton';
 import { FilterQuerySuggestionsComponent } from './components/filter-query-suggestions/filter-query-suggestions.component';
 import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
 import { PaginatorModule } from 'primeng/paginator';
-import { NgxPaginationModule } from 'ngx-pagination';
-
-
+import { IssueCardListTypeComponent } from './components/issue-card-list-type/issue-card-list-type.component';
+import { IssueDataviewComponent } from './components/issue-dataview/issue-dataview.component';
+import { SuggestionCardListTypeComponent } from './components/suggestion-card-list-type/suggestion-card-list-type.component';
+import { InquiryCardListTypeComponent } from './components/inquiry-card-list-type/inquiry-card-list-type.component';
+import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
+import { DashboardSmallCardComponent } from './components/dashboard-small-card/dashboard-small-card.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +100,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     WordCloudComponent,
     StackedBarChartComponent,
     MultiHorizontalBarChartComponent,
+
     GaugeChartComponent,
     Dashboard2Component,
     StatCardMgrAnalyticsComponent,
@@ -113,9 +112,15 @@ import { NgxPaginationModule } from 'ngx-pagination';
     DynamicHorizontalBarchartComponent,
     FilterQuerySuggestionsComponent,
     SuggestionCardComponent,
-    SuggestionFilteringComponent
+    SuggestionFilteringComponent,
+    IssueCardListTypeComponent,
+    IssueDataviewComponent,
+    SuggestionCardListTypeComponent,
+    InquiryCardListTypeComponent,
+    InquiryDataviewComponent,
+    DashboardSmallCardComponent
     
-    
+   
   ],
   imports: [
     CommonModule,
@@ -147,12 +152,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     CalendarModule,
     PanelModule, 
     DropdownModule,
-    CalendarModule,
     DividerModule,
     PaginatorModule,
     DividerModule,
     SkeletonModule,
-    NgxPaginationModule
+    SkeletonModule,
   ],
   providers: [MessageService],
 })

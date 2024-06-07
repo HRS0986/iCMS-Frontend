@@ -24,6 +24,4 @@ export class DataService {
     const url = `http://127.0.0.1:8000/email/suggestion-filtering/get_all_products`;
     return this.http.get<any[]>(url);
   }
-
-
 }

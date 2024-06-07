@@ -30,18 +30,33 @@ export class SidenavComponent implements OnInit {
         icon: 'pi pi-fw pi-envelope',
         items: [
           {
-            label: 'Dashboard1',
+            label: 'Sentiments Dashboard',
             routerLink: "email/dashboard1",
-            icon: 'pi pi-fw pi-th-large'
+            icon: 'pi pi-fw pi-desktop'
           },
           {
-            label: 'Dashboard2',
+            label: 'Insights Dashboard',
             routerLink: "email/dashboard2",
             icon: 'pi pi-fw pi-th-large'
           },
           {
-            label: 'Email Filtering',
+            label: 'Email Issues',
+            routerLink: "email/issues",
+            icon: 'pi pi-fw pi-flag'
+          },
+          {
+            label: 'Email Suggestions',
             routerLink: "email/suggestions",
+            icon: 'pi pi-fw pi-star'
+          },
+          {
+            label: 'Email Inquiries',
+            routerLink: "email/inquiries",
+            icon: 'pi pi-fw pi-question'
+          },
+          {
+            label: '(temp) Email Filtering',
+            routerLink: "email/filtering",
             icon: 'pi pi-fw pi-filter'
           },
           {

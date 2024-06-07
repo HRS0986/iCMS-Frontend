@@ -65,6 +65,7 @@ export class FilterQueryComponent {
 
   applyFilters() {
     this.filterFunction(this.dateRange, this.productSelected, this.subject, this.sentimentSelected, this.senderSelected, this.receiverSelected).subscribe(
+
       (response: EmailMetadataResponse | ThreadSummaryResponse) => {
         if (this.type === 'email') {
           this.emailMetadataResponse = response as EmailMetadataResponse;
