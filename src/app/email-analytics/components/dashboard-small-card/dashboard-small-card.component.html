@@ -44,15 +44,20 @@
     <span class="text-sm hidden md:inline md:text-base">
       {{ smallText }}
     </span>
-    <span class="text-xl md:text-4xl md:-ml-1">
+    <span class="text-xl md:text-4xl md:-ml-0.5">
       {{ bigText }}
     </span>
   </div>
-  <div class="">
-    <span>
-      <i class="pi pi-chevron-circle-up text-xs p-1"></i>
+  <div class="flex items-center justify-center">
+    <span class="flex px-2 text-sm items-center">
+      <i *ngIf="context === 'increase'" class="pi pi-arrow-circle-up"  style="color: #006c1d"></i>
+      <i *ngIf="context === 'decrease'" class="pi pi-arrow-circle-down" style="color: #6c0900"></i>
+      <i *ngIf="context === 'same'" class="pi pi-minus-circle"  style="color: #e2c431"></i>
     </span>
     <span class="text-sm md:text-base">
+      {{ avgMetric }}%
+    </span>
+    <span class="text-sm hidden md:inline md:text-base">
       <span *ngIf="context === 'increase'"
         >{{ avgMetric }}% increase from avg</span
       >
