@@ -20,6 +20,11 @@ export class DataService {
   
   }
 
+  getOverdueIssuesCheckingEmails(): Observable<any[]> {
+    return this.http.get<any[]>('http://127.0.0.1:8000/email/settings/get_current_overdue_issues_checking_emails');
+  
+  }
+
   getSSCheckingData(): Observable<any[]> {
     return this.http.get<any[]>('http://127.0.0.1:8000/email/settings/get_current_ss_checking_data');
   

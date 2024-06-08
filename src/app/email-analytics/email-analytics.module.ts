@@ -79,6 +79,7 @@ import { SuggestionCardListTypeComponent } from './components/suggestion-card-li
 import { InquiryCardListTypeComponent } from './components/inquiry-card-list-type/inquiry-card-list-type.component';
 import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
 import { DashboardSmallCardComponent } from './components/dashboard-small-card/dashboard-small-card.component';
+import { AuthorizationMessageComponent } from './components/authorization-message/authorization-message.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import { DashboardSmallCardComponent } from './components/dashboard-small-card/d
     SuggestionCardListTypeComponent,
     InquiryCardListTypeComponent,
     InquiryDataviewComponent,
-    DashboardSmallCardComponent
+    DashboardSmallCardComponent,
+    AuthorizationMessageComponent
     
    
   ],

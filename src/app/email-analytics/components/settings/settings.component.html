@@ -65,10 +65,26 @@
 
                             
                            
-                            <!--Criticality form-->
-                            <form [formGroup] = "criticalityForm" (ngSubmit)="onSubmitCriticality()">
+                            <!--Overdue Issues form-->
+                            <form [formGroup] = "overdueIssuesForm" (ngSubmit)="onSubmitOverdueIssues()">
                             <div class="mt-3 mb-10"> <b>Overdue issues notification configuration</b></div>
                             <p>Select the email accounts that needs to be checked for ongoing issues which has taken more than two weeks to resolve</p>
+                            <p-multiSelect [options]="currentReadingEmailAccountsForNotificationPage" formControlName="emailAccsToCheckOverdueIssues" optionLabel="address" ></p-multiSelect>
+
+                              
+                              <!--Overdue Issues form submit button-->
+                              <div class="flex justify-end mt-20">
+                                <button pButton pRipple label="Update" class="p-button-success" type="submit"></button>
+                              </div>
+                              
+                              <hr>
+
+                          </form>
+
+                          <!--Criticality form-->
+                          <form [formGroup] = "criticalityForm" (ngSubmit)="onSubmitCriticality()">
+                            <div class="mt-3 mb-10"> <b>Critical Emails notification configuration</b></div>
+                            <p>Select the email accounts that needs to be checked for emails with a high criticality level</p>
                             <p-multiSelect [options]="currentReadingEmailAccountsForNotificationPage" formControlName="emailAccsToCheckCriticality" optionLabel="address" ></p-multiSelect>
 
                               

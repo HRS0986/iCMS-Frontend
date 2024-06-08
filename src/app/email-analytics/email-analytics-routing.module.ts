@@ -8,40 +8,37 @@ import { Dashboard2Component } from './components/dashboard2/dashboard2.componen
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
 import { IssueDataviewComponent } from './components/issue-dataview/issue-dataview.component';
 import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
+import { conditionGuard } from './condition.guard';
+import {AuthorizationMessageComponent} from './components/authorization-message/authorization-message.component'
 
 const routes: Routes = [
   {
     path: "dashboard1",
-    component: DashboardComponent
+    component: DashboardComponent,
+    canActivate: [conditionGuard]
   },
   {
     path: "dashboard2",
-    component: Dashboard2Component
+    component: Dashboard2Component,
+    canActivate: [conditionGuard]
   },
   {
     path: "summaries",
-    component: SummaryCardsContainerComponent
+    component: SummaryCardsContainerComponent,
+    canActivate: [conditionGuard]
   },
   {
     path: "suggestions",
-    component: SuggestionFilteringComponent
-  },
-  {
-    path: "filtering",
-    component: EmailFilteringComponent
+    component: SuggestionFilteringComponent,
+    canActivate: [conditionGuard]
   },
   {
     path: "settings",
-    component: SettingsComponent
+    component: SettingsComponent,
+    canActivate: [conditionGuard]
   },
-  {
-    path: "issues",
-    component: IssueDataviewComponent
-  },
-  {
-    path: "inquiries",
-    component: InquiryDataviewComponent
-  }
+  { path: "authorization-component", 
+    component: AuthorizationMessageComponent }
 ];
 
 @NgModule({

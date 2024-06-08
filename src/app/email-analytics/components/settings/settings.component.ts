@@ -46,6 +46,10 @@ export class SettingsComponent implements OnInit{
   currentCritiCheckingEmailAccountsofUser: EmailAcc[] = [
     { address: 'johndoe@gmail.com'}
   ];
+
+  currentOVerdueCheckingAccountsofUser: EmailAcc[] = [
+    { address: 'johndoe@gmail.com'}
+  ];
   
   currentConsideringProducts = [{name:'sampleProduct1'}];
   
@@ -79,6 +83,10 @@ export class SettingsComponent implements OnInit{
 
   criticalityForm =this.fb.group({
     emailAccsToCheckCriticality:new FormControl<EmailAcc[] | null>(this.currentCritiCheckingEmailAccountsofUser)
+  });
+
+  overdueIssuesForm =this.fb.group({
+    emailAccsToCheckOverdueIssues:new FormControl<EmailAcc[] | null>(this.currentOVerdueCheckingAccountsofUser)
   });
 
   notificationChannelsForm = this.fb.group({
@@ -159,10 +167,35 @@ export class SettingsComponent implements OnInit{
 
     let formData = {
       userID: user_id,
-      accs_to_check_overdue_emails: email_Accs_To_Criticality ? email_Accs_To_Criticality.map((item: any) => item.name) : [],
+      accs_to_check_criticality: email_Accs_To_Criticality ? email_Accs_To_Criticality.map((item: any) => item.name) : [],
     }
 
     this.http.post('http://127.0.0.1:8000/email/settings/receive_criticality_trigger_data', formData).subscribe(response => {
+      console.log('Trigger Data sent successfully:', response);
+      
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Criticality checking emails updated succesfuly!' });
+
+      this.sentimentShiftsForm.reset();
+    }, error => {
+      console.error('Error sending data:', error);
+      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
+    });
+  }
+
+
+  onSubmitOverdueIssues(): void {
+    console.log(this.overdueIssuesForm.value);
+    const email_Accs_To_Overdue_Issues = this.overdueIssuesForm.value.emailAccsToCheckOverdueIssues;
+
+    // configure dynamicaly later
+    const user_id = 3;
+
+    let formData = {
+      userID: user_id,
+      accs_to_check_overdue_emails: email_Accs_To_Overdue_Issues ? email_Accs_To_Overdue_Issues.map((item: any) => item.name) : [],
+    }
+
+    this.http.post('http://127.0.0.1:8000/email/settings/receive_overdue_issue_trigger_data', formData).subscribe(response => {
       console.log('Trigger Data sent successfully:', response);
       
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Overdue checking emails updated succesfuly!' });
@@ -173,6 +206,7 @@ export class SettingsComponent implements OnInit{
       this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
     });
   }
+
 
   //notification channels submit
 
@@ -507,10 +541,18 @@ ngOnInit() {
 
 
   this.dataService.getCriticalityCheckingEmails().subscribe(data => {
-    console.log('OverdueIssuescheckingemails',data)
+    console.log('Criticality checking emails',data)
     this.currentCritiCheckingEmailAccountsofUser = data.map(email => ({ address: email }));
     this.criticalityForm.patchValue({
       emailAccsToCheckCriticality: this.currentCritiCheckingEmailAccountsofUser
+    });
+  });
+
+  this.dataService.getOverdueIssuesCheckingEmails().subscribe(data => {
+    console.log('OverdueIssues checking emails',data)
+    this.currentOVerdueCheckingAccountsofUser = data.map(email => ({ address: email }));
+    this.overdueIssuesForm.patchValue({
+      emailAccsToCheckOverdueIssues: this.currentOVerdueCheckingAccountsofUser
     });
   });
 
