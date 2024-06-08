@@ -24,7 +24,8 @@ import { ImageModule } from "primeng/image";
 import { DropdownModule } from "primeng/dropdown";
 import { SelectButtonModule } from "primeng/selectbutton";
 import { MultiSelectModule } from "primeng/multiselect";
-import { PageNotFoundComponent } from './shared-components/page-not-found/page-not-found.component'
+import { PageNotFoundComponent } from './shared-components/page-not-found/page-not-found.component';
+import { AddRoleBarComponent } from './shared-components/right-sidebar/add-role-bar/add-role-bar.component'
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { PageNotFoundComponent } from './shared-components/page-not-found/page-n
     AddMemberBarComponent,
     AddchartComponent,
     PageNotFoundComponent,
+    AddRoleBarComponent,
   ],
   exports: [
     PageHeaderComponent,

@@ -11,9 +11,8 @@ export class UserProfileDataService {
   constructor(private http: HttpClient) { }
 
   getUserProfileData(token: string): any {
-    let headers = new HttpHeaders();
-    console.log(token);
-    headers = new HttpHeaders({
+    // console.log(token);
+    let headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
         });
     return this.http.get<any>(this.apiUrl, {headers});

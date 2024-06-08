@@ -1,5 +1,5 @@
 import { EventEmitter, Output } from '@angular/core';
-import {booleanAttribute, Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router'; // Import Router
 import { MenuItem } from "primeng/api";
 import { DateRangeService } from '../../../main-dashboard/services/shared/date-range.service';
@@ -18,6 +18,7 @@ export class PageHeaderComponent implements OnInit {
   @Input() breadcrumbItems: MenuItem[] = [];
   @Input() showAddMemberButton: boolean = false;
   @Input() showAddWidgetButton: boolean = false;
+  @Input() showAddRoleButton: boolean = false;
 
   @Input() minDate: Date = new Date();
   @Input() maxDate: Date = new Date();

@@ -16,6 +16,7 @@ import { AddUserPopupComponent } from './components/users/add-user-popup/add-use
 import {SidebarModule} from "primeng/sidebar";
 import {TabViewModule} from "primeng/tabview";
 import { RoleManagementComponent } from './components/role-management/role-management.component';
+import { AddRolePopupComponent } from './components/role-management/add-role-popup/add-role-popup.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { RoleManagementComponent } from './components/role-management/role-manag
     AddUserPopupComponent,
     PermissionsComponent,
     RoleManagementComponent,
+    AddRolePopupComponent,
 
   ],
   imports: [

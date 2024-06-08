@@ -30,7 +30,11 @@ export class GridComponent implements OnInit {
 
 
 
-  @Input() userChartInfo: any;
+  @Input() userChartInfo: {
+    chartType: string,
+    data: ChartData,
+    options: ChartOptions
+  }[] = [];
 
   constructor() {}
   ngOnInit(): void {
@@ -97,10 +101,23 @@ export class GridComponent implements OnInit {
     };
 
     this.dashboard = [
-      {key:1, cols: 5, rows: 3, y: 0, x: 0, chartType: 'line', initialRatio: Math.round(5/3)},
-      {key:2, cols: 2, rows: 3, y: 0, x: 2, chartType: 'gauge',initialRatio: Math.round(2/2)},
-      {key:3, cols: 5, rows: 3, y: 0, x: 4, chartType: 'bar', initialRatio: Math.round(2/2)},
-      {key:4, cols: 5, rows: 3, y: 1, x: 0, chartType: 'line', initialRatio: Math.round(2/2)},
+      {
+        key:1,
+        cols: 5,
+        rows: 3,
+        y: 0,
+        x: 0,
+        chartType: 'line',
+        initialRatio: Math.round(5/3)
+      },
+      {
+        key:2,
+        cols: 2,
+        rows: 3,
+        y: 0,
+        x: 2,
+        chartType: 'gauge',
+        initialRatio: Math.round(2/2)},
     ];
 
 

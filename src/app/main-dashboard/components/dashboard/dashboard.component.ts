@@ -3,7 +3,6 @@ import {MenuItem} from "primeng/api";
 import { AuthendicationService } from '../../services/authendication.service';
 import { ChartsService } from '../../services/charts.service';
 import { CookieService } from 'ngx-cookie-service';
-import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +13,8 @@ export class DashboardComponent implements OnInit{
 
   DataCacheChange:boolean= false;
   widgetCacheChange:boolean=false;
+
+  chartLayout: { chartType: string; }[] = [];
 
 
   widgetData:any;
@@ -73,7 +74,7 @@ export class DashboardComponent implements OnInit{
   //   {word: 'Rishi', weight: 80},
   //   {word: 'Chintan', weight: 22}
   // ]
-  
+
   constructor(private authService: AuthendicationService, private chartService:ChartsService, private cookieService: CookieService) { }
   ngOnInit(): void {
     // this.loginAndFetchUserDetails();
@@ -92,14 +93,14 @@ export class DashboardComponent implements OnInit{
     //     }
     // });
   }
+  // loginAndFetchUserDetails(): void {
+  //   const loginData: any = { "email": "Thenujan@gmail.com", "password": "Thenujan" };
+  //   this.authService.login(loginData).subscribe(
+  //     (response) => {
+  //       this.cookieService.set('token', response.access_token);
+  //       console.log(response.access_token);
+  //     },
+  //   );
+  // }
 
-  loginAndFetchUserDetails(): void {
-    const loginData: any = { "email": "Thenujan@gmail.com", "password": "Thenujan" };
-    this.authService.login(loginData).subscribe(
-      (response) => {
-        this.cookieService.set('token', response.access_token);
-        console.log(response.access_token);
-      },
-    );
-  }
 }
