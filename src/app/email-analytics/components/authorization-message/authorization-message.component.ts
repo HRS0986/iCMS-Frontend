@@ -17,7 +17,7 @@ export class AuthorizationMessageComponent implements OnInit{
   ];
 
   need_to_authorize: boolean = false
-  needToAuthorizeAddress!: string 
+  needToAuthorizeAddress: string  = "mygmail@.gmail.com"
   authorization_url!: string
 
   authorizationInfoLoading: boolean = true
@@ -32,6 +32,9 @@ export class AuthorizationMessageComponent implements OnInit{
     }
    
   }
+
+
+
 
   ngOnInit(): void {
 
