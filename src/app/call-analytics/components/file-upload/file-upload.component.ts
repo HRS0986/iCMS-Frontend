@@ -1,36 +1,41 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { CallRecordingService } from '../../services/call-recording.service';
-import { finalize } from 'rxjs/operators';
-import { FileSelectEvent, FileUpload, FileUploadEvent } from "primeng/fileupload";
-import { ApiResponse, OperatorListItem, QueuedFile } from "../../types";
+import { FileSelectEvent, FileUpload } from "primeng/fileupload";
+import { OperatorListItem, QueuedFile, } from "../../types";
 import { CallOperatorService } from "../../services/call-operator.service";
-
+import UserMessages from "../../../shared/user-messages";
 
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.scss']
+  styleUrls: ['./file-upload.component.scss'],
+  providers: [ConfirmationService]
 })
 export class FileUploadComponent implements OnInit {
-
   @ViewChild("callUpload") callUpload!: FileUpload;
 
   breadcrumbItems: MenuItem[] = [
-    { label: 'Call Analytics' },
-    { label: 'Call Recordings' },
-    { label: 'Upload Calls' }
+    {label: 'Call Analytics'},
+    {label: 'Call Recordings'},
+    {label: 'Upload Calls'}
   ];
 
-  isUploading = false;
-  uploadQueue: QueuedFile[] = [];
+  files: any[] = [];
   selectedFilesCount = 0
   dateList: Date[] = [];
   descriptionList: string[] = [];
   operatorsList: number[] = [];
   callOperators: OperatorListItem[] = [];
+  isSubmitted = false;
 
-  constructor(private callRecordingService: CallRecordingService, private callOperatorService: CallOperatorService) {}
+  constructor(
+    private confirmationService: ConfirmationService,
+    private callRecordingService: CallRecordingService,
+    private callOperatorService: CallOperatorService,
+    private messageService: MessageService
+  ) {
+  }
 
   ngOnInit() {
     this.callOperatorService.getAllOperators().subscribe((data) => {
@@ -38,32 +43,54 @@ export class FileUploadComponent implements OnInit {
     });
   }
 
-  onUploadClick(event: FileUploadEvent): void {
-      const files= event.files;
-
-      if (files && files.length > 0) {
-        for (let i = 0; i < files.length; i++) {
-          const file: File = files[i];
-          const description = this.descriptionList[i];
-          const dateTime = this.dateList[i];
-          const operatorId = this.operatorsList[i];
-
-          // Construct the new file name
-          const fileExtension = file.name.split('.').pop();
-          const newFileName = this.getFileName(dateTime, description, fileExtension!, operatorId);
-
-          // Create a new File object with the updated name
-          const renamedFile = new File([file], newFileName);
-
-          this.uploadQueue.push({ file: renamedFile, description: description, date: dateTime });
+  onUploadClick(event: any): void {
+    this.files = event.files;
+    if (this.files && this.files.length > 0) {
+      let queuedFiles = this.createUploadQueue(this.files);
+      this.callRecordingService.uploadFiles(queuedFiles).then(response => {
+        this.clearFiles();
+        if (response!.status) {
+          this.messageService.add({severity: "success", summary: "Success", detail: UserMessages.UPLOAD_SUCCESS});
+        } else {
+          this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.UPLOAD_ERROR});
         }
+      }).catch(error  => {
+        this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.UPLOAD_ERROR});
+      });
+    } else {
+      console.warn('No file selected');
+    }
+  }
 
-        if (!this.isUploading) {
-          this.uploadNextFile();
-        }
-      } else {
-        console.warn('No file selected');
+  createUploadQueue(files: any[]): QueuedFile[] {
+    let queuedFiles = [];
+    for (let i = 0; i < files.length; i++) {
+      const file: File = this.files[i];
+      const description = this.descriptionList[i];
+      const dateTime = this.dateList[i];
+      const operatorId = this.operatorsList[i];
+      const fileExtension = file.name.split('.').pop();
+      const newFileName = this.getFileName(dateTime, description, fileExtension!, operatorId);
+      const renamedFile = new File([file], newFileName);
+
+      const queuedFile: QueuedFile = {
+        file: renamedFile,
+        description: description,
+        date: dateTime,
+        operatorId: operatorId
       }
+
+      queuedFiles.push(queuedFile);
+    }
+    return queuedFiles;
+  }
+
+  clearFiles() {
+    this.selectedFilesCount = 0;
+    this.descriptionList.length = 0;
+    this.dateList.length = 0;
+    this.files = [];
+    this.callUpload.clear();
   }
 
   getFileName(dateTime: Date, description: string, extension: string, operatorId: number): string {
@@ -73,6 +100,24 @@ export class FileUploadComponent implements OnInit {
     const dateString = date.split('-').join('');
     let timeString = time.split(':').join('');
     return `${operatorId}_${dateString}_${timeString}_${description}.${extension}`;
+  }
+
+  handleBeforeUpload(event: any): void {
+    this.isSubmitted = true;
+    if (!this.isAllFieldsValid()) {
+      this.confirmationService.confirm({
+        message: 'Please fill all required fields to upload',
+        icon: 'pi pi-info-circle',
+        header: 'Warning',
+        acceptLabel: 'OK',
+        acceptIcon: "none",
+        acceptButtonStyleClass: 'p-button-primary p-button-sm',
+        rejectVisible: false,  // Hide the "No" button
+        defaultFocus: 'accept', // Focus on the accept button by default
+      });
+    } else {
+      this.onUploadClick(event);
+    }
   }
 
   onSelectFilesToUpload(event: FileSelectEvent) {
@@ -88,31 +133,12 @@ export class FileUploadComponent implements OnInit {
     this.dateList.length = 0;
   }
 
-  uploadNextFile(): void {
-    if (this.uploadQueue.length > 0) {
-      const queuedFile = this.uploadQueue.shift();
-      if (queuedFile) {
-        const { file, description, date } = queuedFile;
-        this.isUploading = true;
-
-        // Rename the file based on the description
-        const renamedFile = new File([file], file.name);
-
-        this.callRecordingService.uploadFile(queuedFile)
-          .pipe(finalize(() => {
-            this.isUploading = false;
-            this.uploadNextFile();
-          }))
-          .subscribe(
-            (response: ApiResponse) => {
-              console.log('File uploaded successfully', response.message);
-            },
-            (error: any) => {
-              console.error('Error uploading file', error);
-            }
-          );
+  isAllFieldsValid(): boolean {
+    for (let i = 0; i < this.selectedFilesCount; i++) {
+      if (!this.descriptionList[i] || !this.operatorsList[i] || !this.dateList[i]) {
+        return false;
       }
     }
+    return true;
   }
-
 }
