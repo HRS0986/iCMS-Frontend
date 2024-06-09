@@ -15,28 +15,35 @@ import { TestAuthComponent } from './components/test-auth/test-auth.component';
 const routes: Routes = [
   {
     path: "dashboard1",
-    component: DashboardComponent,
-    canActivate: [conditionGuard]
+    component: DashboardComponent
   },
   {
     path: "dashboard2",
-    component: Dashboard2Component,
-    canActivate: [conditionGuard]
+    component: Dashboard2Component
   },
   {
     path: "summaries",
-    component: SummaryCardsContainerComponent,
-    canActivate: [conditionGuard]
+    component: SummaryCardsContainerComponent
   },
   {
     path: "suggestions",
-    component: SuggestionFilteringComponent,
-    canActivate: [conditionGuard]
+    component: SuggestionFilteringComponent
+  },
+  {
+    path: "filtering",
+    component: EmailFilteringComponent
   },
   {
     path: "settings",
-    component: SettingsComponent,
-    canActivate: [conditionGuard]
+    component: SettingsComponent
+  },
+  {
+    path: "issues",
+    component: IssueDataviewComponent
+  },
+  {
+    path: "inquiries",
+    component: InquiryDataviewComponent
   },
   { 
     path: "deny-access", 
