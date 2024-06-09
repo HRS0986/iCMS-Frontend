@@ -27,6 +27,7 @@ export class AuthorizationMessageComponent implements OnInit{
   
   redirectToURI() {
     
+    // only perform the activation of aithroze button after the authrozation uri is loaded from the backend
     if (!this.authorizationInfoLoading){
       this.router.navigateByUrl(this.authorization_url);
     }
@@ -48,6 +49,12 @@ export class AuthorizationMessageComponent implements OnInit{
       this.authorization_url = data["authorization_url"]
       
       this.authorizationInfoLoading = false
+       
+
+      // redirect back to dashboard when the user authorzie it
+      if(!this.need_to_authorize){
+        this.router.navigate(['/email/dashboard1']);
+      }
   
          
      });
