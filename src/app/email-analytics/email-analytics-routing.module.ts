@@ -10,6 +10,7 @@ import { IssueDataviewComponent } from './components/issue-dataview/issue-datavi
 import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
 import { conditionGuard } from './condition.guard';
 import {AuthorizationMessageComponent} from './components/authorization-message/authorization-message.component'
+import { TestAuthComponent } from './components/test-auth/test-auth.component';
 
 const routes: Routes = [
   {
@@ -37,8 +38,10 @@ const routes: Routes = [
     component: SettingsComponent,
     canActivate: [conditionGuard]
   },
-  { path: "authorization-component", 
-    component: AuthorizationMessageComponent }
+  { 
+    path: "deny-access", 
+    component: AuthorizationMessageComponent 
+  },
 ];
 
 @NgModule({
