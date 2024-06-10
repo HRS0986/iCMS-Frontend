@@ -7,7 +7,7 @@ import { PanelModule } from "primeng/panel";
 import { BreadcrumbModule } from "primeng/breadcrumb";
 import { DividerModule } from "primeng/divider";
 import { CalendarModule } from "primeng/calendar";
-import { FormsModule } from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { TopMenuComponent } from './shared-components/top-menu/top-menu.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SidebarModule } from "primeng/sidebar";
@@ -26,6 +26,10 @@ import { SelectButtonModule } from "primeng/selectbutton";
 import { MultiSelectModule } from "primeng/multiselect";
 import { PageNotFoundComponent } from './shared-components/page-not-found/page-not-found.component';
 import { AddRoleBarComponent } from './shared-components/right-sidebar/add-role-bar/add-role-bar.component'
+import {InputSwitchModule} from "primeng/inputswitch";
+import {CheckboxModule} from "primeng/checkbox";
+import {InputGroupModule} from "primeng/inputgroup";
+import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 
 
 @NgModule({
@@ -66,6 +70,11 @@ import { AddRoleBarComponent } from './shared-components/right-sidebar/add-role-
     DropdownModule,
     SelectButtonModule,
     MultiSelectModule,
+    ReactiveFormsModule,
+    InputSwitchModule,
+    CheckboxModule,
+    InputGroupModule,
+    InputGroupAddonModule,
   ]
 
 })

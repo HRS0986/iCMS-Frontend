@@ -14,7 +14,7 @@ export class UserProfileDataService {
     // console.log(token);
     let headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
-        });
+    });
     return this.http.get<any>(this.apiUrl, {headers});
 
   }
