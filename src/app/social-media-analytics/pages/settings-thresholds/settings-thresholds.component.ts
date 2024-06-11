@@ -1,46 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Content } from '../../structs';
+import { Thresholds } from '../../structs';
+import { HttpClient } from '@angular/common/http';
 
 
-interface Thresholds {
-  id: string;
-  platform: string;
-  alertType: string;
-  overallSentiment: string | number; // Change the type to string | number
-  color: string;
-  min: number;
-  max: number;
-}
 
-const thresholdsData: Thresholds[] = [
-  {
-    id: '1000',
-    platform: 'Facebook',
-    alertType: 'Email',
-    overallSentiment: '45%-72%',
-    color: '#0BB783',
-    min: 45,
-    max: 72
-  },
-  {
-    id: '1001',
-    platform: 'Instegram',
-    alertType: 'App',
-    overallSentiment: 'more than 50%',
-    color: '#0BB783',
-    min: 50,
-    max: 100
-  },
-  {
-    id: '1002',
-    platform: 'Linkeld',
-    alertType: 'App',
-    overallSentiment: 'Less than 11%',
-    color: '#0BB783',
-    min: 0,
-    max: 11
-  }
-];
+
 
 @Component({
   selector: 'settings-thresholds',
@@ -48,20 +12,25 @@ const thresholdsData: Thresholds[] = [
   styleUrl: './settings-thresholds.component.scss'
 })
 export class SettingsThresholdsComponent implements OnInit{
+  list_thresholds: Thresholds[] = [];
   thresholds!: Thresholds[];
+  
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.thresholds = thresholdsData
-  }
-  
-  
-  
+    this.http.get<any>('http://127.0.0.1:8000/social-media/get_sentiment_shift_')
+      .subscribe(response => {
+        const list_thresholds = response[0] as Thresholds[];
+      
+        
+    this.thresholds = list_thresholds
+    
 
-  onRowEdit(item: Thresholds) {
-  }
-
-  onRowDelete(item: Thresholds) {
-  }
+  });
+  
+  
+}
+ 
 
 
 }
