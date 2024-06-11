@@ -85,6 +85,7 @@ import { DashboardSuggestionCardComponent } from './components/dashboard-suggest
 import { DashboardSentimentCardComponent } from './components/dashboard-sentiment-card/dashboard-sentiment-card.component';
 import { DashboardSummaryCardComponent } from './components/dashboard-summary-card/dashboard-summary-card.component';
 import { DashboardActionablesComponent } from './components/dashboard-actionables/dashboard-actionables.component';
+import { DashboardResponsetimeComponent } from './components/dashboard-responsetime/dashboard-responsetime.component';
 
 @NgModule({
   declarations: [
@@ -130,7 +131,8 @@ import { DashboardActionablesComponent } from './components/dashboard-actionable
     DashboardSuggestionCardComponent,
     DashboardSentimentCardComponent,
     DashboardSummaryCardComponent,
-    DashboardActionablesComponent
+    DashboardActionablesComponent,
+    DashboardResponsetimeComponent
     
    
   ],
