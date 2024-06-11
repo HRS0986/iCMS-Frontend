@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertType } from '../../models/settings';
 
-
-
-interface AlertType {
-  name: string;
-}
 
 @Component({
   selector: 'settings-notifications',
   templateUrl: './settings-notifications.component.html',
   styleUrls: ['./settings-notifications.component.scss']
 })
+
 export class SettingsNotificationsComponent implements OnInit {
 
   socialMediaPlatforms: any[] | undefined;
@@ -24,7 +21,6 @@ export class SettingsNotificationsComponent implements OnInit {
 
   selectedAlertType: AlertType | undefined;
   ngOnInit() {
-    
 
     this.socialMediaPlatforms = [
       { name: 'Instagram' },

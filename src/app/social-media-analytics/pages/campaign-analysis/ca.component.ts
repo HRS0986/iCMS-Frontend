@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { MenuItem } from "primeng/api";
-import { Content } from '../../structs';
+import { Content } from '../../models/main-types';
+
 
 @Component({
   selector: 'app-ca',
   templateUrl: './ca.component.html',
   styleUrls: ['./ca.component.scss']
 })
+
+
 export class CAComponent {
 
   breadcrumbItems: MenuItem[] = [

@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Thresholds } from '../../structs';
-import { HttpClient } from '@angular/common/http';
-
-
-
+import { Thresholds } from '../../models/settings';
+import { SettingsApiService } from '../../services/settings-api.service';
 
 
 @Component({
@@ -11,26 +8,18 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './settings-thresholds.component.html',
   styleUrl: './settings-thresholds.component.scss'
 })
-export class SettingsThresholdsComponent implements OnInit{
+
+export class SettingsThresholdsComponent implements OnInit {
   list_thresholds: Thresholds[] = [];
   thresholds!: Thresholds[];
-  
-  constructor(private http: HttpClient) { }
+
+  constructor(private settingsApiService: SettingsApiService) { }
 
   ngOnInit() {
-    this.http.get<any>('http://127.0.0.1:8000/social-media/get_sentiment_shift_')
-      .subscribe(response => {
-        const list_thresholds = response[0] as Thresholds[];
-      
-        
-    this.thresholds = list_thresholds
-    
+    this.settingsApiService.getSentimentShift().subscribe(response => {
+      const list_thresholds = response[0] as Thresholds[];
+      this.thresholds = list_thresholds
+    });
 
-  });
-  
-  
-}
- 
-
-
+  }
 }
