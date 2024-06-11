@@ -20,7 +20,7 @@ import { TagModule } from "primeng/tag";
 import { TooltipModule } from 'primeng/tooltip';
 
 import { DialogModule } from 'primeng/dialog';
-
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.component';
 import { SummaryCardComponent } from './components/summary-card/summary-card.component';
@@ -86,6 +86,7 @@ import { DashboardSentimentCardComponent } from './components/dashboard-sentimen
 import { DashboardSummaryCardComponent } from './components/dashboard-summary-card/dashboard-summary-card.component';
 import { DashboardActionablesComponent } from './components/dashboard-actionables/dashboard-actionables.component';
 import { DashboardResponsetimeComponent } from './components/dashboard-responsetime/dashboard-responsetime.component';
+import { FilteringComponent } from './components/filtering/filtering.component';
 
 @NgModule({
   declarations: [
@@ -132,9 +133,8 @@ import { DashboardResponsetimeComponent } from './components/dashboard-responset
     DashboardSentimentCardComponent,
     DashboardSummaryCardComponent,
     DashboardActionablesComponent,
-    DashboardResponsetimeComponent
-    
-   
+    DashboardResponsetimeComponent,
+    FilteringComponent,
   ],
   imports: [
     CommonModule,
@@ -170,6 +170,7 @@ import { DashboardResponsetimeComponent } from './components/dashboard-responset
     PaginatorModule,
     SkeletonModule,
     ProgressBarModule,
+    AutoCompleteModule,
   ],
   providers: [MessageService],
 })
