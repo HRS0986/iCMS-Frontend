@@ -6,7 +6,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 })
 export class UserChangePasswordService {
 
-  apiUrl = 'http://localhost:8000/changePassword';
+  apiUrl = 'http://43.205.91.82:8000/changePassword';
 
   constructor(private http: HttpClient) { }
 

@@ -30,6 +30,7 @@ import {InputSwitchModule} from "primeng/inputswitch";
 import {CheckboxModule} from "primeng/checkbox";
 import {InputGroupModule} from "primeng/inputgroup";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
+import {ToastModule} from "primeng/toast";
 
 
 @NgModule({
@@ -75,6 +76,7 @@ import {InputGroupAddonModule} from "primeng/inputgroupaddon";
     CheckboxModule,
     InputGroupModule,
     InputGroupAddonModule,
+    ToastModule,
   ]
 
 })

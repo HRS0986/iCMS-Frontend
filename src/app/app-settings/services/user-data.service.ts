@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class UserDataService{
 
-  apiUrl = 'http://localhost:8000/getAllUsers';
+  apiUrl = 'http://43.205.91.82:8000/getAllUsers';
   // getData() {
   //   return [
   //     {

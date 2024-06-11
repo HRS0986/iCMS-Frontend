@@ -23,11 +23,15 @@
     <div class="pt-5">
 <!--       for permission in  permissions create checkboxses-->
       <span class="pb-5">Permissions</span>
-      <div *ngFor="let permission of permissions" class="pt-2">
-        <p-checkbox [value]="permission" inputId="permission" [binary]="true" [(ngModel)]="permission.value"></p-checkbox>
-        <label> {{permission.name}}</label>
+      <div class="permissions-container">
+        <div *ngFor="let permission of permissions" class="permission-item pt-2">
+          <p-checkbox [value]="permission" inputId="permission" [binary]="true" [(ngModel)]="permission.value"></p-checkbox>
+          <label> {{permission.name}}</label>
+        </div>
       </div>
     </div>
+
+
 
     <div class="save-button mt-5">
       <p-button label="Save" class="saveButton" (click)="saveRole()"></p-button>
@@ -41,5 +45,6 @@
   </ng-template>
 
 </p-sidebar>
+<p-toast />
 
 <p-button  class="pe-3 addRole" icon="pi pi-pencil" (click)="sidebarVisible = true"></p-button>

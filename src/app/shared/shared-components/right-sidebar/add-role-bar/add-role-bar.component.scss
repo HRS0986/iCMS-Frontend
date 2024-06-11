@@ -7,5 +7,17 @@
       background-color: #000000;
       border: 1px solid #000000;
     }
+    .p-sidebar-right{
+      width:500px
+    }
+    .permissions-container {
+      padding-top:15px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .permission-item {
+      flex: 1 0 50%;  /* Will take up 50% of the container's width */
+    }
   }
 

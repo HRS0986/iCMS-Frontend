@@ -5,7 +5,7 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ProfileSettingsService {
-  private apiUrl = 'http://localhost:8000/uploadProfileImage';
+  private apiUrl = 'http://43.205.91.82:8000/uploadProfileImage';
   constructor( private http: HttpClient) { }
 
 

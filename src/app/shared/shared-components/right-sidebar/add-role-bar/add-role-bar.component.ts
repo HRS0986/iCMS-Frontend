@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, FormArray, Validators, FormControl} from '@angular/forms';
+import { FormGroup} from '@angular/forms';
 import {AddRoleService} from "../../../shared-services/add-role.service";
 import {AuthenticationService} from "../../../../auth/services/authentication.service";
-import {HttpHeaders} from "@angular/common/http";
+import { MessageService } from 'primeng/api';
+import {RoleRefreshService} from "../../../../app-settings/services/role-refresh.service";
+
 
 @Component({
   selector: 'app-add-role-bar',
@@ -35,7 +37,12 @@ export class AddRoleBarComponent implements OnInit {
   ];
   roleName: any;
 
-  constructor(private authService: AuthenticationService, private addRoleService: AddRoleService, private fb: FormBuilder) {
+  constructor(
+    private authService: AuthenticationService,
+    private addRoleService: AddRoleService,
+    private messageService: MessageService,
+    private roleRefreshService: RoleRefreshService,
+  ) {
 
 
   }
@@ -45,12 +52,17 @@ export class AddRoleBarComponent implements OnInit {
   }
 
   saveRole() {
-    this.authService.getIdToken().subscribe((token: any) => {
 
+    //after complting reload the page
+    this.authService.getIdToken().subscribe((token: any) => {
       this.addRoleService.addRole(this.roleName, this.permissions, token).subscribe((data: any) => {
         console.log(data);
+        // window.location.reload();
+        this.messageService.add({severity:'success', summary: 'Success', detail: 'Role Added Successfully'});
+        this.roleRefreshService.roleAdded.next();
       });
     });
+
   }
 
 

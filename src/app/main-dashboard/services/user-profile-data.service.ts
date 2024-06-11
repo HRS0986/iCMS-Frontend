@@ -6,7 +6,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 })
 export class UserProfileDataService {
 
-  apiUrl = 'http://localhost:8000/getUserProfileData';
+  apiUrl = 'http://43.205.91.82/getUserProfileData';
 
   constructor(private http: HttpClient) { }
 
