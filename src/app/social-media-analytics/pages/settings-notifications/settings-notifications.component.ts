@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MenuItem, MessageService } from 'primeng/api';
 import UserMessages from "../../../shared/user-messages";
 import { CheckboxChangeEvent } from 'primeng/checkbox';
+import { AlertType } from '../../models/settings';
 
 @Component({
   selector: 'settings-notifications',
