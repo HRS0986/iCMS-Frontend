@@ -115,12 +115,12 @@
                 <th style="width: 5%">
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th pSortableColumn="name" style="width: 55%">
+                <th pSortableColumn="name" style="width:58%">
                   AUTHORS
                   <p-sortIcon field="name"></p-sortIcon>
                 </th>
-                <th pSortableColumn="company" style="width: 15%">
-                  COMPANY
+                <th pSortableColumn="company" style="width:12%">
+                  DATE
                   <p-sortIcon field="company"></p-sortIcon>
                 </th>
                 <th pSortableColumn="sentiment_score" style="width: 15%">
@@ -136,58 +136,32 @@
                   <p-tableCheckbox></p-tableCheckbox>
                 </td>
                 <td>
-                  <div
-                    class="flex align-items-start justify-content-center gap-2"
-                  >
-                    <img class="tab-icon" [src]="item.img" alt="Icon" />
-                    <div
-                      class="flex-column align-items-start justify-content-center"
-                    >
-                      <span class="text-name">{{ item.name }}</span>
-                      <span class="text-discription">{{ item.comment }}</span>
+                  <div class="flex align-items-start justify-content-center gap-2">
+                    <!-- <img class="tab-icon" [src]="item.img" alt="Icon"> -->
+                    <div class="flex-column align-items-start justify-content-center">
+                      <span class="text-name">{{ item.description }}</span>
+                      <!-- <span class="text-discription">{{ item.description }}</span> -->
                     </div>
                   </div>
                 </td>
                 <td>
-                  <div
-                    class="flex-column align-items-start justify-content-center"
-                  >
-                    <span class="text-name">{{ item.company }}</span>
-                    <span class="text-discription">{{
-                      item.company_category
-                    }}</span>
+                  <div class="flex-column align-items-start justify-content-center">
+                    <!-- <span class="text-name">{{ item.date }}</span> -->
+                    <span class="text-discription">{{ item.date }}</span>
                   </div>
                 </td>
                 <td>
-                  <span class="text-discription"
-                    >{{ item.sentiment_score }} %</span
-                  >
-                  <progress-bar
-                    [value]="0"
-                    [bufferValue]="item.sentiment_score"
-                    [color]="item.color"
-                  ></progress-bar>
+                  <span class="text-discription">{{ item.s_score }} %</span>
+                  <progress-bar [value]="0" [bufferValue]="item.s_score" [color]="item.color"></progress-bar>
                 </td>
                 <td>
-                  <div
-                    class="flex align-items-center justify-content-center gap-2"
-                  >
-                    <button
-                      pButton
-                      pRipple
-                      type="button"
-                      icon="pi pi-pencil"
-                      (click)="onRowEdit(item)"
-                      class="p-button-text p-button-Primary"
-                    ></button>
-                    <button
-                      pButton
-                      pRipple
-                      type="button"
-                      icon="pi pi-window-maximize"
-                      (click)="onRowOpen(item)"
-                      class="p-button-text p-button-help"
-                    ></button>
+                  <div class="flex align-items-center justify-content-center gap-2">
+                    <button pButton pRipple type="button" icon="pi pi-pencil" (click)="onRowEdit(item)"
+                      class="p-button-text p-button-Primary"></button>
+                    <a *ngIf="item.comment_url" [href]="item.comment_url" target="_blank">
+                      <button pButton pRipple type="button" icon="pi pi-window-maximize" (click)="onRowOpen(item)"
+                        class="p-button-text p-button-help"></button>
+                    </a>
                   </div>
                 </td>
               </tr>
