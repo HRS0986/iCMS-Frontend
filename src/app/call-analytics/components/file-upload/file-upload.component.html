@@ -34,3 +34,16 @@
     </p-fileUpload>
   </div>
 </div>
+
+<p-dialog header="Upload Success" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+  <p>
+    Your calls have been added for analyze. This process will tak some time. When analysis completed you will be notified.
+  </p>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Ok"
+      [text]="true"
+      severity="secondary"
+      (click)="visible = false" />
+  </ng-template>
+</p-dialog>
