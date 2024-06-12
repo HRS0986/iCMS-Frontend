@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {apiEndpoint} from "../../app-settings/config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserChangePasswordService {
 
-  apiUrl = 'http://43.205.91.82:8000/changePassword';
+  apiUrl = `${apiEndpoint}/changePassword`;
 
   constructor(private http: HttpClient) { }
 

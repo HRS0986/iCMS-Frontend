@@ -19,5 +19,8 @@
     .permission-item {
       flex: 1 0 50%;  /* Will take up 50% of the container's width */
     }
+    p-multiselect div:first-child {
+      max-width: 450px;
+    }
   }
 

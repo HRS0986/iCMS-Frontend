@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {apiEndpoint} from "../../app-settings/config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserProfileDataService {
 
-  apiUrl = 'http://43.205.91.82/getUserProfileData';
+  apiUrl = `${apiEndpoint}`;
 
   constructor(private http: HttpClient) { }
 
@@ -15,9 +16,10 @@ export class UserProfileDataService {
     let headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
     });
-    return this.http.get<any>(this.apiUrl, {headers});
+    return this.http.get<any>(this.apiUrl+'/getUserProfileData', {headers});
 
   }
+
 
 
 

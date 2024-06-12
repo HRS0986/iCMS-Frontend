@@ -4,6 +4,7 @@ import {AddRoleService} from "../../../shared-services/add-role.service";
 import {AuthenticationService} from "../../../../auth/services/authentication.service";
 import { MessageService } from 'primeng/api';
 import {RoleRefreshService} from "../../../../app-settings/services/role-refresh.service";
+import {UserDataService} from "../../../../app-settings/services/user-data.service";
 
 
 @Component({
@@ -37,11 +38,16 @@ export class AddRoleBarComponent implements OnInit {
   ];
   roleName: any;
 
+  users!: {user_name:string}[];
+  selectedUsers!: {user_name:string}[];
+
+
   constructor(
     private authService: AuthenticationService,
     private addRoleService: AddRoleService,
     private messageService: MessageService,
     private roleRefreshService: RoleRefreshService,
+    private userDataService: UserDataService
   ) {
 
 
@@ -55,7 +61,7 @@ export class AddRoleBarComponent implements OnInit {
 
     //after complting reload the page
     this.authService.getIdToken().subscribe((token: any) => {
-      this.addRoleService.addRole(this.roleName, this.permissions, token).subscribe((data: any) => {
+      this.addRoleService.addRole(this.roleName, this.permissions, this.selectedUsers, token).subscribe((data: any) => {
         console.log(data);
         // window.location.reload();
         this.messageService.add({severity:'success', summary: 'Success', detail: 'Role Added Successfully'});
@@ -66,4 +72,13 @@ export class AddRoleBarComponent implements OnInit {
   }
 
 
+  getUsers() {
+    this.authService.getIdToken().subscribe((token: any) => {
+      this.userDataService.getUsersNames(token).subscribe((data: any) => {
+        this.users = data;
+        console.log(this.users)
+      });
+    });
+
+  }
 }

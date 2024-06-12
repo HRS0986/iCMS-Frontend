@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {apiEndpoint} from "../config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDataService{
 
-  apiUrl = 'http://43.205.91.82:8000/getAllUsers';
+  apiUrl = `${apiEndpoint}`;
   // getData() {
   //   return [
   //     {
@@ -83,8 +84,16 @@ export class UserDataService{
     let headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
         });
-    return this.http.get<any>(this.apiUrl, {headers});
+    return this.http.get<any>(this.apiUrl+'/getAllUsers', {headers});
 
+  }
+
+  getUsersNames(token: string) {
+    // console.log(token);
+    let headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+    return this.http.get<any>(this.apiUrl+'/getAllUsersNames', {headers});
   }
 
 }

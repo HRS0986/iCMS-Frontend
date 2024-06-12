@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {apiEndpoint} from "../config";
 
 
 @Injectable({
@@ -8,7 +9,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 
 export class RoleSettingsService {
 
-  apiUrl = 'http://43.205.91.82:8000/UserGroups';
+  apiUrl = `${apiEndpoint}/UserGroups`;
 
   constructor(private http: HttpClient ) { }
 
