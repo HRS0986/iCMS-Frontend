@@ -4,6 +4,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import UserMessages from "../../../shared/user-messages";
 import { CheckboxChangeEvent } from 'primeng/checkbox';
 import { AlertType } from '../../models/settings';
+import { SettingsApiService } from '../../services/settings-api.service';
 
 @Component({
   selector: 'settings-notifications',
@@ -13,6 +14,8 @@ import { AlertType } from '../../models/settings';
 
 export class SettingsNotificationsComponent implements OnInit {
 
+  constructor(private settingsApiService: SettingsApiService, private fb: FormBuilder, private messageService: MessageService) { }
+
   socialMediaPlatforms: any[] | undefined;
   selectedPlatform: string | undefined;
   values: string[] | undefined;
@@ -21,34 +24,37 @@ export class SettingsNotificationsComponent implements OnInit {
     { name: 'Email Notification' },
     { name: 'App Notification' }
   ];
-  notificationsSettingsForm = this.fb.group({
-    keywords: [],
-    emails: [],
-    bellowScore: 0,
-    aboveScore: 0,
-    aboveNotify: false,
-    bellowNotify: false,
-    checked: [true],
+  notificationsSettingsFormSentiment = this.fb.group({
+    platform: [''],
+    bellowScore: [0],
+    aboveScore: [0],
+    aboveNotify: [false],
+    bellowNotify: [false],
+    alertType: ['']
   });
-  constructor(private fb: FormBuilder, private messageService: MessageService) {}
+  notificationsSettingsFormKeywordAlert = this.fb.group({
+    
+  });
+  notificationsSettingsFormChannelConfig = this.fb.group({
+      
+  }); 
 
   selectedAlertType: AlertType | undefined;
+
   ngOnInit() {
-    let belowAlertsEnabled =
-      this.notificationsSettingsForm.get('bellowNotify')?.value;
-    let aboveAlertsEnabled =
-      this.notificationsSettingsForm.get('aboveNotify')?.value;
+    let belowAlertsEnabled = this.notificationsSettingsFormKeywordAlert.get('bellowNotify')?.value;
+    let aboveAlertsEnabled = this.notificationsSettingsFormKeywordAlert.get('aboveNotify')?.value;
 
     if (!belowAlertsEnabled) {
-      this.notificationsSettingsForm.get('bellowScore')?.disable();
+      this.notificationsSettingsFormKeywordAlert.get('bellowScore')?.disable();
     } else {
-      this.notificationsSettingsForm.get('bellowScore')?.enable();
+      this.notificationsSettingsFormKeywordAlert.get('bellowScore')?.enable();
     }
 
     if (!aboveAlertsEnabled) {
-      this.notificationsSettingsForm.get('aboveScore')?.disable();
+      this.notificationsSettingsFormKeywordAlert.get('aboveScore')?.disable();
     } else {
-      this.notificationsSettingsForm.get('aboveScore')?.enable();
+      this.notificationsSettingsFormKeywordAlert.get('aboveScore')?.enable();
     }
 
     this.socialMediaPlatforms = [
@@ -59,28 +65,43 @@ export class SettingsNotificationsComponent implements OnInit {
   }
 
   onChangeBelowScore(event: CheckboxChangeEvent) {
-    console.log(event.checked); 
-    let belowAlertsEnabled = event.checked.length !== 0;
+    let belowAlertsEnabled = event.checked;
     if (belowAlertsEnabled) {
-      this.notificationsSettingsForm.get('bellowScore')?.enable();
+      this.notificationsSettingsFormKeywordAlert.get('bellowScore')?.enable();
     } else {
-      this.notificationsSettingsForm.get('bellowScore')?.disable();
+      this.notificationsSettingsFormKeywordAlert.get('bellowScore')?.disable();
     }
   }
-  
+
   onChangeAboveScore(event: CheckboxChangeEvent) {
-    let aboveAlertsEnabled = event.checked.length !== 0;
+    let aboveAlertsEnabled = event.checked;
     if (aboveAlertsEnabled) {
-      this.notificationsSettingsForm.get('aboveScore')?.enable();
+      this.notificationsSettingsFormKeywordAlert.get('aboveScore')?.enable();
     } else {
-      this.notificationsSettingsForm.get('aboveScore')?.disable();
+      this.notificationsSettingsFormKeywordAlert.get('aboveScore')?.disable();
     }
   }
-  onSubmit(): void {
-    console.log(this.notificationsSettingsForm.value);
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: UserMessages.SAVED_SUCCESS })
-    console.log(this.notificationsSettingsForm.value);
+
+  onSubmitsentimentshigtcongif(): void {
+    if (this.notificationsSettingsFormKeywordAlert.valid) {
+      this.settingsApiService.setSentimentShift(this.notificationsSettingsFormKeywordAlert.value).subscribe(
+        (response) => {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: UserMessages.SAVED_SUCCESS });
+          console.log(response);
+        },
+        (error) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: UserMessages.SAVED_FAILURE });
+          console.error(error);
+        }
+      );
+    }
+  }
+
+  onSubmitKeywordConfig(): void {
+    // Placeholder for additional submit logic
+  }
+
+  onSubmitChannelConfig(): void {
+    // Placeholder for additional submit logic
   }
 }
-
-

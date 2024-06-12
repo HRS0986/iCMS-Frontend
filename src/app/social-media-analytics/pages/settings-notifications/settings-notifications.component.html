@@ -3,7 +3,10 @@
     <div class="panel-wrapper mb-5">
       <p-panel>
         <h3>Sentiment Shift Alert Configuration</h3>
-        <form [formGroup]="notificationsSettingsForm" (ngSubmit)="onSubmit()">
+        <form
+          [formGroup]="notificationsSettingsFormSentiment"
+          (ngSubmit)="onSubmitsentimentshigtcongif()"
+        >
           <div class="input-sections">
             <div class="inputsection">
               <div class="tag">Platform:</div>
@@ -103,91 +106,101 @@
     <div class="panel-wrapper mb-5">
       <p-panel>
         <h3>Keyword Alert Configeraton</h3>
-        <div class="mid-section">
-          <div class="input-sections">
-            <div class="inputsection">
-              <div class="tag">Platform:</div>
-              <div class="full-width-dropdown">
-                <p-dropdown
-                  [options]="socialMediaPlatforms"
-                  [(ngModel)]="selectedPlatform"
-                  optionLabel="name"
-                  [showClear]="true"
-                  placeholder="Select a Platform"
-                ></p-dropdown>
+        <form
+          [formGroup]="notificationsSettingsFormKeywordAlert"
+          (ngSubmit)="onSubmitKeywordConfig()"
+        >
+          <div class="mid-section">
+            <div class="input-sections">
+              <div class="inputsection">
+                <div class="tag">Platform:</div>
+                <div class="full-width-dropdown">
+                  <p-dropdown
+                    [options]="socialMediaPlatforms"
+                    [(ngModel)]="selectedPlatform"
+                    optionLabel="name"
+                    [showClear]="true"
+                    placeholder="Select a Platform"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="inputsection">
+                <div class="tag">Keywords:</div>
+                <div class="full-width">
+                  <div class="card p-fluid">
+                    <p-chips [(ngModel)]="values"></p-chips>
+                  </div>
+                </div>
+              </div>
+              <div class="inputsection">
+                <div class="tag">Alert Type:</div>
+                <div class="full-width-dropdown">
+                  <p-dropdown
+                    [options]="alertTypes"
+                    [(ngModel)]="selectedAlertType"
+                    optionLabel="name"
+                    [showClear]="true"
+                    placeholder="Select an Alert Type"
+                  ></p-dropdown>
+                </div>
               </div>
             </div>
-            <div class="inputsection">
-              <div class="tag">Keywords:</div>
+            <div class="flex justify-end mt-20">
+              <button
+                pButton
+                pRipple
+                label="Set Threshold"
+                class="p-button-primary"
+                type="submit"
+              ></button>
+            </div>
+          </div>
+        </form>
+      </p-panel>
+    </div>
+    <div class="panel-wrapper mb-5">
+      <p-panel>
+        <h3>Notification Channels Configeration</h3>
+        <form
+          [formGroup]="notificationsSettingsFormChannelConfig"
+          (ngSubmit)="onSubmitChannelConfig()"
+        >
+          <div class="latter-section">
+            <div class="latter-section-top">
+              <div class="sec left">
+                <div class="tag">Dashboard Notifications</div>
+                <div class="switch">
+                  <p-inputSwitch></p-inputSwitch>
+                </div>
+              </div>
+              <div class="sec left">
+                <div class="tag">Email Notifications</div>
+                <div class="switch">
+                  <p-inputSwitch></p-inputSwitch>
+                </div>
+              </div>
+            </div>
+            <div class="latter-inputsection">
+              <div class="latter-tag" style="margin: 2rem 0 2rem 0">
+                Emails to send Notifications to
+              </div>
               <div class="full-width">
                 <div class="card p-fluid">
                   <p-chips [(ngModel)]="values"></p-chips>
                 </div>
               </div>
             </div>
-            <div class="inputsection">
-              <div class="tag">Alert Type:</div>
-              <div class="full-width-dropdown">
-                <p-dropdown
-                  [options]="alertTypes"
-                  [(ngModel)]="selectedAlertType"
-                  optionLabel="name"
-                  [showClear]="true"
-                  placeholder="Select an Alert Type"
-                ></p-dropdown>
-              </div>
+            <div class="flex justify-end mt-20">
+              <button
+                pButton
+                pRipple
+                label="Set Threshold"
+                class="p-button-primary"
+                type="submit"
+              ></button>
             </div>
           </div>
-          <div class="flex justify-end mt-20">
-            <button
-              pButton
-              pRipple
-              label="Set Threshold"
-              class="p-button-primary"
-              type="submit"
-            ></button>
-          </div>
-        </div>
-      </p-panel>
-    </div>
-    <div class="panel-wrapper mb-5">
-      <p-panel>
-        <h3>Notification Channels Configeration</h3>
-        <div class="latter-section">
-          <div class="latter-section-top">
-            <div class="sec left">
-              <div class="tag">Dashboard Notifications</div>
-              <div class="switch">
-                <p-inputSwitch></p-inputSwitch>
-              </div>
-            </div>
-            <div class="sec left">
-              <div class="tag">Email Notifications</div>
-              <div class="switch">
-                <p-inputSwitch></p-inputSwitch>
-              </div>
-            </div>
-          </div>
-          <div class="latter-inputsection">
-            <div class="latter-tag" style="margin: 2rem 0 2rem 0">
-              Emails to send Notifications to
-            </div>
-            <div class="full-width">
-              <div class="card p-fluid">
-                <p-chips [(ngModel)]="values"></p-chips>
-              </div>
-            </div>
-          </div>
-          <div class="flex justify-end mt-20">
-            <button
-              pButton
-              pRipple
-              label="Set Threshold"
-              class="p-button-primary"
-              type="submit"
-            ></button>
-          </div>
-        </div>
+        </form>
       </p-panel>
     </div>
   </div>

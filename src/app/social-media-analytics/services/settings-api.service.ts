@@ -26,4 +26,15 @@ export class SettingsApiService {
     return this.http.get<any>(`${this.apiUrl}/sentiment_shifts`);
   }
 
+  setSentimentShift(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/sentiment_shifts`, data);
+  }
+  setKeywordAlerts(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/keyword_alerts`, data);
+  }
+  setCampaigns(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/set_campaign_details`, data);
+  }
+  
+
 }
