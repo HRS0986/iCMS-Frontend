@@ -1,4 +1,4 @@
-<div class="my-container flex flex-col h-auto md:bg-blue-300">
+<div class="my-container flex flex-col h-auto">
   <div class="my-child-1 flex-none">
     <app-page-header
       pageTitle="Email Analytics Dashboard"
@@ -10,60 +10,57 @@
       [maxDate]="maxDate"
     />
   </div>
-  <div class="my-child-2 flex-grow min-h-[900px] grid grid-cols-2 gap-5 md:grid-cols-3 md:grid-rows-4 md:min-h-[600px]">
+  <div
+    class="my-child-2 flex-grow min-h-[900px] grid grid-cols-2 gap-5 md:grid-cols-3 md:grid-rows-4 md:min-h-[600px]"
+  >
     <div
-      class="bg-purple-500 col-span-2 row-span-2 md:col-span-1 md:row-span-2 flex flex-col items-center justify-center overflow-hidden"
+      class="flex flex-col col-span-2 min-h-72 md:min-h-48 items-center overflow-hidden relative"
     >
-      <span class="text-5xl">1</span>
-      <span class="text-3xl">summary</span>
+      <!-- <span class="text-5xl">1</span>
+      <span class="text-3xl">summary</span> -->
+      <app-dashboard-summary-card></app-dashboard-summary-card>
       <!-- The most important overall KPI  -->
     </div>
-    <div class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative">
-      <!-- <span class="text-5xl">2</span>
-      <span class="text-3xl">issues</span> -->
-      <app-dashboard-issue-card></app-dashboard-issue-card>
-    </div>
-    <div class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative">
-      <!-- <span class="text-5xl">3</span>
-      <span class="text-3xl">inquiries</span> -->
-      <app-dashboard-inquiry-card></app-dashboard-inquiry-card>
-    </div>
-    <div class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative">
-      <!-- <span class="text-5xl">4</span>
-      <span class="text-3xl">suggestions</span> -->
-      <app-dashboard-suggestion-card></app-dashboard-suggestion-card>
-    </div>
-
-    <div class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative">
+    <div
+      class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
+    >
       <!-- <span class="text-5xl">5</span>
       <span class="text-3xl">sentiment score</span> -->
       <app-dashboard-sentiment-card></app-dashboard-sentiment-card>
     </div>
     <div
-      class="bg-green-400 col-span-2 row-span-2 md:col-span-2 md:row-span-2 flex flex-col items-center justify-center overflow-hidden"
+      class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
     >
-      <span class="text-5xl">6</span>
-      <span class="text-3xl">email volume metrics</span>
+      <!-- <span class="text-5xl">2</span>
+      <span class="text-3xl">issues</span> -->
+      <app-dashboard-issue-card></app-dashboard-issue-card>
     </div>
     <div
-      class="bg-teal-500 col-span-2 row-span-2 md:col-span-1 md:row-span-2 flex flex-col items-center justify-center overflow-hidden"
+      class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
     >
-      <span class="text-5xl">7</span>
-      <span class="text-3xl">actionable insights</span>
-      <!-- actionable insights: followups, overdues, recommendations (LLM) -->
+      <!-- <span class="text-5xl">3</span>
+      <span class="text-3xl">inquiries</span> -->
+      <app-dashboard-inquiry-card></app-dashboard-inquiry-card>
+    </div>
+    <div
+      class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
+    >
+      <!-- <span class="text-5xl">4</span>
+      <span class="text-3xl">suggestions</span> -->
+      <app-dashboard-suggestion-card></app-dashboard-suggestion-card>
+    </div>
 
-      <!-- Dashboard is over -->
-      <!-- </div>
-    <div class="bg-yellow-400 h-40 flex items-center justify-center">
-      <span class="text-5xl">8</span>
+    <div
+      class="min-h-72 col-span-2 row-span-2 md:col-span-2 md:row-span-2 flex flex-col items-center overflow-hidden relative"
+    >
+      <app-dashboard-responsetime></app-dashboard-responsetime>
     </div>
-  
-    <div class="bg-red-500 h-40 col-span-2 flex items-center justify-center">
-      <span class="text-5xl">8</span>
-    </div>
-    <div class="bg-pink-500 h-40 flex items-center justify-center">
-      <span class="text-5xl">9</span>
-    </div> -->
+    <div
+      class="min-h-72 col-span-2 row-span-2 md:col-span-1 md:row-span-2 flex flex-col items-center overflow-hidden relative"
+    >
+      <!-- <span class="text-5xl">7</span>
+      <span class="text-3xl">actionable insights</span> -->
+      <app-dashboard-actionables></app-dashboard-actionables>
     </div>
   </div>
 </div>
