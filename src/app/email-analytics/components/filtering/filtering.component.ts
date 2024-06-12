@@ -84,4 +84,8 @@ export class FilteringComponent {
     this.newOnly = false;
     this.otherText = '';
   }
+  cancelFilters() {
+    this.clearFilters();
+    this.applyFilters();
+  }
 }

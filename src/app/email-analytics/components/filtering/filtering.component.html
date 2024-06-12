@@ -143,21 +143,36 @@
         />
       </div>
 
-      <div class="grow col-span-2 min-w-40 min-h-10 flex gap-3 justify-end">
-        <p-button
-          label="Apply"
-          [outlined]="false"
-          [rounded]="true"
-          severity="primary"
-          (click)="applyFilters()"
-        />
-        <p-button
-          label="Clear"
-          [outlined]="true"
-          [rounded]="true"
-          severity="secondary"
-          (click)="clearFilters()"
-        />
+      <div class="grow col-span-2 min-w-40 min-h-10 flex flex-wrap gap-2 justify-end">
+        <div class="grow">
+          <p-button
+            label="Cancel"
+            [outlined]="false"
+            [rounded]="true"
+            severity="danger"
+            (click)="cancelFilters()"
+            size="small"
+          />
+        </div>
+        <div class="flex gap-2">
+          <p-button
+            label="Clear"
+            [outlined]="true"
+            [rounded]="true"
+            severity="secondary"
+            (click)="clearFilters()"
+            size="small"
+          />
+          <p-button
+            label="Apply"
+            [outlined]="false"
+            [rounded]="true"
+            severity="primary"
+            (click)="applyFilters()"
+            size="small"
+          />
+
+        </div>
       </div>
     </div>
   </ng-template>
