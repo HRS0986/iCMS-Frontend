@@ -1,4 +1,3 @@
-<!-- TODO: handle the overflow -->
 <p-panel class="flex flex-col mb-4" [toggleable]="true" toggler="header">
   <ng-template pTemplate="header">
     <div class="flex align-items-center gap-2">
@@ -6,7 +5,7 @@
     </div>
   </ng-template>
   <ng-template pTemplate="content">
-    <div class="my-container grid grid-cols-1 md:grid-cols-2 justify-stretch gap-4">
+    <div class="my-container flex flex-wrap md:grid md:grid-cols-2 justify-stretch gap-4">
       <div class="min-w-40 min-h-10 grow">
         <div class="mb-2">Search</div>
         <div class="w-full ">
@@ -29,12 +28,15 @@
             [showButtonBar]="true"
             styleClass="w-full"
             aria-placeholder="overall"
+            (onShow)="calculateDates()"
+            [maxDate] = "currentDate"
+            [minDate] = "lastDate"
           ></p-calendar>
         </div>
       </div>
       <div class="min-w-40 min-h-10 grow">
         <div class="mb-2">Sender</div>
-        <div class="w-full ">
+        <div class="w-full">
           <span class="p-fluid">
             <p-autoComplete
               [(ngModel)]="selectedItemsSender"
@@ -44,7 +46,7 @@
               [virtualScrollItemSize]="34"
               [dropdown]="true"
               [multiple]="true"
-              class="w-full"
+              class=" flex-wrap"
             />
           </span>
         </div>

@@ -27,6 +27,10 @@ export class FilteringComponent {
   importantOnly: boolean = false;
   newOnly: boolean = false;
 
+  currentDate!: Date;
+  lastDate!: Date;  // last date that can be selected in the date picker
+  goBackDays: number = 30 // how many days back can the user select in date picker
+
   searchSender(event: AutoCompleteCompleteEvent) {
     this.itemsSender = ['a', 'b', 'c', 'd', 'e'].map((item) => event.query + '-' + item);
   }
@@ -48,4 +52,10 @@ export class FilteringComponent {
   clickNew() {
     this.newOnly = !this.newOnly;
   }
+  calculateDates() {
+    this.currentDate = new Date();
+    let tmp = new Date();
+    tmp.setTime(tmp.getTime() - ((24*60*60*1000) * this.goBackDays))   // handling the date substraction
+    this.lastDate = new Date(tmp);
+  } 
 }
