@@ -17,6 +17,8 @@ export class FilteringComponent {
   selectedItemsTags: any[] | undefined;
   selectedItemsStatus: any[] | undefined;
   selectedDate: Date[] | undefined;
+  searchText: string = '';
+  otherText: string = '';
 
   itemsSender!: any[];
   itemsReceiver!: any[];
@@ -58,4 +60,28 @@ export class FilteringComponent {
     tmp.setTime(tmp.getTime() - ((24*60*60*1000) * this.goBackDays))   // handling the date substraction
     this.lastDate = new Date(tmp);
   } 
+  applyFilters() {
+    console.log('Sender:', this.selectedItemsSender);
+    console.log('Receiver:', this.selectedItemsReceiver);
+    console.log('Tags:', this.selectedItemsTags);
+    console.log('Req all tags:', this.reqAllTags)
+    console.log('Status:', this.selectedItemsStatus);
+    console.log('Date:', this.selectedDate);
+    console.log('Important:', this.importantOnly);
+    console.log('New:', this.newOnly);
+    console.log('Search:', this.searchText);
+    console.log('Other:', this.otherText);
+  }
+  clearFilters() {
+    this.searchText = '';
+    this.selectedItemsSender = [];
+    this.selectedItemsReceiver = [];
+    this.selectedItemsTags = [];
+    this.reqAllTags = false;
+    this.selectedItemsStatus = [];
+    this.selectedDate = [];
+    this.importantOnly = false;
+    this.newOnly = false;
+    this.otherText = '';
+  }
 }
