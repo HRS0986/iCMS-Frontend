@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MenuItem, MessageService } from 'primeng/api';
-import UserMessages from "../../../shared/user-messages";
-import { CheckboxChangeEvent } from 'primeng/checkbox';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { AlertType } from '../../models/settings';
 import { SettingsApiService } from '../../services/settings-api.service';
 
@@ -14,8 +12,6 @@ import { SettingsApiService } from '../../services/settings-api.service';
 
 export class SettingsNotificationsComponent implements OnInit {
 
-  constructor(private settingsApiService: SettingsApiService, private fb: FormBuilder, private messageService: MessageService) { }
-
   socialMediaPlatforms: any[] | undefined;
   selectedPlatform: string | undefined;
   values: string[] | undefined;
@@ -24,84 +20,86 @@ export class SettingsNotificationsComponent implements OnInit {
     { name: 'Email Notification' },
     { name: 'App Notification' }
   ];
-  notificationsSettingsFormSentiment = this.fb.group({
-    platform: [''],
-    bellowScore: [0],
-    aboveScore: [0],
-    aboveNotify: [false],
-    bellowNotify: [false],
-    alertType: ['']
-  });
-  notificationsSettingsFormKeywordAlert = this.fb.group({
-    
-  });
-  notificationsSettingsFormChannelConfig = this.fb.group({
-      
-  }); 
 
+  notificationsSettingsFormSentiment: FormGroup;
+  notificationsSettingsFormKeywordAlert: FormGroup;
+  notificationsSettingsFormChannelConfig: FormGroup;
   selectedAlertType: AlertType | undefined;
 
+  constructor(
+    private settingsApiService: SettingsApiService,
+    private fb: FormBuilder,
+    private messageService: MessageService
+  ) { 
+    this.notificationsSettingsFormSentiment = this.fb.group({
+      platform: ['', Validators.required],
+      bellowScore: [{ value: 0, disabled: true }, [Validators.min(-10), Validators.max(10)]],
+      aboveScore: [{ value: 0, disabled: true }, [Validators.min(-10), Validators.max(10)]],
+      aboveNotify: [false],
+      bellowNotify: [false],
+      alertType: ['', Validators.required]
+    });
+
+    this.notificationsSettingsFormKeywordAlert = this.fb.group({
+      platform: ['', Validators.required],
+      keywords: [[]],
+      alertType: ['', Validators.required]
+    });
+
+    this.notificationsSettingsFormChannelConfig = this.fb.group({
+      dashboardNotifications: [false],
+      emailNotifications: [false],
+      notificationEmails: [[]]
+    });
+  }
+
   ngOnInit() {
-    let belowAlertsEnabled = this.notificationsSettingsFormKeywordAlert.get('bellowNotify')?.value;
-    let aboveAlertsEnabled = this.notificationsSettingsFormKeywordAlert.get('aboveNotify')?.value;
-
-    if (!belowAlertsEnabled) {
-      this.notificationsSettingsFormKeywordAlert.get('bellowScore')?.disable();
-    } else {
-      this.notificationsSettingsFormKeywordAlert.get('bellowScore')?.enable();
-    }
-
-    if (!aboveAlertsEnabled) {
-      this.notificationsSettingsFormKeywordAlert.get('aboveScore')?.disable();
-    } else {
-      this.notificationsSettingsFormKeywordAlert.get('aboveScore')?.enable();
-    }
-
     this.socialMediaPlatforms = [
       { name: 'Instagram' },
       { name: 'Facebook' },
       { name: 'Twitter' }
     ];
-  }
 
-  onChangeBelowScore(event: CheckboxChangeEvent) {
-    let belowAlertsEnabled = event.checked;
-    if (belowAlertsEnabled) {
-      this.notificationsSettingsFormKeywordAlert.get('bellowScore')?.enable();
-    } else {
-      this.notificationsSettingsFormKeywordAlert.get('bellowScore')?.disable();
-    }
-  }
+    this.notificationsSettingsFormSentiment.get('aboveNotify')?.valueChanges.subscribe(checked => {
+      if (checked) {
+        this.notificationsSettingsFormSentiment.get('aboveScore')?.enable();
+      } else {
+        this.notificationsSettingsFormSentiment.get('aboveScore')?.disable();
+      }
+    });
 
-  onChangeAboveScore(event: CheckboxChangeEvent) {
-    let aboveAlertsEnabled = event.checked;
-    if (aboveAlertsEnabled) {
-      this.notificationsSettingsFormKeywordAlert.get('aboveScore')?.enable();
-    } else {
-      this.notificationsSettingsFormKeywordAlert.get('aboveScore')?.disable();
-    }
+    this.notificationsSettingsFormSentiment.get('bellowNotify')?.valueChanges.subscribe(checked => {
+      if (checked) {
+        this.notificationsSettingsFormSentiment.get('bellowScore')?.enable();
+      } else {
+        this.notificationsSettingsFormSentiment.get('bellowScore')?.disable();
+      }
+    });
   }
 
   onSubmitsentimentshigtcongif(): void {
-    if (this.notificationsSettingsFormKeywordAlert.valid) {
-      this.settingsApiService.setSentimentShift(this.notificationsSettingsFormKeywordAlert.value).subscribe(
-        (response) => {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: UserMessages.SAVED_SUCCESS });
-          console.log(response);
+    console.log("onSubmitsentimentshigtcongif");
+    console.log(this.notificationsSettingsFormSentiment.value);
+    if (this.notificationsSettingsFormSentiment.valid) {
+      const formData = this.notificationsSettingsFormSentiment.value;
+      this.settingsApiService.setSentimentShift(formData).subscribe(
+        response => {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Sentiment shift settings saved successfully!' });
         },
-        (error) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: UserMessages.SAVED_FAILURE });
-          console.error(error);
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to save sentiment shift settings.' });
         }
       );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'Please fill out the form correctly.' });
     }
   }
 
   onSubmitKeywordConfig(): void {
-    // Placeholder for additional submit logic
+    // Implement keyword alert configuration submission logic here
   }
 
   onSubmitChannelConfig(): void {
-    // Placeholder for additional submit logic
+    // Implement channel configuration submission logic here
   }
 }
