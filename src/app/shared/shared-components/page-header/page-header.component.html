@@ -12,15 +12,25 @@
   </div>
 
   <div class="w-fit ms-auto pe-5 pt-1" *ngIf="showDatePicker"> <!--need to give default data range-->
-    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" 
+    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
     [showIcon]="true" class="z-10" (ngModelChange)="onRangeDateChange($event)"
-    [minDate]="minDate" 
+    [minDate]="minDate"
     [maxDate]="maxDate"></p-calendar>
   </div>
 
   <div class="w-fit">
-    <app-right-sidebar [showAddMemberButton]="showAddMemberButton" [showAddWidgetButton]="showAddWidgetButton"></app-right-sidebar>
+    <app-right-sidebar [showAddMemberButton]="showAddMemberButton" [showAddWidgetButton]="showAddWidgetButton" [showAddRoleButton]="showAddRoleButton"></app-right-sidebar>
   </div>
+
+  <!-- <ng-container ngIf="showAddMemberButton">
+    <app-right-sidebar [showAddMemberButton]="showAddMemberButton"></app-right-sidebar>
+  </ng-container>
+
+  <ng-container ngIf="showAddRoleButton">
+    <app-right-sidebar [showAddRoleButton]="showAddRoleButton"></app-right-sidebar>
+  </ng-container> -->
+
+  
 
 </div>
 <p-divider></p-divider>

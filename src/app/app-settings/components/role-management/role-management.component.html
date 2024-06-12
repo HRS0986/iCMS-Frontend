@@ -2,30 +2,31 @@
     pageTitle="Role Management"
     class="w-full h-fit"
     [breadcrumbItems]="breadcrumbItems"
+    [showAddRoleButton]="true"
 />
 <div>
     <p-table
         #dt1
         [value]="roles"
-        selectionMode="single"
-        dataKey="id"
         [tableStyle]="{'min-width': '50rem'}"
         [rows]="10"
         [paginator]="true"
-        stateStorage="session"
-        stateKey="statedemo-session"
-        [globalFilterFields]="['id', 'name', 'status', 'roles']"
+        [globalFilterFields]="['group_name']"
+        [(selection)] = "selectedRoles"
+        dataKey="group_name"
+
     >
         <ng-template pTemplate="caption">
             <div class="flex">
-                <button
-                    pButton
-                    label="Clear"
-                    class="p-button-outlined"
-                    icon="pi pi-filter-slash"
-                    (click)="clear(dt1)"
-                ></button>
-                <span class="p-input-icon-left ml-auto">
+<!--                <button-->
+<!--                    pButton-->
+<!--                    label="Clear"-->
+<!--                    class="p-button-outlined"-->
+<!--                    icon="pi pi-filter-slash"-->
+<!--                    (click)="clear(dt1)"-->
+<!--                ></button>-->
+
+                <span class="p-input-icon-left mr-auto">
                     <i class="pi pi-search"></i>
                     <input
                         pInputText
@@ -34,31 +35,45 @@
                         placeholder="Search keyword"
                     />
                 </span>
+
+              <p-splitButton
+                label="Action"
+                class="pr-auto action-button pr-2"
+                [model]="actions"
+                (onClick)="console.log('info')"
+              />
             </div>
         </ng-template>
         <ng-template pTemplate="header">
+
             <tr>
+<!--                <th style="width: 8rem; padding-left:2rem"><p-tableHeaderCheckbox /></th>-->
+                <th style="width: 4rem"></th>
+
                 <th>
                     <span class="p-column-title">Role Name</span>
                 </th>
                 <th>
-                    <span class="p-column-title">Action</span>
+                    <span class="p-column-title">Number of users</span>
                 </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-role>
-            <tr [pSelectableRow]="role">
-                <td >
-                    <span class="p-column-title ">Id</span>
-                    {{role.name}}
+            <tr>
+                <td>
+                        <p-tableRadioButton [value]="role" />
+                </td>
+<!--                <td>-->
+<!--                        <p-tableCheckbox [value]="role" />-->
+<!--                </td>-->
+                <td>
+                  {{ role.group_name }}
+                </td>
+                <td>
+                    {{ role.number_of_users }}
                 </td>
 
-                <td>
-                    <span class="ml-1 vertical-align-middle">
-                      <p-button icon="pi pi-pencil" [rounded]="true" [text]="true"></p-button>
-                    </span
-                    >
-                </td>
+
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">

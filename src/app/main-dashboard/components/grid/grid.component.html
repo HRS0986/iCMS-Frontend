@@ -1,0 +1,12 @@
+
+<div class="options-header">
+  <button mat-mini-fab (click)="addItem()" class="add-button cols-2">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<gridster [options]="options" class="chartGrid">
+  <gridster-item class="gridItem" [item]="item" *ngFor="let item of dashboard">
+    <ng-container *ngComponentOutlet="getComponent(item['chartType'])"></ng-container>
+  </gridster-item>
+</gridster>
