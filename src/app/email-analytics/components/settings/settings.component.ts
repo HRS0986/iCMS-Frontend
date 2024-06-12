@@ -4,6 +4,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './settings.data.service';
+import { AuthenticationService } from '../../../auth/services/authentication.service';
 
 
 
@@ -37,7 +38,8 @@ export class SettingsComponent implements OnInit{
 
   //-------------------------------------------------- arrays---------------------------------------------------------------------------
 
-   
+  isShowingAdminFeatures: boolean = true;
+
   
   currentSSCheckingEmailAccountsOfUser = [
     {address: 'uharischandra12@gmail.com'}];
@@ -118,7 +120,7 @@ export class SettingsComponent implements OnInit{
 
 
   // constructor
-  constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService, private messageService: MessageService) {}
+  constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService, private messageService: MessageService, private authService: AuthenticationService) {}
 
   
   //-------------------------------------------------- onSubmit functions---------------------------------------------------------------------------
@@ -132,7 +134,6 @@ export class SettingsComponent implements OnInit{
     const user_id = 3;
 
     let formData = {
-      userID: user_id,
       emailAccsToCheckSS: email_Accs_To_CheckSS ? email_Accs_To_CheckSS.map((item: any) => item.name) : [],
       lowerNotify: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerNotify : false,
       lowerSS: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerSS : 0,
@@ -140,19 +141,22 @@ export class SettingsComponent implements OnInit{
       upperSS: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.upperSS : 0,
       is_checking_ss:email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.ssThresholdNotiEnabled : true
     };
+
+
+    this.authService.getIdToken().subscribe((token: any) => {
+      this.dataService.postSSShiftData(token, formData).subscribe(response => {
+        console.log('Trigger Data sent successfully:', response);
+        
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Sentiment shifts configuration updated succesfuly!' });
   
-    this.http.post('http://127.0.0.1:8000/email/settings/receive_trigger_data', formData).subscribe(response => {
-      console.log('Trigger Data sent successfully:', response);
-      
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Sentiment shifts configuration updated succesfuly!' });
-
-      this.sentimentShiftsForm.reset();
-    }, error => {
-      console.error('Error sending data:', error);
-      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
+        this.sentimentShiftsForm.reset();
+      }, error => {
+        console.error('Error sending data:', error);
+        this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
+      });
     });
+  
 
-    
     } 
 
 
@@ -170,16 +174,20 @@ export class SettingsComponent implements OnInit{
       accs_to_check_criticality: email_Accs_To_Criticality ? email_Accs_To_Criticality.map((item: any) => item.name) : [],
     }
 
-    this.http.post('http://127.0.0.1:8000/email/settings/receive_criticality_trigger_data', formData).subscribe(response => {
-      console.log('Trigger Data sent successfully:', response);
-      
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Criticality checking emails updated succesfuly!' });
 
-      this.sentimentShiftsForm.reset();
-    }, error => {
-      console.error('Error sending data:', error);
-      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
+    this.authService.getIdToken().subscribe((token: any) => {
+      this.dataService.postCriticalityData(token, formData).subscribe(response => {
+        console.log('Trigger Data sent successfully:', response);
+        
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Criticality checking emails updated succesfuly!' });
+  
+        this.sentimentShiftsForm.reset();
+      }, error => {
+        console.error('Error sending data:', error);
+        this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
+      });
     });
+
   }
 
 
@@ -195,7 +203,7 @@ export class SettingsComponent implements OnInit{
       accs_to_check_overdue_emails: email_Accs_To_Overdue_Issues ? email_Accs_To_Overdue_Issues.map((item: any) => item.name) : [],
     }
 
-    this.http.post('http://127.0.0.1:8000/email/settings/receive_overdue_issue_trigger_data', formData).subscribe(response => {
+    this.dataService.postIssuesOverdueData(formData).subscribe(response => {
       console.log('Trigger Data sent successfully:', response);
       
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Overdue checking emails updated succesfuly!' });
@@ -221,24 +229,28 @@ export class SettingsComponent implements OnInit{
       dashboardChannelChecked: this.notificationChannelsForm.value.dashboardChannelChecked,
       notiSendingEmails:this.notificationChannelsForm.value.notiSendingEmails
     }
-
-    this.http.post('http://127.0.0.1:8000/email/settings/receive_notifications_channel_data', formData).subscribe(response => {
-      console.log('Notification channels Data sent successfully:', response);
-
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Notification channels configuration updated succesfuly!' });
-
-
-      this.sentimentShiftsForm.reset();
-    }, error => {
-      console.error('Error sending data:', error);
-      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
-
+    
+    this.authService.getIdToken().subscribe((token: any) => {
+      this.dataService.postNotificationChannelsData(token, formData).subscribe(response => {
+        console.log('Notification channels Data sent successfully:', response);
+  
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Notification channels configuration updated succesfuly!' });
+  
+  
+        this.sentimentShiftsForm.reset();
+      }, error => {
+        console.error('Error sending data:', error);
+        this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
+  
+      });
     });
+
+
 
     
     }
     
-    onSubmitSystemConfigurations(): void {
+  onSubmitSystemConfigurations(): void {
       console.log(this.systemConfigurations.value);
   
   
@@ -248,7 +260,7 @@ export class SettingsComponent implements OnInit{
 
       }
   
-      this.http.post('http://127.0.0.1:8000/email/settings/receive_system_configurations_data', formData).subscribe(response => {
+      this.dataService.postSystemConfigData(formData).subscribe(response => {
         console.log('Notification configurations Data sent successfully:', response);
   
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'System configurations updated succesfuly!' });
@@ -302,23 +314,23 @@ export class SettingsComponent implements OnInit{
 
   // topic configuration submit
 
-  onSubmitTopicConfiguration(): void {
-    //console.log(this.topicConfiguration.value);
-    const newTopicsVal = this.topicConfiguration.get('newTopics')?.value as unknown as any[];
-    if (newTopicsVal) { // Check if newTopicsVal is not null or undefined
-      for (const item of newTopicsVal) {
-          console.log(item);
-          // push the new topic into the currentCheckingTopics
-          this.currentCheckingTopics.push({ name: item });
-          this.topicConfiguration.reset();
+  // onSubmitTopicConfiguration(): void {
+  //   //console.log(this.topicConfiguration.value);
+  //   const newTopicsVal = this.topicConfiguration.get('newTopics')?.value as unknown as any[];
+  //   if (newTopicsVal) { // Check if newTopicsVal is not null or undefined
+  //     for (const item of newTopicsVal) {
+  //         console.log(item);
+  //         // push the new topic into the currentCheckingTopics
+  //         this.currentCheckingTopics.push({ name: item });
+  //         this.topicConfiguration.reset();
           
           
-      }
-  } else {
-      console.log("No new topics entered.");
-  }
+  //     }
+  // } else {
+  //     console.log("No new topics entered.");
+  // }
     
-  }
+  // }
 
  ;
   //-------------------------------------------------- show dialog functions---------------------------------------------------------------------------
@@ -402,21 +414,25 @@ deleteNotiSendingEmail(emailName: string): void {
   this.currentNotiSendingEmailAccounts = this.currentNotiSendingEmailAccounts.filter(item => item.address !== emailName);
 
   const userId = 1;
+
+  const sendingData = {
+       noti_sending_emails: this.currentNotiSendingEmailAccounts.map(item => item.address as string)
+  }
+
+
+  this.authService.getIdToken().subscribe((token: any) => {
+    this.dataService.deleteNotiSendingEmail(token, sendingData).subscribe(response => {
+      console.log('Data sent successfully:', response);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Notification sedning email address deletd succesfuly' });
+      // Assuming you want to reset the form after successful submission
+    
+    }, error => {
+      console.error('Error sending data:', error);
+      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
   
-
-  this.http.post(`http://127.0.0.1:8000/email/settings/remove_noti_sending_email/${userId}`, {
-
-    noti_sending_emails: this.currentNotiSendingEmailAccounts.map(item => item.address as string)
-  }).subscribe(response => {
-    console.log('Data sent successfully:', response);
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Notification sedning email address deletd succesfuly' });
-    // Assuming you want to reset the form after successful submission
-  
-  }, error => {
-    console.error('Error sending data:', error);
-    this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
-
+    });
   });
+
 
 }
 
@@ -448,6 +464,7 @@ deleteCheckingTopic(topicName: string): void {
 //-------------------------------------------------- ngOnInit---------------------------------------------------------------------------
 
 ngOnInit() {
+
     
     // Set checkbox value
     this.sentimentShiftsForm.controls['lowerNotify'].setValue(false);
@@ -514,9 +531,55 @@ ngOnInit() {
   }
 
  
+  // get reading emails for settings page tabs
+  this.getReadingEmailAccountsForSettingsPages()
+
+  // geting sentiment shift checking data for each user
+  this.getSentimentShiftDataOfUser()
+
+
+  // geting criticality checking data for each user
+  this.getCiticalityCheckingDataOfUser()
+ 
+    
+  // geting overdue issues checking emails for the user
+  this.getOverdueIssuesCheckingDataOfUser()
+
+
+  // geting notification channels data for the user
+  this.getNotiChannelsDataForUser()
+
+
+  // getting system config data for the company
+  this.getSystemConfigDataForCompany()
+
+ 
+ }
+
+
+
+ getUserRoleDataForUser(): void {
+
+  this.authService.getIdToken().subscribe((token: string) => {
+    this.dataService.getUserRoleData(token).subscribe((data: { [key: string]: any }) => {
+      console.log('user role data',data)
+      // this.currentSSCheckingEmailAccountsOfUser = data["accs_to_check_ss"].map((email: any) => ({ address: email }));// Array of email address names received from the backend
+      // this.sentimentShiftsForm.patchValue({
+      //   emailAccsToCheckSS: this.currentSSCheckingEmailAccountsOfUser,
+      //   lowerSS:data["ss_lower_bound"],
+      //   upperSS:data["ss_upper_bound"],
+      //   ssThresholdNotiEnabled:data["is_checking_ss"]
+        
+      // });
   
 
+    });
+  });
 
+}
+
+getReadingEmailAccountsForSettingsPages(): void {
+  
   this.dataService.getData().subscribe(data => {
     console.log(data)
     this.currentReadingEmailAccountsForIntegrationPage = data// Array of dictionaries received from the backend
@@ -524,48 +587,72 @@ ngOnInit() {
     console.log('currentReadingEmailAccountsForNotificationPage',this.currentReadingEmailAccountsForNotificationPage)
   });
 
-  this.dataService.getSSCheckingData().subscribe((data: { [key: string]: any }) => {
-    console.log('sscheckingemails',data)
-    this.currentSSCheckingEmailAccountsOfUser = data["accs_to_check_ss"].map((email: any) => ({ address: email }));// Array of email address names received from the backend
-    this.sentimentShiftsForm.patchValue({
-      emailAccsToCheckSS: this.currentSSCheckingEmailAccountsOfUser,
-      lowerSS:data["ss_lower_bound"],
-      upperSS:data["ss_upper_bound"],
-      ssThresholdNotiEnabled:data["is_checking_ss"]
-      
-    });
-
-    this.sentimentShiftsForm.controls['lowerNotify'].setValue(data["is_lower_checking"]);
-    this.sentimentShiftsForm.controls['upperNotify'].setValue(data["is_upper_checking"]);
-  });
+}
 
 
-  this.dataService.getCriticalityCheckingEmails().subscribe(data => {
-    console.log('Criticality checking emails',data)
-    this.currentCritiCheckingEmailAccountsofUser = data.map(email => ({ address: email }));
-    this.criticalityForm.patchValue({
-      emailAccsToCheckCriticality: this.currentCritiCheckingEmailAccountsofUser
+getSentimentShiftDataOfUser(): void {
+
+  this.authService.getIdToken().subscribe((token: string) => {
+    this.dataService.getSSCheckingData(token).subscribe((data: { [key: string]: any }) => {
+      console.log('sscheckingemails',data)
+      this.currentSSCheckingEmailAccountsOfUser = data["accs_to_check_ss"].map((email: any) => ({ address: email }));// Array of email address names received from the backend
+      this.sentimentShiftsForm.patchValue({
+        emailAccsToCheckSS: this.currentSSCheckingEmailAccountsOfUser,
+        lowerSS:data["ss_lower_bound"],
+        upperSS:data["ss_upper_bound"],
+        ssThresholdNotiEnabled:data["is_checking_ss"]
+        
+      });
+  
+      this.sentimentShiftsForm.controls['lowerNotify'].setValue(data["is_lower_checking"]);
+      this.sentimentShiftsForm.controls['upperNotify'].setValue(data["is_upper_checking"]);
     });
   });
 
-  this.dataService.getOverdueIssuesCheckingEmails().subscribe(data => {
-    console.log('OverdueIssues checking emails',data)
-    this.currentOVerdueCheckingAccountsofUser = data.map(email => ({ address: email }));
-    this.overdueIssuesForm.patchValue({
-      emailAccsToCheckOverdueIssues: this.currentOVerdueCheckingAccountsofUser
+}
+
+
+getCiticalityCheckingDataOfUser(): void {
+  this.authService.getIdToken().subscribe((token: string) => {
+    this.dataService.getCriticalityCheckingEmails(token).subscribe(data => {
+      console.log('Criticality checking emails',data)
+      this.currentCritiCheckingEmailAccountsofUser = data.map(email => ({ address: email }));
+      this.criticalityForm.patchValue({
+        emailAccsToCheckCriticality: this.currentCritiCheckingEmailAccountsofUser
+      });
+    });
+  });
+}
+
+getOverdueIssuesCheckingDataOfUser(): void{
+  this.authService.getIdToken().subscribe((token: string) => {
+    this.dataService.getOverdueIssuesCheckingEmails(token).subscribe(data => {
+      console.log('OverdueIssues checking emails',data)
+      this.currentOVerdueCheckingAccountsofUser = data.map(email => ({ address: email }));
+      this.overdueIssuesForm.patchValue({
+        emailAccsToCheckOverdueIssues: this.currentOVerdueCheckingAccountsofUser
+      });
     });
   });
 
-  this.dataService.getNotiChannelsData(1).subscribe((data: { [key: string]: any }) => {
-    console.log('NotiChannels',data)
-    this.currentNotiSendingEmailAccounts = data['noti_sending_emails'].map((email: any) => ({ address: email }));
-    this.notificationChannelsForm.patchValue({
-        emailChannelChecked: data["is_email_notifications"],
-        dashboardChannelChecked:data["is_dashboard_notifications"]
+}
+
+
+getNotiChannelsDataForUser(): void {
+  this.authService.getIdToken().subscribe((token: string) => {
+    this.dataService.getNotiChannelsData(token).subscribe((data: { [key: string]: any }) => {
+      console.log('NotiChannels',data)
+      this.currentNotiSendingEmailAccounts = data['noti_sending_emails'].map((email: any) => ({ address: email }));
+      this.notificationChannelsForm.patchValue({
+          emailChannelChecked: data["is_email_notifications"],
+          dashboardChannelChecked:data["is_dashboard_notifications"]
+      });
     });
   });
+}
 
 
+getSystemConfigDataForCompany(): void {
   this.dataService.getSystemConfigurationData().subscribe((data: { [key: string]: any }) => {
     console.log('System Configurations data ',data)
 
@@ -573,11 +660,11 @@ ngOnInit() {
         overdueInterval: data["overdue_margin_time"],
     });
   });
+}
 
 
 
-   
- }
+
   // Define the custom validator function here
   emailValidator(email: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
