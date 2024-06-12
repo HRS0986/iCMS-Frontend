@@ -6,10 +6,10 @@
     </div>
   </ng-template>
   <ng-template pTemplate="content">
-    <div class="my-container flex flex-row flex-wrap justify-stretch gap-4">
-      <div class="min-w-40 min-h-10 grow bg-blue-400">
-        <div>Search</div>
-        <div class="w-full bg-lime-400">
+    <div class="my-container grid grid-cols-1 md:grid-cols-2 justify-stretch gap-4">
+      <div class="min-w-40 min-h-10 grow">
+        <div class="mb-2">Search</div>
+        <div class="w-full ">
           <input
             type="text"
             pInputText
@@ -18,10 +18,11 @@
           />
         </div>
       </div>
-      <div class="min-w-40 min-h-10 grow bg-blue-400">
-        <div>Date Range</div>
-        <div class="w-full bg-lime-400">
+      <div class="min-w-40 min-h-10 grow">
+        <div class="mb-2">Date Range</div>
+        <div class="w-full  relative">
           <p-calendar
+            [(ngModel)]="selectedDate"  
             selectionMode="range"
             [readonlyInput]="true"
             [showIcon]="true"
@@ -31,9 +32,9 @@
           ></p-calendar>
         </div>
       </div>
-      <div class="min-w-40 min-h-10 grow bg-blue-400">
-        <div>Sender</div>
-        <div class="w-full bg-lime-400">
+      <div class="min-w-40 min-h-10 grow">
+        <div class="mb-2">Sender</div>
+        <div class="w-full ">
           <span class="p-fluid">
             <p-autoComplete
               [(ngModel)]="selectedItemsSender"
@@ -49,17 +50,16 @@
         </div>
       </div>
 
-      <div class="min-w-40 min-h-10 grow bg-blue-400">
-        <div>Receiver</div>
-        <div class="w-full bg-lime-400">
+      <div class="min-w-40 min-h-10 grow">
+        <div class="mb-2">Receiver</div>
+        <div class="w-full ">
           <span class="p-fluid">
             <p-autoComplete
               [(ngModel)]="selectedItemsReceiver"
               [suggestions]="itemsReceiver"
+              (completeMethod)="searchReceiver($event)"
               [virtualScroll]="true"
               [virtualScrollItemSize]="34"
-              (completeMethod)="searchReceiver($event)"
-              field="label"
               [dropdown]="true"
               [multiple]="true"
             />
@@ -67,17 +67,26 @@
         </div>
       </div>
 
-      <div class="min-w-40 min-h-10 grow bg-blue-400">
-        <div>Tags</div>
-        <div class="w-full bg-lime-400">
+      <div class="min-w-40 min-h-10 grow">
+        <div class="relative">
+          <div class="mb-2">Tags</div>
+          <div class="absolute right-0 top-0 flex">
+            <p-checkbox 
+            [(ngModel)]="reqAllTags"
+            label="Require all tags" 
+            [binary]="true" 
+            labelStyleClass="text-xs"
+            />
+          </div>
+        </div>
+        <div class="w-full ">
           <span class="p-fluid">
             <p-autoComplete
               [(ngModel)]="selectedItemsTags"
               [suggestions]="itemsTags"
+              (completeMethod)="searchTags($event)"
               [virtualScroll]="true"
               [virtualScrollItemSize]="34"
-              (completeMethod)="searchTags($event)"
-              field="label"
               [dropdown]="true"
               [multiple]="true"
             />
@@ -85,23 +94,16 @@
         </div>
       </div>
 
-      <div class="min-w-40 min-h-10 grow bg-blue-400">
-        <div>
-          <div>Status</div>
-          <div>
-            <p-inputSwitch [(ngModel)]="checked" />
-            <span>require all tags</span>
-          </div>
-        </div>
-        <div class="w-full bg-lime-400">
+      <div class="min-w-40 min-h-10 grow">
+        <div class="mb-2">Status</div>
+        <div class="w-full ">
           <span class="p-fluid">
             <p-autoComplete
               [(ngModel)]="selectedItemsStatus"
               [suggestions]="itemsStatus"
+              (completeMethod)="searchStatus($event)"
               [virtualScroll]="true"
               [virtualScrollItemSize]="34"
-              (completeMethod)="searchStatus($event)"
-              field="label"
               [dropdown]="true"
               [multiple]="true"
             />
@@ -109,30 +111,30 @@
         </div>
       </div>
 
-      <div class="min-w-40 min-h-10 grow bg-blue-400">
-        <div>Other properties</div>
-        <div class="w-full bg-lime-400">
+      <div class="min-w-40 min-h-10 grow">
+        <div class="mb-2">Other properties</div>
+        <div class="w-full ">
           <input type="text" pInputText class="w-full" placeholder="anything" />
         </div>
       </div>
-      <div class="min-w-40 min-h-10 grow bg-blue-400">
-        <p-button
-          label="Overdue"
-          size="small"
-          [outlined]="false"
+      <div class="min-w-40 min-h-10 grow flex items-center justify-center flex-wrap gap-2">
+        <p-tag 
+          (click)="clickImportant()"
+          value="Critical"
           [rounded]="true"
-          severity="secondary"
+          [severity]="importantOnly ? 'success' : 'info'"
+          styleClass="cursor-pointer"
         />
-        <p-button
-          label="Important"
-          size="small"
-          [outlined]="true"
+        <p-tag 
+          (click)="clickNew()"
+          value="New"
           [rounded]="true"
-          severity="info"
+          [severity]="newOnly ? 'success' : 'info'"
+          styleClass="cursor-pointer"
         />
       </div>
 
-      <div class="min-w-40 min-h-10 grow bg-blue-400">
+      <div class="grow col-span-2 min-w-40 min-h-10 flex gap-3 justify-end">
         <p-button
           label="Apply"
           [outlined]="false"

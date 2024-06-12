@@ -16,24 +16,36 @@ export class FilteringComponent {
   selectedItemsReceiver: any[] | undefined;
   selectedItemsTags: any[] | undefined;
   selectedItemsStatus: any[] | undefined;
+  selectedDate: Date[] | undefined;
 
   itemsSender!: any[];
   itemsReceiver!: any[];
   itemsTags!: any[];
   itemsStatus!: any[];
-  checked = false;
+
+  reqAllTags: boolean = false;
+  importantOnly: boolean = false;
+  newOnly: boolean = false;
 
   searchSender(event: AutoCompleteCompleteEvent) {
     this.itemsSender = ['a', 'b', 'c', 'd', 'e'].map((item) => event.query + '-' + item);
-    console.log(this.itemsSender);
   }
   searchReceiver(event: AutoCompleteCompleteEvent) {
-    this.itemsReceiver = [...Array(10).keys()].map((item) => event.query + '-' + item);
+    this.itemsReceiver = ['a', 'b', 'c', 'd', 'e'].map((item) => event.query + '-' + item);
   }
   searchTags(event: AutoCompleteCompleteEvent) {
-    this.itemsTags = [...Array(10).keys()].map((item) => event.query + '-' + item);
+    this.itemsTags = ['a', 'b', 'c', 'd', 'e'].map((item) => event.query + '-' + item);
   }
   searchStatus(event: AutoCompleteCompleteEvent) {
-    this.itemsStatus = [...Array(10).keys()].map((item) => event.query + '-' + item);
+    this.itemsStatus = ['a', 'b', 'c', 'd', 'e'].map((item) => event.query + '-' + item);
+  }
+  onClickTest() {
+    console.log('test');
+  }
+  clickImportant() {
+    this.importantOnly = !this.importantOnly;
+  }
+  clickNew() {
+    this.newOnly = !this.newOnly;
   }
 }
