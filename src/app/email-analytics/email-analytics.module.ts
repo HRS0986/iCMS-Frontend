@@ -124,7 +124,7 @@ import { DashboardSentimentCardComponent } from './components/dashboard-sentimen
     InquiryCardListTypeComponent,
     InquiryDataviewComponent,
     DashboardSmallCardComponent,
-    AuthorizationMessageComponent
+    AuthorizationMessageComponent,
     DashboardIssueCardComponent,
     DashboardInquiryCardComponent,
     DashboardSuggestionCardComponent,
