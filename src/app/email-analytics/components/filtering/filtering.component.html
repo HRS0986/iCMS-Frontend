@@ -2,7 +2,7 @@
 <p-panel class="flex flex-col mb-4" [toggleable]="true" toggler="header">
   <ng-template pTemplate="header">
     <div class="flex align-items-center gap-2">
-      <span class="font-bold"> Amy Elsner </span>
+      <span class="font-bold"> Filters </span>
     </div>
   </ng-template>
   <ng-template pTemplate="content">
@@ -34,47 +34,54 @@
       <div class="min-w-40 min-h-10 grow bg-blue-400">
         <div>Sender</div>
         <div class="w-full bg-lime-400">
-          <p-autoComplete
-            [(ngModel)]="selectedItemsSender"
-            [suggestions]="itemsSender"
-            (completeMethod)="searchSender($event)"
-            [virtualScroll]="true"
-            [virtualScrollItemSize]="34"
-            [dropdown]="true"
-            [multiple]="true"
-          />
+          <span class="p-fluid">
+            <p-autoComplete
+              [(ngModel)]="selectedItemsSender"
+              [suggestions]="itemsSender"
+              (completeMethod)="searchSender($event)"
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="34"
+              [dropdown]="true"
+              [multiple]="true"
+              class="w-full"
+            />
+          </span>
         </div>
       </div>
 
       <div class="min-w-40 min-h-10 grow bg-blue-400">
         <div>Receiver</div>
         <div class="w-full bg-lime-400">
-          <p-autoComplete
-            [(ngModel)]="selectedItemsReceiver"
-            [suggestions]="itemsReceiver"
-            [virtualScroll]="true"
-            [virtualScrollItemSize]="34"
-            (completeMethod)="searchReceiver($event)"
-            field="label"
-            [dropdown]="true"
-            [multiple]="true"
-          />
+          <span class="p-fluid">
+            <p-autoComplete
+              [(ngModel)]="selectedItemsReceiver"
+              [suggestions]="itemsReceiver"
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="34"
+              (completeMethod)="searchReceiver($event)"
+              field="label"
+              [dropdown]="true"
+              [multiple]="true"
+            />
+          </span>
         </div>
       </div>
 
       <div class="min-w-40 min-h-10 grow bg-blue-400">
         <div>Tags</div>
         <div class="w-full bg-lime-400">
-          <p-autoComplete
-            [(ngModel)]="selectedItemsTags"
-            [suggestions]="itemsTags"
-            [virtualScroll]="true"
-            [virtualScrollItemSize]="34"
-            (completeMethod)="searchTags($event)"
-            field="label"
-            [dropdown]="true"
-            [multiple]="true"
-          />
+          <span class="p-fluid">
+            <p-autoComplete
+              [(ngModel)]="selectedItemsTags"
+              [suggestions]="itemsTags"
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="34"
+              (completeMethod)="searchTags($event)"
+              field="label"
+              [dropdown]="true"
+              [multiple]="true"
+            />
+          </span>
         </div>
       </div>
 
@@ -87,16 +94,18 @@
           </div>
         </div>
         <div class="w-full bg-lime-400">
-          <p-autoComplete
-            [(ngModel)]="selectedItemsStatus"
-            [suggestions]="itemsStatus"
-            [virtualScroll]="true"
-            [virtualScrollItemSize]="34"
-            (completeMethod)="searchStatus($event)"
-            field="label"
-            [dropdown]="true"
-            [multiple]="true"
-          />
+          <span class="p-fluid">
+            <p-autoComplete
+              [(ngModel)]="selectedItemsStatus"
+              [suggestions]="itemsStatus"
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="34"
+              (completeMethod)="searchStatus($event)"
+              field="label"
+              [dropdown]="true"
+              [multiple]="true"
+            />
+          </span>
         </div>
       </div>
 
