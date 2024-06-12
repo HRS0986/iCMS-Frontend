@@ -20,10 +20,10 @@ export class UnreadNotificationsComponent implements OnInit {
   {}
 
   ngOnInit(): void {
-    timer(0, this.refreshTime).subscribe(() => {
-      this.fetchNotifications();
-      this.updateOldNotificationsAsUnread();
-    });
+    // timer(0, this.refreshTime).subscribe(() => {
+    //   this.fetchNotifications();
+    //   this.updateOldNotificationsAsUnread();
+    // });
   }
 
   fetchNotifications() {

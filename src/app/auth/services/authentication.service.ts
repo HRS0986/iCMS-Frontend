@@ -1,6 +1,6 @@
 // authentication.service.ts
 import { Injectable } from '@angular/core';
-import { CognitoUser, AuthenticationDetails, CognitoUserSession, CognitoUserAttribute, CognitoUserPool } from 'amazon-cognito-identity-js';
+import { CognitoUser, AuthenticationDetails, CognitoUserSession, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { environment } from "../../../environment/environment";
 import { Observable, BehaviorSubject } from 'rxjs';
 
@@ -20,7 +20,6 @@ export class AuthenticationService {
     });
     this.currentUserSubject = new BehaviorSubject<CognitoUser | null>(this.userPool.getCurrentUser());
   }
-
   get currentUser(): Observable<CognitoUser | null> {
     return this.currentUserSubject.asObservable();
   }
@@ -57,5 +56,28 @@ export class AuthenticationService {
       currentUser.signOut();
       this.currentUserSubject.next(null);
     }
+  }
+
+  getIdToken(): Observable<string> {
+    return new Observable(observer => {
+      const currentUser = this.userPool.getCurrentUser();
+      if (currentUser) {
+        currentUser.getSession((err: any, session: CognitoUserSession) => {
+          if (err) {
+            observer.error(err);
+          } else {
+            observer.next(session.getIdToken().getJwtToken());
+            observer.complete();
+          }
+        });
+      } else {
+        observer.error('No user found');
+      }
+    });
+  }
+
+  isAuthenticated(): boolean {
+    const currentUser = this.userPool.getCurrentUser();
+    return currentUser != null;
   }
 }
