@@ -20,7 +20,7 @@ import { TagModule } from "primeng/tag";
 import { TooltipModule } from 'primeng/tooltip';
 
 import { DialogModule } from 'primeng/dialog';
-
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.component';
 import { SummaryCardComponent } from './components/summary-card/summary-card.component';
@@ -49,6 +49,8 @@ import { TableModule } from 'primeng/table';
 import { NotiSendingEmailAccCardComponent } from './components/noti-sending-email-acc-card/noti-sending-email-acc-card.component';
 import { TopicCardComponent } from './components/topic-card/topic-card.component';
 import { ToastModule } from 'primeng/toast';
+
+
 import { MessageService } from 'primeng/api';
 import { WordCloudComponent } from './components/word-cloud/word-cloud.component';
 import { CalendarModule } from 'primeng/calendar';
@@ -56,8 +58,35 @@ import { StackedBarChartComponent } from './components/stacked-bar-chart/stacked
 import { MultiHorizontalBarChartComponent } from './components/multi-horizontal-bar-chart/multi-horizontal-bar-chart.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { DividerModule } from 'primeng/divider';
-import { SkeletonModule } from 'primeng/skeleton';
+import { ProgressBarModule } from 'primeng/progressbar';
 
+import { Dashboard2Component } from './components/dashboard2/dashboard2.component';
+import { StatCardMgrAnalyticsComponent } from './components/stat-card-mgr-analytics/stat-card-mgr-analytics.component';
+import { EffiEffecDonoughtChartComponent } from './components/effi-effec-donought-chart/effi-effec-donought-chart.component';
+import { ProgressDonoughtChartComponent } from './components/progress-donought-chart/progress-donought-chart.component';
+import { MultiVerticalBarChartComponent } from './components/multi-vertical-bar-chart/multi-vertical-bar-chart.component';
+import { DynamicStackedBarChartComponent } from './components/dynamic-stacked-bar-chart/dynamic-stacked-bar-chart.component';
+import { BestWorstCardComponent } from './components/best-worst-card/best-worst-card.component';
+import { DynamicHorizontalBarchartComponent } from './components/dynamic-horizontal-barchart/dynamic-horizontal-barchart.component';
+import { SkeletonModule } from 'primeng/skeleton';
+import { FilterQuerySuggestionsComponent } from './components/filter-query-suggestions/filter-query-suggestions.component';
+import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
+import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
+import { PaginatorModule } from 'primeng/paginator';
+import { IssueCardListTypeComponent } from './components/issue-card-list-type/issue-card-list-type.component';
+import { IssueDataviewComponent } from './components/issue-dataview/issue-dataview.component';
+import { SuggestionCardListTypeComponent } from './components/suggestion-card-list-type/suggestion-card-list-type.component';
+import { InquiryCardListTypeComponent } from './components/inquiry-card-list-type/inquiry-card-list-type.component';
+import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
+import { DashboardSmallCardComponent } from './components/dashboard-small-card/dashboard-small-card.component';
+import { DashboardIssueCardComponent } from './components/dashboard-issue-card/dashboard-issue-card.component';
+import { DashboardInquiryCardComponent } from './components/dashboard-inquiry-card/dashboard-inquiry-card.component';
+import { DashboardSuggestionCardComponent } from './components/dashboard-suggestion-card/dashboard-suggestion-card.component';
+import { DashboardSentimentCardComponent } from './components/dashboard-sentiment-card/dashboard-sentiment-card.component';
+import { DashboardSummaryCardComponent } from './components/dashboard-summary-card/dashboard-summary-card.component';
+import { DashboardActionablesComponent } from './components/dashboard-actionables/dashboard-actionables.component';
+import { DashboardResponsetimeComponent } from './components/dashboard-responsetime/dashboard-responsetime.component';
+import { FilteringComponent } from './components/filtering/filtering.component';
 
 @NgModule({
   declarations: [
@@ -79,9 +108,33 @@ import { SkeletonModule } from 'primeng/skeleton';
     WordCloudComponent,
     StackedBarChartComponent,
     MultiHorizontalBarChartComponent,
-    GaugeChartComponent
 
-
+    GaugeChartComponent,
+    Dashboard2Component,
+    StatCardMgrAnalyticsComponent,
+    EffiEffecDonoughtChartComponent,
+    ProgressDonoughtChartComponent,
+    MultiVerticalBarChartComponent,
+    DynamicStackedBarChartComponent,
+    BestWorstCardComponent,
+    DynamicHorizontalBarchartComponent,
+    FilterQuerySuggestionsComponent,
+    SuggestionCardComponent,
+    SuggestionFilteringComponent,
+    IssueCardListTypeComponent,
+    IssueDataviewComponent,
+    SuggestionCardListTypeComponent,
+    InquiryCardListTypeComponent,
+    InquiryDataviewComponent,
+    DashboardSmallCardComponent,
+    DashboardIssueCardComponent,
+    DashboardInquiryCardComponent,
+    DashboardSuggestionCardComponent,
+    DashboardSentimentCardComponent,
+    DashboardSummaryCardComponent,
+    DashboardActionablesComponent,
+    DashboardResponsetimeComponent,
+    FilteringComponent,
   ],
   imports: [
     CommonModule,
@@ -111,11 +164,13 @@ import { SkeletonModule } from 'primeng/skeleton';
     TableModule,
     ToastModule,
     CalendarModule,
-    PanelModule,
+    PanelModule, 
     DropdownModule,
-    CalendarModule,
     DividerModule,
-    SkeletonModule
+    PaginatorModule,
+    SkeletonModule,
+    ProgressBarModule,
+    AutoCompleteModule,
   ],
   providers: [MessageService],
 })

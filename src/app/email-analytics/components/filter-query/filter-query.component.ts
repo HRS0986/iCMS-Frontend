@@ -9,8 +9,8 @@ import { ThreadSummaryResponse } from '../../interfaces/threads';
 })
 export class FilterQueryComponent {
   dateRange: Date[] | undefined;
-  topics: string[] | undefined;
-  topicSelected: string | undefined;
+  products: string[] | undefined;
+  productSelected: string | undefined;
   subject: string | undefined;
   sentiments: string[] | undefined;
   sentimentSelected: string | undefined;
@@ -29,7 +29,7 @@ export class FilterQueryComponent {
 
     this.filterFunction = this.type === 'email' ? this.filterService.getEmailMetadata : this.filterService.getThreadSummaries;
 
-    this.topics = [
+    this.products = [
         "VEGA",
         "TravelBox",
         "ChargeNet",
@@ -56,7 +56,7 @@ export class FilterQueryComponent {
   }
   clearFilters() {
     this.dateRange = [];
-    this.topicSelected = undefined;
+    this.productSelected = undefined;
     this.subject = '';
     this.sentimentSelected = undefined;
     this.senderSelected = null;
@@ -64,7 +64,8 @@ export class FilterQueryComponent {
   }
 
   applyFilters() {
-    this.filterFunction(this.dateRange, this.topicSelected, this.subject, this.sentimentSelected, this.senderSelected, this.receiverSelected).subscribe(
+    this.filterFunction(this.dateRange, this.productSelected, this.subject, this.sentimentSelected, this.senderSelected, this.receiverSelected).subscribe(
+
       (response: EmailMetadataResponse | ThreadSummaryResponse) => {
         if (this.type === 'email') {
           this.emailMetadataResponse = response as EmailMetadataResponse;

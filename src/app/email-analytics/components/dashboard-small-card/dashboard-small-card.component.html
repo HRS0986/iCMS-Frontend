@@ -1,0 +1,70 @@
+<!-- <p-card class="flex flex-col justify-start items-center border border-slate-500 rounded-lg bg-gray-400 w-full"> -->
+<!-- <div
+  class="grid grid-rows-4 gap-4 items-center justify-center overflow-hidden border border-slate-500 rounded-lg bg-gray-400 hover:bg-gray-300 hover:cursor-pointer transition hover:duration-150 *:w-auto absolute inset-0 p-5" 
+  onclick="alert('You clicked me!')"
+  tooltip="New issues in the last 24 hours"
+>
+  <div class="row-span-3 grid grid-cols-2 gap-6">
+    <div class="ref-number flex flex-col justify-center items-end">
+      <span class="text-7xl">
+        {{ number }}
+      </span>
+    </div>
+    <div class="ref-text flex flex-col justify-center items-start">
+      <span class="text-base">
+        {{ smallText }}
+      </span>
+      <span class="text-5xl -ml-1">
+        {{ bigText }}
+      </span>
+    </div>
+  </div>
+  <div class="flex items-center justify-center">
+    <span>
+      <i class="pi pi-chevron-circle-up text-xl p-2"></i>
+    </span>
+    <span class="text-base">
+      <span *ngIf="context==='increase'">{{ avgMetric }}% increase from avg</span>
+      <span *ngIf="context==='decrease'">{{ avgMetric }}% decrease from avg</span>
+      <span *ngIf="context==='same'">same as avg</span>
+    </span>
+  </div>
+
+</div> -->
+
+<div
+  class="flex flex-wrap gap-x-3 place-content-evenly overflow-hidden border border-slate-500 rounded-lg bg-gray-400 hover:bg-gray-300 hover:cursor-pointer transition hover:duration-150 w-auto absolute inset-0 p-2"
+  onclick="alert('You clicked me!')"
+  tooltip="New issues in the last 24 hours"
+>
+  <div class="">
+    <span class="text-5xl md:text-6xl"> 1.5k </span>
+  </div>
+  <div class="flex flex-col justify-center items-start">
+    <span class="text-sm hidden md:inline md:text-base">
+      {{ smallText }}
+    </span>
+    <span class="text-xl md:text-4xl md:-ml-0.5">
+      {{ bigText }}
+    </span>
+  </div>
+  <div class="flex items-center justify-center">
+    <span class="flex px-2 text-sm items-center">
+      <i *ngIf="context === 'increase'" class="pi pi-arrow-circle-up"  style="color: #006c1d"></i>
+      <i *ngIf="context === 'decrease'" class="pi pi-arrow-circle-down" style="color: #6c0900"></i>
+      <i *ngIf="context === 'same'" class="pi pi-minus-circle"  style="color: #e2c431"></i>
+    </span>
+    <span class="text-sm md:text-base">
+      {{ avgMetric }}%
+    </span>
+    <span class="text-sm hidden md:inline md:text-base">
+      <span *ngIf="context === 'increase'"
+        >{{ avgMetric }}% increase from avg</span
+      >
+      <span *ngIf="context === 'decrease'"
+        >{{ avgMetric }}% decrease from avg</span
+      >
+      <span *ngIf="context === 'same'">same as avg</span>
+    </span>
+  </div>
+</div>
