@@ -19,7 +19,6 @@ import {InputSwitchModule} from "primeng/inputswitch";
 import {PasswordModule} from "primeng/password";
 import { NotificationsComponent } from './components/notifications/notifications.component';
 
-
 import { HttpClientModule } from '@angular/common/http';
 import { MessagesModule } from 'primeng/messages';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
@@ -74,7 +73,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
     AvatarGroupModule,
     PanelModule,
     NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
-
   ],
   providers:[ConfirmationService]
 })
