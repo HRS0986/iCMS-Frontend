@@ -53,7 +53,7 @@ export class IssueDataviewComponent {
 
   loadIssues($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
-    
+
     this.issueService.getMockIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
       next: (response: IssueMetaDataResponse) => {
         this.issueData = response.data;
@@ -79,7 +79,7 @@ export class IssueDataviewComponent {
   }
 
   breadcrumbItems: MenuItem[] = [
-    {label: "Email Analytics"},
+    {label: "Email Analytics", routerLink: "/email/dashboard2"},
     {label: "Email Issues"}
   ];
 }

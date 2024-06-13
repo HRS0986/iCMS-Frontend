@@ -79,7 +79,7 @@ export class InquiryDataviewComponent {
   }
 
   breadcrumbItems: MenuItem[] = [
-    {label: "Email Analytics"},
+    {label: "Email Analytics", routerLink: "/email/dashboard2"},
     {label: "Email Inquiries"}
   ];
 

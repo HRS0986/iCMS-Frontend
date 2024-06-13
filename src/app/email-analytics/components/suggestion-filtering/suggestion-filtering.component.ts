@@ -192,7 +192,7 @@ export class SuggestionFilteringComponent {
     this.loadSuggestions({ first: 0, rows: this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder }, filterCriteria);
   }
   breadcrumbItems: MenuItem[] = [
-    {label: "Email Analytics"},
+    {label: "Email Analytics", routerLink: "/email/dashboard2"},
     {label: "Email Suggestions"}
   ];
 
