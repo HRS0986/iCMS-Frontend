@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserDataService}  from "../../services/user-data.service";
 import {User} from "../../domain/types"
 import {Table} from "primeng/table";
 import {MenuItem} from "primeng/api";
 import { AuthenticationService } from '../../../auth/services/authentication.service';
+import { UserRefreshService } from '../../services/user-refresh.service';
+import {MessageService} from "primeng/api";
 
 
 @Component({
@@ -13,19 +15,55 @@ import { AuthenticationService } from '../../../auth/services/authentication.ser
 })
 
 
-export class UsersComponent {
+export class UsersComponent implements OnInit{
   users: User[] =[];
-  selectedUsers: User[] = [];
+  selectedUsers!: User;
+  searchValue: string = '';
   breadcrumbItems: MenuItem[] = [
     {label: "Profile"},
     {label: 'Users'}
   ];
 
-  constructor(private customerService: UserDataService, private authService: AuthenticationService) {}
+  actions!: MenuItem[];
+
+  constructor(
+    private customerService: UserDataService,
+    private authService: AuthenticationService,
+    private userRefreshService: UserRefreshService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit() {
     // this.customerService.getCustomersMini().then(users => this.users = users);
+    this.userRefreshService.userAdded.subscribe(() => {
+      this.getUsers();
+    });
     this.getUsers()
+
+    this.actions = [
+      {
+        label: "View",
+        icon: "pi pi-eye",
+        command: () => {
+          console.log("Viewing role");
+        }
+      },
+      { label: "Update",
+        icon: "pi pi-pencil",
+        command: () => {
+          console.log("Updating role");
+        }
+      },
+      {
+        label: "Delete",
+        icon: "pi pi-trash",
+        command: () => {
+          console.log("Deleting role");
+          this.deleteUser();
+        }
+      },
+    ];
+
   }
 
   getSeverity(status: string) {
@@ -46,11 +84,32 @@ export class UsersComponent {
 
   clear(table: Table) {
     table.clear();
+    this.searchValue = '';
   }
   addMember() {
     console.log('Add member');
 
-    
+
+  }
+
+  deleteUser() {
+    this.authService.getIdToken().subscribe((token: any) => {
+      this.customerService.deleteUser(token, this.selectedUsers.username).subscribe(
+        (data: any) => {
+          console.log(data);
+          // this.users = this.users.filter(user => user.username !== this.selectedUsers.username);
+          this.getUsers();
+          this.messageService.add({severity:'success', summary: 'Success', detail: 'User Deleted Successfully'});
+        },
+        (error: any) => {
+          // Handle the error case
+          console.log(error);
+          this.messageService.add({severity:'error', summary: 'Error', detail: 'Failed to delete user'});
+        }
+
+      );
+    });
+
   }
 
 
@@ -58,13 +117,13 @@ export class UsersComponent {
 
     this.authService.getIdToken().subscribe((token: any) => {
       this.customerService.getUsers(token).subscribe((data: any) => {
-        console.log(data)
         this.users = data;
       });
     });
 
   }
 
+  protected readonly console = console;
 }
 
 //create testing user sample

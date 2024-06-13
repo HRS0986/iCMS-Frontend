@@ -96,4 +96,12 @@ export class UserDataService{
     return this.http.get<any>(this.apiUrl+'/getAllUsersNames', {headers});
   }
 
+  deleteUser(token: string, username: string) {
+    let headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+    return this.http.delete<any>(this.apiUrl+'/deleteUser/'+username, {headers});
+
+  }
+
 }
