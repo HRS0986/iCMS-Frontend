@@ -11,7 +11,7 @@ import { Filter } from '../../interfaces/filters';
   styleUrl: './issue-dataview.component.scss'
 })
 export class IssueDataviewComponent {
-  
+
   @ViewChild('dataView') dataView!: DataView;
 
   issueData: Issue[] = new Array(10).fill({
@@ -53,18 +53,7 @@ export class IssueDataviewComponent {
 
   loadIssues($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
-    // this.issueService.getIssueMetadata($event.first ?? 0, $event.rows ?? 20).subscribe({
-    //   next: (response: IssueMetaDataResponse) => {
-    //     this.issueData = response.data;
-    //     this.totalRecords = response.total;
-    //     this.loading = false;
-    //   },
-    //   error: (error: any) => {
-    //     this.errorMessage = error;
-    //     this.loading = false;
-    //     this.dialogVisible = true;
-    //   }
-    // });
+    
     this.issueService.getMockIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
       next: (response: IssueMetaDataResponse) => {
         this.issueData = response.data;

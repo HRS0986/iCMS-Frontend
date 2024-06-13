@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { InquiryMetaDataResponse, MockInquiryMetadataResponse, InquiryPopupData } from '../interfaces/inquiries';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, timeout } from 'rxjs/operators'; // BUG: remove in production
+import { Filter } from '../interfaces/filters';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,53 @@ export class InquiryService {
   }
 
   private timeoutDuration = 5000; // Timeout duration in milliseconds
+  
+  getMockInquiryData(filterCriteria: Filter, skip: number, limit: number): Observable<InquiryMetaDataResponse> {
+    let params = new HttpParams();
+    if (filterCriteria.selectedSenders) {
+      params = params.set('s', JSON.stringify(filterCriteria.selectedSenders));
+    }
+    if (filterCriteria.selectedReceivers) {
+      params = params.set('r', JSON.stringify(filterCriteria.selectedReceivers));
+    }
+    if (filterCriteria.selectedTags) {
+      params = params.set('tags', JSON.stringify(filterCriteria.selectedTags));
+    }
+    if (filterCriteria.reqAllTags !== undefined) {
+      params = params.set('allTags', filterCriteria.reqAllTags.toString());
+    }
+    if (filterCriteria.selectedStatus) {
+      params = params.set('status', JSON.stringify(filterCriteria.selectedStatus));
+    }
+    if (filterCriteria.selectedDate) {
+      params = params.set('date', JSON.stringify(filterCriteria.selectedDate));
+    }
+    if (filterCriteria.searchText) {
+      params = params.set('q', filterCriteria.searchText);
+    }
+    if (filterCriteria.importantOnly !== undefined) {
+      params = params.set('important', filterCriteria.importantOnly.toString());
+    }
+    if (filterCriteria.newOnly !== undefined) {
+      params = params.set('new', filterCriteria.newOnly.toString());
+    }
+    params = params.set('skip', skip.toString());
+    params = params.set('limit', limit.toString());
 
+    return this.http
+      .get<MockInquiryMetadataResponse>(`https://dummyjson.com/products/search`, { params })
+      .pipe(
+        map(this.convertToInquiryResponse),
+        timeout(this.timeoutDuration),
+        catchError(e => {
+          if (e.name === 'TimeoutError') {
+            return throwError(() => new Error("Request timed out. Please try again later."));
+          } else {
+            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+          }
+        })
+      );
+  }
   getInquiryMetadata(skip: number, limit: number): Observable<InquiryMetaDataResponse> {
     return this.http
       .get<MockInquiryMetadataResponse>(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`)
