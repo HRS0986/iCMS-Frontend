@@ -4,13 +4,14 @@ import { InquiryMetaDataResponse, MockInquiryMetadataResponse, InquiryPopupData 
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, timeout } from 'rxjs/operators'; // BUG: remove in production
 import { Filter } from '../interfaces/filters';
+import { UtilityService } from './utility.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InquiryService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private utility: UtilityService) { }
 
   // BUG: REMOVE in Production
   private convertToInquiryResponse(mockedResponse: MockInquiryMetadataResponse): InquiryMetaDataResponse {
@@ -59,7 +60,7 @@ export class InquiryService {
   }
 
   private timeoutDuration = 5000; // Timeout duration in milliseconds
-  
+
   getMockInquiryData(filterCriteria: Filter, skip: number, limit: number): Observable<InquiryMetaDataResponse> {
     let params = new HttpParams();
     if (filterCriteria.selectedSenders) {
@@ -120,6 +121,31 @@ export class InquiryService {
           }
         })
       );   // BUG: remove map part in production
+  }
+  
+  baseUrlv2 = 'http://127.0.0.1:8000/email/v2';
+
+  /**
+   * Retrieves inquiry data based on the provided filter criteria, skip, and limit.
+   * @param filterCriteria - The filter criteria for the inquiry data.
+   * @param skip - The number of records to skip.
+   * @param limit - The maximum number of records to retrieve.
+   * @returns An Observable of type InquiryMetaDataResponse.
+   */
+  getInquiryData(filterCriteria: Filter, skip: number, limit: number): Observable<InquiryMetaDataResponse> {
+    let params = this.utility.buildFilterParams(filterCriteria, limit, skip);
+    return this.http
+    .get<InquiryMetaDataResponse>(`${this.baseUrlv2}/inquiries?${params}`)
+    .pipe(
+      timeout(this.timeoutDuration),
+      catchError(e => {
+        if (e.name === 'TimeoutError') {
+          return throwError(() => new Error("Request timed out. Please try again later."));
+        } else {
+          return throwError(() => new Error("Unknown error has occured. Please try again later." + e));
+        }
+      })
+    );
   }
 
   getInquiryAdditionalData(id: string): Observable<InquiryPopupData> {

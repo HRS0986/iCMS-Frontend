@@ -54,6 +54,7 @@ export class InquiryDataviewComponent {
 
   loadInquiries($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
+    this.inquiryService.getInquiryData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({});
     this.inquiryService.getMockInquiryData(criteria, $event.first ?? 0, $event.rows ?? 20).subscribe({
       next: (response: InquiryMetaDataResponse) => {
         this.inquiryData = response.data;

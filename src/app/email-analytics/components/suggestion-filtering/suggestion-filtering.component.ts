@@ -167,6 +167,9 @@ export class SuggestionFilteringComponent {
 
   loadSuggestions($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
+
+    this.suggestionService.getSuggestionData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({});
+    
     this.suggestionService.getMockSuggestionData(criteria, $event.first ?? 0, $event.rows ?? 20).subscribe({
       next: (response: SuggestionMetaDataResponse) => {
         this.suggestionData = response.data;
