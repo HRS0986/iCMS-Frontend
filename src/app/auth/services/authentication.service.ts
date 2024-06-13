@@ -81,3 +81,4 @@ export class AuthenticationService {
     return currentUser != null;
   }
 }
+
