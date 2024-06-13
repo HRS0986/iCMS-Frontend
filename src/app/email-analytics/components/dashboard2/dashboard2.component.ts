@@ -131,7 +131,7 @@ export class Dashboard2Component implements OnInit{
  
   constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService) {}
 
-  userId: number = 1;
+ 
 
 
   ngOnInit(): void {
@@ -298,7 +298,7 @@ onRangeDatesChanged(rangeDates: Date[]) {
 getDataForStatCards(){
   
   type dict = { [key: string]: any };
-  this.dataService.getDataForStatCards(this.userId, this.intervalInDays).subscribe((data: dict) => {
+  this.dataService.getDataForStatCards(this.intervalInDays).subscribe((data: dict) => {
   console.log(data)
   this.statsData[0].title = data["count_total_ongoing_issues"]
   this.statsData[1].title = data["count_total_closed_issues"]
@@ -323,7 +323,7 @@ getDataForStatCards(){
 getDataForOverallEfficiencyandEffectivenessDntChart(){
 
   type dict = { [key: string]: any };
-  this.dataService.getCurrentOverallEfficiencyandEffectiveness(this.userId, this.intervalInDays).subscribe((data: dict) => {
+  this.dataService.getCurrentOverallEfficiencyandEffectiveness(this.intervalInDays).subscribe((data: dict) => {
     console.log("data for overall efficiency and effectiveness", data)
     this.dntChartDataOverallEfficiency = data["efficiency_percentages"]
     this.dntChartOverallEfficiencyLabels= data["efficiency_categories"]
@@ -339,7 +339,7 @@ getDataForOverallEfficiencyandEffectivenessDntChart(){
 
 getDataForEfficiencyDstriandEffectivenessDistri(){
   type dict = { [key: string]: any };
-  this.dataService.getDataForEffiandEffecIssues(this.userId, this.intervalInDays).subscribe((data: dict) => {
+  this.dataService.getDataForEffiandEffecIssues(this.intervalInDays).subscribe((data: dict) => {
     console.log("data for efficency and effectiveness of issues", data)
     
     this.effi_dstri_vert_bar_labels = data["efficiency_categories"]
@@ -351,7 +351,7 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
        
    });
 
-   this.dataService.getDataForEffiandEffecInquiries(this.userId, this.intervalInDays).subscribe((data: dict) => {
+   this.dataService.getDataForEffiandEffecInquiries(this.intervalInDays).subscribe((data: dict) => {
     console.log("data for efficiency and effectiveness of inquiries", data)
     
     this.effi_distri_vert_var_inquiries_data = data["efficiency_frequencies"]
@@ -369,7 +369,7 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
 getDataForIssueandInquiryTypes(){
   
   type dict = { [key: string]: any };
-  this.dataService.getDataForIssueandInquiryTypes(this.userId, this.intervalInDays).subscribe((data: dict) => {
+  this.dataService.getDataForIssueandInquiryTypes(this.intervalInDays).subscribe((data: dict) => {
     console.log("data for issue and inquiry types",data)
     
     this.issue_types_distri_labels = data["issue_type_labels"]
@@ -400,7 +400,7 @@ getDataForIssueandInquiryTypes(){
 
 getDataForIssuenadInquiryByProducts(){
   type dict = { [key: string]: any };
-  this.dataService.getDataForProductsByIssueandInquiry(this.userId, this.intervalInDays).subscribe((data: dict) => {
+  this.dataService.getDataForProductsByIssueandInquiry(this.intervalInDays).subscribe((data: dict) => {
     console.log("data for Isseus and Inquiries by products",data)
     
     this.prodcuts_distri_of_issues_and_inquiries_labels = data["product_labels"]
@@ -436,7 +436,7 @@ getDataForIssuenadInquiryByProducts(){
 getDataForEfficiencyByEmaiAcss(){
   type dict = { [key: string]: any };
   
-  this.dataService.getDataForEfficiencyByEmailAcc(this.userId, this.intervalInDays).subscribe((data: dict) => {
+  this.dataService.getDataForEfficiencyByEmailAcc(this.intervalInDays).subscribe((data: dict) => {
     console.log("data for efficiency by email account", data)
     
     this.email_acc_effi_labels = data["all_reading_email_accs"]
@@ -477,7 +477,7 @@ getDataForEfficiencyByEmaiAcss(){
 getBestPerformingEmail(){
   type dict = { [key: string]: any };
 
-  this.dataService.getBestPerformingEmail(this.userId, this.intervalInDays).subscribe((data: dict) => {
+  this.dataService.getBestPerformingEmail(this.intervalInDays).subscribe((data: dict) => {
     console.log("best performing email account", data)
  
     this.bestEmail = data["best_performing_email_acc"]
@@ -492,7 +492,7 @@ getOverdueIssuesdata(){
   type dict = { [key: string]: any };
   
 
-  this.dataService.getOverdueIssuesdata(this.userId, this.intervalInDays).subscribe((data: dict) => {
+  this.dataService.getOverdueIssuesdata(this.intervalInDays).subscribe((data: dict) => {
     console.log("overdue issues related data", data)
  
     this.overallOverdueIssuesHeader = `${data["sum_overdue_issues"]} OVERDUE ISSUES recorded`

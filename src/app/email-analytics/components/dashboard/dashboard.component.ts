@@ -99,7 +99,7 @@ export class DashboardComponent  implements OnInit{
 
   constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService) {}
 
-  userId: number = 1;
+
 
 
   ngOnInit(): void {
@@ -162,7 +162,7 @@ getCurrentOverallSentiments(){
     
    this.isLoadingDC = true;
     // get data for the current overall sentiments
-    this.dataService.getCurrentOverallSentiments(this.userId, this.intervalInDays).subscribe(data => {
+    this.dataService.getCurrentOverallSentiments(this.intervalInDays).subscribe(data => {
     console.log(Object.keys(data).length)
     if (Object.keys(data).length !== 0){
       const dictData = data as unknown as { positive_percentage: number, neutral_percentage: number, negative_percentage: number };
@@ -184,7 +184,7 @@ getCurrentOverallSentiments(){
 getDataForTopicsCloud(){
 
   this.isLoadingTC = true;
-  this.dataService.getDataForTopicsCloud(this.userId, this.intervalInDays).subscribe(data => {
+  this.dataService.getDataForTopicsCloud(this.intervalInDays).subscribe(data => {
   const newkeywords:TrendingTopic[] = []
   for (const item of data) {
     // Access the "product" and "frequency" properties of each item
@@ -206,7 +206,7 @@ getDataForTopicsCloud(){
 
 getDataForStatCards(){
 
-  this.dataService.getDataForStatCards(this.userId, this.intervalInDays).subscribe(data => {
+  this.dataService.getDataForStatCards(this.intervalInDays).subscribe(data => {
   console.log(data)
   this.statsData = data
      
@@ -217,7 +217,7 @@ getDataForStatCards(){
 getDataForSentimentsByTopic(){
   this.isLoadingSBT = true;
 
-  this.dataService.getDataForSentimentsByTopic(this.userId, this.intervalInDays).subscribe((data: { [key: string]: any }) => {
+  this.dataService.getDataForSentimentsByTopic(this.intervalInDays).subscribe((data: { [key: string]: any }) => {
   
 
 
@@ -234,7 +234,7 @@ getDataForSentimentsByTime(){
 
   this.isLoadingSBTime = true;
 
-  this.dataService.getDataForSentimentsByTime(this.userId, this.intervalInDays).subscribe((data: { [key: string]: any }) => {
+  this.dataService.getDataForSentimentsByTime(this.intervalInDays).subscribe((data: { [key: string]: any }) => {
   
 
 
@@ -255,7 +255,7 @@ getDataForWordCloud(){
      this.isLoadingWCC = true
 
      // Get data for word cloud
-     this.dataService.getDataForWordCloud(this.userId, this.intervalInDays).subscribe(data => {
+     this.dataService.getDataForWordCloud(this.intervalInDays).subscribe(data => {
       const newkeywords: TrendingWord[] = []
       for (const item of data) {
         // Access the "topic" and "frequency" properties of each item
@@ -280,7 +280,7 @@ getDataForSentimentsDistribtuionOfTopics(){
 
   this.isLoadingSDT = true
 
-  this.dataService.getDataForSentimentsDistribtuionOfTopics(this.userId, this.intervalInDays).subscribe((data: { [key: string]: any }) => {
+  this.dataService.getDataForSentimentsDistribtuionOfTopics(this.intervalInDays).subscribe((data: { [key: string]: any }) => {
     console.log("sentiments distribtion by topic", data)
     
     this.labels_forStackedBarChart = data["labels_freq"]
@@ -303,7 +303,7 @@ getDataForSentimentsDistribtuionOfTopics(){
 getDataForGaugeChart() {
   this.isLoadingGC = true; // Set loading indicator to true before making the request
 
-  this.dataService.getDataForGaugeChart(this.userId, this.intervalInDays)
+  this.dataService.getDataForGaugeChart(this.intervalInDays)
     .subscribe((data: { [key: string]: any }) => {
       console.log("gauge chart data", data["value"])
       this.dataValue_forGaugeStart = data["value"]

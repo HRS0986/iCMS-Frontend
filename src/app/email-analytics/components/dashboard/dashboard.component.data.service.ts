@@ -10,50 +10,47 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
   
+  private baseUrl: string = 'http://127.0.0.1:8000/email/dashboard';
 
-  getCurrentOverallSentiments(userId: number, intervalIndays: number): Observable<any[]> {
-    const url = `http://127.0.0.1:8000/email/dashboard/get_current_overall_sentiments/${userId}?intervalIndays=${intervalIndays}`;
+  getCurrentOverallSentiments(intervalIndays: number): Observable<any[]> {
+    const url = `${this.baseUrl}/get_current_overall_sentiments?intervalIndays=${intervalIndays}`;
     return this.http.get<any[]>(url);
   }
 
-  getDataForTopicsCloud(userId: number, intervalIndays: number): Observable<any[]> {
-    const url = `http://127.0.0.1:8000/email/dashboard/get_data_for_topic_cloud/${userId}?intervalIndays=${intervalIndays}`;
+  getDataForTopicsCloud(intervalIndays: number): Observable<any[]> {
+    const url = `${this.baseUrl}/get_data_for_topic_cloud?intervalIndays=${intervalIndays}`;
     return this.http.get<any[]>(url);
   }
 
-  getDataForWordCloud(userId: number, intervalIndays: number): Observable<any[]> {
-    const url = `http://127.0.0.1:8000/email/dashboard/get_data_for_word_cloud/${userId}?intervalIndays=${intervalIndays}`;
+  getDataForWordCloud(intervalIndays: number): Observable<any[]> {
+    const url = `${this.baseUrl}/get_data_for_word_cloud?intervalIndays=${intervalIndays}`;
     return this.http.get<any[]>(url);
   }
 
-  getDataForStatCards(userId: number, intervalIndays: number): Observable<any[]> {
-    const url = `http://127.0.0.1:8000/email/dashboard/get_data_for_stat_cards/${userId}?intervalIndays=${intervalIndays}`;
+  getDataForStatCards(intervalIndays: number): Observable<any[]> {
+    const url = `${this.baseUrl}/get_data_for_stat_cards?intervalIndays=${intervalIndays}`;
     return this.http.get<any[]>(url);
   }
 
-  getDataForSentimentsByTopic(userId: number, intervalIndays: number): Observable<any[]> {
-    const url = `http://127.0.0.1:8000/email/dashboard/get_data_for_sentiments_by_topic/${userId}?intervalIndays=${intervalIndays}`;
+  getDataForSentimentsByTopic(intervalIndays: number): Observable<any[]> {
+    const url = `${this.baseUrl}/get_data_for_sentiments_by_topic?intervalIndays=${intervalIndays}`;
     return this.http.get<any[]>(url);
   }
 
   
-  getDataForSentimentsByTime(userId: number, intervalIndays: number): Observable<any[]> {
-    const url = `http://127.0.0.1:8000/email/dashboard/get_data_for_sentiments_by_time/${userId}?intervalIndays=${intervalIndays}`;
+  getDataForSentimentsByTime(intervalIndays: number): Observable<any[]> {
+    const url = `${this.baseUrl}/get_data_for_sentiments_by_time?intervalIndays=${intervalIndays}`;
     return this.http.get<any[]>(url);
   }
 
-  getDataForSentimentsDistribtuionOfTopics(userId: number, intervalIndays: number): Observable<any[]> {
-    const url = `http://127.0.0.1:8000/email/dashboard/get_data_for_sentiments_distribution_of_topics/${userId}?intervalIndays=${intervalIndays}`;
+  getDataForSentimentsDistribtuionOfTopics(intervalIndays: number): Observable<any[]> {
+    const url = `${this.baseUrl}/get_data_for_sentiments_distribution_of_topics?intervalIndays=${intervalIndays}`;
     return this.http.get<any[]>(url);
   }
 
-//   getDataForGaugeChart(userId: number, intervalIndays: number) {
-//     const url = `http://127.0.0.1:8000/email/dashboard/get_data_value_for_gauge_chart/${userId}/${intervalIndays}`;
-//     return this.http.get<any[]>(url);
-// }
 
-getDataForGaugeChart(userId: number, intervalIndays: number) {
-  const url = `http://127.0.0.1:8000/email/dashboard/get_data_value_for_gauge_chart/${userId}?intervalIndays=${intervalIndays}`;
+getDataForGaugeChart(intervalIndays: number) {
+  const url = `${this.baseUrl}/get_data_value_for_gauge_chart?intervalIndays=${intervalIndays}`;
   return this.http.get<any[]>(url);
 }
 

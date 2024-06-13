@@ -159,10 +159,10 @@
                 
                 <!--Topic configuration tab-->
 
-                <p-tabPanel header="Topic configuration">
-                  <div class="min-h-full">
+                <!-- <p-tabPanel header="Topic configuration">
+                  <div class="min-h-full">  -->
                       <!--Topic configuration form-->
-                      <form [formGroup]="topicConfiguration" (ngSubmit)="onSubmitTopicConfiguration()">
+                      <!-- <form [formGroup]="topicConfiguration" (ngSubmit)="onSubmitTopicConfiguration()">
                          
                           <div class="mb-5 mt-8">
                               
@@ -177,7 +177,7 @@
                           </div>
                       </form>
 
-                      <hr class="mt-10 mb-10">
+                        <hr class="mt-10 mb-10">
                       
                       <div class="mt-3 mb-4"> <b>Currently checking topics</b></div>
                       <div *ngFor="let topic of currentCheckingTopics">
@@ -191,10 +191,11 @@
                       </div>
 
                   </div>
-              </p-tabPanel>
+              </p-tabPanel> -->
+              
               
               <!--Email integration tab-->
-                <p-tabPanel header="Email Integration">
+                <p-tabPanel header="Email Integration" *ngIf="isShowingAdminFeatures">
                     <div class="min-h-full">
                       <!--Email integration form-->
                         <form [formGroup]="emailInetgration" (ngSubmit)="onSubmitEmailIntegration()">
@@ -264,7 +265,7 @@
                 </p-tabPanel>
                  
                 <!--System configurations tab-->
-                <p-tabPanel header="System Configurations">
+                <p-tabPanel header="System Configurations" *ngIf="isShowingAdminFeatures">
 
                   <div class="min-h-full">
                     <!--System configurations form-->

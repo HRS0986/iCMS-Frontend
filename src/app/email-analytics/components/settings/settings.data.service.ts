@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, NotiSendingChannelsRecord, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
 
 
 @Injectable({
@@ -11,65 +12,73 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
 
-  private baseUrl: string = 'http://127.0.0.1:8000/email/settings';
+  baseUrl: string = 'http://127.0.0.1:8000/email/settings';
+
+
+  //-------------------------------------------get dataservices  -------------------------------------------------------------
+
   
-  getUserRoleData(token: string): Observable<any[]> {
+  getUserRoleData(token: string): Observable<UserRoleResponse > {
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
     const url = `${this.baseUrl}/get_user_role_data`;
-    return this.http.get<any[]>(url, {headers});
+    return this.http.get<UserRoleResponse>(url, {headers});
   
   }
-
-  getData(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/get_current_reading_emails`);
+  
+  getData(): Observable<EmailAccWithNickName[]> {
+    return this.http.get<EmailAccWithNickName[]>(`${this.baseUrl}/get_current_reading_emails`);
   }
 
-  getCriticalityCheckingEmails(token:string): Observable<any[]> {
+  getCriticalityCheckingEmails(token:string): Observable<EmailAcc[]> {
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.get<any[]>(`${this.baseUrl}/get_current_criticality_checking_emails`, {headers});
+    return this.http.get<EmailAcc[]>(`${this.baseUrl}/get_current_criticality_checking_emails`, {headers});
   
   }
 
-  getOverdueIssuesCheckingEmails(token: string): Observable<any[]> {
+  getOverdueIssuesCheckingEmails(token: string): Observable<EmailAcc[]> {
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.get<any[]>(`${this.baseUrl}/get_current_overdue_issues_checking_emails`, {headers});
+    return this.http.get<EmailAcc[]>(`${this.baseUrl}/get_current_overdue_issues_checking_emails`, {headers});
   
   }
 
-  getSSCheckingData(token: string): Observable<any[]> {
+  getSSCheckingData(token: string): Observable<SSShiftData> {
 
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.get<any[]>(`${this.baseUrl}/get_current_ss_checking_data`, {headers});
+    return this.http.get<SSShiftData>(`${this.baseUrl}/get_current_ss_checking_data`, {headers});
   
   }
 
-  getNotiChannelsData(token: string): Observable<any[]> {
+  getNotiChannelsData(token: string): Observable<NotiSendingChannelsRecord> {
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
     const url = `${this.baseUrl}/get_noti_channels_data`;
-    return this.http.get<any[]>(url, {headers});
+    return this.http.get<NotiSendingChannelsRecord>(url, {headers});
   
   }
 
 
-  getSystemConfigurationData(): Observable<any[]> {
+  getSystemConfigurationData(): Observable<SendSystemConfigData> {
 
     const url = `${this.baseUrl}/get_system_configuration_data`;
-    return this.http.get<any[]>(url);
+    return this.http.get<SendSystemConfigData>(url);
   
   }
   
-  postSSShiftData(token: string, formData: any): Observable<any[]> {
+
+
+  //---------------------------------------------posting dataservices - onSubmit -------------------------------------------------------------
+ 
+  postSSShiftData(token: string, formData: SSShiftData): Observable<any[]> {
 
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -80,7 +89,7 @@ export class DataService {
   
   }
 
-  postCriticalityData(token: string, formData: any): Observable<any[]> {
+  postCriticalityData(token: string, formData: PostingCriticalityData): Observable<any[]> {
 
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -91,7 +100,7 @@ export class DataService {
   
   }
   
-  postNotificationChannelsData(token: string, formData: any): Observable<any[]> {
+  postNotificationChannelsData(token: string, formData: PostingNotiSendingChannelsRecord): Observable<any[]> {
 
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -103,7 +112,7 @@ export class DataService {
   }
 
 
-  postIssuesOverdueData(formData: any): Observable<any[]> {
+  postIssuesOverdueData(formData: PostingOverdueIssuesData): Observable<any[]> {
 
     const url = `${this.baseUrl}/receive_overdue_issue_trigger_data`;
     return this.http.post<any[]>(url, formData);  
@@ -111,14 +120,37 @@ export class DataService {
   }
 
   
-  postSystemConfigData(formData: any): Observable<any[]> {
+  postSystemConfigData(formData: SendSystemConfigData): Observable<any[]> {
 
     const url = `${this.baseUrl}/receive_system_configurations_data`;
     return this.http.post<any[]>(url, formData);  
   
   }
 
-  deleteNotiSendingEmail(token: string, sendingData: any): Observable<any[]> {
+
+  postEmailIntegration(formData: PostNewIntegratingEmail): Observable<any[]> {
+
+    const url = `${this.baseUrl}/receive_email_data`;
+    return this.http.post<any[]>(url, formData);  
+  
+  }
+
+
+
+
+
+  //-----------------------------------------deleting dataservices --------------------------------------------------------------
+
+  deleteReadingEmail( sendingData: DeleteReadingEmail): Observable<any[]> {
+
+    const url = `${this.baseUrl}/remove_reading_email`;
+    return this.http.post<any[]>(url, sendingData);  
+  
+  }
+
+
+
+  deleteNotiSendingEmail(token: string, sendingData: DeleteNotiSendingEmail): Observable<any[]> {
 
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

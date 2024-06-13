@@ -29,7 +29,8 @@ export class AuthorizationMessageComponent implements OnInit{
     
     // only perform the activation of aithroze button after the authrozation uri is loaded from the backend
     if (!this.authorizationInfoLoading){
-      this.router.navigateByUrl(this.authorization_url);
+      console.log("authorization url", this.authorization_url)
+      window.location.href = this.authorization_url
     }
    
   }

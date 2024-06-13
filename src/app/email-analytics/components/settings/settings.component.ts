@@ -5,19 +5,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './settings.data.service';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
+import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, NotiSendingChannelsRecord, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
 
 
 
-interface EmailAcc {
-    address: string   
-}
-
-interface NotiChannelsData {
-  user_id: number;
-  is_dashboard_notifications: boolean;
-  is_email_notifications: boolean;
-  noti_sending_emails: string[]; 
-}
 
 
 @Component({
@@ -130,16 +121,13 @@ export class SettingsComponent implements OnInit{
     console.log(this.sentimentShiftsForm.value);
     const email_Accs_To_CheckSS = this.sentimentShiftsForm.value.emailAccsToCheckSS;
 
-    // configure dynamicaly later
-    const user_id = 3;
-
-    let formData = {
-      emailAccsToCheckSS: email_Accs_To_CheckSS ? email_Accs_To_CheckSS.map((item: any) => item.name) : [],
-      lowerNotify: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerNotify : false,
-      lowerSS: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerSS : 0,
-      upperNotify: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.upperNotify : false,
-      upperSS: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.upperSS : 0,
-      is_checking_ss:email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.ssThresholdNotiEnabled : true
+    let formData: SSShiftData = {
+      accs_to_check_ss: email_Accs_To_CheckSS ? email_Accs_To_CheckSS.map((item: any) => item.name) : [],
+      is_lower_checking: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerNotify?? false : false,
+      ss_lower_bound: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerSS?? 0 : 0,
+      is_upper_checking: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.upperNotify?? false : false,
+      ss_upper_bound: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.upperSS?? 0 : 0,
+      is_checking_ss:email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.ssThresholdNotiEnabled?? true : true
     };
 
 
@@ -166,11 +154,7 @@ export class SettingsComponent implements OnInit{
     console.log(this.criticalityForm.value);
     const email_Accs_To_Criticality = this.criticalityForm.value.emailAccsToCheckCriticality;
 
-    // configure dynamicaly later
-    const user_id = 3;
-
-    let formData = {
-      userID: user_id,
+    let formData: PostingCriticalityData = {
       accs_to_check_criticality: email_Accs_To_Criticality ? email_Accs_To_Criticality.map((item: any) => item.name) : [],
     }
 
@@ -195,11 +179,7 @@ export class SettingsComponent implements OnInit{
     console.log(this.overdueIssuesForm.value);
     const email_Accs_To_Overdue_Issues = this.overdueIssuesForm.value.emailAccsToCheckOverdueIssues;
 
-    // configure dynamicaly later
-    const user_id = 3;
-
-    let formData = {
-      userID: user_id,
+    let formData: PostingOverdueIssuesData = {
       accs_to_check_overdue_emails: email_Accs_To_Overdue_Issues ? email_Accs_To_Overdue_Issues.map((item: any) => item.name) : [],
     }
 
@@ -221,13 +201,11 @@ export class SettingsComponent implements OnInit{
   onSubmitNotificationChannels(): void {
     console.log(this.notificationChannelsForm.value);
 
-    const user_id = 3;
 
-    const formData = {
-      userID: user_id,
-      emailChannelChecked:this.notificationChannelsForm.value.emailChannelChecked,
-      dashboardChannelChecked: this.notificationChannelsForm.value.dashboardChannelChecked,
-      notiSendingEmails:this.notificationChannelsForm.value.notiSendingEmails
+    const formData: PostingNotiSendingChannelsRecord = {
+      is_email_notifications:this.notificationChannelsForm.value.emailChannelChecked || false,
+      is_dashboard_notifications: this.notificationChannelsForm.value.dashboardChannelChecked || false,
+      noti_sending_emails:this.notificationChannelsForm.value.notiSendingEmails || []
     }
     
     this.authService.getIdToken().subscribe((token: any) => {
@@ -254,8 +232,8 @@ export class SettingsComponent implements OnInit{
       console.log(this.systemConfigurations.value);
   
   
-      const formData = {
-        overdue_margin_time:this.systemConfigurations.value.overdueInterval
+      const formData: SendSystemConfigData = {
+        overdue_margin_time:this.systemConfigurations.value.overdueInterval || 14
         // newProducts:this.systemConfigurations.value.newProductInputs
 
       }
@@ -289,14 +267,14 @@ export class SettingsComponent implements OnInit{
           console.log(newEmailName);
           // push the new email name and nickname into the currentReadingemailaccounts
           this.currentReadingEmailAccountsForIntegrationPage.push({ address: newEmailName , nickname:newEmailNName});
-          //this.emailInetgration.reset();
-
-          // Send the new email data to FastAPI
-          this.http.post('http://127.0.0.1:8000/email/settings/receive_email_data', {
+          
+          const sendingData: PostNewIntegratingEmail = {
             emailAddress: newEmailName,
             nickName: newEmailNName,
-            clientSecret:newEmailClientSecret
-          }).subscribe(response => {
+            clientSecret: newEmailClientSecret || ""
+          }
+          // Send the new email data to FastAPI
+          this.dataService.postEmailIntegration(sendingData).subscribe(response => {
             console.log('Data sent successfully:', response);
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'New email integrated succesfuly!' });
             // Assuming you want to reset the form after successful submission
@@ -361,11 +339,11 @@ export class SettingsComponent implements OnInit{
 
   }
 
-  ConfirmProductDelete():void{
-    this.deleteProduct(this.selectedProduct)
-    this.visibleProductDeleting = false;
+  // ConfirmProductDelete():void{
+  //   this.deleteProduct(this.selectedProduct)
+  //   this.visibleProductDeleting = false;
 
-  }
+  // }
 
   showDialogConfirmationEmailIntegration(emailAddress: any): void {
     this.selectedReadingEmail = emailAddress;
@@ -386,15 +364,15 @@ formGroup: FormGroup | undefined;
 deleteReadingEmail(email: string): void {
   
   console.log( this.selectedReadingEmail)
-  const userId = 1;
-  this.http.post(`http://127.0.0.1:8000/email/settings/remove_reading_email`, {
-      removing_email: email
-    }).subscribe(response => {
+
+  const sendingData: DeleteReadingEmail = {removing_email:email}
+
+  this.dataService.deleteReadingEmail(sendingData).subscribe(response => {
       console.log('Data sent successfully:', response);
 
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Reading email deleted succesfully' });
 
-      this.dataService.getData().subscribe(data => {
+      this.dataService.getData().subscribe((data: EmailAccWithNickName[]) => {
         console.log(data)
         this.currentReadingEmailAccountsForIntegrationPage = data// Array of dictionaries received from the backend
         this.currentReadingEmailAccountsForNotificationPage = data.map(obj => ({ address: obj.address }));
@@ -413,9 +391,7 @@ deleteReadingEmail(email: string): void {
 deleteNotiSendingEmail(emailName: string): void {
   this.currentNotiSendingEmailAccounts = this.currentNotiSendingEmailAccounts.filter(item => item.address !== emailName);
 
-  const userId = 1;
-
-  const sendingData = {
+  const sendingData: DeleteNotiSendingEmail = {
        noti_sending_emails: this.currentNotiSendingEmailAccounts.map(item => item.address as string)
   }
 
@@ -436,29 +412,29 @@ deleteNotiSendingEmail(emailName: string): void {
 
 }
 
-deleteProduct(productname: string): void {
-  this.currentConsideringProducts = this.currentConsideringProducts.filter(item => item.name !== productname);
+// deleteProduct(productname: string): void {
+//   this.currentConsideringProducts = this.currentConsideringProducts.filter(item => item.name !== productname);
   
-  this.http.post(`http://127.0.0.1:8000/email/settings/remove_product`, {
+//   this.http.post(`http://127.0.0.1:8000/email/settings/remove_product`, {
 
-    current_considering_products: this.currentConsideringProducts.map(item => item.name as string)
-  }).subscribe(response => {
-    console.log('Data sent successfully:', response);
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product deleted successfully' });
-    // Assuming you want to reset the form after successful submission
+//     current_considering_products: this.currentConsideringProducts.map(item => item.name as string)
+//   }).subscribe(response => {
+//     console.log('Data sent successfully:', response);
+//     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product deleted successfully' });
+//     // Assuming you want to reset the form after successful submission
   
-  }, error => {
-    console.error('Error sending data:', error);
-    this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
+//   }, error => {
+//     console.error('Error sending data:', error);
+//     this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
 
-  });
+//   });
 
-}
+// }
 
-deleteCheckingTopic(topicName: string): void {
-  this.currentCheckingTopics = this.currentCheckingTopics.filter(item => item.name !== topicName);
+// deleteCheckingTopic(topicName: string): void {
+//   this.currentCheckingTopics = this.currentCheckingTopics.filter(item => item.name !== topicName);
 
-}
+// }
 
 
 //-------------------------------------------------- ngOnInit---------------------------------------------------------------------------
@@ -530,7 +506,7 @@ ngOnInit() {
 
   }
 
- 
+   this.getUserRoleDataForUser()
   // get reading emails for settings page tabs
   this.getReadingEmailAccountsForSettingsPages()
 
@@ -559,28 +535,17 @@ ngOnInit() {
 
 
  getUserRoleDataForUser(): void {
-
   this.authService.getIdToken().subscribe((token: string) => {
-    this.dataService.getUserRoleData(token).subscribe((data: { [key: string]: any }) => {
-      console.log('user role data',data)
-      // this.currentSSCheckingEmailAccountsOfUser = data["accs_to_check_ss"].map((email: any) => ({ address: email }));// Array of email address names received from the backend
-      // this.sentimentShiftsForm.patchValue({
-      //   emailAccsToCheckSS: this.currentSSCheckingEmailAccountsOfUser,
-      //   lowerSS:data["ss_lower_bound"],
-      //   upperSS:data["ss_upper_bound"],
-      //   ssThresholdNotiEnabled:data["is_checking_ss"]
-        
-      // });
-  
-
+    this.dataService.getUserRoleData(token).subscribe((data: UserRoleResponse) => {
+      console.log('user role data', data);
+      this.isShowingAdminFeatures = data.isAdmin;
     });
   });
-
 }
 
 getReadingEmailAccountsForSettingsPages(): void {
   
-  this.dataService.getData().subscribe(data => {
+  this.dataService.getData().subscribe((data: EmailAccWithNickName[]) => {
     console.log(data)
     this.currentReadingEmailAccountsForIntegrationPage = data// Array of dictionaries received from the backend
     this.currentReadingEmailAccountsForNotificationPage = data.map(obj => ({ address: obj.address }));
@@ -593,19 +558,19 @@ getReadingEmailAccountsForSettingsPages(): void {
 getSentimentShiftDataOfUser(): void {
 
   this.authService.getIdToken().subscribe((token: string) => {
-    this.dataService.getSSCheckingData(token).subscribe((data: { [key: string]: any }) => {
+    this.dataService.getSSCheckingData(token).subscribe((data: SSShiftData) => {
       console.log('sscheckingemails',data)
-      this.currentSSCheckingEmailAccountsOfUser = data["accs_to_check_ss"].map((email: any) => ({ address: email }));// Array of email address names received from the backend
+      this.currentSSCheckingEmailAccountsOfUser = data.accs_to_check_ss
       this.sentimentShiftsForm.patchValue({
         emailAccsToCheckSS: this.currentSSCheckingEmailAccountsOfUser,
-        lowerSS:data["ss_lower_bound"],
-        upperSS:data["ss_upper_bound"],
-        ssThresholdNotiEnabled:data["is_checking_ss"]
+        lowerSS:data.ss_lower_bound,
+        upperSS:data.ss_upper_bound,
+        ssThresholdNotiEnabled:data.is_checking_ss
         
       });
   
-      this.sentimentShiftsForm.controls['lowerNotify'].setValue(data["is_lower_checking"]);
-      this.sentimentShiftsForm.controls['upperNotify'].setValue(data["is_upper_checking"]);
+      this.sentimentShiftsForm.controls['lowerNotify'].setValue(data.is_lower_checking);
+      this.sentimentShiftsForm.controls['upperNotify'].setValue(data.is_upper_checking);
     });
   });
 
@@ -614,9 +579,9 @@ getSentimentShiftDataOfUser(): void {
 
 getCiticalityCheckingDataOfUser(): void {
   this.authService.getIdToken().subscribe((token: string) => {
-    this.dataService.getCriticalityCheckingEmails(token).subscribe(data => {
+    this.dataService.getCriticalityCheckingEmails(token).subscribe((data: EmailAcc[]) => {
       console.log('Criticality checking emails',data)
-      this.currentCritiCheckingEmailAccountsofUser = data.map(email => ({ address: email }));
+      this.currentCritiCheckingEmailAccountsofUser = data
       this.criticalityForm.patchValue({
         emailAccsToCheckCriticality: this.currentCritiCheckingEmailAccountsofUser
       });
@@ -626,9 +591,9 @@ getCiticalityCheckingDataOfUser(): void {
 
 getOverdueIssuesCheckingDataOfUser(): void{
   this.authService.getIdToken().subscribe((token: string) => {
-    this.dataService.getOverdueIssuesCheckingEmails(token).subscribe(data => {
+    this.dataService.getOverdueIssuesCheckingEmails(token).subscribe((data: EmailAcc[]) => {
       console.log('OverdueIssues checking emails',data)
-      this.currentOVerdueCheckingAccountsofUser = data.map(email => ({ address: email }));
+      this.currentOVerdueCheckingAccountsofUser = data
       this.overdueIssuesForm.patchValue({
         emailAccsToCheckOverdueIssues: this.currentOVerdueCheckingAccountsofUser
       });
@@ -640,12 +605,12 @@ getOverdueIssuesCheckingDataOfUser(): void{
 
 getNotiChannelsDataForUser(): void {
   this.authService.getIdToken().subscribe((token: string) => {
-    this.dataService.getNotiChannelsData(token).subscribe((data: { [key: string]: any }) => {
+    this.dataService.getNotiChannelsData(token).subscribe((data: NotiSendingChannelsRecord) => {
       console.log('NotiChannels',data)
-      this.currentNotiSendingEmailAccounts = data['noti_sending_emails'].map((email: any) => ({ address: email }));
+      this.currentNotiSendingEmailAccounts = data.noti_sending_emails
       this.notificationChannelsForm.patchValue({
-          emailChannelChecked: data["is_email_notifications"],
-          dashboardChannelChecked:data["is_dashboard_notifications"]
+          emailChannelChecked: data.is_email_notifications,
+          dashboardChannelChecked:data.is_dashboard_notifications
       });
     });
   });
@@ -653,11 +618,11 @@ getNotiChannelsDataForUser(): void {
 
 
 getSystemConfigDataForCompany(): void {
-  this.dataService.getSystemConfigurationData().subscribe((data: { [key: string]: any }) => {
+  this.dataService.getSystemConfigurationData().subscribe((data: SendSystemConfigData) => {
     console.log('System Configurations data ',data)
 
     this.systemConfigurations.patchValue({
-        overdueInterval: data["overdue_margin_time"],
+        overdueInterval: data.overdue_margin_time,
     });
   });
 }
