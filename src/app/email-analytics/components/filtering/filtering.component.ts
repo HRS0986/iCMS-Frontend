@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-
+import { Component, Output, EventEmitter } from '@angular/core';
+import { Filter } from '../../interfaces/filters';
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -12,11 +12,11 @@ interface AutoCompleteCompleteEvent {
   styleUrl: './filtering.component.scss'
 })
 export class FilteringComponent {
-  selectedItemsSender: any[] | undefined;
-  selectedItemsReceiver: any[] | undefined;
-  selectedItemsTags: any[] | undefined;
-  selectedItemsStatus: any[] | undefined;
-  selectedDate: Date[] | undefined;
+  selectedItemsSender: string[] = [];
+  selectedItemsReceiver: string[] = [];
+  selectedItemsTags: string[] = [];
+  selectedItemsStatus: string[] = [];
+  selectedDate: Date[] = [];
   searchText: string = '';
   otherText: string = '';
 
@@ -32,6 +32,22 @@ export class FilteringComponent {
   currentDate!: Date;
   lastDate!: Date;  // last date that can be selected in the date picker
   goBackDays: number = 30 // how many days back can the user select in date picker
+
+  emptyFilterCriteria: Filter = {
+    selectedSenders: [],
+    selectedReceivers: [],
+    selectedTags: [],
+    reqAllTags: false,
+    selectedStatus: [],
+    selectedDate: [],
+    searchText: '',
+    importantOnly: false,
+    newOnly: false
+  };
+
+  filterCriteria: Filter = this.emptyFilterCriteria;
+
+  @Output() filterEmitter = new EventEmitter<any>();
 
   searchSender(event: AutoCompleteCompleteEvent) {
     this.itemsSender = ['a', 'b', 'c', 'd', 'e'].map((item) => event.query + '-' + item);
@@ -61,28 +77,20 @@ export class FilteringComponent {
     this.lastDate = new Date(tmp);
   } 
   applyFilters() {
-    console.log('Sender:', this.selectedItemsSender);
-    console.log('Receiver:', this.selectedItemsReceiver);
-    console.log('Tags:', this.selectedItemsTags);
-    console.log('Req all tags:', this.reqAllTags)
-    console.log('Status:', this.selectedItemsStatus);
-    console.log('Date:', this.selectedDate);
-    console.log('Important:', this.importantOnly);
-    console.log('New:', this.newOnly);
-    console.log('Search:', this.searchText);
-    console.log('Other:', this.otherText);
+    this.filterCriteria.selectedSenders = this.selectedItemsSender;
+    this.filterCriteria.selectedReceivers = this.selectedItemsReceiver;
+    this.filterCriteria.selectedTags = this.selectedItemsTags;
+    this.filterCriteria.reqAllTags = this.reqAllTags;
+    this.filterCriteria.selectedStatus = this.selectedItemsStatus;
+    this.filterCriteria.selectedDate = this.selectedDate;
+    this.filterCriteria.searchText = this.searchText;
+    this.filterCriteria.importantOnly = this.importantOnly;
+    this.filterCriteria.newOnly = this.newOnly;
+    
+    this.filterEmitter.emit(this.filterCriteria);
   }
   clearFilters() {
-    this.searchText = '';
-    this.selectedItemsSender = [];
-    this.selectedItemsReceiver = [];
-    this.selectedItemsTags = [];
-    this.reqAllTags = false;
-    this.selectedItemsStatus = [];
-    this.selectedDate = [];
-    this.importantOnly = false;
-    this.newOnly = false;
-    this.otherText = '';
+    this.filterCriteria = this.emptyFilterCriteria;
   }
   cancelFilters() {
     this.clearFilters();
