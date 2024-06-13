@@ -84,13 +84,15 @@ export class IssueService {
       to = filterCriteria.selectedDate[1].toISOString().split("T")[0];
       params += "&dateFrom=" + from + "&dateTo=" + to;
     }
-    if (filterCriteria.importantOnly != undefined) {
+    if (filterCriteria.importantOnly !== false) {
       params += "&imp=" + filterCriteria.importantOnly.toString();  
     }
     if (filterCriteria.newOnly !== false) {
       params += "&new=" + filterCriteria.newOnly.toString();
     }
-
+    if (filterCriteria.reqAllTags !== false) {
+      params += "&allTags=" + filterCriteria.reqAllTags.toString();
+    }
     return this.http
       .get<IssueMetaDataResponse>(`${this.baseUrl}/issues?${params}`)
       .pipe(
