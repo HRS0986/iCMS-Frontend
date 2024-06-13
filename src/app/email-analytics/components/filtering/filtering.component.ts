@@ -12,22 +12,12 @@ interface AutoCompleteCompleteEvent {
   styleUrl: './filtering.component.scss'
 })
 export class FilteringComponent {
-  selectedItemsSender: string[] = [];
-  selectedItemsReceiver: string[] = [];
-  selectedItemsTags: string[] = [];
-  selectedItemsStatus: string[] = [];
-  selectedDate: Date[] = [];
-  searchText: string = '';
   otherText: string = '';
 
   itemsSender!: any[];
   itemsReceiver!: any[];
   itemsTags!: any[];
   itemsStatus!: any[];
-
-  reqAllTags: boolean = false;
-  importantOnly: boolean = false;
-  newOnly: boolean = false;
 
   currentDate!: Date;
   lastDate!: Date;  // last date that can be selected in the date picker
@@ -65,10 +55,10 @@ export class FilteringComponent {
     console.log('test');
   }
   clickImportant() {
-    this.importantOnly = !this.importantOnly;
+    this.filterCriteria.importantOnly = !this.filterCriteria.importantOnly;
   }
   clickNew() {
-    this.newOnly = !this.newOnly;
+    this.filterCriteria.newOnly = !this.filterCriteria.newOnly;
   }
   calculateDates() {
     this.currentDate = new Date();
@@ -77,20 +67,20 @@ export class FilteringComponent {
     this.lastDate = new Date(tmp);
   } 
   applyFilters() {
-    this.filterCriteria.selectedSenders = this.selectedItemsSender;
-    this.filterCriteria.selectedReceivers = this.selectedItemsReceiver;
-    this.filterCriteria.selectedTags = this.selectedItemsTags;
-    this.filterCriteria.reqAllTags = this.reqAllTags;
-    this.filterCriteria.selectedStatus = this.selectedItemsStatus;
-    this.filterCriteria.selectedDate = this.selectedDate;
-    this.filterCriteria.searchText = this.searchText;
-    this.filterCriteria.importantOnly = this.importantOnly;
-    this.filterCriteria.newOnly = this.newOnly;
-    
     this.filterEmitter.emit(this.filterCriteria);
   }
   clearFilters() {
-    this.filterCriteria = this.emptyFilterCriteria;
+    this.filterCriteria = {
+      selectedSenders: [],
+      selectedReceivers: [],
+      selectedTags: [],
+      reqAllTags: false,
+      selectedStatus: [],
+      selectedDate: [],
+      searchText: '',
+      importantOnly: false,
+      newOnly: false
+    };
   }
   cancelFilters() {
     this.clearFilters();

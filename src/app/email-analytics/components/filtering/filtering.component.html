@@ -14,15 +14,15 @@
             pInputText
             class="w-full"
             placeholder="search anything"
-            [(ngModel)]="searchText"
+            [(ngModel)]="filterCriteria.searchText"
           />
         </div>
       </div>
       <div class="min-w-40 min-h-10 grow">
         <div class="mb-2">Date Range</div>
-        <div class="w-full  relative">
+        <div class="w-full relative">
           <p-calendar
-            [(ngModel)]="selectedDate"  
+            [(ngModel)]="filterCriteria.selectedDate"  
             selectionMode="range"
             [readonlyInput]="true"
             [showIcon]="true"
@@ -42,7 +42,7 @@
         <div class="w-full">
           <span class="p-fluid">
             <p-autoComplete
-              [(ngModel)]="selectedItemsSender"
+              [(ngModel)]="filterCriteria.selectedSenders"
               [suggestions]="itemsSender"
               (completeMethod)="searchSender($event)"
               [virtualScroll]="true"
@@ -60,7 +60,7 @@
         <div class="w-full ">
           <span class="p-fluid">
             <p-autoComplete
-              [(ngModel)]="selectedItemsReceiver"
+              [(ngModel)]="filterCriteria.selectedReceivers"
               [suggestions]="itemsReceiver"
               (completeMethod)="searchReceiver($event)"
               [virtualScroll]="true"
@@ -77,7 +77,7 @@
           <div class="mb-2">Tags</div>
           <div class="absolute right-0 top-0 flex">
             <p-checkbox 
-            [(ngModel)]="reqAllTags"
+            [(ngModel)]="filterCriteria.reqAllTags"
             label="Require all tags" 
             [binary]="true" 
             labelStyleClass="text-xs"
@@ -87,7 +87,7 @@
         <div class="w-full ">
           <span class="p-fluid">
             <p-autoComplete
-              [(ngModel)]="selectedItemsTags"
+              [(ngModel)]="filterCriteria.selectedTags"
               [suggestions]="itemsTags"
               (completeMethod)="searchTags($event)"
               [virtualScroll]="true"
@@ -104,7 +104,7 @@
         <div class="w-full ">
           <span class="p-fluid">
             <p-autoComplete
-              [(ngModel)]="selectedItemsStatus"
+              [(ngModel)]="filterCriteria.selectedStatus"
               [suggestions]="itemsStatus"
               (completeMethod)="searchStatus($event)"
               [virtualScroll]="true"
@@ -131,14 +131,14 @@
           (click)="clickImportant()"
           value="Critical"
           [rounded]="true"
-          [severity]="importantOnly ? 'success' : 'info'"
+          [severity]="filterCriteria.importantOnly ? 'success' : 'info'"
           styleClass="cursor-pointer"
         />
         <p-tag 
           (click)="clickNew()"
           value="New"
           [rounded]="true"
-          [severity]="newOnly ? 'success' : 'info'"
+          [severity]="filterCriteria.newOnly ? 'success' : 'info'"
           styleClass="cursor-pointer"
         />
       </div>
@@ -169,7 +169,7 @@
             [rounded]="true"
             severity="primary"
             (click)="applyFilters()"
-            size="large"
+            size="small"
           />
 
         </div>
