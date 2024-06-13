@@ -61,39 +61,38 @@ export class IssueService {
   baseUrl = 'http://127.0.0.1:8000'; // Base URL for the API
 
   getIssueData(filterCriteria: Filter, skip: number, limit: number): Observable<IssueMetaDataResponse> {
-    let params = new HttpParams();
-    if (filterCriteria.selectedSenders) {
-      params = params.set('s', JSON.stringify(filterCriteria.selectedSenders));
-    }
-    if (filterCriteria.selectedReceivers) {
-      params = params.set('r', JSON.stringify(filterCriteria.selectedReceivers));
-    }
-    if (filterCriteria.selectedTags) {
-      params = params.set('tags', JSON.stringify(filterCriteria.selectedTags));
-    }
-    if (filterCriteria.reqAllTags !== undefined) {
-      params = params.set('allTags', filterCriteria.reqAllTags.toString());
-    }
-    if (filterCriteria.selectedStatus) {
-      params = params.set('status', JSON.stringify(filterCriteria.selectedStatus));
-    }
-    if (filterCriteria.selectedDate) {
-      params = params.set('date', JSON.stringify(filterCriteria.selectedDate));
-    }
+    let params = "limit=" + limit + "&skip=" + skip;
+
     if (filterCriteria.searchText) {
-      params = params.set('keyword', filterCriteria.searchText);
+      params += "&q=" + filterCriteria.searchText;
     }
-    if (filterCriteria.importantOnly !== undefined) {
-      params = params.set('important', filterCriteria.importantOnly.toString());
+    if (filterCriteria.selectedSenders.length > 0) {
+      params += "&s=" + filterCriteria.selectedSenders.join(",");
     }
-    if (filterCriteria.newOnly !== undefined) {
-      params = params.set('new', filterCriteria.newOnly.toString());
+    if (filterCriteria.selectedReceivers.length > 0) {
+      params += "&r=" + filterCriteria.selectedReceivers.join(",");
     }
-    params = params.set('skip', skip.toString());
-    params = params.set('limit', limit.toString());
+    if (filterCriteria.selectedTags.length > 0) {
+      params += "&tags=" + filterCriteria.selectedTags.join(",");
+    }
+    if (filterCriteria.selectedStatus.length > 0) {
+      params += "&status=" + filterCriteria.selectedStatus.join(",");
+    }
+    if (filterCriteria.selectedDate.length === 2) {
+      let from: string, to: string;
+      from = filterCriteria.selectedDate[0].toISOString().split("T")[0];  // To remove time values
+      to = filterCriteria.selectedDate[1].toISOString().split("T")[0];
+      params += "&dateFrom=" + from + "&dateTo=" + to;
+    }
+    if (filterCriteria.importantOnly != undefined) {
+      params += "&imp=" + filterCriteria.importantOnly.toString();  
+    }
+    if (filterCriteria.newOnly !== false) {
+      params += "&new=" + filterCriteria.newOnly.toString();
+    }
 
     return this.http
-      .get<IssueMetaDataResponse>(`${this.baseUrl}/issues`, { params })
+      .get<IssueMetaDataResponse>(`${this.baseUrl}/issues?${params}`)
       .pipe(
         timeout(this.timeoutDuration),
         catchError(e => {

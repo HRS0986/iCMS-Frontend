@@ -53,7 +53,9 @@ export class IssueDataviewComponent {
 
   loadIssues($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
-
+    // test
+    this.issueService.getIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({});
+    //
     this.issueService.getMockIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
       next: (response: IssueMetaDataResponse) => {
         this.issueData = response.data;

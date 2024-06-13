@@ -75,13 +75,15 @@ export class SuggestionService {
       params = params.set('q', filterCriteria.searchText);
     }
     if (filterCriteria.importantOnly !== undefined) {
-      params = params.set('important', filterCriteria.importantOnly.toString());
+      params = params.set('imp', filterCriteria.importantOnly.toString());
     }
     if (filterCriteria.newOnly !== undefined) {
       params = params.set('new', filterCriteria.newOnly.toString());
     }
     params = params.set('skip', skip.toString());
     params = params.set('limit', limit.toString());
+
+    console.log('params', params);
 
     return this.http
       .get<MockSuggestionMetadataResponse>(`https://dummyjson.com/products/search`, { params })
