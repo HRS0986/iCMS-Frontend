@@ -96,6 +96,7 @@ export class SuggestionFilteringComponent {
     const intervalInDays = this.calculateDatesInterval(this.dateRange)
     this.getFilteredSuggestions(intervalInDays, this.productSelected, this.recipientEmailSelected)
   }
+  
   getFilteredSuggestions(intervalInDays: number, productSelected: string, recipientEmailSelected:string){
 
     type dict = { [key: string]: any };

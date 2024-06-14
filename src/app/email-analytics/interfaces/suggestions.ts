@@ -9,6 +9,14 @@ export interface Suggestion {
     recipient: string;
 }
 
+// Ranindu added interface
+export interface SuggestionsData{
+        receiver: string
+        date: string
+        products: string[]
+        suggestion: string
+}
+
 export interface SuggestionMetaDataResponse {
     data: Suggestion[];
     total: number;

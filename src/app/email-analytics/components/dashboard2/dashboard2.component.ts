@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { MenuItem } from "primeng/api";
 import { DataService } from './dashboard2.component.data.service';
+import { BestPerformingEmailAccResponse, InquiriesByEfficiencyEffectivenessResponse, IssueInquiryFreqByProdcuts, IssueInquiryFreqByTypeResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverallyEfficiencyEffectivenessPecentagesResponse, OverdueIssuesResponse } from '../../interfaces/dashboard';
 
 interface TrendingTopic {
   text: string;
@@ -297,17 +298,16 @@ onRangeDatesChanged(rangeDates: Date[]) {
 
 getDataForStatCards(){
   
-  type dict = { [key: string]: any };
-  this.dataService.getDataForStatCards(this.intervalInDays).subscribe((data: dict) => {
+  this.dataService.getDataForStatCards(this.intervalInDays).subscribe((data: OngoingAndClosedStatsResponse) => {
   console.log(data)
-  this.statsData[0].title = data["count_total_ongoing_issues"]
-  this.statsData[1].title = data["count_total_closed_issues"]
-  this.statsData[2].title = data["count_total_ongoing_inquiries"]
-  this.statsData[3].title = data["count_total_closed_inquiries"]
+  this.statsData[0].title = data.count_total_ongoing_issues
+  this.statsData[1].title = data.count_total_closed_issues
+  this.statsData[2].title = data.count_total_ongoing_inquiries
+  this.statsData[3].title = data.count_total_closed_inquiries
 
   // get data for the progress donought chart
 
-  this.dntChartDataProgress = [data["ongoing_percentage"], data["closed_percentage"]]
+  this.dntChartDataProgress = [data.ongoing_percentage, data.closed_percentage]
   this.dntChartProgressLabels = ["ongoing", "closed"]
 
   this.isLoadingDCProgress = false
@@ -322,13 +322,13 @@ getDataForStatCards(){
 
 getDataForOverallEfficiencyandEffectivenessDntChart(){
 
-  type dict = { [key: string]: any };
-  this.dataService.getCurrentOverallEfficiencyandEffectiveness(this.intervalInDays).subscribe((data: dict) => {
+
+  this.dataService.getCurrentOverallEfficiencyandEffectiveness(this.intervalInDays).subscribe((data: OverallyEfficiencyEffectivenessPecentagesResponse) => {
     console.log("data for overall efficiency and effectiveness", data)
-    this.dntChartDataOverallEfficiency = data["efficiency_percentages"]
-    this.dntChartOverallEfficiencyLabels= data["efficiency_categories"]
-    this.dntChartDataOverallEffeftiveness= data["effectiveness_percentages"]
-    this.dntChartOverallEffectivenessLabels = data["effectiveness_categories"]
+    this.dntChartDataOverallEfficiency = data.efficiency_percentages
+    this.dntChartOverallEfficiencyLabels= data.efficiency_categories
+    this.dntChartDataOverallEffeftiveness= data.effectiveness_percentages
+    this.dntChartOverallEffectivenessLabels = data.effectiveness_categories
 
     this.isLoadingDCOverallEfficiency = false
     this.isLoadingDCOverallEffectiveness = false
@@ -338,25 +338,25 @@ getDataForOverallEfficiencyandEffectivenessDntChart(){
 }
 
 getDataForEfficiencyDstriandEffectivenessDistri(){
-  type dict = { [key: string]: any };
-  this.dataService.getDataForEffiandEffecIssues(this.intervalInDays).subscribe((data: dict) => {
+
+  this.dataService.getDataForEffiandEffecIssues(this.intervalInDays).subscribe((data: IssuesByEfficiencyEffectivenessResponse) => {
     console.log("data for efficency and effectiveness of issues", data)
     
-    this.effi_dstri_vert_bar_labels = data["efficiency_categories"]
-    this.effi_distri_vert_var_issues_data = data["efficiency_frequencies"]
+    this.effi_dstri_vert_bar_labels = data.efficiency_categories
+    this.effi_distri_vert_var_issues_data = data.efficiency_frequencies
 
-    this.effect_dstri_vert_bar_labels = data["effectiveness_categories"]
-    this.effect_distri_vert_var_issues_data = data["effectiveness_frequencies"]
+    this.effect_dstri_vert_bar_labels = data.effectiveness_categories
+    this.effect_distri_vert_var_issues_data = data.effectiveness_frequencies
 
        
    });
 
-   this.dataService.getDataForEffiandEffecInquiries(this.intervalInDays).subscribe((data: dict) => {
+   this.dataService.getDataForEffiandEffecInquiries(this.intervalInDays).subscribe((data: InquiriesByEfficiencyEffectivenessResponse) => {
     console.log("data for efficiency and effectiveness of inquiries", data)
     
-    this.effi_distri_vert_var_inquiries_data = data["efficiency_frequencies"]
+    this.effi_distri_vert_var_inquiries_data = data.efficiency_frequencies
 
-    this.effect_distri_vert_var_inquiries_data = data["effectiveness_frequencies"]
+    this.effect_distri_vert_var_inquiries_data = data.effectiveness_frequencies
      
      this.isLoadingEffiDistri = false
      this.isLoadingEffectDistri = false
@@ -368,25 +368,25 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
 
 getDataForIssueandInquiryTypes(){
   
-  type dict = { [key: string]: any };
-  this.dataService.getDataForIssueandInquiryTypes(this.intervalInDays).subscribe((data: dict) => {
+ 
+  this.dataService.getDataForIssueandInquiryTypes(this.intervalInDays).subscribe((data: IssueInquiryFreqByTypeResponse) => {
     console.log("data for issue and inquiry types",data)
     
-    this.issue_types_distri_labels = data["issue_type_labels"]
+    this.issue_types_distri_labels = data.issue_type_labels
 
     this.issue_types_distri_labels.forEach((label, index) => {
       this.issue_types_distri_colors.push( this.documentStyle.getPropertyValue('--issue-color'));
     });
 
-    this.issue_types_distri_data = data["issue_type_frequencies"]    
+    this.issue_types_distri_data = data.issue_type_frequencies   
 
-    this.inquiry_types_distri_labels =  data["inquiry_type_labels"]
+    this.inquiry_types_distri_labels =  data.inquiry_type_labels
 
     this.inquiry_types_distri_labels.forEach((label, index) => {
       this.inquiry_types_distri_colors.push(this.documentStyle.getPropertyValue('--inquiry-color'));
     });
 
-    this.inquiry_types_distri_data = data["inquiry_type_frequencies"]
+    this.inquiry_types_distri_data = data.inquiry_type_frequencies
 
     this.isLoadingIssueTypes = false
     this.isLoadingInquiryTypes =  false
@@ -399,28 +399,28 @@ getDataForIssueandInquiryTypes(){
 }
 
 getDataForIssuenadInquiryByProducts(){
-  type dict = { [key: string]: any };
-  this.dataService.getDataForProductsByIssueandInquiry(this.intervalInDays).subscribe((data: dict) => {
+
+  this.dataService.getDataForProductsByIssueandInquiry(this.intervalInDays).subscribe((data: IssueInquiryFreqByProdcuts) => {
     console.log("data for Isseus and Inquiries by products",data)
     
-    this.prodcuts_distri_of_issues_and_inquiries_labels = data["product_labels"]
+    this.prodcuts_distri_of_issues_and_inquiries_labels = data.product_labels
     this.prodcuts_distri_of_issues_and_inquiries_datasets = [
       {
         type: 'bar',
         label: 'No of Issues',
         backgroundColor:   this.documentStyle.getPropertyValue('--issue-color'),
-        data: data["issue_freq"]
+        data: data.issue_freq
     },
     {
         type: 'bar',
         label: 'No of Inquiries',
         backgroundColor: this.documentStyle.getPropertyValue('--inquiry-color'),
-        data: data["inquiry_freq"]
+        data: data.inquiry_freq
     }
     ]
 
-    this.bestProduct = data["best_product"]
-    this.worstProduct = data["worst_product"]
+    this.bestProduct = data.best_product
+    this.worstProduct = data.worst_product
 
     this.isLoadingBestProduct = false
     this.isLoadingWorstProduct = false
@@ -475,12 +475,12 @@ getDataForEfficiencyByEmaiAcss(){
 }
 
 getBestPerformingEmail(){
-  type dict = { [key: string]: any };
 
-  this.dataService.getBestPerformingEmail(this.intervalInDays).subscribe((data: dict) => {
+
+  this.dataService.getBestPerformingEmail(this.intervalInDays).subscribe((data: BestPerformingEmailAccResponse) => {
     console.log("best performing email account", data)
  
-    this.bestEmail = data["best_performing_email_acc"]
+    this.bestEmail = data.best_performing_email_acc
     this.isLoadingBestPerfEmail = false
   
        
@@ -489,18 +489,17 @@ getBestPerformingEmail(){
 
 
 getOverdueIssuesdata(){
-  type dict = { [key: string]: any };
   
 
-  this.dataService.getOverdueIssuesdata(this.intervalInDays).subscribe((data: dict) => {
+  this.dataService.getOverdueIssuesdata(this.intervalInDays).subscribe((data: OverdueIssuesResponse) => {
     console.log("overdue issues related data", data)
  
-    this.overallOverdueIssuesHeader = `${data["sum_overdue_issues"]} OVERDUE ISSUES recorded`
-    this.overallOverdueIssuesContent = `out of ${data["total_ongoing_issues"]} ongoing issues `
+    this.overallOverdueIssuesHeader = `${data.sum_overdue_issues} OVERDUE ISSUES recorded`
+    this.overallOverdueIssuesContent = `out of ${data.total_ongoing_issues} ongoing issues `
     this.isLoadingoverallOverdueIssuesCount = false
     
-    this.overdueIssByEmailsLabels = data["reading_email_accs"]
-    this.overdueIssByEmailsData = data["overdue_issues_count_per_each_email"]
+    this.overdueIssByEmailsLabels = data.all_reading_email_accs
+    this.overdueIssByEmailsData = data.overdue_issues_count_per_each_email
     this.overdueIssByEmailsColors = []
     for (let i of this.overdueIssByEmailsLabels){
       this.overdueIssByEmailsColors.push(this.documentStyle.getPropertyValue('--issue-color'))
