@@ -38,6 +38,7 @@ import { WordcloudComponent } from './components/charts/wordcloud/word-cloud.com
 import { GridComponent } from './components/grid/grid.component';
 import {GridsterComponent, GridsterItemComponent} from "angular-gridster2";
 import {MatIcon} from "@angular/material/icon";
+import {FileUploadModule} from "primeng/fileupload";
 import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
 import { VerticalBerChartComponent } from './components/charts/vertical-ber-chart/vertical-ber-chart.component';
 import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
@@ -84,10 +85,11 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     AvatarModule,
     AvatarGroupModule,
     PanelModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
-    GridsterComponent,
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
     GridsterItemComponent,
+    GridsterComponent,
     MatIcon,
+    FileUploadModule,
     MatIconButton,
     MatMiniFabButton,
     CalendarModule,

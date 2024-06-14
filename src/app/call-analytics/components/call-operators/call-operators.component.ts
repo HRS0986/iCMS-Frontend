@@ -6,6 +6,7 @@ import { CallOperatorService } from "../../services/call-operator.service";
 import UserMessages from "../../../shared/user-messages";
 import { CallAnalyticsConfig } from "../../config";
 import userMessages from "../../../shared/user-messages";
+import { WebSocketService } from "../../services/web-socket.service";
 
 @Component({
   selector: 'app-call-operators',
@@ -18,6 +19,7 @@ export class CallOperatorsComponent implements OnInit {
     {label: "Call Analytics"},
     {label: "Call Operators"}
   ];
+
   isModelVisible: boolean = false;
   isLoading: boolean = true;
   isNoData: boolean = false;
@@ -38,10 +40,14 @@ export class CallOperatorsComponent implements OnInit {
     name: new FormControl<string>("", Validators.required),
     operatorId: new FormControl<number>(0),
   });
+
   data: any;
   options: any;
 
-  constructor(private callOperatorService: CallOperatorService, private messageService: MessageService) {
+  constructor(
+    private callOperatorService: CallOperatorService,
+    private messageService: MessageService
+    ) {
   }
 
   ngOnInit() {
@@ -221,4 +227,5 @@ export class CallOperatorsComponent implements OnInit {
       this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.FETCH_ERROR, life: 5000});
     });
   }
+
 }

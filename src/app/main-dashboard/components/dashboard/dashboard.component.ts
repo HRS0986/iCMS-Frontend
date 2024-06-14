@@ -31,6 +31,11 @@ export class DashboardComponent implements OnInit,OnDestroy{
   DataCacheChange:boolean= false;
   widgetCacheChange:boolean=false;
 
+  chartLayout: { chartType: string; }[] = [];
+
+
+  widgetData:any;
+
   callDoughnut: any;
   emailDoughnut: any;
   socialDoughnut:any ;

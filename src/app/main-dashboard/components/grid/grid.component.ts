@@ -62,7 +62,13 @@ export class GridComponent implements OnInit {
 
   widgetData:any;
 
-  @Input() userChartInfo!: any;
+  @Input() userChartInfo: {
+    chartType: string,
+    data: ChartData,
+    options: ChartOptions
+  }[] = [];
+
+
   @Input() changes: boolean=false;
   
   private socketSubscription: Subscription | undefined;

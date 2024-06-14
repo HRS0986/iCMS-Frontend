@@ -18,16 +18,28 @@ export class PageHeaderComponent implements OnInit {
   @Input() breadcrumbItems: MenuItem[] = [];
   @Input() showAddMemberButton: boolean = false;
   @Input() showAddWidgetButton: boolean = false;
+  @Input() showAddRoleButton: boolean = false;
+
+  @Input() minDate: Date = new Date();
+  @Input() maxDate: Date = new Date();
 
   @Output() buttonAction: EventEmitter<any> = new EventEmitter();
+
+
+  @Output() rangeDatesChanged: EventEmitter<Date[]> = new EventEmitter<Date[]>();
 
   sidebarVisible: boolean = false;
 
   rangeDates: Date[] | undefined;
-
   home: MenuItem | undefined;
 
-  constructor(private router: Router, private dateRangeService: DateRangeService) {} // Inject Router in the constructor
+  constructor(private router: Router,  private dateRangeService: DateRangeService) {} // Inject Router in the constructor
+
+
+
+  onRangeDateChange(rangeDates: Date[]) {
+    this.rangeDatesChanged.emit(rangeDates);
+  }
 
   ngOnInit() {
     this.rangeDates = this.getCurrentDateRange();

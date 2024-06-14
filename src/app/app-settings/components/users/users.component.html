@@ -13,63 +13,70 @@
     [value]="users"
     selectionMode="single"
     [(selection)]="selectedUsers"
-    dataKey="id"
+    dataKey="username"
     [tableStyle]="{'min-width': '50rem'}"
     [rows]="10"
     [paginator]="true"
     stateStorage="session"
     stateKey="statedemo-session"
-
-
-    [globalFilterFields]="['id', 'name', 'status', 'roles']"
-
+    [globalFilterFields]="['username', 'email', 'groups']"
   >
 
     <ng-template pTemplate="caption">
       <div class="flex">
-        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
-        <span class="p-input-icon-left ml-auto">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword" />
-            </span>
+
+        <span class="p-input-icon-left mr-auto">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" [(ngModel)]="searchValue" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword" />
+        </span>
+
+
+        <p-splitButton
+          label="Action"
+          class="pr-auto action-button pr-2"
+          [model]="actions"
+          (onClick)="console.log('info')"
+        />
       </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th>
+        <!-- <th>
           <span class="p-column-title">Id</span>
-        </th>
+        </th> -->
+        <th style="width: 2rem"></th>
         <th>
           <span class="p-column-title">Name</span>
         </th>
         <th>
           <span class="p-column-title">Email</span>
         </th>
-        <th>
+        <!-- <th>
           <span class="p-column-title">Status</span>
-        </th>
+        </th> -->
         <th>
           <span class="p-column-title">Roles</span>
         </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-user>
-      <tr [pSelectableRow]="user">
-        <td>
+      <tr  class="userDataRow">
+        <!-- <td>
           <span class="p-column-title">Id</span>
           {{user.id}}
+        </td> -->
+         <td>
+           <p-tableRadioButton [value]="user" />
         </td>
 
         <td>
-          <span class="ml-1 vertical-align-middle">{{user.name}}</span>
+          <span class=" vertical-align-middle">{{user.username}}</span>
         </td>
         <td>
-          <span class="ml-1 vertical-align-middle">{{user.email}}</span>
+          <span class=" vertical-align-middle">{{user.email}}</span>
+
         <td>
-          <p-tag [value]="user.status" [severity]="getSeverity(user.status)"></p-tag>
-        </td>
-        <td>
-          <p-tag class="pe-1" *ngFor="let role of user.roles" [value]="role" [style.color]="getRoleColor(role)"></p-tag>
+          <p-tag class="pe-1" *ngFor="let role of user.groups" [value]="role" [style.color]="getRoleColor(role)"></p-tag>
         </td>
 
       </tr>

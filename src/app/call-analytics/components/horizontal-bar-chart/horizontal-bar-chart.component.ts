@@ -32,10 +32,14 @@ export class HorizontalBarChartComponent implements OnInit {
     };
 
     this.options = {
-      indexAxis: 'y',
+      indexAxis: 'x',
       maintainAspectRatio: false,
-      aspectRatio: 1,
+      aspectRatio: 0.8,
       plugins: {
+        tooltip: {
+          mode: 'index',
+          intersect: false
+        },
         legend: {
           display: false
         },
