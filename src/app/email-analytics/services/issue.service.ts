@@ -95,7 +95,7 @@ export class IssueService {
     // if (filterCriteria.reqAllTags !== false) {
     //   params += "&allTags=" + filterCriteria.reqAllTags.toString();
     // }
-    const params = this.utility.buildFilterParams(filterCriteria, skip, limit);
+    const params = this.utility.buildFilterParams(filterCriteria, limit, skip);
     return this.http
       .get<IssueMetaDataResponse>(`${this.baseUrlv2}/issues?${params}`)
       .pipe(

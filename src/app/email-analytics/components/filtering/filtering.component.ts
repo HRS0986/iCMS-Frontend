@@ -1,10 +1,11 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Filter } from '../../interfaces/filters';
+import { FilterService } from '../../services/filter.service';
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
-  }
+}
   
 @Component({
   selector: 'app-filtering',
@@ -14,10 +15,17 @@ interface AutoCompleteCompleteEvent {
 export class FilteringComponent {
   otherText: string = '';
 
-  itemsSender!: any[];
-  itemsReceiver!: any[];
-  itemsTags!: any[];
-  itemsStatus!: any[];
+  // Arrays to hold the returned data from the server
+  dataSender: string[] = [];
+  dataReceiver: string[] = [];
+  dataTags: string[] = [];
+  dataStatus: string[] = [];
+
+  // Temporary arrays for the autocomplete
+  itemsSender: string[] = [];
+  itemsReceiver: string[] = [];
+  itemsTags: string[] = [];
+  itemsStatus: string[] = [];
 
   currentDate!: Date;
   lastDate!: Date;  // last date that can be selected in the date picker
@@ -39,21 +47,76 @@ export class FilteringComponent {
 
   @Output() filterEmitter = new EventEmitter<any>();
 
+  constructor(private filterService: FilterService) { }
+
+  ngOnInit() {
+    this.loadTags();
+    this.loadStatus();
+    this.loadCompanyAddresses();
+    this.loadClientAddresses();
+  }
+
+  loadTags() {
+    this.filterService.getTags().subscribe((response) => {
+      this.dataTags = response.tags;
+    });
+  }
+  loadStatus() {
+    this.filterService.getStatus().subscribe((response) => {
+      this.dataStatus = response.status;
+    });
+  }
+  loadCompanyAddresses() {
+    this.filterService.getCompanyAddresses().subscribe((response) => {
+      this.dataSender = response.companyAddresses;
+    });
+  }
+  loadClientAddresses() {
+    this.filterService.getClientAddresses().subscribe((response) => {
+      this.dataReceiver = response.clientAddresses;
+    });
+  }
+
+  // search*Something* functions are used to search for the items in the autocomplete
   searchSender(event: AutoCompleteCompleteEvent) {
-    this.itemsSender = ['a', 'b', 'c', 'd', 'e'].map((item) => event.query + '-' + item);
+    this.itemsSender = this.search(event.query, this.dataSender);
   }
   searchReceiver(event: AutoCompleteCompleteEvent) {
-    this.itemsReceiver = ['a', 'b', 'c', 'd', 'e'].map((item) => event.query + '-' + item);
+    this.itemsReceiver = this.search(event.query, this.dataReceiver);
   }
   searchTags(event: AutoCompleteCompleteEvent) {
-    this.itemsTags = ['a', 'b', 'c', 'd', 'e'].map((item) => event.query + '-' + item);
+    this.itemsTags = this.search(event.query, this.dataTags);
   }
   searchStatus(event: AutoCompleteCompleteEvent) {
-    this.itemsStatus = ['a', 'b', 'c', 'd', 'e'].map((item) => event.query + '-' + item);
+    this.itemsStatus = this.search(event.query, this.dataStatus);
   }
-  onClickTest() {
-    console.log('test');
+
+  /**
+   * Filters and sorts an array of items based on a search query.
+   * 
+   * @param query - The search query to filter the items.
+   * @param items - The array of items to be filtered and sorted.
+   * @returns An array of filtered and sorted items.
+   * @example
+   *  search('me', ['home', 'mercury', 'welcome', 'xyz']) = ['mercury', 'home', 'welcome']
+   */
+  search(query: string, items: any[]) {
+    try {
+      return items
+        .filter((item) => item.toLowerCase().indexOf(query.toLowerCase()) > -1)
+        .sort((a, b) => { // sort by index of the query in the item; items that match the query at the beginning will be first
+          const indexA = a.toLowerCase().indexOf(query.toLowerCase());
+          const indexB = b.toLowerCase().indexOf(query.toLowerCase());
+          return indexA - indexB;
+        });
+    }
+    catch (e) {
+      console.info('Error in search function:', e);
+      return items.filter(()=>false)  // return empty array if there is an error
+    }
   }
+
+  // Click functions
   clickImportant() {
     this.filterCriteria.importantOnly = !this.filterCriteria.importantOnly;
   }
@@ -66,6 +129,8 @@ export class FilteringComponent {
     tmp.setTime(tmp.getTime() - ((24*60*60*1000) * this.goBackDays))   // handling the date substraction
     this.lastDate = new Date(tmp);
   } 
+
+  // Button functions
   applyFilters() {
     this.filterEmitter.emit(this.filterCriteria);
   }

@@ -9,3 +9,19 @@ export interface Filter {
     importantOnly: boolean;
     newOnly: boolean;    
 }
+
+export interface AllTags {
+    tags: string[];
+}
+
+export interface AllStatus {
+    status: string[];
+}
+
+export interface AllCompanyAddresses {
+    companyAddresses: string[];
+}
+
+export interface ClientAddresses {
+    clientAddresses: string[];
+}

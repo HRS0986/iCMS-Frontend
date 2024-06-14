@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="min-w-40 min-h-10 grow">
-        <div class="mb-2">Sender</div>
+        <div class="mb-2">Customer Email</div>
         <div class="w-full">
           <span class="p-fluid">
             <p-autoComplete
@@ -56,7 +56,7 @@
       </div>
 
       <div class="min-w-40 min-h-10 grow">
-        <div class="mb-2">Receiver</div>
+        <div class="mb-2">Company Email</div>
         <div class="w-full ">
           <span class="p-fluid">
             <p-autoComplete
@@ -67,6 +67,7 @@
               [virtualScrollItemSize]="34"
               [dropdown]="true"
               [multiple]="true"
+              emptySelectionMessage="(empty)"
             />
           </span>
         </div>
