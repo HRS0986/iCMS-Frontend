@@ -4,20 +4,21 @@ import { ChartsService } from '../../../services/charts.service';
 import { timer } from 'rxjs';
 
 @Component({
-  selector: 'app-horizontal-bar-chart',
-  templateUrl: './horizontal-bar-chart.component.html',
-  styleUrl: './horizontal-bar-chart.component.scss'
+  selector: 'app-bar-chart',
+  templateUrl: './bar-chart.component.html',
+  styleUrl: './bar-chart.component.scss'
 })
-export class HorizontalBarChartComponent implements OnInit,OnChanges{
+export class BarChartComponent implements OnInit,OnChanges{
   data:any;
   @Input() persentages: any=[65, 59, 80, 81, 56, 55, 40];
+  @Input() persentages1: any=[65, 59, 80, 81, 56, 55, 40];
+  @Input() persentages2: any=[65, 59, 80, 81, 56, 55, 40];
+  @Input() persentages3: any=[65, 59, 80, 81, 56, 55, 40];
   @Input() labels: any=['Product', 'Service', 'Pricing', 'Issues', 'Website'];
   options: any;
   @Output() changesEvent = new EventEmitter<boolean>();
 
-  selectedCategories:any[]=[];
-  categories:string[]=['email','call','social'];
-
+  datasets:any[]=[];
   callCount: string[] = [];
   emailCount: string[] = [];
   socialCount: string[] = [];
@@ -25,6 +26,9 @@ export class HorizontalBarChartComponent implements OnInit,OnChanges{
   @Input() title!: any;
   @Input() source!: string[];
   @Input() changes:boolean=false;
+
+  selectedCategories:any[]=[];
+  categories:string[]=['email','call','social'];
 
   selectedDateRange: string[] | undefined;
   Date:any;
@@ -34,7 +38,6 @@ export class HorizontalBarChartComponent implements OnInit,OnChanges{
   ngOnInit() {
 
     this.selectedCategories=this.source;
-
     if(this.selectedCategories){
       this.barChartExtract(this.selectedCategories);
     }
@@ -158,28 +161,91 @@ export class HorizontalBarChartComponent implements OnInit,OnChanges{
   }
 
   barChartExtract(sources: string[]): void {
+    this.datasets=[];
     caches.open('all-data').then(cache => {
       cache.match('data').then(cachedResponse => {
         if (cachedResponse) {
           cachedResponse.json().then(data => {
+            const documentStyle = getComputedStyle(document.documentElement);
             sources.forEach(source => {
               if (source === 'call') {
                 this.callCount = data.flatMap((item: any) =>
                   item.call.filter((callItem: any) => this.isDateInRange(callItem.Date))
                            .flatMap((callItem: any)=> callItem.Categories)
                 );
+                const calldata = this.aggregateWordCloudData(this.callCount);
+                this.persentages1 = Object.values(calldata).map((entry: any) => entry.percentage);
+
+                this.datasets.push({
+                  label: 'Call',
+                  backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(153, 102, 255, 0.6)'
+                  ],
+                  borderColor: documentStyle.getPropertyValue('--blue-500'),
+                  data: this.persentages1
+
+                });
               }
               if (source === 'email') {
                 this.emailCount = data.flatMap((item: any) =>
                   item.email.filter((emailItem: any) => this.isDateInRange(emailItem.Date))
                             .flatMap((emailItem: any) => emailItem.Categories)
                 );
+                const emaildata = this.aggregateWordCloudData(this.emailCount);
+                this.persentages2 = Object.values(emaildata).map((entry: any) => entry.percentage);
+                
+                this.datasets.push({
+                  label: 'Email',
+                  backgroundColor: [
+                    'rgba(255, 205, 86, 0.6)',
+                    'rgba(255, 205, 86, 0.6)',
+                    'rgba(255, 205, 86, 0.6)',
+                    'rgba(255, 205, 86, 0.6)',
+                    'rgba(255, 205, 86, 0.6)',
+                    'rgba(255, 205, 86, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(153, 102, 255, 0.6)'
+                  ],
+                  borderColor: documentStyle.getPropertyValue('--blue-500'),
+                  data: this.persentages2
+                });
+
               }
               if (source === 'social') {
                 this.socialCount = data.flatMap((item: any) =>
                   item.social.filter((socialItem: any) => this.isDateInRange(socialItem.Date))
                              .flatMap((socialItem: any) => socialItem.Categories)
                 );
+                
+                const socialdata = this.aggregateWordCloudData(this.socialCount);
+                this.persentages3 = Object.values(socialdata).map((entry: any) => entry.percentage);
+                
+                this.datasets.push({
+                  label: 'Social',
+                  backgroundColor: [
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(153, 102, 255, 0.6)'
+                  ],
+                  borderColor: documentStyle.getPropertyValue('--blue-500'),
+                  data: this.persentages3
+                });
               }
             });
 
@@ -188,6 +254,7 @@ export class HorizontalBarChartComponent implements OnInit,OnChanges{
 
             this.labels = Object.values(datas).map((entry: any) => entry.category);
             this.persentages = Object.values(datas).map((entry: any) => entry.percentage);
+
 
             this.chart();
           });
@@ -201,50 +268,20 @@ export class HorizontalBarChartComponent implements OnInit,OnChanges{
   aggregateWordCloudData(allCount: string[]): any[] {
     const categoryMap: { [key: string]: number } = {};
   
-    allCount.map((item: any) => item.positive).forEach((category:any) => {
-      category.forEach((data:any)=> {
-      if (categoryMap[data]) {
-        categoryMap[data] += 1;
+    allCount.forEach(category => {
+      if (categoryMap[category]) {
+        categoryMap[category] += 1;
       } else {
-        categoryMap[data] = 1;
+        categoryMap[category] = 1;
       }
-    });
     });
   
-    allCount.map((item: any) => item.negative).forEach((category:any) => {
-      category.forEach((data:any)=> {
-      if (categoryMap[data]) {
-        categoryMap[data] += 1;
-      } else {
-        categoryMap[data] = 1;
-      }
-    });
-    });
-
-    allCount.map((item: any) => item.neutral).forEach((category:any) => {
-      category.forEach((data:any)=> {
-      if (categoryMap[data]) {
-        categoryMap[data] += 1;
-      } else {
-        categoryMap[data] = 1;
-      }
-    });
-    });
-
-    // allCount.forEach(category => {
-    //   if (categoryMap[category]) {
-    //     categoryMap[category] += 1;
-    //   } else {
-    //     categoryMap[category] = 1;
-    //   }
-    // });
-  
-    // const total = allCount.length;
+    const total = allCount.length;
   
     return Object.keys(categoryMap).map(key => ({
       category: key,
       count: categoryMap[key],
-      percentage: categoryMap[key]
+      percentage: ((categoryMap[key] / total) * 100).toFixed(2) // Calculate the percentage
     }));
   }
 
@@ -278,30 +315,36 @@ export class HorizontalBarChartComponent implements OnInit,OnChanges{
 
     this.data = {
       labels: this.labels,
-      datasets: [
-        {
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.6)',
-            'rgba(255, 205, 86, 0.6)',
-            'rgba(75, 192, 192, 0.6)',
-            'rgba(54, 162, 235, 0.6)',
-            'rgba(153, 102, 255, 0.6)'
-          ],
-          borderColor: documentStyle.getPropertyValue('--blue-500'),
-          data: this.persentages
-        },
-      ]
+      datasets: this.datasets
     };
 
     this.options = {
-      indexAxis: 'y',
+      indexAxis: 'x',
       maintainAspectRatio: false,
       aspectRatio: 1,
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: 'Medium'
+          }
+        }
+      },
       plugins: {
         legend: {
-          display: false
+          display: true
         },
+        datalabels: {
+          anchor: 'end',
+          align: 'end',
+          formatter: (value: number) => `${value}%`,
+          color: '#000',
+          font: {
+            weight: 'bold',
+            size: 12
+          }
+        }
       },
-    };                                  
+    };                                      
   }
 }

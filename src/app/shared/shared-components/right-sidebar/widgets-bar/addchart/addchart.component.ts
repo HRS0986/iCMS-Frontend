@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ChartsService } from '../../../../../main-dashboard/services/charts.service';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthendicationService } from '../../../../../main-dashboard/services/authendication.service';
 
 @Component({
   selector: 'app-addchart',
@@ -46,7 +47,7 @@ export class AddchartComponent {
 
     ];
 
-  value: any;
+  label: any;
   selectedCities: any;
   sources = [
     {name: 'email', code: 'email'},
@@ -104,7 +105,7 @@ export class AddchartComponent {
     this.selectedChartType = type;
   }
 
-  constructor(private ChartService: ChartsService, private cookieService: CookieService) {
+  constructor(private ChartService: ChartsService, private cookieService: CookieService,private authService: AuthendicationService) {
     this.sidebarVisible = false;
     this.chartType = '';
 
@@ -117,19 +118,33 @@ export class AddchartComponent {
 
     const widgetData = {
       title: this.title,
-      chartType: this.value, 
+      chartType: this.label, 
       sources: sourceNames,
-      keywords: keywordNames
+      keywords: keywordNames,
+      grid: { cols: 5, rows: 3, x: 0, y: 4 }
     };
-    const jsonData = JSON.stringify(widgetData);
+    // const jsonData = JSON.stringify(widgetData);
     const token = this.cookieService.get('token');
-    console.log(jsonData);
-    this.ChartService.newWidget(jsonData,token).subscribe(
-      (counts: any) => {
-       console.log(counts);
-      }
-    );
-  }
+    console.log(widgetData);
+    
+        this.authService.userEmail(token).subscribe(
+          (response) => {
+            if(response){
+              console.log(response);
+              this.ChartService.newWidget(widgetData,response).subscribe(
+                (counts: any) => {
+                 console.log(counts);
+                }
+              );
+            }
+          else{
+            console.log(response);
+          }
+    
+  },
+  );
+}
+  
 
 
 }

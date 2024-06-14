@@ -17,8 +17,8 @@ import {InputTextModule} from "primeng/inputtext";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {PasswordModule} from "primeng/password";
 import { NotificationsComponent } from './components/notifications/notifications.component';
-
-
+import { CalendarModule } from 'primeng/calendar';
+import { CheckboxModule } from 'primeng/checkbox';
 import { HttpClientModule } from '@angular/common/http';
 import { MessagesModule } from 'primeng/messages';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
@@ -39,6 +39,9 @@ import { GridComponent } from './components/grid/grid.component';
 import {GridsterComponent, GridsterItemComponent} from "angular-gridster2";
 import {MatIcon} from "@angular/material/icon";
 import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
+import { VerticalBerChartComponent } from './components/charts/vertical-ber-chart/vertical-ber-chart.component';
+import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
 @NgModule({
@@ -56,7 +59,9 @@ import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
     HorizontalBarChartComponent,
     GaugeChartComponent,
     GridComponent,
-    WordcloudComponent
+    WordcloudComponent,
+    VerticalBerChartComponent,
+    BarChartComponent
 
   ],
   imports: [
@@ -80,6 +85,14 @@ import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
     AvatarGroupModule,
     PanelModule,
     NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    GridsterComponent,
+    GridsterItemComponent,
+    MatIcon,
+    MatIconButton,
+    MatMiniFabButton,
+    CalendarModule,
+    CheckboxModule,
+    ConfirmDialogModule
 
   ],
   providers:[ConfirmationService]
