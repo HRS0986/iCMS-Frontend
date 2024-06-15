@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { InquiryMetaDataResponse, MockInquiryMetadataResponse, InquiryPopupData } from '../interfaces/inquiries';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, timeout } from 'rxjs/operators'; // BUG: remove in production
+import { Filter } from '../interfaces/filters';
+import { UtilityService } from './utility.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InquiryService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private utility: UtilityService) { }
 
   // BUG: REMOVE in Production
   private convertToInquiryResponse(mockedResponse: MockInquiryMetadataResponse): InquiryMetaDataResponse {
@@ -59,6 +61,52 @@ export class InquiryService {
 
   private timeoutDuration = 5000; // Timeout duration in milliseconds
 
+  getMockInquiryData(filterCriteria: Filter, skip: number, limit: number): Observable<InquiryMetaDataResponse> {
+    let params = new HttpParams();
+    if (filterCriteria.selectedSenders) {
+      params = params.set('s', JSON.stringify(filterCriteria.selectedSenders));
+    }
+    if (filterCriteria.selectedReceivers) {
+      params = params.set('r', JSON.stringify(filterCriteria.selectedReceivers));
+    }
+    if (filterCriteria.selectedTags) {
+      params = params.set('tags', JSON.stringify(filterCriteria.selectedTags));
+    }
+    if (filterCriteria.reqAllTags !== undefined) {
+      params = params.set('allTags', filterCriteria.reqAllTags.toString());
+    }
+    if (filterCriteria.selectedStatus) {
+      params = params.set('status', JSON.stringify(filterCriteria.selectedStatus));
+    }
+    if (filterCriteria.selectedDate) {
+      params = params.set('date', JSON.stringify(filterCriteria.selectedDate));
+    }
+    if (filterCriteria.searchText) {
+      params = params.set('q', filterCriteria.searchText);
+    }
+    if (filterCriteria.importantOnly !== undefined) {
+      params = params.set('important', filterCriteria.importantOnly.toString());
+    }
+    if (filterCriteria.newOnly !== undefined) {
+      params = params.set('new', filterCriteria.newOnly.toString());
+    }
+    params = params.set('skip', skip.toString());
+    params = params.set('limit', limit.toString());
+
+    return this.http
+      .get<MockInquiryMetadataResponse>(`https://dummyjson.com/products/search`, { params })
+      .pipe(
+        map(this.convertToInquiryResponse),
+        timeout(this.timeoutDuration),
+        catchError(e => {
+          if (e.name === 'TimeoutError') {
+            return throwError(() => new Error("Request timed out. Please try again later."));
+          } else {
+            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+          }
+        })
+      );
+  }
   getInquiryMetadata(skip: number, limit: number): Observable<InquiryMetaDataResponse> {
     return this.http
       .get<MockInquiryMetadataResponse>(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`)
@@ -73,6 +121,31 @@ export class InquiryService {
           }
         })
       );   // BUG: remove map part in production
+  }
+  
+  baseUrlv2 = 'http://127.0.0.1:8000/email/v2';
+
+  /**
+   * Retrieves inquiry data based on the provided filter criteria, skip, and limit.
+   * @param filterCriteria - The filter criteria for the inquiry data.
+   * @param skip - The number of records to skip.
+   * @param limit - The maximum number of records to retrieve.
+   * @returns An Observable of type InquiryMetaDataResponse.
+   */
+  getInquiryData(filterCriteria: Filter, skip: number, limit: number): Observable<InquiryMetaDataResponse> {
+    let params = this.utility.buildFilterParams(filterCriteria, limit, skip);
+    return this.http
+    .get<InquiryMetaDataResponse>(`${this.baseUrlv2}/inquiries?${params}`)
+    .pipe(
+      timeout(this.timeoutDuration),
+      catchError(e => {
+        if (e.name === 'TimeoutError') {
+          return throwError(() => new Error("Request timed out. Please try again later."));
+        } else {
+          return throwError(() => new Error("Unknown error has occured. Please try again later." + e));
+        }
+      })
+    );
   }
 
   getInquiryAdditionalData(id: string): Observable<InquiryPopupData> {

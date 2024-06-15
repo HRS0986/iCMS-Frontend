@@ -41,7 +41,7 @@ const routes: Routes = [
   {
     path: "inquiries",
     component: InquiryDataviewComponent
-  }
+  },
 ];
 
 @NgModule({

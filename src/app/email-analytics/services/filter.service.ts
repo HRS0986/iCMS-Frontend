@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators'; // BUG: remove in production
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, timeout } from 'rxjs/operators'; // BUG: remove in production
 
 import { EmailMetadataResponse, MockEmailMetadataResponse } from '../interfaces/emails';
 import { ThreadSummaryResponse, MockThreadSummaryResponse } from '../interfaces/threads';
+import { AllCompanyAddresses, AllStatus, AllTags, ClientAddresses } from '../interfaces/filters';
 
 @Injectable({
   providedIn: 'root'
@@ -68,4 +69,66 @@ export class FilterService {
       .pipe(map(this.convertToEmailResponse));   // BUG: remove pipe in production
   }
 
+  baseUrlv2 = 'http://127.0.0.1:8000/email/v2';
+  timeoutDuration = 5000;
+
+  getTags(): Observable<AllTags> {
+    return this.http
+      .get<AllTags>(`${this.baseUrlv2}/filter/tags`)
+      .pipe(
+        timeout(this.timeoutDuration),
+        catchError(e => {
+          if (e.name === 'TimeoutError') {
+            return throwError(() => new Error("Request timed out. Please try again later."));
+          } else {
+            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+          }
+        })
+      );
+  }
+
+  getStatus(): Observable<AllStatus> {
+    return this.http
+      .get<AllStatus>(`${this.baseUrlv2}/filter/status`)
+      .pipe(
+        timeout(this.timeoutDuration),
+        catchError(e => {
+          if (e.name === 'TimeoutError') {
+            return throwError(() => new Error("Request timed out. Please try again later."));
+          } else {
+            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+          }
+        })
+      );
+  }
+
+  getCompanyAddresses(): Observable<AllCompanyAddresses> {
+    return this.http
+      .get<AllCompanyAddresses>(`${this.baseUrlv2}/filter/company-addresses`)
+      .pipe(
+        timeout(this.timeoutDuration),
+        catchError(e => {
+          if (e.name === 'TimeoutError') {
+            return throwError(() => new Error("Request timed out. Please try again later."));
+          } else {
+            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+          }
+        })
+      );
+  }
+
+  getClientAddresses(): Observable<ClientAddresses> {
+    return this.http
+      .get<ClientAddresses>(`${this.baseUrlv2}/filter/client-addresses`)
+      .pipe(
+        timeout(this.timeoutDuration),
+        catchError(e => {
+          if (e.name === 'TimeoutError') {
+            return throwError(() => new Error("Request timed out. Please try again later."));
+          } else {
+            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+          }
+        })
+      );
+  }
 }
