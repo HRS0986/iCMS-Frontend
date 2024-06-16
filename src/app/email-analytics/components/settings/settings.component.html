@@ -145,7 +145,7 @@
                                   </p>
                               
                                   <!-- Move this div to the bottom -->
-                                  <div class="text-right" >
+                                  <div class="flex justify-end gap-2">
                                     <p-button label="No" (click)="visibleConfirmationNotiSending = false" ></p-button>
                                     <p-button label="Yes" (click)="ConfirmNotiSendingDelete()"  styleClass="p-button-danger"></p-button>
                                   </div>
@@ -209,6 +209,9 @@
 
                                         <div *ngIf="emailInetgration.controls['newEmailAccount'].errors?.['email']">enter valid emails</div>
                                         <div *ngIf="emailInetgration.controls['newEmailAccount'].errors?.['required']">email address is required</div>
+                                        <div *ngIf="emailInetgration.controls['newEmailAccount'].errors?.['forbiddenEmail']"> This email address is alreading being read. </div>
+                                          
+                             
                                   
                                     </small>
                                 <p class="mt-10">Enter nick name for email address</p>
@@ -218,6 +221,7 @@
                                             class="block p-error">
 
                                                        <div *ngIf="emailInetgration.controls['newEmailNickname'].errors?.['required']">email nickname is required</div>
+                                                       <div *ngIf="emailInetgration.controls['newEmailNickname'].errors?.['forbiddenEmail']"> This nickname already exists.</div>
                                                  
                                             </small>
                                 <p class="mt-10">Enter client secret</p>
@@ -239,23 +243,75 @@
                         <hr class="mt-10 mb-10">
                         
                         <div class="mt-3 mb-4"> <b>Currently reading email accounts</b></div>
+
                         <div *ngFor="let account of currentReadingEmailAccountsForIntegrationPage">
                           <app-email-acc-card
                             [emailAddress]="account.address"
                             [nickName]="account.nickname"
+                            (editReadingAccount)="showEmailAccEditPopUp(account.address)"
                             (deleteReadingAccount)="showDialogConfirmationEmailIntegration(account.address)">
                             
                           </app-email-acc-card>
                         </div>
                         <p-toast></p-toast>
-                        <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleConfirmationEmailIntegration" header="Confirmation" [modal]="true" [(visible)]="visibleConfirmationEmailIntegration" [style]="{width: '30vw', height: 'auto'}">
+
+                        <!-- Edit pop up dialog -->
+                        <p-dialog header="Edit Email Account" [modal]="true" [(visible)]="editEmailAccVisible" [style]="{ width: '60rem' }">
+                          <span class="p-text-secondary block mb-5">Update information about your reading email account</span>
+
+                          <form [formGroup]="emailEdit" (ngSubmit)="onSubmitEmailEdit()">
+                      
+                            <div class="mb-5 mt-8">
+                                <p >Enter new email address</p>
+                                <input type="text" style="width: 60%;" pInputText formControlName="newEmailAccount" />
+                                  <!--validation-->
+                                    <small *ngIf="emailEdit.controls['newEmailAccount'].invalid && emailEdit.controls['newEmailAccount'].dirty || emailEdit.controls['newEmailAccount'].touched"
+                                    class="block p-error">
+
+                                        <div *ngIf="emailEdit.controls['newEmailAccount'].errors?.['email']">enter valid emails</div>
+                                        <div *ngIf="emailEdit.controls['newEmailAccount'].errors?.['required']">email address is required</div>
+                                        <div *ngIf="emailEdit.controls['newEmailAccount'].errors?.['forbiddenEmail']"> This email address is alreading being read. </div>
+                                          
+                             
+                                  
+                                    </small>
+                                <p class="mt-10">Enter nick name for email address</p>
+                                <input type="text" style="width: 60%;" pInputText formControlName="newEmailNickname" />
+                                       <!--validation-->
+                                            <small *ngIf="emailEdit.controls['newEmailNickname'].invalid && emailEdit.controls['newEmailNickname'].dirty || emailEdit.controls['newEmailNickname'].touched"
+                                            class="block p-error">
+
+                                                       <div *ngIf="emailEdit.controls['newEmailNickname'].errors?.['required']">email nickname is required</div>
+                                                       <div *ngIf="emailEdit.controls['newEmailNickname'].errors?.['forbiddenEmail']"> This nickname already exists.</div>
+                                                 
+                                            </small>
+                                <p class="mt-10">Enter client secret</p>
+                                <textarea rows="20" cols="100" pInputTextarea formControlName="newClientSecret"></textarea>
+                                       <!--validation-->
+                                       <small *ngIf="emailEdit.controls['newClientSecret'].invalid && emailEdit.controls['newClientSecret'].dirty || emailEdit.controls['newClientSecret'].touched"
+                                       class="block p-error">
+                                       
+                                                  <div *ngIf="emailEdit.controls['newClientSecret'].errors?.['required']">email client secret is required</div>
+                                            
+                                       </small>                                
+                            </div>
+  
+                            <div class=" flex justify-center gap-2">
+                              <p-button label="Cancel" severity="secondary" (click)="editEmailAccVisible = false" />
+                              <button pButton pRipple label="Save" class="p-button-success" type="submit" [disabled]="(emailEdit.controls['newEmailAccount'].dirty && emailEdit.controls['newEmailAccount'].invalid) ||(emailEdit.controls['newEmailNickname'].dirty && emailEdit.controls['newEmailNickname'].invalid) || (emailEdit.controls['newClientSecret'].dirty && emailEdit.controls['newClientSecret'].invalid) "></button>
+                            </div>
+                        </form>
+                      </p-dialog>
+
+                       <!-- Delete pop up dialog -->
+                      <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleConfirmationEmailIntegration" header="Confirmation" [modal]="true" [(visible)]="visibleConfirmationEmailIntegration" [style]="{width: '30vw', height: 'auto'}">
 
                           <p  style="text-align: justify;">
-                            Are you sure you want to Delete this Call Recording?
+                            Are you sure you want to Delete this Email Account?
                           </p>
                       
                           <!-- Move this div to the bottom -->
-                          <div class="text-right" >
+                          <div class=" flex justify-end gap-2">
                             <p-button label="No" (click)="visibleConfirmationEmailIntegration = false" ></p-button>
                             <p-button label="Yes" (click)="ConfirmReadingEmailDelete()"  styleClass="p-button-danger"></p-button>
                           </div>

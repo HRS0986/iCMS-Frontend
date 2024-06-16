@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BestPerformingEmailAccResponse, InquiriesByEfficiencyEffectivenessResponse, IssueInquiryFreqByProdcuts, IssueInquiryFreqByTypeResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverallyEfficiencyEffectivenessPecentagesResponse, OverdueIssuesResponse } from '../../interfaces/dashboard';
+import { BestPerformingEmailAccResponse, EmailAccEfficiencyResponse, InquiriesByEfficiencyEffectivenessResponse, IssueInquiryFreqByProdcuts, IssueInquiryFreqByTypeResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverallyEfficiencyEffectivenessPecentagesResponse, OverdueIssuesResponse } from '../../interfaces/dashboard';
 
 
 @Injectable({
@@ -44,9 +44,9 @@ export class DataService {
     return this.http.get<IssueInquiryFreqByProdcuts>(url);
   }
   
-  getDataForEfficiencyByEmailAcc(intervalIndays: number): Observable<any[]> {
+  getDataForEfficiencyByEmailAcc(intervalIndays: number): Observable<EmailAccEfficiencyResponse> {
     const url = `${this.baseUrl}/get_data_for_efficiency_by_email_acc?intervalIndays=${intervalIndays}`;
-    return this.http.get<any[]>(url);
+    return this.http.get<EmailAccEfficiencyResponse>(url);
   }
 
 

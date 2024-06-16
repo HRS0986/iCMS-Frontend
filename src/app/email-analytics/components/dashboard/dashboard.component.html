@@ -29,7 +29,7 @@
       <app-line-area-chart title="Sentiments Over Time"  [labels]="labelsForSentimentsByTime" [positive_values]="positive_values_forSentimentsByTime" 
       [neutral_values]="neutral_values_forSentimentsByTime" [negative_values]="negative_values_forSentimentsbyTime" *ngIf="!isLoadingSBTime"/>
       <div *ngFor="let item of statsData">
-        <app-stat-card
+        <app-stat-card *ngIf="!isLoadingStatCards"
           [title]="item.title.toString()"
           [subTitle]="item.sub_title"
           [imgPath]="item.imgPath"

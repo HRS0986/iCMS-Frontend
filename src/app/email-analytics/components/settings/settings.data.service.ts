@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, NotiSendingChannelsRecord, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
+import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, GetEditingEmailResponse, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
 
 
 @Injectable({
@@ -29,6 +29,10 @@ export class DataService {
   
   getData(): Observable<EmailAccWithNickName[]> {
     return this.http.get<EmailAccWithNickName[]>(`${this.baseUrl}/get_current_reading_emails`);
+  }
+
+  getEmailEditData(selectedEmail: string): Observable<GetEditingEmailResponse> {
+    return this.http.get<GetEditingEmailResponse>(`${this.baseUrl}/get_editing_email_data?selectedEmail=${selectedEmail}`);
   }
 
   getCriticalityCheckingEmails(token:string): Observable<EmailAcc[]> {
@@ -112,10 +116,14 @@ export class DataService {
   }
 
 
-  postIssuesOverdueData(formData: PostingOverdueIssuesData): Observable<any[]> {
+  postIssuesOverdueData(token: string, formData: PostingOverdueIssuesData): Observable<any[]> {
+
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
 
     const url = `${this.baseUrl}/receive_overdue_issue_trigger_data`;
-    return this.http.post<any[]>(url, formData);  
+    return this.http.post<any[]>(url, formData, { headers });  
   
   }
 
@@ -134,7 +142,13 @@ export class DataService {
     return this.http.post<any[]>(url, formData);  
   
   }
+  
+  postEmailEdit(formData: PostEditingEmail): Observable<any[]> {
 
+    const url = `${this.baseUrl}/receive_email_edit_data`;
+    return this.http.post<any[]>(url, formData);  
+  
+  }
 
 
 

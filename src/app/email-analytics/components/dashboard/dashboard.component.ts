@@ -28,7 +28,7 @@ export class DashboardComponent  implements OnInit{
     {label: "Dashboard1"}
   ];
   
- intervalInDays: number = 4;
+ intervalInDays: number = 29;
 
   // calenders
 
@@ -55,6 +55,8 @@ export class DashboardComponent  implements OnInit{
     { title: 340, sub_title: 'Total Emails', header: 'Marketing', sentiment: 'Negative', imgPath: './email/mail_red.png' }
     // Add more objects as needed
   ];
+
+  isLoadingStatCards: boolean = true;
 
 
   // sentiments by topics inputs
@@ -210,6 +212,8 @@ getDataForStatCards(){
   this.dataService.getDataForStatCards(this.intervalInDays).subscribe((data:stat_card_single_response[]) => {
   console.log(data)
   this.statsData = data
+
+  this.isLoadingStatCards = false
      
  });
 
@@ -221,12 +225,14 @@ getDataForSentimentsByTopic(){
   this.dataService.getDataForSentimentsByTopic(this.intervalInDays).subscribe((data: SentimentsByTopicResponse) => {
   
 
+  if (data.sbtChartLabels.length !== 0){
+    this.sbtChartLabels = data.sbtChartLabels
+    this.sbtChartColors = data.sbtChartColors
+    this.sbtChartValues = data.sbtChartValues
 
-  this.sbtChartLabels = data.sbtChartLabels
-  this.sbtChartColors = data.sbtChartColors
-  this.sbtChartValues = data.sbtChartValues
-
-  this.isLoadingSBT = false;
+    this.isLoadingSBT = false;
+  }
+ 
 
  });
 }

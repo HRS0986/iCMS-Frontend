@@ -23,27 +23,8 @@ export class DynamicStackedBarChartComponent implements OnInit{
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
         this.data = {
-            labels: this.labels || ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: this.datasets || [
-                {
-                    type: 'bar',
-                    label: 'No of negative emails',
-                    backgroundColor: documentStyle.getPropertyValue('--negative-color'),
-                    data: [50, 25, 12, 48, 90, 76, 42]
-                },
-                {
-                    type: 'bar',
-                    label: 'No of netural emails',
-                    backgroundColor:   documentStyle.getPropertyValue('--neutral-color'),
-                    data: [21, 84, 24, 75, 37, 65, 34]
-                },
-                {
-                    type: 'bar',
-                    label: 'No of positive emails',
-                    backgroundColor: documentStyle.getPropertyValue('--positive-color'),
-                    data: [41, 52, 24, 74, 23, 21, 32]
-                }
-            ]
+            labels: this.labels ,
+            datasets: this.datasets
         };
 
         this.options = {

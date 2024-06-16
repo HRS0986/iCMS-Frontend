@@ -11,8 +11,8 @@ export interface EmailAccWithNickName {
 
 export interface SSShiftData {
     accs_to_check_ss: EmailAcc[];
-    ss_lower_bound: number;
-    ss_upper_bound: number;
+    ss_lower_bound: number | null;
+    ss_upper_bound: number | null;
     is_checking_ss: boolean;
     is_lower_checking: boolean;
     is_upper_checking: boolean;
@@ -33,17 +33,31 @@ export interface PostingNotiSendingChannelsRecord{
 
 
 export interface PostNewIntegratingEmail{
-  emailAddress: string,
-  nickName: string,
-  clientSecret:string
+  emailAddress: string;
+  nickName: string;
+  clientSecret:string;
+}
+
+export interface PostEditingEmail{
+  oldEmailAddress: string;
+  editedEmailAddress: string;
+  nickName: string;
+  clientSecret:string;
+}
+
+export interface GetEditingEmailResponse{
+
+  emailAddress: string;
+  nickName: string;
+  clientSecret:string;
 }
 
 export interface PostingCriticalityData{
-  accs_to_check_criticality: string[]
+  accs_to_check_criticality: string[];
 }
 
 export interface PostingOverdueIssuesData{
-  accs_to_check_overdue_emails: string[]
+  accs_to_check_overdue_emails: string[];
 }
 
 export interface SendSystemConfigData{

@@ -5,7 +5,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './settings.data.service';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
-import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, NotiSendingChannelsRecord, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
+import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, GetEditingEmailResponse, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
+import { forbiddenEmailValidator } from '../../validators/custom-validators';
+import { ChangeDetectorRef } from '@angular/core';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -25,6 +28,7 @@ export class SettingsComponent implements OnInit{
 
   isChecked: boolean = true;
   checked: boolean = false;
+  editEmailAccVisible: boolean = false
 
 
   //-------------------------------------------------- arrays---------------------------------------------------------------------------
@@ -92,14 +96,21 @@ export class SettingsComponent implements OnInit{
 
 
   emailInetgration = this.fb.group({
-    newEmailAccount: ['',[Validators.email, Validators.required]],
-    newEmailNickname:['',[Validators.required]],
+    newEmailAccount: ['',[Validators.email, Validators.required, forbiddenEmailValidator(this.currentReadingEmailAccountsForIntegrationPage.map(item => item.address))]],
+    newEmailNickname:['',[Validators.required], forbiddenEmailValidator(this.currentReadingEmailAccountsForIntegrationPage.map(item => item.nickname))],
+    newClientSecret: ['',[Validators.required]]
+  });
+
+
+  emailEdit = this.fb.group({
+    newEmailAccount: ['',[Validators.email, Validators.required, forbiddenEmailValidator(this.currentReadingEmailAccountsForIntegrationPage.map(item => item.address))]],
+    newEmailNickname:['',[Validators.required], forbiddenEmailValidator(this.currentReadingEmailAccountsForIntegrationPage.map(item => item.nickname))],
     newClientSecret: ['',[Validators.required]]
   });
 
   systemConfigurations = this.fb.group({
-    overdueInterval: 14,
-    newProductInputs: new FormControl<string[] | null>(null)
+    overdueInterval: 14
+    // newProductInputs: new FormControl<string[] | null>(null)
 
 
   });
@@ -111,33 +122,34 @@ export class SettingsComponent implements OnInit{
 
 
   // constructor
-  constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService, private messageService: MessageService, private authService: AuthenticationService) {}
+  constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService, private messageService: MessageService, private authService: AuthenticationService, private cd: ChangeDetectorRef) {}
 
   
   //-------------------------------------------------- onSubmit functions---------------------------------------------------------------------------
 
   onSubmitSentimentShifts(): void {
 
-    console.log(this.sentimentShiftsForm.value);
+    // console.log(this.sentimentShiftsForm.value);
     const email_Accs_To_CheckSS = this.sentimentShiftsForm.value.emailAccsToCheckSS;
+    console.log(email_Accs_To_CheckSS);
 
     let formData: SSShiftData = {
-      accs_to_check_ss: email_Accs_To_CheckSS ? email_Accs_To_CheckSS.map((item: any) => item.name) : [],
-      is_lower_checking: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerNotify?? false : false,
-      ss_lower_bound: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerSS?? 0 : 0,
-      is_upper_checking: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.upperNotify?? false : false,
-      ss_upper_bound: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.upperSS?? 0 : 0,
-      is_checking_ss:email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.ssThresholdNotiEnabled?? true : true
+      accs_to_check_ss: email_Accs_To_CheckSS ? email_Accs_To_CheckSS : [],
+      ss_lower_bound: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerSS ?? 0 : 0,
+      ss_upper_bound: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.upperSS ?? 0 : 0,
+      is_checking_ss: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.ssThresholdNotiEnabled ?? true : true,
+      is_lower_checking: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerNotify ?? false : false,
+      is_upper_checking: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.upperNotify ?? false : false
     };
 
-
+    console.log("sending SSSHIFT FORMDATA", formData)
     this.authService.getIdToken().subscribe((token: any) => {
       this.dataService.postSSShiftData(token, formData).subscribe(response => {
         console.log('Trigger Data sent successfully:', response);
         
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Sentiment shifts configuration updated succesfuly!' });
   
-        this.sentimentShiftsForm.reset();
+        this.getSentimentShiftDataOfUser()
       }, error => {
         console.error('Error sending data:', error);
         this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
@@ -151,13 +163,15 @@ export class SettingsComponent implements OnInit{
   
 
   onSubmitCriticality(): void {
-    console.log(this.criticalityForm.value);
+    //console.log(this.criticalityForm.value);
     const email_Accs_To_Criticality = this.criticalityForm.value.emailAccsToCheckCriticality;
 
     let formData: PostingCriticalityData = {
-      accs_to_check_criticality: email_Accs_To_Criticality ? email_Accs_To_Criticality.map((item: any) => item.name) : [],
+      accs_to_check_criticality: email_Accs_To_Criticality ? email_Accs_To_Criticality.map((item: any) => item.address) : [],
     }
-
+    
+    console.log("PostingCriticalityData", formData)
+    console.log("accs_to_check_criticality", formData.accs_to_check_criticality)
 
     this.authService.getIdToken().subscribe((token: any) => {
       this.dataService.postCriticalityData(token, formData).subscribe(response => {
@@ -176,23 +190,28 @@ export class SettingsComponent implements OnInit{
 
 
   onSubmitOverdueIssues(): void {
-    console.log(this.overdueIssuesForm.value);
+    //console.log(this.overdueIssuesForm.value);
     const email_Accs_To_Overdue_Issues = this.overdueIssuesForm.value.emailAccsToCheckOverdueIssues;
-
+    console.log("email_Accs_To_Overdue_Issues",email_Accs_To_Overdue_Issues)
     let formData: PostingOverdueIssuesData = {
-      accs_to_check_overdue_emails: email_Accs_To_Overdue_Issues ? email_Accs_To_Overdue_Issues.map((item: any) => item.name) : [],
+      accs_to_check_overdue_emails: email_Accs_To_Overdue_Issues ? email_Accs_To_Overdue_Issues.map((item: any) => item.address) : [],
     }
 
-    this.dataService.postIssuesOverdueData(formData).subscribe(response => {
-      console.log('Trigger Data sent successfully:', response);
-      
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Overdue checking emails updated succesfuly!' });
+    console.log(formData.accs_to_check_overdue_emails)
+    this.authService.getIdToken().subscribe((token: any) => {
+      this.dataService.postIssuesOverdueData(token, formData).subscribe(response => {
+        console.log('Trigger Data sent successfully:', response);
+        
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Overdue checking emails updated succesfuly!' });
+  
+        this.sentimentShiftsForm.reset();
+      }, error => {
+        console.error('Error sending data:', error);
+        this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
+      });
 
-      this.sentimentShiftsForm.reset();
-    }, error => {
-      console.error('Error sending data:', error);
-      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
     });
+
   }
 
 
@@ -215,7 +234,8 @@ export class SettingsComponent implements OnInit{
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Notification channels configuration updated succesfuly!' });
   
   
-        this.sentimentShiftsForm.reset();
+        this.notificationChannelsForm.reset();
+        this.getNotiChannelsDataForUser()
       }, error => {
         console.error('Error sending data:', error);
         this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
@@ -240,21 +260,53 @@ export class SettingsComponent implements OnInit{
   
       this.dataService.postSystemConfigData(formData).subscribe(response => {
         console.log('Notification configurations Data sent successfully:', response);
-  
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'System configurations updated succesfuly!' });
-  
-  
-        this.systemConfigurations.reset();
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'OVedue time updated succesfully!'});       
       }, error => {
-        console.error('Error sending data:', error);
         this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
-  
+        console.error('Error sending data:', error);
       });
   
       
       }
-   
   
+  onSubmitEmailEdit(): void {
+    //console.log(this.emailEdit.value);
+    const newEmailName = this.emailEdit.get('newEmailAccount')?.value;
+    const newEmailNName = this.emailEdit.get('newEmailNickname')?.value;
+    const newEmailClientSecret = this.emailEdit.get('newClientSecret')?.value;
+
+
+    if (newEmailName && newEmailNName) { 
+          //console.log(newEmailName);
+          
+          const sendingData: PostEditingEmail = {
+            oldEmailAddress:this.selectedReadingEmail,
+            editedEmailAddress: newEmailName,
+            nickName: newEmailNName,
+            clientSecret: newEmailClientSecret || ""
+          }
+
+          console.log(sendingData)
+
+          // Send the new email data to FastAPI
+          this.dataService.postEmailEdit(sendingData).subscribe(response => {
+            console.log('Data sent successfully:', response);
+            this.editEmailAccVisible = false
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Email info edited succesfuly!' });
+            // Assuming you want to reset the form after successful submission
+            this.emailEdit.reset();
+          }, error => {
+            this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
+            console.error('Error sending data:', error);
+          });
+                
+      
+  } else {
+      console.log("No new topics entered.");
+  }
+  }   
+
+
 
   onSubmitEmailIntegration(): void {
     console.log(this.emailInetgration.value);
@@ -344,6 +396,33 @@ export class SettingsComponent implements OnInit{
   //   this.visibleProductDeleting = false;
 
   // }
+  showEmailAccEditPopUp(emailAddress: any): void {
+    this.selectedReadingEmail = emailAddress;
+    
+    this.dataService.getEmailEditData(this.selectedReadingEmail).subscribe((data: GetEditingEmailResponse) => {
+  
+      console.log('Data received:', data);
+      this.emailEdit.patchValue({
+        newClientSecret: data.clientSecret,
+        newEmailAccount: data.emailAddress,
+        newEmailNickname: data.nickName
+      
+      });
+      // this.markFormControlsAsTouchedAndDirty();
+      // this.cd.detectChanges();
+      
+      console.log('Form values after patch:', this.emailEdit.value);
+      console.log('New Client Secret:', this.emailEdit.get('newClientSecret')?.value);
+  
+
+      
+    });
+    
+    // this.markFormControlsAsTouchedAndDirty();
+    // this.cd.detectChanges();
+    this.editEmailAccVisible = true;
+
+  }
 
   showDialogConfirmationEmailIntegration(emailAddress: any): void {
     this.selectedReadingEmail = emailAddress;
@@ -482,6 +561,9 @@ ngOnInit() {
         this.sentimentShiftsForm.controls['upperSS'].enable();
       }
     });
+    
+
+
 
     this.sentimentShiftsForm.get('ssThresholdNotiEnabled')?.valueChanges.subscribe(value => {
       if (value === false) {
@@ -577,6 +659,7 @@ getSentimentShiftDataOfUser(): void {
 }
 
 
+
 getCiticalityCheckingDataOfUser(): void {
   this.authService.getIdToken().subscribe((token: string) => {
     this.dataService.getCriticalityCheckingEmails(token).subscribe((data: EmailAcc[]) => {
@@ -655,7 +738,14 @@ getSystemConfigDataForCompany(): void {
     };
   }
  
-
+  private markFormControlsAsTouchedAndDirty(): void {
+    Object.keys(this.emailEdit.controls).forEach(controlName => {
+      const control = this.emailEdit.get(controlName);
+      control?.markAsTouched();
+      control?.markAsDirty();
+    });
+    this.cd.detectChanges();
+  }
 
 
 }
