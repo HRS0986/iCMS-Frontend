@@ -153,7 +153,9 @@
                             
                      
                         </form>
+
                     </div>
+                    <p-toast></p-toast>
                     
                 </p-tabPanel>
                 
@@ -198,6 +200,11 @@
                 <p-tabPanel header="Email Integration" *ngIf="isShowingAdminFeatures">
                     <div class="min-h-full">
                       <!--Email integration form-->
+                      <p-messages 
+                      [(value)]="newIntergratingEmailIDMessages" 
+                      [enableService]="false" 
+                      [closable]="false" />
+
                         <form [formGroup]="emailInetgration" (ngSubmit)="onSubmitEmailIntegration()">
                             <div class="mt-3"> <b>New Email Account Integration</b></div>
                             <div class="mb-5 mt-8">
@@ -240,6 +247,21 @@
                             </div>
                         </form>
 
+
+                        <p-dialog [draggable]="false" [resizable]="false" *ngIf="isVisibleClientSecretValidation" header="Email Integration Failure" [modal]="true" [(visible)]="isVisibleClientSecretValidation" [style]="{width: '30vw', height: 'auto'}">
+
+                          <p  style="text-align: justify;">
+                            The client secret you entered is not valid. 
+                            Please enter the correct client secret to complete the integration process .
+                            
+                          </p>
+                      
+                          <!-- Move this div to the bottom -->
+                          <div class=" flex justify-end gap-2">
+                            <p-button label="Ok" (click)="isVisibleClientSecretValidation = false" ></p-button>
+                          </div>
+                        </p-dialog> 
+
                         <hr class="mt-10 mb-10">
                         
                         <div class="mt-3 mb-4"> <b>Currently reading email accounts</b></div>
@@ -254,6 +276,8 @@
                           </app-email-acc-card>
                         </div>
                         <p-toast></p-toast>
+
+
 
                         <!-- Edit pop up dialog -->
                         <p-dialog header="Edit Email Account" [modal]="true" [(visible)]="editEmailAccVisible" [style]="{ width: '60rem' }">
@@ -382,7 +406,7 @@
                       
                       </form>
                     </div>
-
+                    <p-toast></p-toast>
                 </p-tabPanel>
             
           

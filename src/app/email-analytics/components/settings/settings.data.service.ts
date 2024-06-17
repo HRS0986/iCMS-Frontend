@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, GetEditingEmailResponse, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
+import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, EmailINtegrationPostResponseMessage, GetEditingEmailResponse, GetNewIntergratingEmailID, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
 
 
 @Injectable({
@@ -77,6 +77,14 @@ export class DataService {
     return this.http.get<SendSystemConfigData>(url);
   
   }
+
+
+  getNewIntegratingEmailID(): Observable<GetNewIntergratingEmailID> {
+
+    const url = `${this.baseUrl}/get_new_intergrating_email_id`;
+    return this.http.get<GetNewIntergratingEmailID>(url);
+  
+  }
   
 
 
@@ -136,10 +144,10 @@ export class DataService {
   }
 
 
-  postEmailIntegration(formData: PostNewIntegratingEmail): Observable<any[]> {
+  postEmailIntegration(formData: PostNewIntegratingEmail): Observable<EmailINtegrationPostResponseMessage> {
 
     const url = `${this.baseUrl}/receive_email_data`;
-    return this.http.post<any[]>(url, formData);  
+    return this.http.post<EmailINtegrationPostResponseMessage>(url, formData);  
   
   }
   

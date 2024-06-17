@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, ValidatorFn, Validators } from '@angular/forms';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem, Message, MessageService } from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './settings.data.service';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
-import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, GetEditingEmailResponse, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
+import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, EmailINtegrationPostResponseMessage, GetEditingEmailResponse, GetNewIntergratingEmailID, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
 import { forbiddenEmailValidator } from '../../validators/custom-validators';
 import { ChangeDetectorRef } from '@angular/core';
 import { ToastModule } from 'primeng/toast';
@@ -35,7 +35,7 @@ export class SettingsComponent implements OnInit{
 
   isShowingAdminFeatures: boolean = true;
 
-  
+  newlyIntegratingEmailID!: number 
   currentSSCheckingEmailAccountsOfUser = [
     {address: 'uharischandra12@gmail.com'}];
   
@@ -65,6 +65,7 @@ export class SettingsComponent implements OnInit{
     { name: 'travelBox'}
   ]
   
+  isVisibleClientSecretValidation: boolean = false
 
   //-------------------------------------------------- form groups---------------------------------------------------------------------------
 
@@ -94,7 +95,7 @@ export class SettingsComponent implements OnInit{
    
   
 
-
+  newIntergratingEmailIDMessages: Message[] =[{ severity: 'info', detail: 'Use the following redirect url when setting up the gmail API for the following newly intergrating email account. ' }]
   emailInetgration = this.fb.group({
     newEmailAccount: ['',[Validators.email, Validators.required, forbiddenEmailValidator(this.currentReadingEmailAccountsForIntegrationPage.map(item => item.address))]],
     newEmailNickname:['',[Validators.required], forbiddenEmailValidator(this.currentReadingEmailAccountsForIntegrationPage.map(item => item.nickname))],
@@ -260,7 +261,7 @@ export class SettingsComponent implements OnInit{
   
       this.dataService.postSystemConfigData(formData).subscribe(response => {
         console.log('Notification configurations Data sent successfully:', response);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'OVedue time updated succesfully!'});       
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Overdue time updated succesfully!'});       
       }, error => {
         this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
         console.error('Error sending data:', error);
@@ -317,20 +318,24 @@ export class SettingsComponent implements OnInit{
 
     if (newEmailName && newEmailNName) { 
           console.log(newEmailName);
-          // push the new email name and nickname into the currentReadingemailaccounts
-          this.currentReadingEmailAccountsForIntegrationPage.push({ address: newEmailName , nickname:newEmailNName});
-          
+        
           const sendingData: PostNewIntegratingEmail = {
+            emailID: this.newlyIntegratingEmailID,
             emailAddress: newEmailName,
             nickName: newEmailNName,
             clientSecret: newEmailClientSecret || ""
           }
           // Send the new email data to FastAPI
-          this.dataService.postEmailIntegration(sendingData).subscribe(response => {
+          this.dataService.postEmailIntegration(sendingData).subscribe((response: EmailINtegrationPostResponseMessage) => {
             console.log('Data sent successfully:', response);
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'New email integrated succesfuly!' });
-            // Assuming you want to reset the form after successful submission
-            this.emailInetgration.reset();
+            if (response.message == "intergration complete"){
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'New email integrated succesfuly!' });
+              this.emailInetgration.reset();
+              this.currentReadingEmailAccountsForIntegrationPage.push({ address: newEmailName , nickname:newEmailNName});
+            }else{
+              this.isVisibleClientSecretValidation = true
+            }
+
           }, error => {
             this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
             console.error('Error sending data:', error);
@@ -610,8 +615,9 @@ ngOnInit() {
 
   // getting system config data for the company
   this.getSystemConfigDataForCompany()
-
- 
+  
+  // getting the email ID for the newly integrating email account
+  this.getNewIntergratingEmailID()
  }
 
 
@@ -672,6 +678,18 @@ getCiticalityCheckingDataOfUser(): void {
   });
 }
 
+getNewIntergratingEmailID(): void{
+
+  this.dataService.getNewIntegratingEmailID().subscribe((data: GetNewIntergratingEmailID) => {
+    console.log('OverdueIssues checking emails',data)
+    this.newlyIntegratingEmailID = data.emailID
+    let msgDetail = `Use the following redirect url when setting up the gmail API for the following newly intergrating email account \n \n http://127.0.0.1:8000/email/info_and_retrieval/callback?id=${this.newlyIntegratingEmailID}`
+
+    this.newIntergratingEmailIDMessages = [{ severity: 'info', detail:  msgDetail}]
+
+  });
+  
+}
 getOverdueIssuesCheckingDataOfUser(): void{
   this.authService.getIdToken().subscribe((token: string) => {
     this.dataService.getOverdueIssuesCheckingEmails(token).subscribe((data: EmailAcc[]) => {

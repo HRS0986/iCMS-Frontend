@@ -88,6 +88,7 @@ import { DashboardSummaryCardComponent } from './components/dashboard-summary-ca
 import { DashboardActionablesComponent } from './components/dashboard-actionables/dashboard-actionables.component';
 import { DashboardResponsetimeComponent } from './components/dashboard-responsetime/dashboard-responsetime.component';
 import { FilteringComponent } from './components/filtering/filtering.component';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -175,6 +176,7 @@ import { FilteringComponent } from './components/filtering/filtering.component';
     SkeletonModule,
     ProgressBarModule,
     AutoCompleteModule,
+    MessagesModule
   ],
   providers: [MessageService],
 })

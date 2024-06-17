@@ -33,9 +33,14 @@ export interface PostingNotiSendingChannelsRecord{
 
 
 export interface PostNewIntegratingEmail{
+  emailID: number;
   emailAddress: string;
   nickName: string;
   clientSecret:string;
+}
+
+export interface GetNewIntergratingEmailID{
+  emailID: number;
 }
 
 export interface PostEditingEmail{
@@ -66,6 +71,10 @@ export interface SendSystemConfigData{
 
 export interface UserRoleResponse{
     isAdmin: boolean;
+}
+
+export interface EmailINtegrationPostResponseMessage{
+  message: string;
 }
 
 
