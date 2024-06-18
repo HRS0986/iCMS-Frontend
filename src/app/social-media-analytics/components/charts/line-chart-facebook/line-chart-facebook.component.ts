@@ -1,11 +1,11 @@
 import { Component ,Input} from '@angular/core';
 
 @Component({
-  selector: 'line-chart-sm',
-  templateUrl: './line-chart-sm.component.html',
-  styleUrl: './line-chart-sm.component.scss'
+  selector: 'line-chart-facebook',
+  templateUrl: './line-chart-facebook.component.html',
+  styleUrl: './line-chart-facebook.component.scss'
 })
-export class LineChartSmComponent {
+export class LineChartFacebookComponent {
   @Input() title!: string;
   data: any;
 
@@ -23,24 +23,17 @@ export class LineChartSmComponent {
         {
           label: 'Reacts',
           data: [65, 59, 80, 81, 56, 55, 40],
-          borderColor: documentStyle.getPropertyValue('--brown-500'),
+          borderColor: documentStyle.getPropertyValue('--blue-500'),
           
           
         },
         {
           label: 'Comments',
           data: [28, 48, 40, 19, 86, 27, 90],
-          borderColor: documentStyle.getPropertyValue('--red-500'),
+          borderColor: documentStyle.getPropertyValue('--grey-500'),
           
           
         },
-        {
-          label: 'Mentions',
-          data: [12, 51, 62, 33, 21, 62, 45],
-          borderColor: documentStyle.getPropertyValue('--yellow-500'),
-          
-          
-        }
       ]
     };
 
