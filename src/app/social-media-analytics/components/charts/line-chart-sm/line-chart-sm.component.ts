@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component ,Input} from '@angular/core';
 
 @Component({
-  selector: 'app-line-area-chart',
-  templateUrl: './line-area-chart.component.html',
-  styleUrl: './line-area-chart.component.scss'
+  selector: 'line-chart-sm',
+  templateUrl: './line-chart-sm.component.html',
+  styleUrl: './line-chart-sm.component.scss'
 })
-export class LineAreaChartComponent implements OnInit {
+export class LineChartSmComponent {
   @Input() title!: string;
   data: any;
 
@@ -21,28 +21,25 @@ export class LineAreaChartComponent implements OnInit {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
         {
-          label: 'Positive',
+          label: 'Reacts',
           data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: documentStyle.getPropertyValue('--green-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(60,180,16,0.2)'
+          borderColor: documentStyle.getPropertyValue('--brown-500'),
+          
+          
         },
         {
-          label: 'Negative',
+          label: 'Comments',
           data: [28, 48, 40, 19, 86, 27, 90],
-          fill: false,
           borderColor: documentStyle.getPropertyValue('--red-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(152,37,40,0.2)'
+          
+          
         },
         {
-          label: 'Neutral',
+          label: 'Mentions',
           data: [12, 51, 62, 33, 21, 62, 45],
-          fill: false,
           borderColor: documentStyle.getPropertyValue('--yellow-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(255,167,38,0.2)'
+          
+          
         }
       ]
     };
@@ -77,4 +74,5 @@ export class LineAreaChartComponent implements OnInit {
       }
     };
   }
+
 }

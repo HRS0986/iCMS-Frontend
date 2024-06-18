@@ -1,49 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from "primeng/api";
-import { piPageItem, highlightedComments } from '../../structs';
-
-const itemService: highlightedComments[] = [
-  {
-    id: '1000',
-    name: 'Savindu Harshana',
-    img: 'assets/social-media/icons/Avatar1.svg',
-    comment: 'you"re my coding superhero! All is flawless, and the speed is incredible...',
-    company: 'CodeGen',
-    company_category: 'Chat Bot',
-    sentiment_score: 88,
-    color: '#0BB783'
-  },
-  {
-    id: '1001',
-    name: 'Dilhara Siriwardana',
-    img: 'assets/social-media/icons/Avatar2.svg',
-    comment: 'Hit and miss with CodeGenCo. Sometimes it"s a lifesaver, other times`...',
-    company: 'VEGA',
-    company_category: 'EV Cars Manufac..',
-    sentiment_score: 83,
-    color: '#0BB783'
-  },
-  {
-    id: '1002',
-    name: 'Samitha Liyanage',
-    img: 'assets/social-media/icons/Avatar1.svg',
-    comment: 'Disappointed with the service. Not worth the investment. Needs significant...',
-    company: '--',
-    company_category: '',
-    sentiment_score: 37,
-    color: '#EF6327'
-  },
-  {
-    id: '1003',
-    name: 'Dilhara Nethmini',
-    img: 'assets/social-media/icons/Avatar2.svg',
-    comment: 'tools are okay, but I expected a bit more. Some generated code seems...',
-    company: '99x',
-    company_category: 'Development Co.',
-    sentiment_score: 57,
-    color: '#C0F64E'
-  },
-];
+import { PiPageItem } from '../../models/platform-insights';
+import { PlatformInsightsApiService } from '../../services/platform-insights-api.service';
 
 
 @Component({
@@ -52,10 +10,8 @@ const itemService: highlightedComments[] = [
   styleUrls: ['./pi.component.scss']
 })
 
-
 export class PIComponent implements OnInit {
-  items!: highlightedComments[];
-  selecteditem!: highlightedComments;
+  items: any;
   DataReactions: any;
   DataComments: any;
   DataSentimentOverTime: any;
@@ -64,71 +20,148 @@ export class PIComponent implements OnInit {
   OptionsKeywordThrends: any;
   OptionsSentimentOverTime: any;
 
+  constructor(private platformInsightsApiService: PlatformInsightsApiService) { }
+
   ngOnInit() {
-    this.items = itemService;
+    let keywordThrendsLabels: string[] = [];
+    let keywordThrendsData: any[] = [];
+
+    let totalReactionsLabels: string[] = [];
+    let totalReactionsData: any[] = [];
+
+    let totalCommentsLabels: string[] = [];
+    let totalCommentsData: any[] = [];
+
+    let SentimentOverTimeLabels: string[] = [];
+    let SentimentOverTimeReactsData: any[] = [];
+    let SentimentOverTimeCommentsData: any[] = [];
 
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.DataKeywordThrends = {
-      labels: ['ChargingNet', 'Lia', 'TravelBox', 'Vega'],
-      datasets: [
-        {
-          data: [54, 32, 70, 62],
-          backgroundColor: ['rgba(255, 159, 64, 0.4)', 'rgba(75, 192, 192, 0.4)', 'rgba(54, 162, 235, 0.4)', 'rgba(153, 102, 255, 0.4)'],
-          borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
-          borderWidth: 1
-        }
-      ]
-    };
+    this.platformInsightsApiService.getPIData("2024-05-01", "2024-05-30").subscribe(response => {
+      console.log(response);
 
-    this.DataReactions = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'First Dataset',
-          data: [28, 48, 40, 19, 86, 27, 90],
-          fill: false,
-          borderColor: "#fff",
-          tension: 0.2
-        }
-      ]
-    };
+      // ############ 0: Keyword Trends ############
 
-    this.DataComments = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'Second Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: "#fff",
-          tension: 0.2
-        }
-      ]
-    };
+      const keyword_trends = response[0];
 
-    this.DataSentimentOverTime = {
-      labels: ['15-May', '16-May', '17-May', '18-May', '19-May', '20-May', '21-May'],
-      datasets: [
-        {
-          label: 'Reacts',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: documentStyle.getPropertyValue('--blue-500'),
-          tension: 0.2
-        },
-        {
-          label: 'Comments',
-          data: [28, 48, 40, 19, 86, 27, 90],
-          fill: false,
-          borderColor: documentStyle.getPropertyValue('--pink-500'),
-          tension: 0.2
+      for (const [key, value] of Object.entries(keyword_trends)) {
+        keywordThrendsLabels.push(key);
+        keywordThrendsData.push(value);
+      }
+
+      this.DataKeywordThrends = {
+        labels: keywordThrendsLabels,
+        datasets: [
+          {
+            data: keywordThrendsData,
+            backgroundColor: ['rgba(255, 159, 64, 0.4)', 'rgba(75, 192, 192, 0.4)', 'rgba(54, 162, 235, 0.4)', 'rgba(153, 102, 255, 0.4)'],
+            borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+            borderWidth: 1
+          }
+        ]
+      };
+
+
+      // ############ 1: Get total reactions of posts ############
+
+      const total_reactions = response[1];
+
+      for (const [key, value] of Object.entries(total_reactions)) {
+        totalReactionsLabels.push(key);
+        totalReactionsData.push(value);
+      }
+
+      this.DataReactions = {
+        labels: totalReactionsLabels,
+        datasets: [
+          {
+            label: 'Reactions',
+            data: totalReactionsData,
+            fill: false,
+            borderColor: "#fff",
+            tension: 0.2
+          }
+        ]
+      };
+
+
+      // ############ 2: Get total comments of posts ############
+
+      const total_comments = response[2];
+
+      for (const [key, value] of Object.entries(total_comments)) {
+        totalCommentsLabels.push(key);
+        totalCommentsData.push(value);
+      }
+
+      this.DataComments = {
+        labels: totalCommentsLabels,
+        datasets: [
+          {
+            label: 'Comments',
+            data: totalCommentsData,
+            fill: false,
+            borderColor: "#fff",
+            tension: 0.2
+          }
+        ]
+      };
+
+
+      // ############ 3: Get Highlighted comments ############
+
+      const highlighted_comments = response[3];
+      highlighted_comments.forEach((item: any) => {
+        if (item.description.length > 100) {
+          item.description = item.description.slice(0, 150) + '...';
         }
-      ]
-    };
+        item.s_score = Math.round((item.s_score + 1) * 50);
+      });
+      this.items = highlighted_comments;
+
+
+      // ############ 4: Get average sentiment score of comments and reacts ############
+
+      const sentiment_scores = response[4];
+
+      for (const [key, value] of Object.entries(sentiment_scores.comment_sentiment_scores)) {
+        SentimentOverTimeLabels.push(key);
+        SentimentOverTimeCommentsData.push(value);
+      }
+
+      for (const [key, value] of Object.entries(sentiment_scores.post_sentiment_scores)) {
+        SentimentOverTimeReactsData.push(value);
+      }
+
+      this.DataSentimentOverTime = {
+        labels: SentimentOverTimeLabels,
+        datasets: [
+          {
+            label: 'Reacts',
+            data: SentimentOverTimeReactsData,
+            fill: false,
+            borderColor: documentStyle.getPropertyValue('--blue-500'),
+            tension: 0.2
+          },
+          {
+            label: 'Comments',
+            data: SentimentOverTimeCommentsData,
+            fill: false,
+            borderColor: documentStyle.getPropertyValue('--pink-500'),
+            tension: 0.2
+          }
+        ]
+      };
+
+    },
+      error => {
+        console.error('Error fetching data:', error);
+      });
+
 
     this.OptionsKeywordThrends = {
       maintainAspectRatio: false,
@@ -212,10 +245,10 @@ export class PIComponent implements OnInit {
     };
   }
 
-  onRowEdit(item: highlightedComments) {
+  onRowEdit(item: any) {
   }
 
-  onRowOpen(item: highlightedComments) {
+  onRowOpen(item: any) {
   }
 
   breadcrumbItems: MenuItem[] = [
@@ -227,9 +260,9 @@ export class PIComponent implements OnInit {
   tabInstergram = { title: 'Instergram', img: 'assets/social-media/icons/instargram.png' };
   tabTwitter = { title: 'Twitter', img: 'assets/social-media/icons/twitter.png' };
 
-  piPageItem1: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
-  piPageItem2: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
-  piPageItem3: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
+  piPageItem1: PiPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
+  piPageItem2: PiPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
+  piPageItem3: PiPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
 
   topBarCaption = "Custom Alerts";
 
