@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from "primeng/api";
-import { piPageItem } from '../../structs';
-import { HttpClient } from '@angular/common/http';
+import { PiPageItem } from '../../models/platform-insights';
+import { PlatformInsightsApiService } from '../../services/platform-insights-api.service';
 
 
 @Component({
@@ -9,7 +9,6 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './pi.component.html',
   styleUrls: ['./pi.component.scss']
 })
-
 
 export class PIComponent implements OnInit {
   items: any;
@@ -21,7 +20,7 @@ export class PIComponent implements OnInit {
   OptionsKeywordThrends: any;
   OptionsSentimentOverTime: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private platformInsightsApiService: PlatformInsightsApiService) { }
 
   ngOnInit() {
     let keywordThrendsLabels: string[] = [];
@@ -42,126 +41,126 @@ export class PIComponent implements OnInit {
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.http.get<any>('http://127.0.0.1:8000/social-media/platform_insights_data?startDate=2024-05-01&endDate=2024-05-30')
-      .subscribe(response => {
+    this.platformInsightsApiService.getPIData("2024-05-01", "2024-05-30").subscribe(response => {
+      console.log(response);
 
-        // ############ 0: Keyword Trends ############
+      // ############ 0: Keyword Trends ############
 
-        const keyword_trends = response[0];
+      const keyword_trends = response[0];
 
-        for (const [key, value] of Object.entries(keyword_trends)) {
-          keywordThrendsLabels.push(key);
-          keywordThrendsData.push(value);
-        }
+      for (const [key, value] of Object.entries(keyword_trends)) {
+        keywordThrendsLabels.push(key);
+        keywordThrendsData.push(value);
+      }
 
-        this.DataKeywordThrends = {
-          labels: keywordThrendsLabels,
-          datasets: [
-            {
-              data: keywordThrendsData,
-              backgroundColor: ['rgba(255, 159, 64, 0.4)', 'rgba(75, 192, 192, 0.4)', 'rgba(54, 162, 235, 0.4)', 'rgba(153, 102, 255, 0.4)'],
-              borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
-              borderWidth: 1
-            }
-          ]
-        };
-        
-
-        // ############ 1: Get total reactions of posts ############
-
-        const total_reactions = response[1];
-
-        for (const [key, value] of Object.entries(total_reactions)) {
-          totalReactionsLabels.push(key);
-          totalReactionsData.push(value);
-        }
-
-        this.DataReactions = {
-          labels: totalReactionsLabels,
-          datasets: [
-            {
-              label: 'Reactions',
-              data: totalReactionsData,
-              fill: false,
-              borderColor: "#fff",
-              tension: 0.2
-            }
-          ]
-        };
-
-
-        // ############ 2: Get total comments of posts ############
-
-        const total_comments = response[2];
-
-        for (const [key, value] of Object.entries(total_comments)) {
-          totalCommentsLabels.push(key);
-          totalCommentsData.push(value);
-        }
-
-        this.DataComments = {
-          labels: totalCommentsLabels,
-          datasets: [
-            {
-              label: 'Comments',
-              data: totalCommentsData,
-              fill: false,
-              borderColor: "#fff",
-              tension: 0.2
-            }
-          ]
-        };
-        
-
-        // ############ 3: Get Highlighted comments ############
-
-        const highlighted_comments = response[3];
-        highlighted_comments.forEach((item: any) => {
-          if (item.description.length > 100) {
-            item.description = item.description.slice(0, 150) + '...';
+      this.DataKeywordThrends = {
+        labels: keywordThrendsLabels,
+        datasets: [
+          {
+            data: keywordThrendsData,
+            backgroundColor: ['rgba(255, 159, 64, 0.4)', 'rgba(75, 192, 192, 0.4)', 'rgba(54, 162, 235, 0.4)', 'rgba(153, 102, 255, 0.4)'],
+            borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+            borderWidth: 1
           }
-          item.s_score = Math.round((item.s_score + 1) * 50);
-        });
-        this.items = highlighted_comments;
+        ]
+      };
 
 
-        // ############ 4: Get average sentiment score of comments and reacts ############
+      // ############ 1: Get total reactions of posts ############
 
-        const sentiment_scores = response[4];
+      const total_reactions = response[1];
 
-        for (const [key, value] of Object.entries(sentiment_scores.comment_sentiment_scores)) {
-          SentimentOverTimeLabels.push(key);
-          SentimentOverTimeCommentsData.push(value);
+      for (const [key, value] of Object.entries(total_reactions)) {
+        totalReactionsLabels.push(key);
+        totalReactionsData.push(value);
+      }
+
+      this.DataReactions = {
+        labels: totalReactionsLabels,
+        datasets: [
+          {
+            label: 'Reactions',
+            data: totalReactionsData,
+            fill: false,
+            borderColor: "#fff",
+            tension: 0.2
+          }
+        ]
+      };
+
+
+      // ############ 2: Get total comments of posts ############
+
+      const total_comments = response[2];
+
+      for (const [key, value] of Object.entries(total_comments)) {
+        totalCommentsLabels.push(key);
+        totalCommentsData.push(value);
+      }
+
+      this.DataComments = {
+        labels: totalCommentsLabels,
+        datasets: [
+          {
+            label: 'Comments',
+            data: totalCommentsData,
+            fill: false,
+            borderColor: "#fff",
+            tension: 0.2
+          }
+        ]
+      };
+
+
+      // ############ 3: Get Highlighted comments ############
+
+      const highlighted_comments = response[3];
+      highlighted_comments.forEach((item: any) => {
+        if (item.description.length > 100) {
+          item.description = item.description.slice(0, 150) + '...';
         }
+        item.s_score = Math.round((item.s_score + 1) * 50);
+      });
+      this.items = highlighted_comments;
 
-        for (const [key, value] of Object.entries(sentiment_scores.post_sentiment_scores)) {
-          SentimentOverTimeReactsData.push(value);
-        }
 
-        this.DataSentimentOverTime = {
-          labels: SentimentOverTimeLabels,
-          datasets: [
-            {
-              label: 'Reacts',
-              data: SentimentOverTimeReactsData,
-              fill: false,
-              borderColor: documentStyle.getPropertyValue('--blue-500'),
-              tension: 0.2
-            },
-            {
-              label: 'Comments',
-              data: SentimentOverTimeCommentsData,
-              fill: false,
-              borderColor: documentStyle.getPropertyValue('--pink-500'),
-              tension: 0.2
-            }
-          ]
-        };
+      // ############ 4: Get average sentiment score of comments and reacts ############
 
-      },
-        error => {
-          console.error('Error fetching data:', error);
-        });
+      const sentiment_scores = response[4];
+
+      for (const [key, value] of Object.entries(sentiment_scores.comment_sentiment_scores)) {
+        SentimentOverTimeLabels.push(key);
+        SentimentOverTimeCommentsData.push(value);
+      }
+
+      for (const [key, value] of Object.entries(sentiment_scores.post_sentiment_scores)) {
+        SentimentOverTimeReactsData.push(value);
+      }
+
+      this.DataSentimentOverTime = {
+        labels: SentimentOverTimeLabels,
+        datasets: [
+          {
+            label: 'Reacts',
+            data: SentimentOverTimeReactsData,
+            fill: false,
+            borderColor: documentStyle.getPropertyValue('--blue-500'),
+            tension: 0.2
+          },
+          {
+            label: 'Comments',
+            data: SentimentOverTimeCommentsData,
+            fill: false,
+            borderColor: documentStyle.getPropertyValue('--pink-500'),
+            tension: 0.2
+          }
+        ]
+      };
+
+    },
+      error => {
+        console.error('Error fetching data:', error);
+      });
 
 
     this.OptionsKeywordThrends = {
@@ -261,9 +260,9 @@ export class PIComponent implements OnInit {
   tabInstergram = { title: 'Instergram', img: 'assets/social-media/icons/instargram.png' };
   tabTwitter = { title: 'Twitter', img: 'assets/social-media/icons/twitter.png' };
 
-  piPageItem1: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
-  piPageItem2: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
-  piPageItem3: piPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
+  piPageItem1: PiPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
+  piPageItem2: PiPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
+  piPageItem3: PiPageItem = { title: '40+ new comments', totalComments: 47, commentsImprovement: -12, totalReactions: 560, reactionsImprovement: +28, HighlightedComments: 40 };
 
   topBarCaption = "Custom Alerts";
 

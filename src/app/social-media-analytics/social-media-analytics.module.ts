@@ -39,6 +39,7 @@ import { LineChartSmComponent } from './components/charts/line-chart-sm/line-cha
 import { GaugeChartComponent } from './components/charts/gauge-chart/gauge-chart.component';
 import { WordCloudSmComponent } from './components/word-cloud-topics/word-cloud-topics.component';
 import { WordCloudSm2Component } from './components/word-cloud-keywords/word-cloud-keywords.component';
+import { CaCardsComponent } from './components/ca-cards/ca-cards.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { WordCloudSm2Component } from './components/word-cloud-keywords/word-clo
     GaugeChartComponent,
     LineChartSmComponent,
     WordCloudSmComponent,
-    WordCloudSm2Component
+    WordCloudSm2Component,
+    CaCardsComponent
   ],
   imports: [
     PanelModule,
