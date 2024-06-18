@@ -22,7 +22,7 @@ export class settingsComponent {
   tabAlerts = {title:'Alerts', img: ''};
   tabCampaigns = {title:'Campaigns', img: ''};
 
-  content1: Content = {title: 'Notification Configeration'};
+  content1: Content = {title: 'Notification Configuration'};
   content2: Content = {title: 'Created Thresholds'};
   content3: Content = {title: 'Created Alerts'};
   content4: Content = {title: 'Created Campaigns'};
