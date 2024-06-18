@@ -1,0 +1,65 @@
+<div class="flex justify-evenly w-full" *ngIf="showAdditionalCards">
+  <div class="card" *ngFor="let campaign of campaigns">
+    <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}">
+    </div>
+    <div class="text-container">
+      <div class="campaign-name-overlay">{{ campaign.name }}</div>
+      <div class="stats">
+        <div class="stat">
+          <div class="flex justify-around w-full mb-4">
+            <img class="tab-icon" [src]="'assets/social-media/svg/likes.svg'" alt="Icon">
+            <span class="count">{{ campaign.likesCount }}</span>
+          </div>
+          <span class="change">
+            <span *ngIf="campaign.likesChange > 0; else negative" class="positive">
+              +{{ campaign.likesChange }}
+            </span>
+            <ng-template #negative>
+              <span class="negative">
+                {{ campaign.likesChange }}
+              </span>
+            </ng-template>
+            this week
+          </span>
+        </div>
+        <div class="stat">
+          <div class="flex justify-around w-full mb-4">
+            <img class="tab-icon" [src]="'assets/social-media/svg/comment.svg'" alt="Icon">
+            <span class="count">{{ campaign.commentsCount }}</span>
+          </div>
+          <span class="change">
+            <span *ngIf="campaign.likesChange > 0; else negative" class="positive">
+              +{{ campaign.commentsChange }}
+            </span>
+            <ng-template #negative>
+              <span class="negative">
+                {{ campaign.commentsChange }}
+              </span>
+            </ng-template>
+            this week
+          </span>
+        </div>
+      </div>
+      <div class="campaign-info">
+        <div class="row1">
+          <span class="campaign-name">{{ campaign.campaignName }}</span>
+          <span class="pi pi-facebook"></span>
+        </div>
+        <div class="row2">
+          <div class="sentiment-info">
+            <span class="overall-sentiment-text">Overall Sentiment:</span>
+            <span class="overall-sentiment-value">{{ campaign.sentiment }}%</span>
+          </div>
+        </div>
+        <div class="row3">
+          <div class="progress-container">
+            <progress-bar [value]="0" [bufferValue]="campaign.progress" [color]="campaign.color"></progress-bar>
+          </div>
+        </div>
+      </div>
+      <div class="button-container">
+        <p-button label="View Campaign" [outlined]="true" (click)="viewCampaign(campaign)"></p-button>
+      </div>
+    </div>
+  </div>
+</div>
