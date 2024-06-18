@@ -1,5 +1,9 @@
-<div class="bg-gray-50 rounded my-5 border border-solid border-gray-200">
-  <div class="grid grid-cols-4 px-5 py-3">
+<div
+  class="bg-gray-50 hover:bg-blue-100 hover:cursor-pointer rounded my-5 border border-solid border-gray-200 transition hover:duration-150"
+  (click)="load()"
+>
+  <!-- <div class="grid grid-cols-4 px-5 py-3">
+
     <div class="col-span-3 grid grid-rows-4">
       <div class="-ml-1 flex items-center">
         <span>
@@ -57,7 +61,7 @@
         {{ issueData.issue }}
       </div>
       <div class="grid grid-cols-3 gap-x-8">
-        <!-- TODO: make these spans fixed size and truncate if text is too long -->
+
 
         <span class="flex items-center overflow-hidden">
           <i class="pi pi-send text-sm font-thin pr-2"></i>
@@ -79,7 +83,6 @@
     </div>
     <div class="grid grid-rows-2 justify-center gap-4 py-2">
       <div class="flex items-center justify-center overflow-hidden">
-        <!-- TODO: truncate additional tags if overflowing and add a tag with +n where n is the number of hidden tags -->
         <p-tag
           class="p-1"
           styleClass="text-sm"
@@ -102,6 +105,124 @@
         ></p-button>
       </div>
     </div>
+  </div> -->
+  <div class="px-4 py-4 grid grid-cols-1 gap-y-3 gap-x-3 lg:grid-cols-6">
+    <!-- status -->
+    <div class="order-0 bg-yellow-500 lg:col-span-3">
+      <!-- new status -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="issueData.isNew"
+        severity="info"
+        value="New"
+      >
+        <i class="pi pi-info-circle text-sm pr-2"></i>
+      </p-tag>
+      <!-- update status -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="issueData.isNew"
+        severity="warning"
+        value="Update"
+      >
+        <i class="pi pi-refresh text-sm pr-2"></i>
+      </p-tag>
+      <!-- open status -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm bg-gray-500 "
+        *ngIf="issueData.isNew"
+        severity="secondary"
+        value="Open"
+      >
+        <i class="pi pi-inbox text-sm pr-2"></i>
+      </p-tag>
+      <!-- overdue status -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="issueData.isOverdue"
+        severity="danger"
+        value="Overdue"
+      >
+        <i class="pi pi-exclamation-triangle text-sm pr-2"></i>
+      </p-tag>
+      <!-- closed status -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="issueData.isClosed"
+        severity="success"
+        value="Closed"
+      >
+        <i class="pi pi-check-circle text-sm pr-2"></i>
+      </p-tag>
+      <p-tag
+        class="p-1"
+        severity="secondary"
+        styleClass="text-sm bg-gray-500"
+        value="Effectivity: {{ issueData.effectivity }}"
+      >
+        <i class="pi pi-shield text-sm font-thin pr-2"></i>
+      </p-tag>
+      <p-tag
+        class="p-1 my-class"
+        severity="secondary"
+        styleClass="text-sm bg-gray-500"
+        value="Efficiency: {{ issueData.efficiency }}"
+      >
+        <i class="pi pi-clock text-sm font-thin pr-2"></i>
+      </p-tag>
+    </div>
+    <!-- summary -->
+    <div class="order-2 font-medium py-2 text-justify bg-red-400 lg:col-span-6">
+      {{ issueData.issue }}
+    </div>
+    <!-- client -->
+    <div class="order-2 bg-gray-500 lg:col-span-2">
+      <span class="flex items-center overflow-hidden">
+        <i class="pi pi-send text-sm font-thin pr-2"></i>
+        Client: {{ issueData.sender }}</span
+      >
+    </div>
+    <!-- opened -->
+    <div class="order-2 bg-gray-500 lg:col-span-2">
+      <span class="flex items-center overflow-hidden">
+        <i class="pi pi-flag text-sm font-thin pr-2"></i>
+        Opened: {{ displayedOpenedDate }}</span
+      >
+    </div>
+    <!-- last update / closed -->
+    <div class="order-2 bg-gray-500 lg:col-span-2">
+      <span
+        *ngIf="issueData.isClosed"
+        class="flex items-center overflow-hidden"
+      >
+        <i class="pi pi-check text-sm font-thin pr-2"></i>
+        Closed: {{ displayedClosedDate }}
+      </span>
+      <span
+        *ngIf="!issueData.isClosed"
+        class="flex items-center overflow-hidden"
+      >
+        <i class="pi pi-forward text-sm font-thin pr-2"></i>
+        Update: {{ displayedOpenedDate }}
+      </span>
+    </div>
+    <!-- tags -->
+    <div
+      class="order-2 bg-blue-200 lg:order-1 lg:col-span-3 lg:justify-self-end"
+    >
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        severity="primary"
+        *ngFor="let tag of issueData.tags"
+        value="{{ tag }}"
+      />
+    </div>
   </div>
 </div>
 
@@ -109,14 +230,16 @@
   header="Additional Details"
   [(visible)]="dialogVisible"
   [modal]="true"
-  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
   [style]="{ width: '50vw' }"
   [draggable]="false"
   [resizable]="false"
 >
-  <div *ngIf="!errorMessage" >
+  <div *ngIf="!errorMessage">
     <div class="additional-info flex justify-center mb-8">
-      <div class="max-w-[75%] py-10 px-5 border-dashed border-4 border-gray-500 rounded-3xl text-2xl">
+      <div
+        class="max-w-[75%] py-10 px-5 border-dashed border-4 border-gray-500 rounded-3xl text-2xl"
+      >
         Additional Content Goes Here
       </div>
     </div>
@@ -132,7 +255,7 @@
           'self-end': !email.isClient
         }"
       >
-        <div 
+        <div
           class="font-medium text-gray-800 text-opacity-70 px-4 py-2"
           [ngClass]="{
             'text-right': !email.isClient

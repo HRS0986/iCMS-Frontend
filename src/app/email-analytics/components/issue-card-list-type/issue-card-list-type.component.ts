@@ -71,6 +71,7 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
   load() {
     // this is to load the additional data from BE
     // wait until all data available, then display the popup showing the additional data
+    console.log('clicked me')
       this.loading = true;
       this.issueService.getIssueAdditionalData(this.issueData.id).subscribe({
         next: data => {
