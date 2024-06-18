@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Issue, IssueMetaDataResponse } from '../../interfaces/issues';
-import { DataViewLazyLoadEvent } from 'primeng/dataview';
+import { DataViewLazyLoadEvent, DataView } from 'primeng/dataview';
 import { MenuItem } from 'primeng/api';
 import { IssueService } from '../../services/issue.service';
-import { identifierName } from '@angular/compiler';
+import { Filter } from '../../interfaces/filters';
 
 @Component({
   selector: 'app-issue-dataview',
@@ -11,7 +11,9 @@ import { identifierName } from '@angular/compiler';
   styleUrl: './issue-dataview.component.scss'
 })
 export class IssueDataviewComponent {
-  
+
+  @ViewChild('dataView') dataView!: DataView;
+
   issueData: Issue[] = new Array(10).fill({
     id: '',
     issue: '',
@@ -35,11 +37,26 @@ export class IssueDataviewComponent {
   errorMessage: string = '';
   dialogVisible: boolean = false;
 
+  filterCriteria: Filter = {
+    selectedSenders: [],
+    selectedReceivers: [],
+    selectedTags: [],
+    reqAllTags: false,
+    selectedStatus: [],
+    selectedDate: [],
+    searchText: '',
+    importantOnly: false,
+    newOnly: false
+  }
+
   constructor(private issueService: IssueService) {}
 
-  loadIssues($event: DataViewLazyLoadEvent) {
+  loadIssues($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
-    this.issueService.getIssueMetadata($event.first ?? 0, $event.rows ?? 20).subscribe({
+    // test
+    this.issueService.getIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({});
+    //
+    this.issueService.getMockIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
       next: (response: IssueMetaDataResponse) => {
         this.issueData = response.data;
         this.totalRecords = response.total;
@@ -54,12 +71,17 @@ export class IssueDataviewComponent {
   }
   onPageChange(event: any) {
     this.rowsPerPage = event.rows;
-    this.loadIssues({ first: event.first, rows:this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder});
+    this.loadIssues({ first: event.first, rows:this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder}, this.filterCriteria);
+  }
+
+  onFilterChange(filterCriteria: Filter) {
+    this.filterCriteria = filterCriteria;
+    this.dataView.first = 0;
+    this.loadIssues({ first: 0, rows: this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder }, filterCriteria);
   }
 
   breadcrumbItems: MenuItem[] = [
-    {label: "Email Analytics"},
+    {label: "Email Analytics", routerLink: "/email/dashboard2"},
     {label: "Email Issues"}
   ];
-
 }

@@ -1,11 +1,11 @@
 <app-page-header
-  pageTitle="Email Filtering"
+  pageTitle="Email Issues"
   class="w-full h-fit"
   [breadcrumbItems]="breadcrumbItems"
   [showButton]="false"
 />
 
-<app-filtering></app-filtering>
+<app-filtering (filterEmitter)="onFilterChange($event)"></app-filtering>
 
 <p-panel>
   <p-dataView
@@ -22,6 +22,7 @@
     (onPageChange)="onPageChange($event)"
     [sortField]="sortField"
     [sortOrder]="sortOrder"
+    #dataView
   >
     <ng-template pTemplate="list" let-issues>
       <div class="px-5 py-1">

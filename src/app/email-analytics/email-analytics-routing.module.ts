@@ -38,7 +38,15 @@ const routes: Routes = [
     canActivate: [conditionGuard]
   },
   { path: "authorization-component", 
-    component: AuthorizationMessageComponent }
+    component: AuthorizationMessageComponent },
+  {
+    path: "issues",
+    component: IssueDataviewComponent
+  },
+  {
+    path: "inquiries",
+    component: InquiryDataviewComponent
+  },
 ];
 
 @NgModule({

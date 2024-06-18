@@ -1,89 +1,10 @@
 <app-page-header
-  pageTitle="Email Filtering"
+  pageTitle="Email Suggestions"
   class="w-full h-fit"
   [breadcrumbItems]="breadcrumbItems"
   [showButton]="false"
 />
-
-<p-panel class="flex flex-col text-left justify-center mb-4">
-  <div class="flex gap-8 justify-between">
-    <!--Calendar-->
-    <div>
-      <p>Date Range:</p>
-      <div class="card flex justify-content-center">
-        <p-calendar
-          [(ngModel)]="dateRange"
-          selectionMode="range"
-          [readonlyInput]="true"
-          [showIcon]="true"
-          [showButtonBar]="true"
-        ></p-calendar>
-      </div>
-    </div>
-
-    <!--Product-->
-    <div>
-      <p>Product:</p>
-      <div class="card flex justify-content-center grow">
-        <p-dropdown
-          [options]="products"
-          [(ngModel)]="productSelected"
-          [showClear]="true"
-          placeholder="Product"
-        ></p-dropdown>
-      </div>
-    </div>
-
-    <!--Recepient email account-->
-    <div>
-      <p>Receiver:</p>
-      <div class="card flex justify-content-center">
-        <p-dropdown
-          [options]="recipientEmails"
-          [(ngModel)]="recipientEmailSelected"
-          [showClear]="true"
-          placeholder="Recepient email accounts"
-        ></p-dropdown>
-      </div>
-    </div>
-  </div>
-
-  <br />
-  <br />
-  <br />
-
-  <!--Next row-->
-  <div class="w-100 flex justify-center">
-    <!-- Buttons -->
-    <div class="card flex center justify-center gap-3 items-end">
-      <p-button
-        label="Apply Filter"
-        (click)="applyFilters()"
-        (keydown.enter)="applyFilters()"
-      ></p-button>
-      <p-button
-        label="Clear Filters"
-        [outlined]="true"
-        (click)="clearFilters()"
-        (keydown.enter)="clearFilters()"
-      ></p-button>
-    </div>
-  </div>
-  <br />
-</p-panel>
-
-<br />
-
-<!-- <div style="margin-bottom: 20px;" *ngFor="let item of suggestionsData">
-    <app-suggestion-card 
-    [receiver] = "item.receiver"
-    [date] = "item.date"
-    [productsList] = "item.products"
-    [suggestion]="item.suggestion"
-    />
-    
-
-</div> -->
+<app-filtering (filterEmitter)="onFilterChange($event)"></app-filtering>
 
 <p-panel>
   <p-dataView
@@ -100,6 +21,7 @@
     (onPageChange)="onPageChange($event)"
     [sortField]="sortField"
     [sortOrder]="sortOrder"
+    #dataView
   >
     <ng-template pTemplate="list" let-suggestions>
       <div class="px-5 py-1">
@@ -109,12 +31,6 @@
             <p-divider></p-divider>
           </ng-container>
           <ng-container *ngIf="!loading && !errorMessage">
-            <!-- <app-suggestion-card
-              [receiver]="suggestion.recipient"
-              [date]="suggestion.dateSuggested"
-              [productsList]="suggestion.tags"
-              [suggestion]="suggestion.suggestion"
-            /> -->
             <app-suggestion-card-list-type
               [suggestionData]="suggestion"
             />
