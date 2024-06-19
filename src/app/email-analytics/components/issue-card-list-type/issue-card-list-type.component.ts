@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Issue, IssuePopupData } from '../../interfaces/issues';
-import { format } from 'date-fns';
+import { format, longFormatters } from 'date-fns';
 
 import { IssueService } from '../../services/issue.service';
+import { UtilityService } from '../../services/utility.service';
 // import product interface
 // import product service
 
@@ -17,6 +18,10 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
   displayedOpenedDate: string = '';
   displayedClosedDate: string = '';
   displayedUpdateDate: string = '';
+  headerObj = {
+    text: '',
+    isShortened: false
+  }
 
   ngOnInit() {
     this.updateDisplayedDates();
@@ -59,7 +64,10 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private issueService: IssueService) { }
+  constructor(
+    private issueService: IssueService,
+    private utility: UtilityService,
+  ) { }
 
   loading: boolean = false;
   dialogVisible: boolean = false;
@@ -71,7 +79,10 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
     }
   ] };
   errorMessage: string = "";
-
+  
+  lorem = "lorem ipsum dolor sit amet, consectetur adipiscing elit. sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+  originalHeader = this.lorem;
+  // originalHeader = "hello world";
   load() {
     // this is to load the additional data from BE
     // wait until all data available, then display the popup showing the additional data
@@ -80,6 +91,7 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
       this.dialogVisible = true;
       this.issueService.getIssueAdditionalData(this.issueData.id).subscribe({
         next: data => {
+          this.headerObj = this.utility.shortenString(this.originalHeader, 20);
           this.additionalData = data;
           this.loading = false;
         },

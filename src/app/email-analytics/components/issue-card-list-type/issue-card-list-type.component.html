@@ -127,11 +127,11 @@
 </div>
 
 <p-dialog
-  header="Additional Details"
+  header="{{ headerObj.text }}"
   [(visible)]="dialogVisible"
   [modal]="true"
-  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-  [style]="{ width: '50vw' }"
+  [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
+  [style]="{ width: '70vw' }"
   [draggable]="false"
   [resizable]="false"
 >
@@ -144,104 +144,102 @@
 
   <!-- actual content (if no errors) -->
   <div *ngIf="!errorMessage && !loading">
-    <!-- additional content -->
-    <!-- <div class="additional-info flex justify-center mb-8">
-      <div
-        class="max-w-[75%] py-10 px-5 border-dashed border-4 border-gray-500 rounded-3xl text-2xl"
-      >
-        Additional Content Goes Here
-      </div>
-    </div> -->
-    <!-- section 1 -->
-    <div class="grid gap-y-3 gap-x-3">
-      <div class="bg-gray-400">
+    <div class="font-medium text-2xl text-gray-800 text-opacity-70 px-4 pb-4">
+      Details
+    </div>
+    <div class="px-4 grid grid-cols-1 lg:grid-cols-2 gap-y-3 gap-x-1">
+      <!-- section 1 -->
+      <div class="lg:col-span-2" *ngIf="headerObj.isShortened">
         <i class="pi pi-hashtag text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Subject:&nbsp;</span>
-        <span>This is a testing subject hello hello hello</span>
+        <span class="font-semibold inline md:inline">Subject:&nbsp;</span>
+        <div class="pl-10 text-justify">{{ originalHeader }}</div>
       </div>
-      <div class="bg-gray-400">
-        <i class="pi pi-user text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Client:&nbsp;</span>
-        <span>myclient123&#64;gmail.com</span>
+      <div class="lg:col-span-2">
+        <i class="pi pi-book text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Summary: <br /></span>
+        <div class="pl-10 text-justify">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. In quasi,
+          accusantium aut repellendus, eos doloremque corrupti quas temporibus,
+          laboriosam ullam explicabo quis eius quos sunt voluptas est maiores
+          nulla magni.
+        </div>
       </div>
-      <div class="bg-gray-400">
-        <i class="pi pi-building text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Company:&nbsp;</span>
-        <span>aetheros.support&#64;aet.com</span>
-      </div>
-      <div class="bg-gray-400">
+      <div class="lg:col-span-2">
         <i class="pi pi-tags text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Tags:&nbsp;</span>
+        <span class="font-semibold hidden md:inline">Tags:&nbsp;</span>
         <span>Testing</span>
       </div>
-      <p-divider></p-divider>
+      <p-divider class="-my-4 lg:col-span-2"></p-divider>
       <!-- section 2 -->
-      <div class="bg-gray-400">
+      <div class="">
+        <i class="pi pi-user text-sm font-thin pr-2"></i>
+        <span class="font-semibold hidden md:inline">Client:&nbsp;</span>
+        <span>myclient123&#64;gmail.com</span>
+      </div>
+      <div class="">
+        <i class="pi pi-building text-sm font-thin pr-2"></i>
+        <span class="font-semibold hidden md:inline">Company:&nbsp;</span>
+        <span>aetheros.support&#64;aet.com</span>
+      </div>
+      <p-divider class="-my-4 lg:col-span-2"></p-divider>
+      <!-- section 2 -->
+      <div class="">
         <i class="pi pi-play text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Status:&nbsp;</span>
+        <span class="font-semibold hidden md:inline">Status:&nbsp;</span>
         <span>Open</span>
       </div>
-      <div class="bg-gray-400">
+      <div class="">
         <i class="pi pi-flag text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Opened:&nbsp;</span>
+        <span class="font-semibold hidden md:inline">Opened:&nbsp;</span>
         <span>19.00, 15th June</span>
       </div>
-      <div class="bg-gray-400" *ngIf="true">
+      <div class="" *ngIf="true">
         <i class="pi pi-refresh text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Update:&nbsp;</span>
+        <span class="font-semibold hidden md:inline">Update:&nbsp;</span>
         <span>20.00, 15th June</span>
       </div>
-      <div class="bg-gray-400" *ngIf="!true">
+      <div class="" *ngIf="!true">
         <i class="pi pi-check-circle text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Closed:&nbsp;</span>
+        <span class="font-semibold hidden md:inline">Closed:&nbsp;</span>
         <span>07.00, 17th June</span>
       </div>
-      <div class="bg-gray-400">
+      <div class="">
         <i class="pi pi-exclamation-triangle text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Overdue:&nbsp;</span>
+        <span class="font-semibold hidden md:inline">Overdue:&nbsp;</span>
         <span>09.00, 20th Sept</span>
       </div>
-      <p-divider></p-divider>
+      <p-divider class="-my-4 lg:col-span-2"></p-divider>
       <!-- section 3 -->
-      <div class="bg-gray-400">
+      <div class="">
         <i class="pi pi-plus-circle text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">First response time:&nbsp;</span>
+        <span class="font-semibold hidden md:inline">First response time:&nbsp;</span>
         <span>1h 05m</span>
       </div>
-      <div class="bg-gray-400">
+      <div class="">
         <i class="pi pi-history text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Avg response time:&nbsp;</span>
+        <span class="font-semibold hidden md:inline">Avg response time:&nbsp;</span>
         <span>1h 38m</span>
       </div>
-      <p-divider></p-divider>
+      <p-divider class="-my-4 lg:col-span-2"></p-divider>
       <!-- section 4 -->
-      <div class="bg-gray-400">
+      <div class="">
         <i class="pi pi-clock text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Efficiency:&nbsp;</span>
+        <span class="font-semibold hidden md:inline">Efficiency:&nbsp;</span>
         <span>5</span>
       </div>
-      <div class="bg-gray-400">
+      <div class="">
         <i class="pi pi-shield text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Effectivity:&nbsp;</span>
+        <span class="font-semibold hidden md:inline">Effectivity:&nbsp;</span>
         <span>2</span>
       </div>
-      <div class="bg-gray-400">
+      <div class="">
         <i class="pi pi-thumbs-up text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Sentiment:&nbsp;</span>
+        <span class="font-semibold hidden md:inline">Sentiment:&nbsp;</span>
         <span>very positive</span>
-      </div>
-      <p-divider></p-divider>
-      <!-- section 5 -->
-      <div class="bg-gray-400">
-        <i class="pi pi-book text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Summary:&nbsp;</span>
-        <span>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. In quasi, accusantium aut repellendus, eos doloremque corrupti quas temporibus, laboriosam ullam explicabo quis eius quos sunt voluptas est maiores nulla magni.
-        </span>
       </div>
     </div>
     <!-- conversation -->
-    <div class="conversation flex flex-col">
+    <div class="conversation flex flex-col pt-8">
       <div class="font-medium text-2xl text-gray-800 text-opacity-70 px-4 py-2">
         Original Conversation
       </div>
