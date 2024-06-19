@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { MenuItem } from "primeng/api";
-import { FormControl, FormGroup } from "@angular/forms";
+import {AuthenticationService} from "../../../auth/services/authentication.service";
+import {catchError} from "rxjs/operators";
+import {of} from "rxjs";
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: "app-permissions",
@@ -19,7 +22,24 @@ export class PermissionsComponent implements OnInit {
   ];
   activeIndex: number = 0;
 
-  constructor() {}
+  constructor(
+    private authService: AuthenticationService,
+    private messageService: MessageService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.getIdToken().pipe(
+      catchError(error => {
+        if (error === 'Session expired. Please sign in again.') {
+          // Handle session expired error
+          // For example, redirect the user to the sign in page
+        } else {
+          this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to get token'});
+        }
+        return of(null);
+      })
+    )
+
+  }
+
 }

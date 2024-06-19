@@ -8,6 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from "@angular/forms";
 import { SigninComponent } from './components/signin/signin.component';
 import { SignoutComponent } from './components/signout/signout.component';
+import {ToastModule} from "primeng/toast";
 
 
 @NgModule({
@@ -16,13 +17,14 @@ import { SignoutComponent } from './components/signout/signout.component';
     SigninComponent,
     SignoutComponent
   ],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    PasswordModule,
-    ButtonModule,
-    InputTextModule,
-    FormsModule
-  ]
+    imports: [
+        CommonModule,
+        AuthRoutingModule,
+        PasswordModule,
+        ButtonModule,
+        InputTextModule,
+        FormsModule,
+        ToastModule
+    ]
 })
 export class AuthModule { }

@@ -4,6 +4,10 @@ import { Table } from "primeng/table";
 import { RoleSettingsService } from "../../services/role-settings.service"
 import  {AuthenticationService} from "../../../auth/services/authentication.service";
 import { RoleRefreshService } from "../../services/role-refresh.service";
+import {catchError} from "rxjs/operators";
+import {of} from "rxjs";
+import { Router} from "@angular/router";
+import {CheckLoginService} from "../../../shared/shared-services/check-login.service";
 
 
 @Component({
@@ -27,11 +31,18 @@ export class RoleManagementComponent implements OnInit{
     private roleService: RoleSettingsService ,
     private authService: AuthenticationService,
     private roleRefreshService: RoleRefreshService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router,
+    private checkLoginService: CheckLoginService
   ) {}
 
 
   ngOnInit() {
+
+    this.checkLoginService.checkLogin();
+
+
+
     this.refreshRoles()
     this.roleRefreshService.roleAdded.subscribe(() => {
       this.refreshRoles();
@@ -73,23 +84,34 @@ export class RoleManagementComponent implements OnInit{
     });
   }
 
-  deleteRole() {
-    this.authService.getIdToken().subscribe((token: any) => {
+deleteRole() {
+  this.authService.getIdToken().pipe(
+    catchError(error => {
+      if (error === 'Session expired. Please sign in again.') {
+        this.router.navigate(['/auth/login']);
+      } else {
+        this.messageService.add({severity:'error', summary:'Error', detail:'Failed to get token'});
+      }
+      return of(null);
+    })
+  ).subscribe(token => {
+    if (token) {
       console.log(this.selectedRoles.group_name)
-        this.roleService.deleteUserRole(token, this.selectedRoles.group_name).subscribe(
-          (data: any) => {
-            console.log(data);
-            this.refreshRoles();
-            this.messageService.add({severity:'success', summary: 'Success', detail: 'Role Deleted Successfully'});
-          },
-          (error: any) => {
-            // Handle the error case
-            console.log(error);
-            this.messageService.add({severity:'error', summary: 'Error', detail: 'Failed to delete role'});
-          }
-        );
-    });
-  }
+      this.roleService.deleteUserRole(token, this.selectedRoles.group_name).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.refreshRoles();
+          this.messageService.add({severity:'success', summary: 'Success', detail: 'Role Deleted Successfully'});
+        },
+        (error: any) => {
+          // Handle the error case
+          console.log(error);
+          this.messageService.add({severity:'error', summary: 'Error', detail: 'Failed to delete role'});
+        }
+      );
+    }
+  });
+}
 
 
   // roles = [

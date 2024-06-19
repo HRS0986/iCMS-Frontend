@@ -2,6 +2,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router'; // Import Router
 import { AuthenticationService } from "../../services/authentication.service";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,11 @@ export class SigninComponent {
     image: '/assets/Strategic consulting-pana 1.png'
   }
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router,
+    private messageService: MessageService
+  ) {}
 
   // signIn(): void {
   //   this.authService.signIn(this.username, this.password)
@@ -36,18 +41,22 @@ export class SigninComponent {
   //     });
   // }
 
-  signIn(): void {
-    this.authService.signIn(this.username, this.password)
-      .subscribe({
-        next: (session) => {
-          console.log('Logged in successfully', session);
-          // Redirect or perform actions after successful login
-          this.router.navigate(['/']).then(r => console.log('Navigated to home'));
-        },
-        error: (error) => {
-          console.error('Error during login', error);
-          // Handle login error
-        }
-      });
-  }
+signIn(): void {
+  this.authService.signIn(this.username, this.password)
+    .subscribe({
+      next: (session) => {
+        console.log('Logged in successfully', session);
+        // Redirect or perform actions after successful login
+        this.router.navigate(['/']).then(r => console.log('Navigated to home'));
+      },
+      error: (error) => {
+        console.error('Error during login', error);
+        // Handle login error
+        this.router.navigate(['/auth/signin']).then(r => {
+          console.log('Navigated to signin');
+          this.messageService.add({severity: 'error', summary: 'Error', detail: error});
+        })
+      }
+    });
+}
 }
