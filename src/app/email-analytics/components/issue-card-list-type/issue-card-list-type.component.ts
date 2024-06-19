@@ -91,7 +91,7 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
       this.dialogVisible = true;
       this.issueService.getIssueAdditionalData(this.issueData.id).subscribe({
         next: data => {
-          this.headerObj = this.utility.shortenString(this.originalHeader, 20);
+          this.headerObj = this.utility.shortenString(this.originalHeader, 40);
           this.additionalData = data;
           this.loading = false;
         },
