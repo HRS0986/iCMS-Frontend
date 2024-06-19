@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { IssueMetaDataResponse, IssuePopupData, MockIssueMetadataResponse } from '../interfaces/issues';
+import { Issue, IssueMetaDataResponse, IssuePopupData, MockIssueMetadata, MockIssueMetadataResponse } from '../interfaces/issues';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, timeout } from 'rxjs/operators'; // BUG: remove in production
 import { Filter } from '../interfaces/filters';
@@ -15,22 +15,57 @@ export class IssueService {
   constructor(private http: HttpClient, private utility: UtilityService) { }
 
   // BUG: REMOVE in Production
+
+
   private convertToIssueResponse(mockedResponse: MockIssueMetadataResponse): IssueMetaDataResponse {
-    const convertedData = mockedResponse.products.map((mockedIssue) => ({
-      id: mockedIssue.id.toString(),
-      issue: mockedIssue.title,
-      isNew: Math.random() < 0.5,
-      isClosed: Math.random() < 0.5,
-      isOverdue: Math.random() < 0.5,
-      sender: Math.random().toString(36).substring(2) + "@" + Math.random().toString(36).substring(8) + ".com",
-      recipient: Math.random().toString(36).substring(2) + "@" + Math.random().toString(36).substring(8) + ".com",
-      dateOpened: new Date(new Date().valueOf() - Math.random()*(1e+9)), 
-      dateClosed: new Date(new Date().valueOf() - Math.random()*(1e+8)),
-      tags: mockedIssue.tags,
-      efficiency: Math.floor(1 + 5*Math.random()),
-      effectivity: Math.floor(1 + 5*Math.random())
-    }));
-  
+
+    const randomData = (mockedIssue: MockIssueMetadata): Issue => {
+      const status: Issue['status'][] = ['New', 'Waiting', 'Update', 'Closed'];
+      const randomStatus: Issue['status'] = status[Math.floor(Math.random()*status.length)];
+      if (randomStatus === 'Closed') {
+        const dateClosed = new Date(new Date().valueOf() - Math.random()*(1e+8));
+        const efficiency = Math.floor(1 + 5*Math.random());
+        const effectivity = Math.floor(1 + 5*Math.random());
+    
+        return {
+          id: mockedIssue.id.toString(),
+          issue: mockedIssue.title,
+          status: randomStatus,
+          sender: Math.random().toString(36).substring(2) + "@" + Math.random().toString(36).substring(8) + ".com",
+          recipient: Math.random().toString(36).substring(2) + "@" + Math.random().toString(36).substring(8) + ".com",
+          dateOpened: new Date(new Date().valueOf() - Math.random()*(1e+9)),
+          dateClosed: dateClosed,
+          tags: mockedIssue.tags,
+          effectivity: effectivity,
+          efficiency: efficiency
+        };
+      }
+      return {
+        id: mockedIssue.id.toString(),
+        issue: mockedIssue.title,
+        isOverdue: Math.random() < 0.5,
+        status: randomStatus,
+        sender: Math.random().toString(36).substring(2) + "@" + Math.random().toString(36).substring(8) + ".com",
+        recipient: Math.random().toString(36).substring(2) + "@" + Math.random().toString(36).substring(8) + ".com",
+        dateOpened: new Date(new Date().valueOf() - Math.random()*(1e+9)),
+        dateUpdate: new Date(new Date().valueOf() - Math.random()*(1e+7)),
+        tags: mockedIssue.tags,
+      };
+    }
+
+    const convertedData = mockedResponse.products.map((mockedIssue) => (randomData(mockedIssue)));
+    // const status: Issue['status'][] = ['New', 'Waiting', 'Update', 'Closed'];
+
+    // const convertedData = mockedResponse.products.map((mockedIssue) => ({
+    //   id: mockedIssue.id.toString(),
+    //   issue: mockedIssue.title,
+    //   isOverdue: Math.random() < 0.5,
+    //   status: status[Math.floor(Math.random()*status.length)],
+    //   sender: Math.random().toString(36).substring(2) + "@" + Math.random().toString(36).substring(8) + ".com",
+    //   recipient: Math.random().toString(36).substring(2) + "@" + Math.random().toString(36).substring(8) + ".com",
+    //   dateOpened: new Date(new Date().valueOf() - Math.random()*(1e+9)),
+    //   tags: mockedIssue.tags,
+    // }));
     return {
       data: convertedData,
       total: mockedResponse.total,
@@ -63,38 +98,6 @@ export class IssueService {
   baseUrlv2 = 'http://127.0.0.1:8000/email/v2'; // Base URL for the API version 2
 
   getIssueData(filterCriteria: Filter, skip: number, limit: number): Observable<IssueMetaDataResponse> {
-    // let params = "limit=" + limit + "&skip=" + skip;
-
-    // if (filterCriteria.searchText) {
-    //   params += "&q=" + filterCriteria.searchText;
-    // }
-    // if (filterCriteria.selectedSenders.length > 0) {
-    //   params += "&s=" + filterCriteria.selectedSenders.join(",");
-    // }
-    // if (filterCriteria.selectedReceivers.length > 0) {
-    //   params += "&r=" + filterCriteria.selectedReceivers.join(",");
-    // }
-    // if (filterCriteria.selectedTags.length > 0) {
-    //   params += "&tags=" + filterCriteria.selectedTags.join(",");
-    // }
-    // if (filterCriteria.selectedStatus.length > 0) {
-    //   params += "&status=" + filterCriteria.selectedStatus.join(",");
-    // }
-    // if (filterCriteria.selectedDate.length === 2) {
-    //   let from: string, to: string;
-    //   from = filterCriteria.selectedDate[0].toISOString().split("T")[0];  // To remove time values
-    //   to = filterCriteria.selectedDate[1].toISOString().split("T")[0];
-    //   params += "&dateFrom=" + from + "&dateTo=" + to;
-    // }
-    // if (filterCriteria.importantOnly !== false) {
-    //   params += "&imp=" + filterCriteria.importantOnly.toString();  
-    // }
-    // if (filterCriteria.newOnly !== false) {
-    //   params += "&new=" + filterCriteria.newOnly.toString();
-    // }
-    // if (filterCriteria.reqAllTags !== false) {
-    //   params += "&allTags=" + filterCriteria.reqAllTags.toString();
-    // }
     const params = this.utility.buildFilterParams(filterCriteria, limit, skip);
     return this.http
       .get<IssueMetaDataResponse>(`${this.baseUrlv2}/issues?${params}`)
@@ -104,46 +107,15 @@ export class IssueService {
           if (e.name === 'TimeoutError') {
             return throwError(() => new Error("Request timed out. Please try again later."));
           } else {
-            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+            return throwError(() => new Error("Unknown data service error has occured. Please try again later." + e.message + "\n" + e.name + "\n" + e.stack));
           }
         })
       );
   }
 
   getMockIssueData(filterCriteria: Filter, skip: number, limit: number): Observable<IssueMetaDataResponse> {
-    let params = new HttpParams();
-    if (filterCriteria.selectedSenders) {
-      params = params.set('s', JSON.stringify(filterCriteria.selectedSenders));
-    }
-    if (filterCriteria.selectedReceivers) {
-      params = params.set('r', JSON.stringify(filterCriteria.selectedReceivers));
-    }
-    if (filterCriteria.selectedTags) {
-      params = params.set('tags', JSON.stringify(filterCriteria.selectedTags));
-    }
-    if (filterCriteria.reqAllTags !== undefined) {
-      params = params.set('allTags', filterCriteria.reqAllTags.toString());
-    }
-    if (filterCriteria.selectedStatus) {
-      params = params.set('status', JSON.stringify(filterCriteria.selectedStatus));
-    }
-    if (filterCriteria.selectedDate) {
-      params = params.set('date', JSON.stringify(filterCriteria.selectedDate));
-    }
-    if (filterCriteria.searchText) {
-      params = params.set('q', filterCriteria.searchText);
-    }
-    if (filterCriteria.importantOnly !== undefined) {
-      params = params.set('important', filterCriteria.importantOnly.toString());
-    }
-    if (filterCriteria.newOnly !== undefined) {
-      params = params.set('new', filterCriteria.newOnly.toString());
-    }
-    params = params.set('skip', skip.toString());
-    params = params.set('limit', limit.toString());
-
     return this.http
-      .get<MockIssueMetadataResponse>(`https://dummyjson.com/products/search`, { params })
+      .get<MockIssueMetadataResponse>(`https://dummyjson.com/products/?limit=${limit}&skip=${skip}`)
       .pipe(
         map(this.convertToIssueResponse),
         timeout(this.timeoutDuration),
@@ -151,7 +123,7 @@ export class IssueService {
           if (e.name === 'TimeoutError') {
             return throwError(() => new Error("Request timed out. Please try again later."));
           } else {
-            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+            return throwError(() => new Error("Unknown data service error has occured. Please try again later." + e));
           }
         })
       );

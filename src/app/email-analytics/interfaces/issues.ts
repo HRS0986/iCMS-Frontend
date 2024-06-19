@@ -1,16 +1,16 @@
 export interface Issue {
     id: string;     // can be removed if not needed later
     issue: string;
-    isNew: boolean;
-    isOverdue: boolean;
-    isClosed: boolean;
+    isOverdue?: boolean;
+    status: 'New' | 'Waiting' | 'Update' | 'Closed';
     sender: string;
     recipient: string;
     dateOpened: Date;
     dateClosed?: Date;
+    dateUpdate?: Date;
     tags: string[];
-    effectivity: number;
-    efficiency: number;
+    effectivity?: number;
+    efficiency?: number;
 }
 
 // export interface IssueAdditionalData {

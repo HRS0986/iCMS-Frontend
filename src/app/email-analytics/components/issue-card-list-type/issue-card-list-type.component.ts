@@ -16,6 +16,7 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
 
   displayedOpenedDate: string = '';
   displayedClosedDate: string = '';
+  displayedUpdateDate: string = '';
 
   ngOnInit() {
     this.updateDisplayedDates();
@@ -30,11 +31,14 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
     const openedDiff = now.getTime() - this.issueData.dateOpened.getTime();
     this.displayedOpenedDate = this.formatTimeDifference(openedDiff);
 
+    if (this.issueData.dateUpdate) {
+      const updateDiff = now.getTime() - this.issueData.dateUpdate.getTime();
+      this.displayedUpdateDate = this.formatTimeDifference(updateDiff);
+    }
+
     if (this.issueData.dateClosed) {
       const closedDiff = now.getTime() - this.issueData.dateClosed.getTime();
       this.displayedClosedDate = this.formatTimeDifference(closedDiff);
-    } else {
-      this.displayedClosedDate = '';
     }
   }
 
@@ -73,15 +77,14 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
     // wait until all data available, then display the popup showing the additional data
     console.log('clicked me')
       this.loading = true;
+      this.dialogVisible = true;
       this.issueService.getIssueAdditionalData(this.issueData.id).subscribe({
         next: data => {
           this.additionalData = data;
-          this.dialogVisible = true;
           this.loading = false;
         },
         error: error => {
           this.errorMessage = error;
-          this.dialogVisible = true;
           this.loading = false;
         }
       });
