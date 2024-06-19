@@ -14,7 +14,8 @@ export class SettingsNotificationsComponent implements OnInit {
 
   socialMediaPlatforms: any[] | undefined;
   selectedPlatform: string | undefined;
-  values: string[] | undefined;
+  keywordsChips: string[] | undefined;
+  NotificationChips: string[] | undefined;
   rangeValues: number[] = [20, 80];
   alertTypes: AlertType[] = [
     { name: 'Email Notification' },
@@ -42,14 +43,14 @@ export class SettingsNotificationsComponent implements OnInit {
 
     this.notificationsSettingsFormKeywordAlert = this.fb.group({
       platform: ['', Validators.required],
-      keywords: [[]],
+      keywords: [[], Validators.required],
       alertType: ['', Validators.required]
     });
 
     this.notificationsSettingsFormChannelConfig = this.fb.group({
       dashboardNotifications: [false],
       emailNotifications: [false],
-      notificationEmails: [[]]
+      notificationEmails: [[], Validators.email]
     });
   }
 
@@ -96,10 +97,38 @@ export class SettingsNotificationsComponent implements OnInit {
   }
 
   onSubmitKeywordConfig(): void {
-    // Implement keyword alert configuration submission logic here
+    console.log("onSubmitKeywordConfig");
+    console.log(this.notificationsSettingsFormKeywordAlert.value);
+    if (this.notificationsSettingsFormKeywordAlert.valid) {
+      const formData = this.notificationsSettingsFormKeywordAlert.value;
+      this.settingsApiService.setKeywordAlerts(formData).subscribe(
+        response => {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Keyword alert settings saved successfully!' });
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to save keyword alert settings.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'Please fill out the form correctly.' });
+    }
   }
 
   onSubmitChannelConfig(): void {
-    // Implement channel configuration submission logic here
+    console.log("onSubmitChannelConfig");
+    console.log(this.notificationsSettingsFormChannelConfig.value);
+    if (this.notificationsSettingsFormChannelConfig.valid) {
+      const formData = this.notificationsSettingsFormChannelConfig.value;
+      this.settingsApiService.setCampaigns(formData).subscribe(
+        response => {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Channel config settings saved successfully!' });
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to save channel config settings.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'Please fill out the form correctly.' });
+    }
   }
 }
