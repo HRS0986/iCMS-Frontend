@@ -31,6 +31,7 @@ import {CheckboxModule} from "primeng/checkbox";
 import {InputGroupModule} from "primeng/inputgroup";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {ToastModule} from "primeng/toast";
+import { ViewUserComponent } from './shared-components/right-sidebar/view-user/view-user.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import {ToastModule} from "primeng/toast";
     AddchartComponent,
     PageNotFoundComponent,
     AddRoleBarComponent,
+    ViewUserComponent,
   ],
   exports: [
     PageHeaderComponent,

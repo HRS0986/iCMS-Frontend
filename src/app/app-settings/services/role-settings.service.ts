@@ -20,6 +20,14 @@ export class RoleSettingsService {
     return this.http.get<any>(this.apiUrl+'/UserGroups', {headers});
   }
 
+  getRoleDetails(token: string, role: string): any {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    let params : HttpParams = new HttpParams().set('group_name', role);
+    return this.http.get<any>(this.apiUrl+'/getGroupDetails', {headers, params});
+  }
+
   deleteUserRole(token: string, role: string): any {
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -43,5 +51,7 @@ export class RoleSettingsService {
     };
     return this.http.post<any>(this.apiUrl+'/newUser', body, {headers});
   }
+
+
 
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {apiEndpoint} from "../config";
 
 @Injectable({
@@ -102,6 +102,13 @@ export class UserDataService{
         });
     return this.http.delete<any>(this.apiUrl+'/deleteUser/'+username, {headers});
 
+  }
+  getUser(token: string, username: string): any {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    let params : HttpParams = new HttpParams().set('username', username);
+    return this.http.get<any>(this.apiUrl+'/getUserDetails', {headers, params});
   }
 
 }

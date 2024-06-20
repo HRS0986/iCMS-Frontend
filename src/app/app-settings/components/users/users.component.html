@@ -32,10 +32,10 @@
 
 
         <p-splitButton
+          #splitButton
           label="Action"
           class="pr-auto action-button pr-2"
           [model]="actions"
-          (onClick)="console.log('info')"
         />
       </div>
     </ng-template>
@@ -87,4 +87,72 @@
       </tr>
     </ng-template>
   </p-table>
+
+  <p-dialog
+    [(visible)]="viewUserPopUpVisible"
+    [modal]="true"
+    [style]="{width: '50vw'}"
+    [baseZIndex]="10000"
+  >
+
+    <div class="flex flex-col items-center">
+      <div class="flex flex-col items-center">
+        <img [src]="userProfileImage" alt="user" class="profile-image" />
+        <h2 class="text-xl mt-2">{{userData?.Username}}</h2>
+      </div>
+      <div class="flex flex-col mt-4">
+    <ng-container *ngFor="let userAttribute of userData?.UserAttributes">
+      <div class="flex mt-2" *ngIf="userAttribute.Name !== 'custom:profile_image'">
+        <span class="font-bold">{{userAttribute.Name}}:</span>
+        <span class="ml-2">{{userAttribute.Value}}</span>
+      </div>
+    </ng-container>
+
+        <div class="flex mt-2">
+          <span class="font-bold">Roles:</span>
+          <div class="flex flex-wrap ml-2">
+            <p-tag class="pe-1" *ngFor="let role of userRoles" [value]="role" [style.color]="getRoleColor(role)"></p-tag>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+  </p-dialog>
+
+
 </div>
+
+
+<p-toast />
+<p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message >
+        <div class="align-items-center p-5 surface-overlay border-round confirm">
+<!--            <div class="border-circle bg-primary flex align-item-center  h-6rem w-6rem">-->
+<!--                <i class="pi pi-question text-5xl"></i>-->
+<!--            </div>-->
+            <span class="font-bold text-2xl block">
+                {{ message.header }}
+            </span>
+            <p class="mb-0">{{ message.message }}</p>
+            <div class="flex align-items-center gap-2 mt-4">
+                <button
+                    pButton
+                    label="Delete"
+                    (click)="cd.accept()"
+                    class="w-5rem">
+                </button>
+                <button
+                    pButton
+                    label="Cancel"
+                    (click)="cd.reject()"
+                    class="p-button-outlined w-5rem ">
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>
