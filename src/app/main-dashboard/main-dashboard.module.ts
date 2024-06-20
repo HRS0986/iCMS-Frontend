@@ -18,7 +18,6 @@ import {InputSwitchModule} from "primeng/inputswitch";
 import {PasswordModule} from "primeng/password";
 import { NotificationsComponent } from './components/notifications/notifications.component';
 
-
 import { HttpClientModule } from '@angular/common/http';
 import { MessagesModule } from 'primeng/messages';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
@@ -83,7 +82,6 @@ import {FileUploadModule} from "primeng/fileupload";
     GridsterComponent,
     MatIcon,
     FileUploadModule,
-
   ],
   providers:[ConfirmationService]
 })

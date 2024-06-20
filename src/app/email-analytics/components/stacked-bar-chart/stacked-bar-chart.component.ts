@@ -17,6 +17,7 @@ export class StackedBarChartComponent implements OnInit {
   @Input() positiveDataSet!: number[];
 
 
+
     ngOnInit() {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
