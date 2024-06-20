@@ -46,11 +46,11 @@ export class AuthenticationService {
 
     return new Observable(observer => {
       cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: (session) => {
+        onSuccess: (session:any) => {
           observer.next(session);
           observer.complete();
         },
-        onFailure: (err) => {
+        onFailure: (err:any) => {
           observer.error(err);
           this.router.navigate(['/auth/signin']);
         }

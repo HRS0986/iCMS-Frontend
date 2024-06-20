@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+
 @Component({
   selector: 'app-email-filtering',
   templateUrl: './email-filtering.component.html',
@@ -10,4 +11,6 @@ export class EmailFilteringComponent {
     {label: "Email Analytics"},
     {label: "Email Filtering"}
   ];
+
+ 
 }

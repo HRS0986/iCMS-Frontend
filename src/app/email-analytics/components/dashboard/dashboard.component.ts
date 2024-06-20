@@ -24,7 +24,7 @@ export class DashboardComponent  implements OnInit{
 
   breadcrumbItems: MenuItem[] = [
     {label: "Email Analytics"},
-    {label: "Dashboard"}
+    {label: "Dashboard1"}
   ];
   
  intervalInDays: number = 4;
@@ -187,14 +187,14 @@ getDataForTopicsCloud(){
   this.dataService.getDataForTopicsCloud(this.userId, this.intervalInDays).subscribe(data => {
   const newkeywords:TrendingTopic[] = []
   for (const item of data) {
-    // Access the "topic" and "frequency" properties of each item
-    const topic = item.topic;
+    // Access the "product" and "frequency" properties of each item
+    const product = item.product;
     const frequency = item.frequency;
     
     // Do something with topic and frequency, such as logging them to the console
-    console.log(`Topic: ${topic}, Frequency: ${frequency}`);
+    console.log(`Topic: ${product}, Frequency: ${frequency}`);
 
-    newkeywords.push({"text":topic, "frequency": frequency})
+    newkeywords.push({"text":product, "frequency": frequency})
   }
 
     this.keywords = newkeywords 
