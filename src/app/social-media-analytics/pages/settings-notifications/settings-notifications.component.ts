@@ -9,13 +9,17 @@ import { SettingsApiService } from '../../services/settings-api.service';
   templateUrl: './settings-notifications.component.html',
   styleUrls: ['./settings-notifications.component.scss']
 })
-
 export class SettingsNotificationsComponent implements OnInit {
 
-  socialMediaPlatforms: any[] | undefined;
-  selectedPlatform: string | undefined;
-  keywordsChips: string[] | undefined;
-  NotificationChips: string[] | undefined;
+  platforms: any[] = [];
+  selectedPlatform: any;
+
+  notificationTypes: any[] = [];
+  selectedNotificationType: any;
+
+  keywordsChips: string[] = [];
+  NotificationChips: string[] = [];
+
   rangeValues: number[] = [20, 80];
   alertTypes: AlertType[] = [
     { name: 'Email Notification' },
@@ -55,10 +59,14 @@ export class SettingsNotificationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.socialMediaPlatforms = [
-      { name: 'Instagram' },
-      { name: 'Facebook' },
-      { name: 'Twitter' }
+    this.platforms = [
+      { name: 'Facebook', icon: 'assets/social-media/icons/facebook.png' },
+      { name: 'Instagram', icon: 'assets/social-media/icons/instargram.png' },
+      { name: 'Twitter', icon: 'assets/social-media/icons/twitter.png' },
+    ];
+    this.notificationTypes = [
+      { name: 'Email Notification', icon: 'assets/social-media/icons/email-notification.png' },
+      { name: 'APP Notification', icon: 'assets/social-media/icons/APP-notification.png' },
     ];
 
     this.notificationsSettingsFormSentiment.get('aboveNotify')?.valueChanges.subscribe(checked => {
@@ -79,8 +87,6 @@ export class SettingsNotificationsComponent implements OnInit {
   }
 
   onSubmitsentimentshigtcongif(): void {
-    console.log("onSubmitsentimentshigtcongif");
-    console.log(this.notificationsSettingsFormSentiment.value);
     if (this.notificationsSettingsFormSentiment.valid) {
       const formData = this.notificationsSettingsFormSentiment.value;
       this.settingsApiService.setSentimentShift(formData).subscribe(
@@ -97,8 +103,6 @@ export class SettingsNotificationsComponent implements OnInit {
   }
 
   onSubmitKeywordConfig(): void {
-    console.log("onSubmitKeywordConfig");
-    console.log(this.notificationsSettingsFormKeywordAlert.value);
     if (this.notificationsSettingsFormKeywordAlert.valid) {
       const formData = this.notificationsSettingsFormKeywordAlert.value;
       this.settingsApiService.setKeywordAlerts(formData).subscribe(
@@ -115,8 +119,6 @@ export class SettingsNotificationsComponent implements OnInit {
   }
 
   onSubmitChannelConfig(): void {
-    console.log("onSubmitChannelConfig");
-    console.log(this.notificationsSettingsFormChannelConfig.value);
     if (this.notificationsSettingsFormChannelConfig.valid) {
       const formData = this.notificationsSettingsFormChannelConfig.value;
       this.settingsApiService.setCampaigns(formData).subscribe(

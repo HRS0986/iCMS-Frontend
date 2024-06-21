@@ -8,6 +8,8 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin: 0 0.8rem 0 0;
+  
 }
 
 .upper-section .exportData-btn {
@@ -16,4 +18,5 @@
   justify-items: flex-end;
   flex-direction: row;
   cursor: pointer;
+  
 }

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { MenuItem } from "primeng/api";
 import { Content } from '../../models/main-types';
-
-
-
+import { ModalExportPIComponent } from '../../components/Modals/modal-export-pi/modal-export-pi.component';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -11,7 +9,7 @@ import { Content } from '../../models/main-types';
 })
 
 export class settingsComponent {
-
+  
   breadcrumbItems: MenuItem[] = [
     {label: "Social Media Analytics"},
     {label: "Settings"}
@@ -28,4 +26,8 @@ export class settingsComponent {
   content4: Content = {title: 'Created Campaigns'};
 
   topBarCaption = "Export Data";
+
+
+
+ 
 }

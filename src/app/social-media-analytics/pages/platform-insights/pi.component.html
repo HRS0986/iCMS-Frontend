@@ -35,11 +35,7 @@
           alt="View Icon"
           class="right-bar-icon"
         />
-        <img
-          src="assets/social-media/svg/add.svg"
-          alt="Add Icon"
-          class="right-bar-icon"
-        />
+        <app-modal-add-new-campaign></app-modal-add-new-campaign>
       </ng-template>
 
       <ng-template #tempFacebook let-content="content">
@@ -115,11 +111,11 @@
                 <th style="width: 5%">
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th pSortableColumn="name" style="width:58%">
+                <th pSortableColumn="name" style="width: 58%">
                   AUTHORS
                   <p-sortIcon field="name"></p-sortIcon>
                 </th>
-                <th pSortableColumn="company" style="width:12%">
+                <th pSortableColumn="company" style="width: 12%">
                   DATE
                   <p-sortIcon field="company"></p-sortIcon>
                 </th>
@@ -136,31 +132,59 @@
                   <p-tableCheckbox></p-tableCheckbox>
                 </td>
                 <td>
-                  <div class="flex align-items-start justify-content-center gap-2">
+                  <div
+                    class="flex align-items-start justify-content-center gap-2"
+                  >
                     <!-- <img class="tab-icon" [src]="item.img" alt="Icon"> -->
-                    <div class="flex-column align-items-start justify-content-center">
+                    <div
+                      class="flex-column align-items-start justify-content-center"
+                    >
                       <span class="text-name">{{ item.description }}</span>
                       <!-- <span class="text-discription">{{ item.description }}</span> -->
                     </div>
                   </div>
                 </td>
                 <td>
-                  <div class="flex-column align-items-start justify-content-center">
+                  <div
+                    class="flex-column align-items-start justify-content-center"
+                  >
                     <!-- <span class="text-name">{{ item.date }}</span> -->
                     <span class="text-discription">{{ item.date }}</span>
                   </div>
                 </td>
                 <td>
                   <span class="text-discription">{{ item.s_score }} %</span>
-                  <progress-bar [value]="0" [bufferValue]="item.s_score" [color]="item.color"></progress-bar>
+                  <progress-bar
+                    [value]="0"
+                    [bufferValue]="item.s_score"
+                    [color]="item.color"
+                  ></progress-bar>
                 </td>
                 <td>
-                  <div class="flex align-items-center justify-content-center gap-2">
-                    <button pButton pRipple type="button" icon="pi pi-pencil" (click)="onRowEdit(item)"
-                      class="p-button-text p-button-Primary"></button>
-                    <a *ngIf="item.comment_url" [href]="item.comment_url" target="_blank">
-                      <button pButton pRipple type="button" icon="pi pi-window-maximize" (click)="onRowOpen(item)"
-                        class="p-button-text p-button-help"></button>
+                  <div
+                    class="flex align-items-center justify-content-center gap-2"
+                  >
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      icon="pi pi-pencil"
+                      (click)="onRowEdit(item)"
+                      class="p-button-text p-button-Primary"
+                    ></button>
+                    <a
+                      *ngIf="item.comment_url"
+                      [href]="item.comment_url"
+                      target="_blank"
+                    >
+                      <button
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pi pi-window-maximize"
+                        (click)="onRowOpen(item)"
+                        class="p-button-text p-button-help"
+                      ></button>
                     </a>
                   </div>
                 </td>
