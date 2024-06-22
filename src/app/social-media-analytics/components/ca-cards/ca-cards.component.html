@@ -1,5 +1,5 @@
-<div class="flex justify-evenly w-full" *ngIf="showAdditionalCards">
-  <div class="card" *ngFor="let campaign of campaigns">
+<div class="flex justify-evenly w-full gap-4" *ngIf="showAdditionalCards">
+  <div class="card-item" *ngFor="let campaign of campaigns; let i = index">
     <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}">
     </div>
     <div class="text-container">
@@ -47,14 +47,11 @@
         </div>
         <div class="row2">
           <div class="sentiment-info">
-            <span class="overall-sentiment-text">Overall Sentiment:</span>
-            <span class="overall-sentiment-value">{{ campaign.sentiment }}%</span>
+            <span class="overall-sentiment-text">Overall Sentiments:</span>
           </div>
         </div>
         <div class="row3">
-          <div class="progress-container">
-            <progress-bar [value]="0" [bufferValue]="campaign.progress" [color]="campaign.color"></progress-bar>
-          </div>
+          <p-chart type="line" [data]="DataSentiments[i]" [options]="OptionsSideCards"></p-chart>
         </div>
       </div>
       <div class="button-container">

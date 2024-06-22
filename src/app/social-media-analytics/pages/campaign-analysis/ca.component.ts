@@ -37,6 +37,8 @@ export class CAComponent {
       likesChange: +53,
       commentsCount: 123,
       commentsChange: +12,
+      dataSentimentLabels: [1,2,3,4],
+      dataSentimentValues: [1,2,3,4],
       imageUrl: 'https://th.bing.com/th/id/OIP.Eak-XmLRk42PkzvDtgT2QwHaEu?w=350&h=183&c=7&r=0&o=5&pid=1.7'
     },
     {
@@ -49,6 +51,8 @@ export class CAComponent {
       likesChange: -12,
       commentsCount: 53,
       commentsChange: -5,
+      dataSentimentLabels: ["qw", "er", "ty", "ui"],
+      dataSentimentValues: [1,2,3,4],
       imageUrl: 'https://th.bing.com/th/id/OIP.CHSYo7LrEZdfmUUvGkyPigHaEK?w=311&h=180&c=7&r=0&o=5&pid=1.7'
     },
     {
@@ -61,6 +65,8 @@ export class CAComponent {
       likesChange: +23,
       commentsCount: 223,
       commentsChange: +32,
+      dataSentimentLabels: [1,2,3,4],
+      dataSentimentValues: [1,2,3,4],
       imageUrl: 'https://th.bing.com/th/id/OIP.gIC1WV1MozLQa0sZzSxGtgAAAA?w=222&h=178&c=7&r=0&o=5&pid=1.7'
     },
   ];
