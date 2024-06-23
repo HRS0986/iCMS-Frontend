@@ -59,7 +59,6 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
     
     timer(0,1000).subscribe(() => {
       if(this.changes){
-        console.log(2);
           this.barChartExtract(this.selectedCategories);
         this.changes=false;
       }
@@ -70,14 +69,14 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
         this.selectedDateRange = range.map(date => this.formatDate(date));
         this.Date = null;
         if(this.selectedCategories){
-          console.log(3);
+
           this.barChartExtract(this.selectedCategories);
         }
       } else if(range && range.length === 2 && range[0]){
         this.selectedDateRange = undefined;
         this.Date = this.formatDate(range[0]);
         if(this.selectedCategories){
-          console.log(4);
+
           this.barChartExtract(this.selectedCategories);
         }
       }
@@ -187,7 +186,6 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
     for (let key of keys1) {
       if (!keys2.includes(key)) return false;
       if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
-        console.log(`${key} values are different`);
         return false;
       }
     }
@@ -258,13 +256,14 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
             this.createDatasets(documentStyle);
             this.getMaxValues(this.datasets);
             this.labels = this.topics; // Update labels based on dynamic topics
-            console.log(this.datasets);
+
             this.chart();
           });
 
-        } else {
-          console.log('Data not found in cache');
-        }
+        } 
+        // else {
+        //   console.log('Data not found in cache');
+        // }
       });
     });
   }
@@ -314,7 +313,7 @@ transformData(data: any[]): { [key: string]: { count: number, percentage: number
 }
 
 updateAllData(sourceData: any, sentiment: string): void {
-  console.log(sourceData);
+
 
   Object.keys(sourceData).forEach(topic => {
     if (!this.allData[topic]) {
@@ -332,7 +331,6 @@ updateAllData(sourceData: any, sentiment: string): void {
     }
   });
 
-  console.log(this.allData);
 }
 
 

@@ -31,7 +31,7 @@ export class NotificationService {
     if (this.socket$) {
       this.socket$.next(msg);
     } else {
-      console.error('WebSocket is not connected');
+      // console.error('WebSocket is not connected');
     }
   }
 
@@ -39,7 +39,7 @@ export class NotificationService {
     if (this.socket$) {
       this.socket$.complete();
     } else {
-      console.error('WebSocket is not connected');
+      // console.error('WebSocket is not connected');
     }
   }
 

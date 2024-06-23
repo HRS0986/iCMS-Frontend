@@ -53,6 +53,9 @@ export class GridComponent implements OnInit {
 
   ID:any;
 
+  yAxis:string[]=[];
+  topic:string[]=[];
+
   widgetTitle: any;
   widgetChart: any;
   widgetSoucrce: any;
@@ -81,7 +84,6 @@ export class GridComponent implements OnInit {
     
     timer(0,1000).subscribe(() => {
         if(this.changes){
-          console.log('grid work');
           this.widgetsUser();
           this.changes=false;
         }
@@ -89,25 +91,23 @@ export class GridComponent implements OnInit {
 
     this.socketSubscription = this.ChartService.messages$.subscribe(
       message => {
-        console.log(message);
+
         if (message.response === 'data') {
           this.dashboard.forEach((widget:any) => {
-            console.log(widget);
             if (widget.chartType === 'Pie Chart' && widget.sources.includes(message.name)) {
               widget.changes = true;
-              console.log('changed flg pie');
             }
             if (widget.chartType === 'Bar Chart' && widget.sources.includes(message.name)) {
               widget.changes = true;
-              console.log('changed flg bar');
+
             }
             if (widget.chartType === 'Line Chart' && widget.sources.includes(message.name)) {
               widget.changes = true;
-              console.log('changed flg line');
+ 
             }
             if (widget.chartType === 'Word Cloud' && widget.sources.includes(message.name)) {
               widget.changes = true;
-              console.log('changed flg word');
+
             }
             
           });
@@ -167,9 +167,9 @@ chartDataGet(): void {
         });
       });
     },
-    (error) => {
-      console.error('Error fetching doughnut chart data:', error);
-    } 
+    // (error) => {
+    //   console.error('Error fetching doughnut chart data:', error);
+    // } 
   );
 }
 
@@ -182,7 +182,6 @@ isEqual(obj1: any, obj2: any): boolean {
   for (let key of keys1) {
     if (!keys2.includes(key)) return false;
     if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
-      console.log(`${key} values are different`);
       return false;
     }
   }
@@ -190,7 +189,6 @@ isEqual(obj1: any, obj2: any): boolean {
 }
 
 onChanges(event: boolean, index: number): void {
-  console.log("in grid chnage");
   if (event === false) {
     this.dashboard[index]['changes'] = false;
   }
@@ -289,29 +287,29 @@ widgetsUser(){
     cache.match('widgets-data').then(cachedResponse => {
       if (cachedResponse) {
         cachedResponse.json().then(data => {
-          console.log(data);
           this.widgetTitle = data.map((item: any) => item.title);
           this.widgetChart = data.map((item: any) => item.chartType);
           this.widgetSoucrce = data.map((item: any) => item.sources);
+          this.yAxis = data.map((item: any) => item.yAxis);
+          this.topic = data.map((item: any) => item.topics);
           this.widgetGrid = data.map((item: any) => item.grid);
           this.ID = data.map((item: any) => item.id);
           // this.widgetData = this.processWidgetData(this.widgetTitle, this.widgetChart, this.widgetSoucrce);
-          const response = this.processGridData(this.widgetTitle, this.widgetChart, this.widgetSoucrce, this.widgetGrid,this.ID);
+          const response = this.processGridData(this.widgetTitle, this.widgetChart, this.widgetSoucrce, this.widgetGrid,this.ID,this.topic,this.yAxis);
           this.dashboard= response[0];
           this.ChartSources=response[1];
-          console.log(this.dashboard);
           
-        });
-      } else {
-        console.log('Data not found in cache');
-      }
+        });}
+      // } else {
+      //   console.log('Data not found in cache');
+      // }
     });
   });
 }
 
 
 
-processGridData(titles: string[], chartTypes: string[], sources: any[], grids: any[],ids:any[]): any[] {
+processGridData(titles: string[], chartTypes: string[], sources: any[], grids: any[],ids:any[],topic:any[],yAxis:any[]): any[] {
   const datasetList: any[] = [];
   const changedList: { [key: string]: string[] } = {};
   const validSources = ['email', 'call', 'social'];
@@ -321,6 +319,7 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
     const grid = grids[index];
     const chartType = chartTypes[index];
     const id = ids[index];
+
     // Extract valid sources from the title
     // const titleSources = source.toLowerCase().split(/[\s,-]+/).filter((word:any) => validSources.includes(word));
     // console.log(titleSources);
@@ -341,8 +340,16 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
       sources: source,
       title,
       changes:false,
-      id:id
+      id:id,
+      yAxis:yAxis[index],
+      topics:topic[index]
     };
+
+    if (chartType === 'Line Chart') { // Assuming xAxis is part of the source object
+      dataset.yAxis = yAxis[index];  // Assuming yAxis is part of the source object
+    } else if (chartType === 'Bar Chart') {
+      dataset.topics = topic[index];  // Assuming topics is part of the source object
+    }
 
     datasetList.push(dataset);
     
@@ -439,7 +446,7 @@ itemResize(item: GridsterItem, itemComponent: GridsterItemComponentInterface): v
 
 itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
   // This method will be called when the item is moved or resized
-  console.log('itemChanged', item);
+  // console.log('itemChanged', item);
 }
 
 

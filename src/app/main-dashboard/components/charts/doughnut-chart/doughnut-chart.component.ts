@@ -63,7 +63,6 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
     timer(0,1000).subscribe(() => {
       if(this.changes){
         this.doughnutExtract(this.selectedCategories);
-        console.log("refreshed pie chart");
         this.changes=false;
       }
     });
@@ -86,7 +85,7 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
         if(this.selectedCategories){
           this.doughnutExtract(this.selectedCategories);
         }
-        console.log('Selected Date Range:', this.selectedDateRange);
+
       } else if(range && range.length === 2 && range[0]){
         this.selectedDateRange = undefined;
         this.rangeDates=undefined;
@@ -94,7 +93,7 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
         if(this.selectedCategories){
           this.doughnutExtract(this.selectedCategories);
         }
-        console.log('Incomplete Date Range:',this.Date );
+
       }
     });
   }
@@ -123,14 +122,14 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
       if(this.selectedCategories){
         this.doughnutExtract(this.selectedCategories);
       }
-      console.log('Selected Date Range:', this.selectedDateRange);
+
     } else if(this.rangeDates && this.rangeDates.length === 2 && this.rangeDates[0]){
       this.selectedDateRange = undefined;
       this.Date = this.formatDate(this.rangeDates[0]);
       if(this.selectedCategories){
         this.doughnutExtract(this.selectedCategories);
       }
-      console.log('Incomplete Date Range:',this.Date );
+
     }
 
   }
@@ -190,9 +189,9 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
         });
         this.changes=true;
       },
-      (error) => {
-        console.error('Error fetching doughnut chart data:', error);
-      } 
+      // (error) => {
+      //   console.error('Error fetching doughnut chart data:', error);
+      // } 
     );
   }
   
@@ -205,7 +204,6 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
     for (let key of keys1) {
       if (!keys2.includes(key)) return false;
       if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
-        console.log(`${key} values are different`);
         return false;
       }
     }
@@ -254,9 +252,10 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
 
             this.sumDoughnutData(this.callDoughnut, this.emailDoughnut, this.socialDoughnut, sources);
           });
-        } else {
-          console.log('Data not found in cache');
-        }
+        } 
+        // else {
+        //   console.log('Data not found in cache');
+        // }
       });
     });
   }
@@ -293,7 +292,6 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
               
                   Object.keys(data.Sentiment).forEach((key) => {
                     const sentimentScore = data.Sentiment[key];
-                    console.log("HI");
                     if (key.toLowerCase() === 'positive') {
                       this.totalSums.positive += 1;
                     } else if (key.toLowerCase() === 'negative') {
@@ -324,7 +322,7 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
     this.percentages = [this.totalSums.negative, 
     this.totalSums.positive,
     this.totalSums.neutral];
-    console.log(this.percentages);
+    
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     this.data = {

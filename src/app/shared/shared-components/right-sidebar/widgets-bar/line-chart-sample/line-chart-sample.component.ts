@@ -1,17 +1,18 @@
 import { Component, Input, OnInit,EventEmitter, OnChanges, SimpleChanges,Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ChartsService } from '../../../services/charts.service';
 import { timer } from 'rxjs';
-import { DateRangeService } from '../../../services/shared-date-range/date-range.service';
 import { Subscription } from 'rxjs';
+import { ChartsService } from '../../../../../main-dashboard/services/charts.service';
+import { DateRangeService } from '../../../../../main-dashboard/services/shared-date-range/date-range.service';
 
 @Component({
-  selector: 'app-line-area-chart',
-  templateUrl: './line-area-chart.component.html',
-  styleUrls: ['./line-area-chart.component.scss']
+  selector: 'app-line-chart-sample',
+  templateUrl: './line-chart-sample.component.html',
+  styleUrl: './line-chart-sample.component.scss'
 })
-export class LineAreaChartComponent implements OnInit,OnChanges {
-  @Input() title!: string;
+
+export class LineChartSampleComponent implements OnInit,OnChanges {
+  @Input() title!: string | undefined;
   @Output() changesEvent = new EventEmitter<boolean>();
 
   data: any;
@@ -23,10 +24,10 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
   @Input() neutral!: any;
   @Input() sources!: any;
 
-  @Input() yAxis!:string;
+  @Input() yAxis!:string | null;
   chartCategory:string='';
   selectedCategories:any[]=[];
-  categories:string[]=['email','call','social'];
+  categories:string[]=[];
 
   cacheChange: boolean = false;
 
@@ -72,22 +73,7 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
         }
           
         }
-    
-        timer(0,1000).subscribe(() => {
-          if(this.changes){
-            if(this.chartCategory=='Count'){
-              this.lineExtractCount(this.selectedCategories);
-            }
-            else if(this.chartCategory=='Score'){
-                this.lineExtractSocre(this.selectedCategories);
-            }
-            else if(this.chartCategory=='Separate'){
-              this.lineExtractSeparate(this.selectedCategories);
-          }
-            
-              this.changes=false;
-          }
-        });
+  
         
         // this.socketSubscription = this.chartService.messages$.subscribe(
         //   message => {
@@ -253,9 +239,8 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
       cache.match('data').then(cachedResponse => {
         if (cachedResponse) {
           cachedResponse.json().then(data => {
-            
             const dateRange = this.selectedDateRange;
-          
+            
             if (dateRange && dateRange.length === 2) {
               const startDate = new Date(dateRange[0]);
               const endDate = new Date(dateRange[1]);

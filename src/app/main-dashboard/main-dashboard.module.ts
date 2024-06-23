@@ -43,7 +43,7 @@ import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
 import { VerticalBerChartComponent } from './components/charts/vertical-ber-chart/vertical-ber-chart.component';
 import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-
+import { MenuModule } from 'primeng/menu';
 
 @NgModule({
   declarations: [
@@ -94,8 +94,12 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     MatMiniFabButton,
     CalendarModule,
     CheckboxModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    MenuModule
 
+  ],
+  exports: [
+    LineAreaChartComponent, // Ensure this component is exported
   ],
   providers:[ConfirmationService]
 })

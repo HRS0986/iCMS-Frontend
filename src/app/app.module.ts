@@ -24,6 +24,9 @@ import { DialogModule } from 'primeng/dialog';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { FormsModule } from '@angular/forms';
+import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+
 
 
 @NgModule({
@@ -50,7 +53,8 @@ import { FormsModule } from '@angular/forms';
     AvatarModule,
     AvatarGroupModule,
     FormsModule,
-
+    MainDashboardModule,
+    OverlayPanelModule
   ],
   
   providers: [MessageService],

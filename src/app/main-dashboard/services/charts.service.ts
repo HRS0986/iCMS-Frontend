@@ -30,8 +30,8 @@ export class ChartsService {
 
     this.socket$.subscribe(
       message => this.messagesSubject$.next(message),
-      err => console.error(err),
-      () => console.warn('Completed!')
+      // err => console.error(err),
+      // () => console.warn('Completed!')
     );
   }
 
@@ -39,7 +39,7 @@ export class ChartsService {
     if (this.socket$) {
       this.socket$.next(msg);
     } else {
-      console.error('WebSocket is not connected');
+      // console.error('WebSocket is not connected');
     }
   }
 
@@ -47,7 +47,7 @@ export class ChartsService {
     if (this.socket$) {
       this.socket$.complete();
     } else {
-      console.error('WebSocket is not connected');
+      // console.error('WebSocket is not connected');
     }
   }
 
@@ -77,16 +77,13 @@ export class ChartsService {
   //   return this.http.get<any>(`${this.baseUrl}/lineChart`);
   // }
 
-  newWidget(widgetData: any,email:string): Observable<any> {
+  newWidget(widgetData: any): Observable<any> {
+    const token = localStorage.getItem('idToken');
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      "widget":widgetData,
-      "email":email
+      'Authorization': `Bearer ${token}`
     });
-
-  console.log(widgetData);
-    return this.http.post<any>(`${this.baseUrl}/newWidget`,{"widget":widgetData,
-    "email":email});
+    return this.http.post<any>(`${this.baseUrl}/newWidget`, {'widget':widgetData}, { headers });
   }
 
   barChart(sources: any,date:any): Observable<any> {
@@ -105,20 +102,23 @@ export class ChartsService {
   //   return this.http.get<any>(`${this.baseUrl}/allWidgets`,{headers});
   // }
 
-  widgetsUser(username :string): Observable<any> {
+  widgetsUser(): Observable<any> {
+    const token = localStorage.getItem('idToken');
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'username': username
+      'Authorization': `Bearer ${token}`
     });
-    return this.http.get<any>(`${this.baseUrl}/widgetsUser`,{headers});
-  }
+    
+    return this.http.get<any>(`${this.baseUrl}/widgetsUser`, { headers });
+}
+  
+  
   
 
   chartDataGet(): void {
     this.chartData().subscribe(
       (response) => {
-        console.log(response);
-        console.log('service chartsUser');
         caches.open('all-data').then(cache => {
           cache.match('data').then((cachedResponse) => {
             if (cachedResponse) {
@@ -145,18 +145,14 @@ export class ChartsService {
           });
         });
       },
-      (error) => {
-        console.error('Error fetching chart data:', error);
-      }
+      // (error) => {
+      //   console.error('Error fetching chart data:', error);
+      // }
     );
   }
 
   widgetsUserData(): void {
-    const token = this.cookieService.get('token');
-    this.authService.userEmail(token).subscribe(
-      (response) => {
-        this.username = response;
-    this.widgetsUser(this.username).subscribe(
+    this.widgetsUser().subscribe(
       (response) => {
         console.log('service widgetsUser');
         caches.open('widgets').then(cache => {
@@ -181,12 +177,10 @@ export class ChartsService {
           });
         });
       },
-      (error) => {
-        console.error('Error fetching doughnut chart data:', error);
-      }  
+      // (error) => {
+      //   console.error('Error fetching doughnut chart data:', error);
+      // }  
     );
-  },
-  );
 }
 
   isEqual(obj1: any, obj2: any): boolean {
@@ -198,7 +192,6 @@ export class ChartsService {
     for (let key of keys1) {
       if (!keys2.includes(key)) return false;
       if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
-        console.log(`${key} values are different`);
         return false;
       }
     }

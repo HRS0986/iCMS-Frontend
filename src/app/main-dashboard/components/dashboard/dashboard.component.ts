@@ -104,14 +104,13 @@ export class DashboardComponent implements OnInit,OnDestroy{
 
 
   ngOnInit(): void {
-    this.loginAndFetchUserDetails();
+    // this.loginAndFetchUserDetails();
     this.widgetsUserData();
     this.chartDataGet();
 
     this.socketSubscription = this.chartService.messages$.subscribe(
       message => {
-        if (message.response === 'widget') {
-          console.log(message.response);         
+        if (message.response === 'widget') {    
           this.gridComponent.changes=true;
           this.widgetsUserData();
         }
@@ -141,19 +140,18 @@ export class DashboardComponent implements OnInit,OnDestroy{
     }
   }
 
-  loginAndFetchUserDetails(): void {
-    const loginData: any = { "username": "janithravisankax@gmail.com", "password": "12345678" };
-    this.authService.login(loginData).subscribe(
-      (response) => {
-        this.cookieService.set('token', response.AuthenticationResult.IdToken);
-      },
-    );
-  }
+  // loginAndFetchUserDetails(): void {
+  //   const loginData: any = { "username": "janithravisankax@gmail.com", "password": "12345678" };
+  //   this.authService.login(loginData).subscribe(
+  //     (response) => {
+  //       this.cookieService.set('token', response.AuthenticationResult.IdToken);
+  //     },
+  //   );
+  // }
 
   chartDataGet(): void {
     this.chartService.chartData().subscribe(
       (response) => {  
-        console.log(response);
         caches.open('all-data').then(cache => {
           cache.match('data').then((cachedResponse) => {
             if (cachedResponse) {
@@ -187,44 +185,49 @@ export class DashboardComponent implements OnInit,OnDestroy{
 
 
 
-  widgetsUserData(): void {
-    const token = this.cookieService.get('token');
-    this.authService.userEmail(token).subscribe(
-      (response) => {
-        this.username = response;
-    this.chartService.widgetsUser(this.username).subscribe(
-      (response) => {
-        caches.open('widgets').then(cache => {
-          cache.match('widgets-data').then((cachedResponse) => {
-            if (cachedResponse) {
-              cachedResponse.json().then((cachedData: any) => {
 
-                if (!this.isEqual(response, cachedData)) {
-                  const dataResponse = new Response(JSON.stringify(response), {
-                    headers: { 'Content-Type': 'application/json' }
-                  });
-                  cache.put('widgets-data', dataResponse);
-                  this.widgetCacheChange=true;
-                  this.gridComponent.changes=true;
-                }
-              });
+  
+  widgetsUserData(): void {
+    const token = localStorage.getItem('idToken');
+    if (token) {
+      this.chartService.widgetsUser().subscribe(
+        async (response) => {
+          try {
+            const cache = await caches.open('widgets');
+            const cachedResponse = await cache.match('widgets-data');
+  
+            if (cachedResponse) {
+              const cachedData = await cachedResponse.json();
+              if (!this.isEqual(response, cachedData)) {
+                const dataResponse = new Response(JSON.stringify(response), {
+                  headers: { 'Content-Type': 'application/json' }
+                });
+                await cache.put('widgets-data', dataResponse);
+                this.widgetCacheChange = true;
+                this.gridComponent.changes = true;
+              }
             } else {
               const dataResponse = new Response(JSON.stringify(response), {
                 headers: { 'Content-Type': 'application/json' }
               });
-              cache.put('widgets-data', dataResponse);
+              await cache.put('widgets-data', dataResponse);
             }
-          });
-        });
-      },
-      (error) => {
-        console.error('Error fetching doughnut chart data:', error);
-      }  
-    );
-  },
-  );
+          } catch (error) {
+            console.error('Error handling cache:', error);
+          }
+        },
+        (error) => {
+          console.error('Error fetching widgets user data:', error);
+        }
+      );
+    } else {
+      console.error('Token not found in local storage');
+    }
 }
 
+  
+  
+  
   isEqual(obj1: any, obj2: any): boolean {
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);

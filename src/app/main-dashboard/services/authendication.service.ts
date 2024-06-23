@@ -17,7 +17,7 @@ export class AuthendicationService {
   }
 
   userEmail(token: string): Observable<any> {
-    
+    console.log(token);
     return this.http.post('http://127.0.0.1:8002/charts/user_email', {'token':token});
   }
 

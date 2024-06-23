@@ -41,6 +41,7 @@ export class SigninComponent {
       .subscribe({
         next: (session) => {
           console.log('Logged in successfully', session);
+          localStorage.setItem('idToken',session.idToken.jwtToken);
           // Redirect or perform actions after successful login
           this.router.navigate(['/']).then(r => console.log('Navigated to home'));
         },
