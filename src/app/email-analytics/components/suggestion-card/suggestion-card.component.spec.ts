@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddUserPopupComponent } from './add-user-popup.component';
+import { SuggestionCardComponent } from './suggestion-card.component';
 
-describe('AddUserPopupComponent', () => {
-  let component: AddUserPopupComponent;
-  let fixture: ComponentFixture<AddUserPopupComponent>;
+describe('SuggestionCardComponent', () => {
+  let component: SuggestionCardComponent;
+  let fixture: ComponentFixture<SuggestionCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddUserPopupComponent]
+      declarations: [SuggestionCardComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AddUserPopupComponent);
+    fixture = TestBed.createComponent(SuggestionCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

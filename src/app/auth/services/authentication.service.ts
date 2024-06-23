@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { CognitoUser, AuthenticationDetails, CognitoUserSession, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { environment } from "../../../environment/environment";
 import { Observable, BehaviorSubject } from 'rxjs';
+import {Router} from "@angular/router";
+import  {MessageService} from "primeng/api";
 
 
 @Injectable({
@@ -13,7 +15,10 @@ export class AuthenticationService {
   private userPool: any;
   private currentUserSubject: BehaviorSubject<CognitoUser | null>;
 
-  constructor() {
+  constructor(
+    private router: Router,
+    private messageService: MessageService
+  ) {
     this.userPool = new CognitoUserPool({
       UserPoolId: environment.cognito.userPoolId,
       ClientId: environment.cognito.clientId
@@ -25,6 +30,8 @@ export class AuthenticationService {
   }
 
   signIn(username: string, password: string): Observable<any> {
+    console.log('Signing in user:', username);
+    console.log('Password:', password);
     const authenticationData = {
       Username: username,
       Password: password
@@ -39,12 +46,13 @@ export class AuthenticationService {
 
     return new Observable(observer => {
       cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: (session) => {
+        onSuccess: (session:any) => {
           observer.next(session);
           observer.complete();
         },
-        onFailure: (err) => {
+        onFailure: (err:any) => {
           observer.error(err);
+          this.router.navigate(['/auth/signin']);
         }
       });
     });
@@ -58,26 +66,60 @@ export class AuthenticationService {
     }
   }
 
-  getIdToken(): Observable<string> {
-    return new Observable(observer => {
-      const currentUser = this.userPool.getCurrentUser();
-      if (currentUser) {
-        currentUser.getSession((err: any, session: CognitoUserSession) => {
-          if (err) {
-            observer.error(err);
-          } else {
+getIdToken(): Observable<string> {
+  return new Observable(observer => {
+    const currentUser = this.userPool.getCurrentUser();
+    if (currentUser) {
+      currentUser.getSession((err: any, session: CognitoUserSession) => {
+        if (err) {
+          observer.error(err);
+          this.router.navigate(['/auth/signin']).then(() => {
+          this.messageService.add({severity: 'error', summary: 'Error', detail: 'Sign in error. Please sign in again.'});
+          });
+        } else {
+          // Check if the session is valid
+          if (session.isValid()) {
             observer.next(session.getIdToken().getJwtToken());
             observer.complete();
-          }
-        });
-      } else {
-        observer.error('No user found');
-      }
-    });
-  }
+          } else {
+            // If the session is not valid, throw an error
+            observer.error('Session expired. Please sign in again.');
+            this.router.navigate(['/auth/signin']).then(() => {
+              this.messageService.add({severity: 'error', summary: 'Error', detail: 'Session expired. Please sign in again.'});
+            }
+            );
 
-  isAuthenticated(): boolean {
+
+          }
+        }
+      });
+    } else {
+      observer.error('No user found');
+      this.router.navigate(['/auth/signin']).then(() => {
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Session expired. Please sign in again.'});
+      }
+      );
+
+    }
+  });
+}
+isAuthenticated(): Promise<boolean> {
+  return new Promise((resolve, reject) => {
     const currentUser = this.userPool.getCurrentUser();
-    return currentUser != null;
-  }
+    if (currentUser) {
+      currentUser.getSession((err: any, session: CognitoUserSession) => {
+        if (err) {
+          resolve(false);
+        } else {
+          resolve(session.isValid());
+        }
+      });
+    } else {
+      resolve(false);
+    }
+  });
+}
+
+
+
 }

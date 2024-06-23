@@ -1,0 +1,42 @@
+<div class="card-bg">
+    <table>
+      <tr>
+        <th class="shrink">Receiver</th>
+        <td class="shrink">:</td>
+        <td class="shrink">{{ receiver }}</td>
+        <td class="expand" rowspan="2"></td>
+        <td class="expand" rowspan="2"></td>
+        <td class="shrink align-right padding-right" rowspan="2">
+          <button>View Original</button>
+        </td>
+      </tr>
+      <tr>
+        <th class="shrink">Date</th>
+        <td class="shrink">:</td>
+        <td class="shrink">{{ date }}</td>
+      </tr>
+      <tr>
+        <th class="shrink" rowspan="2">Products</th>
+        <th class="shrink" rowspan="2">:</th>
+        <td class="shrink" rowspan="2">
+
+            <div *ngFor="let item of productsList">
+                <span class="span-green"> 
+                    {{ item }}
+                </span>
+            </div>
+
+        </td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <td colspan="9"><hr /></td>
+      </tr>
+  
+      <tr></tr>
+      <tr>
+        <td class="align-justify" colspan="9">{{ suggestion }}</td>
+      </tr>
+    </table>
+  </div>
+  

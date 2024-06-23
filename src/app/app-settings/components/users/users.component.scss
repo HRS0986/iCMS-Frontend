@@ -72,6 +72,19 @@
 
 
   }
+
+    .profile-image{
+    //round image
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+
+  }
+
+  .confirm{
+    background-color: #f1f1f1;
+  }
+
 }
 
 @media screen and (max-width: 960px) {
@@ -115,4 +128,5 @@
   .userDataRow{
     color: #0000;
   }
+
 }

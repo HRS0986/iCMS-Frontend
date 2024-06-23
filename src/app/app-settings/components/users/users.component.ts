@@ -1,21 +1,25 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UserDataService}  from "../../services/user-data.service";
 import {User} from "../../domain/types"
 import {Table} from "primeng/table";
 import {MenuItem} from "primeng/api";
 import { AuthenticationService } from '../../../auth/services/authentication.service';
 import { UserRefreshService } from '../../services/user-refresh.service';
-import {MessageService} from "primeng/api";
+import {MessageService, ConfirmationService} from "primeng/api";
 
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrl: './users.component.scss'
+  styleUrl: './users.component.scss',
+  providers: [MessageService, ConfirmationService]
 })
 
 
 export class UsersComponent implements OnInit{
+
+  @ViewChild('splitButton') splitButton!: ElementRef;
+
   users: User[] =[];
   selectedUsers!: User;
   searchValue: string = '';
@@ -23,14 +27,20 @@ export class UsersComponent implements OnInit{
     {label: "Profile"},
     {label: 'Users'}
   ];
+  userData!: {Username: string, UserAttributes: {Name: string, Value: string}[], Enabled: boolean, UserCreateDate: string, UserLastModifiedDate: string, UserStatus: string, UserMFASettingList: string[], roles: string[]}|null;
+  userRoles: string[] = [];
+  userProfileImage: string = '';
+
 
   actions!: MenuItem[];
+  viewUserPopUpVisible: boolean = false
 
   constructor(
     private customerService: UserDataService,
     private authService: AuthenticationService,
     private userRefreshService: UserRefreshService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
   ) {}
 
   ngOnInit() {
@@ -46,6 +56,11 @@ export class UsersComponent implements OnInit{
         icon: "pi pi-eye",
         command: () => {
           console.log("Viewing role");
+          if(this.selectedUsers) {
+            this.viewUser();
+          }else{
+            this.messageService.add({severity:'error', summary: 'Error', detail: 'No user selected'});
+          }
         }
       },
       { label: "Update",
@@ -57,9 +72,15 @@ export class UsersComponent implements OnInit{
       {
         label: "Delete",
         icon: "pi pi-trash",
-        command: () => {
+        command: (event ) => {
           console.log("Deleting role");
-          this.deleteUser();
+          console.log(event);
+          if(this.selectedUsers) {
+            this.confirm();
+          }else{
+            this.messageService.add({severity:'error', summary: 'Error', detail: 'No user selected'});
+          }
+
         }
       },
     ];
@@ -92,7 +113,7 @@ export class UsersComponent implements OnInit{
 
   }
 
-  deleteUser() {
+  deleteUser(user:User) {
     this.authService.getIdToken().subscribe((token: any) => {
       this.customerService.deleteUser(token, this.selectedUsers.username).subscribe(
         (data: any) => {
@@ -112,6 +133,37 @@ export class UsersComponent implements OnInit{
 
   }
 
+    confirm() {
+        console.log('confirm');
+        this.confirmationService.confirm({
+            header: 'Are you sure?',
+            message: 'Please confirm to proceed.',
+            accept: () => {
+                this.deleteUser(this.selectedUsers);
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+            }
+        });
+    }
+
+
+
+  viewUser() {
+    this.authService.getIdToken().subscribe((token: any) => {
+      this.customerService.getUser(token, this.selectedUsers.username).subscribe( (data: any) => {
+        console.log(data);
+        this.userData = data;
+        this.userRoles = this.selectedUsers.groups;
+        this.userProfileImage = data.UserAttributes.find((attr: any) => attr.Name === 'custom:profile_image')?.Value || '';
+
+        this.viewUserPopUpVisible = true;
+      }
+      );
+
+    });
+  }
+
 
   getUsers() {
 
@@ -123,7 +175,7 @@ export class UsersComponent implements OnInit{
 
   }
 
-  protected readonly console = console;
+
 }
 
 //create testing user sample
