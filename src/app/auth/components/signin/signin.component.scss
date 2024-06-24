@@ -1,41 +1,26 @@
-.sentiview{
+.sentiview {
   color: #ffffff;
-  margin-top:100px;
+  margin-top: 100px;
   margin-left: 195px;
-  font-family: Inter;
   font-size: 35px;
 }
 
-.box-form {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction:row;
-  justify-content: space-between;
-}
-
-.signup{
+.signup {
   margin-left: 160px;
   margin-top: 40px;
 }
 
-.left {
+.logo-section {
   background-color: #6a8ac5;
   width: 50vw;
-  padding:100px;
 }
 
-.right {
+.form-section {
   background-color: #ffffff;
   width: 50vw;
-  padding:100px;
 }
 
-.overlay2{
-  margin-left: 80px;
-}
-
-.already{
+.already {
   color: #6b7280;
   font-weight: bold;
   margin-top: 10px;
@@ -43,59 +28,26 @@
   margin-left: 125px;
 }
 
-.right a{
+.right a {
   color: #6a8ac5;
 }
 
-p-button{
-  margin-top:20px;
-}
-
-form {
-  font-size: 12px;
-  margin-right: 80px;
-  margin-top: 25px;
-}
-
-input{
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  padding: 5px 5px;
-  margin: 8px 0;
-  display: inline-block;
-}
-
-.form-group{
-  margin-top: 6px;
-  font-weight:bold;
-}
-
-.overlay1{
+.overlay1 {
   margin-left: 70px;
-  margin-top: 0px;
-  position:fixed;
+  margin-top: 0;
 }
 
-:host ::ng-deep .p-button{
-  border-radius: 3px;
-  margin-top: 20px;
-  padding: 6px;
-  font-size: 10px;
-  width: 410px;
-}
+:host ::ng-deep {
+  .p-password {
+    margin-top: 0.5rem;
+    width: 410px;
+  }
 
-:host ::ng-deep .p-password{
-  margin-top:10px;
-  margin-bottom:10px;
-  border-radius:1px;
-  width:410px;
-}
+  .p-inputtext {
+    width: 410px;
+  }
 
-//.p-input-icon-right >
-
-:host ::ng-deep .p-inputtext {
-  width: 410px;
-  padding: 4px;
-  border-radius: 3px;
+  .p-button {
+    width: 410px;
+  }
 }
