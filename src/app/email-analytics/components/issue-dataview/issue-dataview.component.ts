@@ -17,11 +17,10 @@ export class IssueDataviewComponent {
   issueData: Issue[] = new Array(10).fill({
     id: '',
     issue: '',
-    isNew: false,
-    isOverdue: false,
-    isClosed: false,
-    sender: '',
-    recipient: '',
+    subject: '',
+    status: 'new',
+    client: '',
+    company: '',
     dateOpened: new Date(),
     tags: []
   });
@@ -54,9 +53,19 @@ export class IssueDataviewComponent {
     // test
     // this.issueService.getIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({});
     //
-    this.issueService.getMockIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
+    this.issueService.getIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
       next: (response: IssueMetaDataResponse) => {
-        this.issueData = response.data;
+        this.issueData = response.issues;
+        this.issueData.forEach((issue: Issue) => {
+          issue.dateOpened = new Date(issue.dateOpened);
+          if (issue.dateUpdate) {
+            issue.dateUpdate = new Date(issue.dateUpdate);
+          }
+          if (issue.dateClosed) {
+            issue.dateClosed = new Date(issue.dateClosed);
+          }
+        });
+        console.log(response);
         this.totalRecords = response.total;
         this.loading = false;
       },
@@ -69,7 +78,7 @@ export class IssueDataviewComponent {
   }
   onPageChange(event: any) {
     this.rowsPerPage = event.rows;
-    this.loadIssues({ first: event.first, rows:this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder}, this.filterCriteria);
+    this.loadIssues({ first: event.first, rows:this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder }, this.filterCriteria);
   }
 
   onFilterChange(filterCriteria: Filter) {

@@ -3,6 +3,9 @@
  */
 import { Injectable } from '@angular/core';
 import { Filter } from '../interfaces/filters';
+import { Issue } from '../interfaces/issues';
+import { Inquiry } from '../interfaces/inquiries';
+import { Suggestion } from '../interfaces/suggestions';
 
 @Injectable({
   providedIn: 'root'
@@ -88,5 +91,32 @@ export class UtilityService {
       text: input.slice(0, endIndex) + '...',
       isShortened: true
     }
+  }
+
+  /**
+   * Converts minutes to a string representation of days, hours, and minutes.
+   * @param mins - The number of minutes to convert.
+   * @returns A string representation of the converted time in the format "X days X hours X minutes".
+   */
+  convertMinutes(mins: number | undefined): string {
+    if (mins === undefined) {
+      return '';
+    }
+    let temp = mins;
+    const days = Math.floor(mins / 1440);
+    temp = temp % 1440;
+    const hours = Math.floor(temp / 60);
+    const minutes = Math.floor(temp % 60);  // floor used to avoid decimals (e.g. seconds)
+
+    const daysString = days !== 1 ? 'days' : 'day';
+    const hoursString = hours !== 1 ? 'hours' : 'hour';
+    const minutesString = minutes !== 1 ? 'minutes' : 'minute';
+
+    if (days > 0) {
+      return `${days} ${daysString} ${hours} ${hoursString}`;
+    } else if (hours > 0) {
+      return `${hours} ${hoursString} ${minutes} ${minutesString}`;
+    } 
+    return `${minutes} ${minutesString}`;
   }
 }

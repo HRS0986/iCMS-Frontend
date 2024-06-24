@@ -19,9 +19,9 @@ export interface AllStatus {
 }
 
 export interface AllCompanyAddresses {
-    companyAddresses: string[];
+    company_addresses: string[];
 }
 
 export interface ClientAddresses {
-    clientAddresses: string[];
+    client_addresses: string[];
 }

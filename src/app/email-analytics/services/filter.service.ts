@@ -72,9 +72,9 @@ export class FilterService {
   baseUrlv2 = 'http://127.0.0.1:8000/email/v2';
   timeoutDuration = 5000;
 
-  getTags(): Observable<AllTags> {
+  getTags(type: "issue" | "inquiry" | "suggestion"): Observable<AllTags> {
     return this.http
-      .get<AllTags>(`${this.baseUrlv2}/filter/tags`)
+      .get<AllTags>(`${this.baseUrlv2}/filter/tags?type=${type}`)
       .pipe(
         timeout(this.timeoutDuration),
         catchError(e => {
@@ -87,9 +87,9 @@ export class FilterService {
       );
   }
 
-  getStatus(): Observable<AllStatus> {
+  getStatus(type: "issue" | "inquiry" | "suggestion"): Observable<AllStatus> {
     return this.http
-      .get<AllStatus>(`${this.baseUrlv2}/filter/status`)
+      .get<AllStatus>(`${this.baseUrlv2}/filter/statuses?type=${type}`)
       .pipe(
         timeout(this.timeoutDuration),
         catchError(e => {
@@ -102,9 +102,9 @@ export class FilterService {
       );
   }
 
-  getCompanyAddresses(): Observable<AllCompanyAddresses> {
+  getCompanyAddresses(type: "issue" | "inquiry" | "suggestion"): Observable<AllCompanyAddresses> {
     return this.http
-      .get<AllCompanyAddresses>(`${this.baseUrlv2}/filter/company-addresses`)
+      .get<AllCompanyAddresses>(`${this.baseUrlv2}/filter/company-addresses?type=${type}`)
       .pipe(
         timeout(this.timeoutDuration),
         catchError(e => {
@@ -117,9 +117,9 @@ export class FilterService {
       );
   }
 
-  getClientAddresses(): Observable<ClientAddresses> {
+  getClientAddresses(type: "issue" | "inquiry" | "suggestion"): Observable<ClientAddresses> {
     return this.http
-      .get<ClientAddresses>(`${this.baseUrlv2}/filter/client-addresses`)
+      .get<ClientAddresses>(`${this.baseUrlv2}/filter/client-addresses?type=${type}`)
       .pipe(
         timeout(this.timeoutDuration),
         catchError(e => {

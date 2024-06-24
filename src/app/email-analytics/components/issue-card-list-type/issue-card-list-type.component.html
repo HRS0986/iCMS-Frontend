@@ -9,7 +9,7 @@
       <p-tag
         class="p-1"
         styleClass="text-sm"
-        *ngIf="issueData.status === 'New'"
+        *ngIf="issueData.status === 'new'"
         severity="info"
         value="New"
       >
@@ -19,7 +19,7 @@
       <p-tag
         class="p-1"
         styleClass="text-sm"
-        *ngIf="issueData.status === 'Update'"
+        *ngIf="issueData.status === 'update'"
         severity="warning"
         value="Update"
       >
@@ -29,7 +29,7 @@
       <p-tag
         class="p-1"
         styleClass="text-sm bg-gray-500 "
-        *ngIf="issueData.status === 'Waiting'"
+        *ngIf="issueData.status === 'waiting'"
         severity="secondary"
         value="Waiting"
       >
@@ -49,7 +49,7 @@
       <p-tag
         class="p-1"
         styleClass="text-sm"
-        *ngIf="issueData.status === 'Closed'"
+        *ngIf="issueData.status === 'closed'"
         severity="success"
         value="Closed"
       >
@@ -59,7 +59,7 @@
         class="p-1"
         severity="secondary"
         styleClass="text-sm bg-gray-500"
-        *ngIf="issueData.status === 'Closed'"
+        *ngIf="issueData.status === 'closed'"
       >
         <i class="pi pi-shield text-sm font-thin pr-2"></i>
         <span class="hidden md:inline">Effectivity:&nbsp;</span>
@@ -69,7 +69,7 @@
         class="p-1 my-class"
         severity="secondary"
         styleClass="text-sm bg-gray-500"
-        *ngIf="issueData.status === 'Closed'"
+        *ngIf="issueData.status === 'closed'"
       >
         <i class="pi pi-clock text-sm font-thin pr-2"></i>
         <span class="hidden md:inline">Efficiency:&nbsp;</span>
@@ -84,7 +84,7 @@
     <div class="order-2 lg:col-span-2">
       <span class="flex items-start overflow-hidden">
         <i class="pi pi-send text-sm font-thin pr-2"></i>
-        Client: {{ issueData.sender }}</span
+        Client: {{ issueData.client }}</span
       >
     </div>
     <!-- opened -->
@@ -98,7 +98,7 @@
     <div class="order-2 lg:col-span-2">
       <!-- closed date (if closed) -->
       <span
-        *ngIf="issueData.status === 'Closed'"
+        *ngIf="issueData.status === 'closed'"
         class="flex items-start overflow-hidden"
       >
         <i class="pi pi-check text-sm font-thin pr-2"></i>
@@ -106,7 +106,7 @@
       </span>
       <!-- last update date (if not closed) -->
       <span
-        *ngIf="issueData.status !== 'Closed'"
+        *ngIf="issueData.status !== 'closed'"
         class="flex items-start overflow-hidden"
       >
         <i class="pi pi-refresh text-sm font-thin pr-2"></i>
@@ -152,90 +152,92 @@
       <div class="lg:col-span-2" *ngIf="headerObj.isShortened">
         <i class="pi pi-hashtag text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Subject:&nbsp;</span>
-        <div class="pl-10 text-justify">{{ originalHeader }}</div>
+        <div class="pl-10 text-justify">{{ additionalData.subject }}</div>
       </div>
       <div class="lg:col-span-2">
         <i class="pi pi-book text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Summary: <br /></span>
         <div class="pl-10 text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. In quasi,
-          accusantium aut repellendus, eos doloremque corrupti quas temporibus,
-          laboriosam ullam explicabo quis eius quos sunt voluptas est maiores
-          nulla magni.
+          {{additionalData.issue}}
         </div>
       </div>
       <div class="lg:col-span-2">
         <i class="pi pi-tags text-sm font-thin pr-2"></i>
         <span class="font-semibold hidden md:inline">Tags:&nbsp;</span>
-        <span>Testing</span>
+        <span class="">{{additionalData.tags}}</span>
       </div>
       <p-divider class="-my-4 lg:col-span-2"></p-divider>
       <!-- section 2 -->
       <div class="">
         <i class="pi pi-user text-sm font-thin pr-2"></i>
         <span class="font-semibold hidden md:inline">Client:&nbsp;</span>
-        <span>myclient123&#64;gmail.com</span>
+        <span>{{additionalData.client}}</span>
       </div>
       <div class="">
         <i class="pi pi-building text-sm font-thin pr-2"></i>
         <span class="font-semibold hidden md:inline">Company:&nbsp;</span>
-        <span>aetheros.support&#64;aet.com</span>
+        <span>{{additionalData.company}}</span>
       </div>
       <p-divider class="-my-4 lg:col-span-2"></p-divider>
       <!-- section 2 -->
       <div class="">
         <i class="pi pi-play text-sm font-thin pr-2"></i>
-        <span class="font-semibold hidden md:inline">Status:&nbsp;</span>
-        <span>Open</span>
+        <span class="font-semibold inline md:inline">Status:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{additionalData.status}}</span>
       </div>
       <div class="">
         <i class="pi pi-flag text-sm font-thin pr-2"></i>
-        <span class="font-semibold hidden md:inline">Opened:&nbsp;</span>
-        <span>19.00, 15th June</span>
+        <span class="font-semibold inline md:inline">Opened:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ dateOpened }}</span>
       </div>
-      <div class="" *ngIf="true">
+      <div class="" *ngIf="!closed">
         <i class="pi pi-refresh text-sm font-thin pr-2"></i>
-        <span class="font-semibold hidden md:inline">Update:&nbsp;</span>
-        <span>20.00, 15th June</span>
+        <span class="font-semibold inline md:inline">Update:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ dateUpdate }}</span>
       </div>
-      <div class="" *ngIf="!true">
+      <div class="" *ngIf="closed">
         <i class="pi pi-check-circle text-sm font-thin pr-2"></i>
-        <span class="font-semibold hidden md:inline">Closed:&nbsp;</span>
-        <span>07.00, 17th June</span>
+        <span class="font-semibold inline md:inline">Closed:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ dateClosed }}</span>
       </div>
       <div class="">
         <i class="pi pi-exclamation-triangle text-sm font-thin pr-2"></i>
-        <span class="font-semibold hidden md:inline">Overdue:&nbsp;</span>
-        <span>09.00, 20th Sept</span>
+        <span class="font-semibold inline md:inline">Overdue:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ dateOverdue }}</span>
       </div>
-      <p-divider class="-my-4 lg:col-span-2"></p-divider>
+      <p-divider class="-my-4 lg:col-span-2" *ngIf="!newState"></p-divider>
       <!-- section 3 -->
-      <div class="">
+      <div class="" *ngIf="!newState">
         <i class="pi pi-plus-circle text-sm font-thin pr-2"></i>
-        <span class="font-semibold hidden md:inline">First response time:&nbsp;</span>
-        <span>1h 05m</span>
+        <span class="font-semibold inline md:inline">First response time:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ firstResponseTime }}</span>
       </div>
-      <div class="">
+      <div class="" *ngIf="!newState">
         <i class="pi pi-history text-sm font-thin pr-2"></i>
-        <span class="font-semibold hidden md:inline">Avg response time:&nbsp;</span>
-        <span>1h 38m</span>
+        <span class="font-semibold inline md:inline">Avg response time:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ avgResponseTime }}</span>
+      </div>
+      <div class="" *ngIf="closed">
+        <i class="pi pi-cog text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Resolution time:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ resolutionTime }}</span>
       </div>
       <p-divider class="-my-4 lg:col-span-2"></p-divider>
       <!-- section 4 -->
-      <div class="">
+      <div class="" *ngIf="closed">
         <i class="pi pi-clock text-sm font-thin pr-2"></i>
-        <span class="font-semibold hidden md:inline">Efficiency:&nbsp;</span>
-        <span>5</span>
+        <span class="font-semibold inline md:inline">Efficiency:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{additionalData.efficiency}}</span>
       </div>
-      <div class="">
+      <div class="" *ngIf="closed">
         <i class="pi pi-shield text-sm font-thin pr-2"></i>
-        <span class="font-semibold hidden md:inline">Effectivity:&nbsp;</span>
-        <span>2</span>
+        <span class="font-semibold inline md:inline">Effectivity:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{additionalData.effectivity}}</span>
       </div>
       <div class="">
         <i class="pi pi-thumbs-up text-sm font-thin pr-2"></i>
-        <span class="font-semibold hidden md:inline">Sentiment:&nbsp;</span>
-        <span>very positive</span>
+        <span class="font-semibold inline md:inline">Sentiment:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{additionalData.sentiment}}</span>
       </div>
     </div>
     <!-- conversation -->
@@ -245,7 +247,7 @@
       </div>
       <div
         *ngFor="let email of additionalData.emails"
-        class="py-2 px-4 max-w-[80%]"
+        class="py-2 px-4 max-w-full md:max-w-[80%]"
         [ngClass]="{
           'self-start': email.isClient,
           'self-end': !email.isClient

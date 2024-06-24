@@ -1,13 +1,14 @@
 export interface Issue {
     id: string;     // can be removed if not needed later
     issue: string;
-    isOverdue?: boolean;
-    status: 'New' | 'Waiting' | 'Update' | 'Closed';
-    sender: string;
-    recipient: string;
+    subject: string;
+    status: 'new' | 'waiting' | 'update' | 'closed';
+    client: string;
+    company: string;
     dateOpened: Date;
     dateClosed?: Date;
     dateUpdate?: Date;
+    isOverdue?: boolean;
     tags: string[];
     effectivity?: number;
     efficiency?: number;
@@ -23,11 +24,29 @@ export interface PopupEmail {
     dateTime: Date;
 }
 export interface IssuePopupData {
+    id: string;     // can be removed if not needed later
+    issue: string;
+    subject: string;
+    status: 'new' | 'waiting' | 'update' | 'closed';
+    client: string;
+    company: string;
+    dateOpened: Date;
+    dateClosed?: Date;
+    dateUpdate?: Date;
+    isOverdue?: boolean;
+    tags: string[];
+    effectivity?: number;
+    efficiency?: number;
+    dateOverdue: Date;
+    firstResponseTime?: number; // in minutes
+    avgResponseTime?: number;   // in minutes
+    resolutionTime?: number;    // in minutes
+    sentiment?: number;
     emails: PopupEmail[];
 }
 
 export interface IssueMetaDataResponse {
-    data: Issue[];
+    issues: Issue[];
     total: number;
     skip: number;
     limit: number;
