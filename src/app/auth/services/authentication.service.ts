@@ -27,6 +27,7 @@ export class AuthenticationService {
     });
     this.currentUserSubject = new BehaviorSubject<CognitoUser | null>(this.userPool.getCurrentUser());
   }
+
   get currentUser(): Observable<CognitoUser | null> {
     return this.currentUserSubject.asObservable();
   }

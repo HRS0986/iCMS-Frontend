@@ -5,7 +5,7 @@ import {AuthRoutingModule} from "./auth-routing.module";
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SigninComponent } from './components/signin/signin.component';
 import { SignoutComponent } from './components/signout/signout.component';
 import {ToastModule} from "primeng/toast";
