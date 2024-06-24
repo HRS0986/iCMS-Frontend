@@ -112,7 +112,7 @@
         <div class="flex flex-wrap ml-2">
           <ng-container class="pe-1" *ngFor="let permission of userGroupData.Group.Permissions" >
             <ng-container *ngIf="permission['Value']=='true'" >
-              <p-tag class="gap-0.5" [value]="permission['Name']" [style.color]="'#4CAF50'"></p-tag>
+              <p-chip class="gap-0.5" [label]="permission['Name']" [style.color]="'#4CAF50'"></p-chip>
             </ng-container>
           </ng-container>
         </div>

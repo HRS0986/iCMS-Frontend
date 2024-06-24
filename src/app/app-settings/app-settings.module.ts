@@ -21,6 +21,7 @@ import {DialogModule} from "primeng/dialog";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {ToastModule} from "primeng/toast";
 import {ButtonModule} from "primeng/button";
+import {ChipModule} from "primeng/chip";
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import {ButtonModule} from "primeng/button";
     DialogModule,
     ConfirmDialogModule,
     ToastModule,
-    ButtonModule
+    ButtonModule,
+    ChipModule
 
   ]
 })

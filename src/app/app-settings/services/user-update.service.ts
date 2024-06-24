@@ -4,8 +4,11 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UserRefreshService {
-  userAdded = new Subject<void>();
-  userUpdated = new Subject<void>();
+export class UserUpdateService {
+
+  // Create a new Subject that will emit the user data
+  userToUpdate = new Subject<any>();
+
   constructor() { }
+
 }

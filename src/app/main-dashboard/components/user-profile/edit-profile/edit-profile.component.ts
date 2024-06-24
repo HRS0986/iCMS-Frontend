@@ -15,6 +15,7 @@ export class EditProfileComponent implements OnInit {
   email: string = ''
   phone: string = ''
   profileImage: string = ''
+  timestamp!: number;
 
   constructor(private http: HttpClient,private authService: AuthenticationService, private profileService: ProfileSettingsService, private userProfileDataService: UserProfileDataService) { }
 
@@ -30,6 +31,9 @@ export class EditProfileComponent implements OnInit {
   ngOnInit(): void {
     // this.userProfileDataService.getUserProfileData()
     // this.fetchUserDetails();
+
+    this.timestamp = Date.now();
+
     this.authService.getIdToken().subscribe((token: any) => {
       this.userProfileDataService.getUserProfileData(token).subscribe((data: any) => {
         console.log(data)
@@ -109,6 +113,10 @@ export class EditProfileComponent implements OnInit {
           console.error(error);
         });
     }
+  }
+
+  getProfileImageUrl() {
+    return `${this.profileImage}?${this.timestamp}`;
   }
 
 

@@ -6,6 +6,7 @@ import {MenuItem} from "primeng/api";
 import { AuthenticationService } from '../../../auth/services/authentication.service';
 import { UserRefreshService } from '../../services/user-refresh.service';
 import {MessageService, ConfirmationService} from "primeng/api";
+import {UserUpdateService} from "../../services/user-update.service";
 
 
 @Component({
@@ -19,6 +20,8 @@ import {MessageService, ConfirmationService} from "primeng/api";
 export class UsersComponent implements OnInit{
 
   @ViewChild('splitButton') splitButton!: ElementRef;
+
+  timestamp!: number;
 
   users: User[] =[];
   selectedUsers!: User;
@@ -41,15 +44,23 @@ export class UsersComponent implements OnInit{
     private userRefreshService: UserRefreshService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private userUpdateService: UserUpdateService
   ) {}
 
   ngOnInit() {
-    // this.customerService.getCustomersMini().then(users => this.users = users);
+
+    //when user added or updated user list should be updated
     this.userRefreshService.userAdded.subscribe(() => {
       this.getUsers();
     });
+    this.userRefreshService.userUpdated.subscribe(() => {
+      this.getUsers();
+    });
+
+    //get users
     this.getUsers()
 
+    //actions for each user
     this.actions = [
       {
         label: "View",
@@ -67,6 +78,12 @@ export class UsersComponent implements OnInit{
         icon: "pi pi-pencil",
         command: () => {
           console.log("Updating role");
+          if(this.selectedUsers) {
+            this.updateUser();
+          }else{
+            this.messageService.add({severity:'error', summary: 'Error', detail: 'No user selected'});
+
+          }
         }
       },
       {
@@ -83,7 +100,22 @@ export class UsersComponent implements OnInit{
 
         }
       },
+      //disable user
+      {
+        label: "Disable",
+        icon: "pi pi-ban",
+        command: () => {
+          console.log("Disabling role");
+          if(this.selectedUsers) {
+            this.disableUser();
+            console.log("Disabling user");
+          }else{
+            this.messageService.add({severity:'error', summary: 'Error', detail: 'No user selected'});
+          }
+        }
+      }
     ];
+    this.timestamp = Date.now();
 
   }
 
@@ -109,8 +141,6 @@ export class UsersComponent implements OnInit{
   }
   addMember() {
     console.log('Add member');
-
-
   }
 
   deleteUser(user:User) {
@@ -149,6 +179,9 @@ export class UsersComponent implements OnInit{
 
 
 
+
+
+
   viewUser() {
     this.authService.getIdToken().subscribe((token: any) => {
       this.customerService.getUser(token, this.selectedUsers.username).subscribe( (data: any) => {
@@ -163,7 +196,24 @@ export class UsersComponent implements OnInit{
 
     });
   }
-
+  updateUser() {
+    if(this.selectedUsers) {
+      this.authService.getIdToken().subscribe((token: any) => {
+        this.customerService.getUser(token, this.selectedUsers.username).subscribe(
+          (data: any) => {
+            console.log(data);
+            this.userUpdateService.userToUpdate.next(data); // Emit the event with the user data
+          },
+          (error: any) => {
+            console.log(error);
+            this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to get user details'});
+          }
+        );
+      });
+    } else {
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'No user selected'});
+    }
+  }
 
   getUsers() {
 
@@ -175,18 +225,31 @@ export class UsersComponent implements OnInit{
 
   }
 
+  getProfileImageUrl() {
+    return `${this.userProfileImage}?${this.timestamp}`;
+  }
+
+  disableUser() {
+    this.authService.getIdToken().subscribe((token: any) => {
+      this.customerService.disableUser(token, this.selectedUsers.username).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.getUsers();
+          this.messageService.add({severity:'success', summary: 'Success', detail: 'User Disabled Successfully'});
+        },
+        (error: any) => {
+          // Handle the error case
+          console.log(error);
+          this.messageService.add({severity:'error', summary: 'Error', detail: 'Failed to disable user'});
+        }
+
+      );
+    });
+  }
+
+
 
 }
-
-//create testing user sample
-// const users: User[] = [
-//   {id: 1, name: 'John Doe', email: 'afdsg@gmai.com', roles: ['admin'], status: 'online'},
-//   {id: 2, name: 'Jane Doe', email: 'dfgidhfg@idgh.com', roles: ['marketing'], status: 'offline'},
-//   {id: 3, name: 'John Smith', email: 'gioefhg@ohg.com', roles: ['admin', 'customer service'], status: 'online'},
-//   {id: 4, name: 'Jane Smith', email: 'uhihg@iuhh.com', roles: ['admin', 'marketing'], status: 'offline'},
-//   {id: 5, name: 'John Johnson', email: 'faiohsgh@jetg.com', roles: ['customer service'], status: 'online'},
-//   {id: 6, name: 'Jane Johnson', email: 'uahgd8@dfgsh.com', roles: ['admin','marketing'], status: 'offline'},
-// ]
 
 const rolesColors: {[key: string]: string} = {
   'admin': 'blue',

@@ -4,6 +4,7 @@ import { Router } from '@angular/router'; // Import Router
 import { AuthenticationService } from "../../services/authentication.service";
 import {MessageService} from "primeng/api";
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './signin.component.html',
@@ -41,13 +42,11 @@ export class SigninComponent {
   //     });
   // }
 
-
   signIn(): void {
     this.authService.signIn(this.username, this.password)
       .subscribe({
         next: (session) => {
           console.log('Logged in successfully', session);
-          localStorage.setItem('idToken',session.idToken.jwtToken);
           // Redirect or perform actions after successful login
           this.router.navigate(['/']).then(r => console.log('Navigated to home'));
         },
@@ -61,4 +60,5 @@ export class SigninComponent {
         }
       });
   }
+
 }

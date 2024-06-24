@@ -1,6 +1,6 @@
 <p-sidebar position="right" [(visible)]="sidebarVisible">
   <ng-template pTemplate="header">
-    <h3>Add User</h3>
+    <h3>{{isUpdate ? 'Update User' : 'Add User'}}</h3>
   </ng-template>
 
   <ng-template pTemplate="content">
@@ -10,7 +10,7 @@
     </div>
     <div class="pt-5">
         <span>
-            <input pInputText id="user_name" type="text" class="p-inputtext-sm title-input"  [(ngModel)]="userName" />
+            <input pInputText id="user_name" type="text" class="p-inputtext-sm title-input"  [(ngModel)]="userName" [disabled]="isUpdate"  />
         </span>
     </div>
     <div class="pt-5">
@@ -32,13 +32,13 @@
         </span>
     </div>
 
-<!--    password-->
-    <div class="pt-5">
+<!-- password -->
+    <div class="pt-5" *ngIf="!isUpdate">
       <span>Password</span>
     </div>
-    <div class="pt-5">
+    <div class="pt-5" *ngIf="!isUpdate">
         <span>
-            <input pInputText id="temporary_password" type="password" class="p-inputtext-sm title-input"  [(ngModel)]="password" />
+            <input pInputText id="temporary_password" type="password" class="p-inputtext-sm title-input" [(ngModel)]="password" />
         </span>
     </div>
 
@@ -56,11 +56,14 @@
         display="chip"
         [showClear]="true" />
     </div>
+
     <div class="save-button mt-5">
-      <p-button label="Save" class="saveButton" (click)="addUser()"></p-button>
+      <div class="save-button mt-5">
+        <p-button label="Save" class="saveButton" (click)="isUpdate ? saveUpdateUser() : addUser()"></p-button>
+      </div>
     </div>
   </ng-template>
 
 </p-sidebar>
 <p-toast />
-<p-button class="pe-3 addMember"  icon="pi pi-user-plus" (click)="sidebarVisible = true" ></p-button>
+<p-button class="pe-3 addMember"  icon="pi pi-user-plus" (click)="resetData()" ></p-button>

@@ -16,7 +16,7 @@
     </div>
     <div class="pt-5">
         <span>
-            <input pInputText id="title" type="text" class="p-inputtext-sm title-input"  [(ngModel)]="roleName" />
+          <input pInputText id="role_name" type="text" class="p-inputtext-sm title-input" [(ngModel)]="roleName" [disabled]="isRoleUpdate" />
         </span>
     </div>
 
@@ -49,7 +49,7 @@
 
 
     <div class="save-button mt-5">
-      <p-button label="Save" class="saveButton" (click)="saveRole()"></p-button>
+      <p-button label="Save" class="saveButton" (click)="isRoleUpdate ? saveUpdateRole() : saveRole()"></p-button>
     </div>
 
 
@@ -62,4 +62,4 @@
 </p-sidebar>
 <p-toast />
 
-<p-button  class="pe-3 addRole" icon="pi pi-pencil" (click)="sidebarVisible = true"></p-button>
+<p-button  class="pe-3 addRole" icon="pi pi-pencil" (click)="resetData()"></p-button>

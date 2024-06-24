@@ -3,6 +3,7 @@ import {SignupComponent} from "./components/signup/signup.component";
 import {SigninComponent} from "./components/signin/signin.component";
 import {SignoutComponent} from "./components/signout/signout.component";
 import {NgModule} from "@angular/core";
+import {NewPasswordComponent} from "./components/new-password/new-password.component";
 
 
 const routes: Routes =[
@@ -17,6 +18,10 @@ const routes: Routes =[
   {
     path: "signout",
     component: SignoutComponent
+  },
+  {
+    path: "new-password",
+    component: NewPasswordComponent
   }
 
 ];

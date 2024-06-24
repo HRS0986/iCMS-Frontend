@@ -57,6 +57,9 @@
         <th>
           <span class="p-column-title">Roles</span>
         </th>
+        <th>
+          <span class="p-column-title">status</span>
+        </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-user>
@@ -79,6 +82,11 @@
           <p-tag class="pe-1" *ngFor="let role of user.groups" [value]="role" [style.color]="getRoleColor(role)"></p-tag>
         </td>
 
+        <td>
+<!--          show red dot if user disables otherwise green-->
+          <span class=" vertical-align-middle" [ngClass]="{'dot-red': user.status === 'DISABLED', 'dot-green': user.status === 'ENABLED'}"></span>
+        </td>
+
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
@@ -97,7 +105,7 @@
 
     <div class="flex flex-col items-center">
       <div class="flex flex-col items-center">
-        <img [src]="userProfileImage" alt="user" class="profile-image" />
+        <img [src]="getProfileImageUrl()" alt="user" class="profile-image" />
         <h2 class="text-xl mt-2">{{userData?.Username}}</h2>
       </div>
       <div class="flex flex-col mt-4">

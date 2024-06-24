@@ -8,6 +8,7 @@ import {catchError} from "rxjs/operators";
 import {of} from "rxjs";
 import { Router} from "@angular/router";
 import {CheckLoginService} from "../../../shared/shared-services/check-login.service";
+import {RoleUpdateService} from "../../services/role-update.service";
 
 
 @Component({
@@ -38,7 +39,8 @@ export class RoleManagementComponent implements OnInit{
     private messageService: MessageService,
     private router: Router,
     private checkLoginService: CheckLoginService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private roleUpdateService: RoleUpdateService
 
   ) {}
 
@@ -74,6 +76,11 @@ export class RoleManagementComponent implements OnInit{
         icon: "pi pi-pencil",
         command: () => {
           console.log("Updating role");
+          if(this.selectedRoles) {
+            this.updateRole();
+          }else{
+            this.messageService.add({severity: 'error', summary: 'Error', detail: 'No role selected'});
+          }
         }
       },
       {
@@ -143,6 +150,25 @@ export class RoleManagementComponent implements OnInit{
         this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
       }
     });
+  }
+
+  updateRole() {
+    if(this.selectedRoles) {
+      this.authService.getIdToken().subscribe((token: any) => {
+        this.roleService.getRoleDetails(token, this.selectedRoles.group_name).subscribe(
+          (data: any) => {
+            console.log(data);
+            this.roleUpdateService.roleToUpdate.next(data); // Emit the event with the role data
+          },
+          (error: any) => {
+            console.log(error);
+            this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to get role details'});
+          }
+        );
+      });
+    } else {
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'No role selected'});
+    }
   }
 
   getRoleDetails() {

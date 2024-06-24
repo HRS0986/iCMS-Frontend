@@ -5,17 +5,19 @@ import {AuthRoutingModule} from "./auth-routing.module";
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { SigninComponent } from './components/signin/signin.component';
 import { SignoutComponent } from './components/signout/signout.component';
 import {ToastModule} from "primeng/toast";
+import { NewPasswordComponent } from './components/new-password/new-password.component';
 
 
 @NgModule({
   declarations: [
     SignupComponent,
     SigninComponent,
-    SignoutComponent
+    SignoutComponent,
+    NewPasswordComponent
   ],
     imports: [
         CommonModule,
@@ -24,7 +26,8 @@ import {ToastModule} from "primeng/toast";
         ButtonModule,
         InputTextModule,
         FormsModule,
-        ToastModule
+        ToastModule,
+        ReactiveFormsModule
     ]
 })
 export class AuthModule { }
