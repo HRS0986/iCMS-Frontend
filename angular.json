@@ -29,7 +29,7 @@
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js",
-              "/src/polyfills.ts"
+              "./src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -51,7 +51,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",

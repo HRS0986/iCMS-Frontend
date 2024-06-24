@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,Input } from '@angular/core';
 
 @Component({
   selector: 'app-horizontal-bar-chart',
@@ -6,17 +6,17 @@ import { Component } from '@angular/core';
   styleUrl: './horizontal-bar-chart.component.scss'
 })
 export class HorizontalBarChartComponent {
-  data: any;
-
+  data:any;
+  @Input() persentages: any=[65, 59, 80, 81, 56, 55, 40];
+  @Input() labels: any=['Product', 'Service', 'Pricing', 'Issues', 'Website'];
   options: any;
-
 
   ngOnInit() {
     const documentStyle = getComputedStyle(document.documentElement);
     // const textColor = documentStyle.getPropertyValue('--text-color');
 
     this.data = {
-      labels: ['Product', 'Service', 'Pricing', 'Issues', 'Website'],
+      labels: this.labels,
       datasets: [
         {
           backgroundColor: [
@@ -27,7 +27,7 @@ export class HorizontalBarChartComponent {
             'rgba(153, 102, 255, 0.6)'
           ],
           borderColor: documentStyle.getPropertyValue('--blue-500'),
-          data: [65, 59, 80, 81, 56, 55, 40]
+          data: this.persentages
         }
       ]
     };

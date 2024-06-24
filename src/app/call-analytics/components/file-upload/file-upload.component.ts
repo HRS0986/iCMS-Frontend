@@ -28,6 +28,7 @@ export class FileUploadComponent implements OnInit {
   operatorsList: number[] = [];
   callOperators: OperatorListItem[] = [];
   isSubmitted = false;
+  visible: boolean = false;
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -50,11 +51,11 @@ export class FileUploadComponent implements OnInit {
       this.callRecordingService.uploadFiles(queuedFiles).then(response => {
         this.clearFiles();
         if (response!.status) {
-          this.messageService.add({severity: "success", summary: "Success", detail: UserMessages.UPLOAD_SUCCESS});
+          this.visible = true;
         } else {
           this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.UPLOAD_ERROR});
         }
-      }).catch(error  => {
+      }).catch(()  => {
         this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.UPLOAD_ERROR});
       });
     } else {
@@ -79,7 +80,6 @@ export class FileUploadComponent implements OnInit {
         date: dateTime,
         operatorId: operatorId
       }
-
       queuedFiles.push(queuedFile);
     }
     return queuedFiles;
