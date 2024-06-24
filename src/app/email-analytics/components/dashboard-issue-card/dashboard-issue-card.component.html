@@ -1,0 +1,42 @@
+<div
+  class="flex flex-col gap-3 justify-center items-center overflow-hidden border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150 w-auto absolute inset-0 p-2"
+  onclick="alert('You clicked me!')"
+  tooltip="New issues in the last 24 hours"
+>
+  <!-- div 1 -->
+  <div class="flex place-content-center">
+    <span class="font-medium text-4xl md:text-5xl 2xl:text-5xl"> {{ displayedNumber }} </span>
+  </div>
+  <!-- div 2 -->
+  <div class="flex flex-col items-center justify-center 2xl:items-start">
+    <span class="text-sm hidden md:inline md:text-base">
+      {{ smallText }}
+    </span>
+    <span class="text-xl md:text-4xl 2xl:-ml-0.5">
+      {{ bigText }}
+    </span>
+  </div>
+  <!-- div 3 -->
+  <div class="flex flex-row items-center justify-center gap-x-2">
+    <!-- span 1 -->
+    <span class="flex place-content-center gap-x-2">
+        <span class="flex text-sm items-center">
+          <i *ngIf="context === 'increase'" class="pi pi-arrow-circle-up"  style="color: #006c1d"></i>
+          <i *ngIf="context === 'decrease'" class="pi pi-arrow-circle-down" style="color: #6c0900"></i>
+          <i *ngIf="context === 'same'" class="pi pi-minus-circle"  style="color: #e2c431"></i>
+        </span>
+        <span class="text-md md:text-base">
+          {{ avgMetric }}%
+        </span>
+    </span>
+    <span class="text-md hidden lg:inline">
+      <span *ngIf="context === 'increase'"
+        >increase from avg</span
+      >
+      <span *ngIf="context === 'decrease'"
+        >decrease from avg</span
+      >
+      <span *ngIf="context === 'same'">same as avg</span>
+    </span>
+  </div>
+</div>

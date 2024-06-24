@@ -14,15 +14,15 @@
       </div>
     </div>
 
-    <!--Topics-->
+    <!--Product-->
     <div>
-      <p>Topic:</p>
+      <p>Product:</p>
       <div class="card flex justify-content-center grow">
         <p-dropdown
-          [options]="topics"
-          [(ngModel)]="topicSelected"
+          [options]="products"
+          [(ngModel)]="productSelected"
           [showClear]="true"
-          placeholder="Topic"
+          placeholder="Product"
         ></p-dropdown>
       </div>
     </div>
@@ -89,7 +89,11 @@
     </div>
     <!-- Buttons -->
     <div class="card flex justify-center gap-3 items-end">
-      <p-button label="Apply Filter"></p-button>
+      <p-button 
+        label="Apply Filter"
+        (click)="applyFilters()"
+        (keydown.enter)="applyFilters()"
+      ></p-button>
       <p-button
         label="Clear Filters"
         [outlined]="true"

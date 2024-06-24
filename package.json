@@ -23,6 +23,7 @@
     "amazon-cognito-identity-js": "^6.3.12",
     "angular-gridster2": "^17.0.0",
     "chart.js": "^4.4.1",
+    "date-fns": "^3.6.0",
     "jquery": "^3.7.1",
     "mongoose": "^8.3.1",
     "ngx-cookie-service": "^17.1.0",

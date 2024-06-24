@@ -1,0 +1,18 @@
+// .card-wrapper {
+//   height: 100%; /* Set a specific height for the card */
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// .card-content {
+//   flex: 1;
+// }
+
+::ng-deep .p-card {
+  height: 100%;
+  overflow: scroll;
+}
+
+// ::ng-deep .p-card-body {
+//   padding: 0;
+// }
