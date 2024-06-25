@@ -2,115 +2,59 @@
   class="bg-gray-50 hover:bg-blue-100 hover:cursor-pointer rounded my-5 border border-solid border-gray-200 transition hover:duration-150"
   (click)="load()"
 >
-  <div class="px-4 py-4 grid grid-cols-1 gap-y-3 gap-x-3 lg:grid-cols-6">
+  <div class="px-4 py-4 grid grid-cols-1 gap-y-0 gap-x-3 lg:grid-cols-6">
     <!-- status -->
     <div class="order-0 -mx-1 lg:col-span-3">
-      <!-- new status -->
+      <!-- hot status -->
       <p-tag
         class="p-1"
         styleClass="text-sm"
-        *ngIf="issueData.status === 'new'"
-        severity="info"
-        value="New"
-      >
-        <i class="pi pi-info-circle text-sm pr-2"></i>
-      </p-tag>
-      <!-- update status -->
-      <p-tag
-        class="p-1"
-        styleClass="text-sm"
-        *ngIf="issueData.status === 'update'"
-        severity="warning"
-        value="Update"
-      >
-        <i class="pi pi-refresh text-sm pr-2"></i>
-      </p-tag>
-      <!-- open status -->
-      <p-tag
-        class="p-1"
-        styleClass="text-sm bg-gray-500 "
-        *ngIf="issueData.status === 'waiting'"
-        severity="secondary"
-        value="Waiting"
-      >
-        <i class="pi pi-inbox text-sm pr-2"></i>
-      </p-tag>
-      <!-- overdue status -->
-      <p-tag
-        class="p-1"
-        styleClass="text-sm"
-        *ngIf="issueData.isOverdue"
+        *ngIf="threadData.type === 'hot'"
         severity="danger"
-        value="Overdue"
+        value="Hot"
       >
-        <i class="pi pi-exclamation-triangle text-sm pr-2"></i>
-      </p-tag>
-      <!-- closed status -->
-      <p-tag
-        class="p-1"
-        styleClass="text-sm"
-        *ngIf="issueData.status === 'closed'"
-        severity="success"
-        value="Closed"
-      >
-        <i class="pi pi-check-circle text-sm pr-2"></i>
-      </p-tag>
-      <p-tag
-        class="p-1"
-        severity="secondary"
-        styleClass="text-sm bg-gray-500"
-        *ngIf="issueData.status === 'closed'"
-      >
-        <i class="pi pi-shield text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Effectivity:&nbsp;</span>
-        <span>{{ issueData.effectivity }}</span>
-      </p-tag>
-      <p-tag
-        class="p-1 my-class"
-        severity="secondary"
-        styleClass="text-sm bg-gray-500"
-        *ngIf="issueData.status === 'closed'"
-      >
-        <i class="pi pi-clock text-sm font-thin pr-2"></i>
-        <span class="hidden md:inline">Efficiency:&nbsp;</span>
-        <span>{{ issueData.efficiency }}</span>
+        <i class="pi pi-comments text-sm pr-2"></i>
       </p-tag>
     </div>
-    <!-- summary -->
+    <!-- subject -->
     <div class="order-2 font-medium py-2 text-justify lg:col-span-6">
-      {{ issueData.issue }}
+        {{ threadData.subject }}
+    </div>
+    <!-- snippet -->
+    <div class="order-2 font-normal text-sm py-2 text-justify lg:col-span-6">
+      {{ threadData.snippet }} ...
     </div>
     <!-- client -->
-    <div class="order-2 lg:col-span-2">
+    <div class="order-2 lg:col-span-2 hidden">
       <span class="flex items-start overflow-hidden">
         <i class="pi pi-send text-sm font-thin pr-2"></i>
-        Client: {{ issueData.client }}</span
+        Client: {{ threadData.subject }}</span
       >
     </div>
     <!-- opened -->
-    <div class="order-2 lg:col-span-2">
+    <div class="order-2 lg:col-span-2 hidden">
       <span class="flex items-start overflow-hidden">
         <i class="pi pi-flag text-sm font-thin pr-2"></i>
-        Opened: {{ displayedOpenedDate }}</span
+        Opened: {{ threadData.subject }}</span
       >
     </div>
     <!-- last update / closed -->
-    <div class="order-2 lg:col-span-2">
+    <div class="order-2 lg:col-span-2 hidden">
       <!-- closed date (if closed) -->
       <span
-        *ngIf="issueData.status === 'closed'"
+        *ngIf=""
         class="flex items-start overflow-hidden"
       >
         <i class="pi pi-check text-sm font-thin pr-2"></i>
-        Closed: {{ displayedClosedDate }}
+        Closed: {{ threadData.subject }}
       </span>
       <!-- last update date (if not closed) -->
       <span
-        *ngIf="issueData.status !== 'closed'"
+        *ngIf=""
         class="flex items-start overflow-hidden"
       >
         <i class="pi pi-refresh text-sm font-thin pr-2"></i>
-        Update: {{ displayedUpdateDate }}
+        Update: {{ threadData.subject }}
       </span>
     </div>
     <!-- tags -->
@@ -119,7 +63,7 @@
         class="p-1"
         styleClass="text-sm"
         severity="primary"
-        *ngFor="let tag of issueData.tags"
+        *ngFor="let tag of threadData.tags"
         value="{{ tag }}"
       />
     </div>
@@ -127,7 +71,7 @@
 </div>
 
 <p-dialog
-  header="{{ headerObj.text }}"
+  header="{{ threadData.subject }}"
   [(visible)]="dialogVisible"
   [modal]="true"
   [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
@@ -149,95 +93,95 @@
     </div>
     <div class="px-4 grid grid-cols-1 lg:grid-cols-2 gap-y-3 gap-x-1">
       <!-- section 1 -->
-      <div class="lg:col-span-2" *ngIf="headerObj.isShortened">
+      <div class="lg:col-span-2" *ngIf="">
         <i class="pi pi-hashtag text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Subject:&nbsp;</span>
-        <div class="pl-10 text-justify">{{ additionalData.subject }}</div>
+        <div class="pl-10 text-justify">{{ threadData.subject }}</div>
       </div>
       <div class="lg:col-span-2">
         <i class="pi pi-book text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Summary: <br /></span>
         <div class="pl-10 text-justify">
-          {{additionalData.issue}}
+          {{threadData.subject}}
         </div>
       </div>
       <div class="lg:col-span-2">
         <i class="pi pi-tags text-sm font-thin pr-2"></i>
         <span class="font-semibold hidden md:inline">Tags:&nbsp;</span>
-        <span class="">{{additionalData.tags}}</span>
+        <span class="">{{threadData.subject}}</span>
       </div>
       <p-divider class="-my-4 lg:col-span-2"></p-divider>
       <!-- section 2 -->
       <div class="">
         <i class="pi pi-user text-sm font-thin pr-2"></i>
         <span class="font-semibold hidden md:inline">Client:&nbsp;</span>
-        <span>{{additionalData.client}}</span>
+        <span>{{threadData.subject}}</span>
       </div>
       <div class="">
         <i class="pi pi-building text-sm font-thin pr-2"></i>
         <span class="font-semibold hidden md:inline">Company:&nbsp;</span>
-        <span>{{additionalData.company}}</span>
+        <span>{{threadData.subject}}</span>
       </div>
       <p-divider class="-my-4 lg:col-span-2"></p-divider>
       <!-- section 2 -->
       <div class="">
         <i class="pi pi-play text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Status:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{additionalData.status}}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{threadData.subject}}</span>
       </div>
       <div class="">
         <i class="pi pi-flag text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Opened:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{ dateOpened }}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ threadData.subject }}</span>
       </div>
-      <div class="" *ngIf="!closed">
+      <div class="" *ngIf="">
         <i class="pi pi-refresh text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Update:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{ dateUpdate }}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ threadData.subject }}</span>
       </div>
-      <div class="" *ngIf="closed">
+      <div class="" *ngIf="">
         <i class="pi pi-check-circle text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Closed:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{ dateClosed }}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ threadData.subject }}</span>
       </div>
       <div class="">
         <i class="pi pi-exclamation-triangle text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Overdue:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{ dateOverdue }}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ threadData.subject }}</span>
       </div>
-      <p-divider class="-my-4 lg:col-span-2" *ngIf="!newState"></p-divider>
+      <p-divider class="-my-4 lg:col-span-2" *ngIf=""></p-divider>
       <!-- section 3 -->
-      <div class="" *ngIf="!newState">
+      <div class="" *ngIf="">
         <i class="pi pi-plus-circle text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">First response time:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{ firstResponseTime }}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ threadData.subject }}</span>
       </div>
-      <div class="" *ngIf="!newState">
+      <div class="" *ngIf="">
         <i class="pi pi-history text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Avg response time:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{ avgResponseTime }}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ threadData.subject }}</span>
       </div>
-      <div class="" *ngIf="closed">
+      <div class="" *ngIf="">
         <i class="pi pi-cog text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Resolution time:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{ resolutionTime }}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ threadData.subject }}</span>
       </div>
       <p-divider class="-my-4 lg:col-span-2"></p-divider>
       <!-- section 4 -->
-      <div class="" *ngIf="closed">
+      <div class="" *ngIf="">
         <i class="pi pi-clock text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Efficiency:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{additionalData.efficiency}}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{threadData.subject}}</span>
       </div>
-      <div class="" *ngIf="closed">
+      <div class="" *ngIf="">
         <i class="pi pi-shield text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Effectivity:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{additionalData.effectivity}}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{threadData.subject}}</span>
       </div>
       <div class="">
         <i class="pi pi-thumbs-up text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Sentiment:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{additionalData.sentiment}}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{threadData.subject}}</span>
       </div>
     </div>
     <!-- conversation -->
@@ -246,31 +190,31 @@
         Original Conversation
       </div>
       <div
-        *ngFor="let email of additionalData.emails"
+        *ngFor="let email of threadData.tags"
         class="py-2 px-4 max-w-full md:max-w-[80%]"
         [ngClass]="{
-          'self-start': email.isClient,
-          'self-end': !email.isClient
+          'self-start': true,
+          'self-end': !true
         }"
       >
         <div
           class="font-medium text-gray-800 text-opacity-70 px-4 py-2"
           [ngClass]="{
-            'text-right': !email.isClient
+            'text-right': !true
           }"
         >
-          {{ formatDate(email.dateTime) }}
+          {{ threadData.subject }}
         </div>
         <div
           class="leading-relaxed py-4 px-6 rounded-t-3xl md:text-justify"
           [ngClass]="{
-            'bg-gray-200': email.isClient,
-            'rounded-br-3xl': email.isClient,
-            'bg-blue-400': !email.isClient,
-            'rounded-bl-3xl': !email.isClient,
+            'bg-gray-200': true,
+            'rounded-br-3xl': true,
+            'bg-blue-400': !true,
+            'rounded-bl-3xl': !true,
           }"
         >
-          {{ email.body }}
+          {{ threadData.subject }}
         </div>
       </div>
     </div>

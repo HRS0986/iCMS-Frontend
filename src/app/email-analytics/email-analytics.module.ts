@@ -25,7 +25,6 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.component';
 import { SummaryCardComponent } from './components/summary-card/summary-card.component';
 import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
-import { FilterQueryComponent } from './components/filter-query/filter-query.component';
 import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
 import { EmailTableComponent } from './components/email-table/email-table.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -69,7 +68,6 @@ import { DynamicStackedBarChartComponent } from './components/dynamic-stacked-ba
 import { BestWorstCardComponent } from './components/best-worst-card/best-worst-card.component';
 import { DynamicHorizontalBarchartComponent } from './components/dynamic-horizontal-barchart/dynamic-horizontal-barchart.component';
 import { SkeletonModule } from 'primeng/skeleton';
-import { FilterQuerySuggestionsComponent } from './components/filter-query-suggestions/filter-query-suggestions.component';
 import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
 import { PaginatorModule } from 'primeng/paginator';
@@ -87,6 +85,9 @@ import { DashboardSummaryCardComponent } from './components/dashboard-summary-ca
 import { DashboardActionablesComponent } from './components/dashboard-actionables/dashboard-actionables.component';
 import { DashboardResponsetimeComponent } from './components/dashboard-responsetime/dashboard-responsetime.component';
 import { FilteringComponent } from './components/filtering/filtering.component';
+import { ThreadDataviewComponent } from './components/thread-dataview/thread-dataview.component';
+import { ThreadCardListTypeComponent } from './components/thread-card-list-type/thread-card-list-type.component';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,6 @@ import { FilteringComponent } from './components/filtering/filtering.component';
     KeywordCloudComponent,
     SummaryCardComponent,
     SummaryCardsContainerComponent,
-    FilterQueryComponent,
     EmailFilteringComponent,
     EmailTableComponent,
     SettingsComponent,
@@ -118,7 +118,6 @@ import { FilteringComponent } from './components/filtering/filtering.component';
     DynamicStackedBarChartComponent,
     BestWorstCardComponent,
     DynamicHorizontalBarchartComponent,
-    FilterQuerySuggestionsComponent,
     SuggestionCardComponent,
     SuggestionFilteringComponent,
     IssueCardListTypeComponent,
@@ -135,6 +134,8 @@ import { FilteringComponent } from './components/filtering/filtering.component';
     DashboardActionablesComponent,
     DashboardResponsetimeComponent,
     FilteringComponent,
+    ThreadDataviewComponent,
+    ThreadCardListTypeComponent,
   ],
   imports: [
     CommonModule,
@@ -171,6 +172,7 @@ import { FilteringComponent } from './components/filtering/filtering.component';
     SkeletonModule,
     ProgressBarModule,
     AutoCompleteModule,
+    ToggleButtonModule,
   ],
   providers: [MessageService],
 })

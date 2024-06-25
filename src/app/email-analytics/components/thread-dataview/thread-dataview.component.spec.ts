@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FilterQueryComponent } from './filter-query.component';
+import { ThreadDataviewComponent } from './thread-dataview.component';
 
-describe('FilterQueryComponent', () => {
-  let component: FilterQueryComponent;
-  let fixture: ComponentFixture<FilterQueryComponent>;
+describe('ThreadDataviewComponent', () => {
+  let component: ThreadDataviewComponent;
+  let fixture: ComponentFixture<ThreadDataviewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FilterQueryComponent]
+      declarations: [ThreadDataviewComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(FilterQueryComponent);
+    fixture = TestBed.createComponent(ThreadDataviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

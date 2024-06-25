@@ -5,7 +5,7 @@
   [showButton]="false"
 />
 
-<app-filtering (filterEmitter)="onFilterChange($event)"></app-filtering>
+<app-filtering (filterEmitter)="onFilterChange($event)" type="issue"></app-filtering>
 
 <p-panel>
   <p-dataView
@@ -25,7 +25,7 @@
     #dataView
   >
     <ng-template pTemplate="list" let-issues>
-      <div class="px-5 py-1">
+      <div>
         <div *ngFor="let issue of issues">
           <ng-container *ngIf="loading">
             <p-skeleton width="100%" height="100px" />

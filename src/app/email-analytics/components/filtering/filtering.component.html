@@ -1,4 +1,4 @@
-<p-panel class="flex flex-col mb-4" [toggleable]="true" toggler="header">
+<p-panel class="flex flex-col mb-4" [toggleable]="true" toggler="header" [collapsed]="true">
   <ng-template pTemplate="header">
     <div class="flex align-items-center gap-2">
       <span class="font-bold"> Filters </span>
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="min-w-40 min-h-10 grow">
-        <div class="mb-2">Date Range</div>
+        <div class="mb-2">Date Opened</div>
         <div class="w-full relative">
           <p-calendar
             [(ngModel)]="filterCriteria.selectedDate"  
@@ -117,7 +117,7 @@
         </div>
       </div>
 
-      <div class="min-w-40 min-h-10 grow">
+      <div class="min-w-40 min-h-10 grow hidden">
         <div class="mb-2">Other properties</div>
         <div class="w-full ">
           <input type="text" 
@@ -127,7 +127,7 @@
           />
         </div>
       </div>
-      <div class="min-w-40 min-h-10 grow flex items-center justify-center flex-wrap gap-2">
+      <div class="hidden min-w-40 min-h-10 grow flex items-center justify-center flex-wrap gap-2">
         <p-tag 
           (click)="clickImportant()"
           value="Critical"
