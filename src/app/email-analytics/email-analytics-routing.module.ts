@@ -10,32 +10,33 @@ import { IssueDataviewComponent } from './components/issue-dataview/issue-datavi
 import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
 import { conditionGuard } from './condition.guard';
 import {AuthorizationMessageComponent} from './components/authorization-message/authorization-message.component'
+import { AuthGuardService } from '../shared/shared-services/auth-guard.service';
 
 const routes: Routes = [
   {
     path: "dashboard1",
     component: DashboardComponent,
-    canActivate: [conditionGuard]
+    canActivate: [conditionGuard,AuthGuardService] 
   },
   {
     path: "dashboard2",
     component: Dashboard2Component,
-    canActivate: [conditionGuard]
+    canActivate: [conditionGuard,AuthGuardService]
   },
   {
     path: "summaries",
     component: SummaryCardsContainerComponent,
-    canActivate: [conditionGuard]
+    canActivate: [conditionGuard,AuthGuardService]
   },
   {
     path: "suggestions",
     component: SuggestionFilteringComponent,
-    canActivate: [conditionGuard]
+    canActivate: [conditionGuard,AuthGuardService]
   },
   {
     path: "settings",
     component: SettingsComponent,
-    canActivate: [conditionGuard]
+    canActivate: [conditionGuard,AuthGuardService]
   },
   { path: "authorization-component", 
     component: AuthorizationMessageComponent }

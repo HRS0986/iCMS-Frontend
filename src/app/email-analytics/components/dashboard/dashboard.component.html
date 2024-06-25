@@ -22,7 +22,7 @@
     <div class="stat-cards">
       <app-doughnut-chart title="Current Overall Sentiments" [chartData]="chartData" *ngIf="!isLoadingDC"/>
       <!-- <app-doughnut-chart title="Current Overall Sentiments" /> -->
-      <app-keyword-cloud title="Trending keywords" [keywords]="keywords"></app-keyword-cloud>
+     
       <app-wordcloud [words]="wordCloudData" title="Trending Topics" *ngIf="!isLoadingWCC"/>
     </div>
     <div class="stat-cards">
