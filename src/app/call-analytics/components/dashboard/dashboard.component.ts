@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from "primeng/api";
 import { CallAnalyticsService } from "../../services/call-analytics.service";
-import { CallStatistics, OverallCallStatusPercentages } from "../../types";
+import { CallStatistics, OverallCallStatusPercentages, SentimentPercentages } from "../../types";
+import { WordCloudItem } from "../../../shared/types";
+
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +13,12 @@ import { CallStatistics, OverallCallStatusPercentages } from "../../types";
 export class DashboardComponent implements OnInit{
 
   constructor(private callAnalyticsService: CallAnalyticsService) {
+    this.callAnalyticsService.getAllKeywords().then(response => {
+      this.myData = Object.entries(response.data).map(([word, weight]) => ({ word: word, weight: Number(weight) }));
+    }).catch(err => {
+      console.log(err);
+    }).finally(() => {
+    });
   }
 
   breadcrumbItems: MenuItem[] = [
@@ -18,23 +26,31 @@ export class DashboardComponent implements OnInit{
     {label: "Dashboard"}
   ];
 
+  isLoadingStatistics = true;
   callStatistics!: CallStatistics;
+  callSentiments!: SentimentPercentages;
+
+  myData: WordCloudItem[] = []
 
   ngOnInit() {
-    this.callStatistics = this.callAnalyticsService.getCallStatistics();
+
+    this.callAnalyticsService.getCallStatistics().then(response => {
+      console.log(response);
+      this.callStatistics = response.data;
+      this.isLoadingStatistics = false;
+    }).catch(err => {
+      console.log(err);
+    }).finally(() => {
+    });
+
+    this.callAnalyticsService.getSentimentPercentages().then(response => {
+      console.log(response);
+      this.callSentiments = response.data
+    }).catch(err => {
+      console.log(err);
+    }).finally(() => {
+    });
+
   }
-
-  calculateCallStatusPercentage(positive: number, negative: number, neutral: number): OverallCallStatusPercentages {
-    let total = positive + negative + neutral;
-    let negativePercentage = negative * 100 / total;
-    let positivePercentage = positive * 100 / total;
-    let neutralPercentage = neutral * 100 / total;
-
-    return {
-      positive: positivePercentage,
-      negative: negativePercentage,
-      neutral: neutralPercentage
-    }
-  }
-
+  protected readonly Math = Math;
 }

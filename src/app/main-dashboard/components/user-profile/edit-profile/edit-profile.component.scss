@@ -1,0 +1,59 @@
+.editProfile{
+  display: flex;
+  flex-direction: row;
+}
+.profileImage{
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  margin: 50px 50px 20px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+
+}
+.profileDetails{
+  margin-left: 60px;
+}
+.inputLabel{
+  margin-bottom: 5px;
+}
+.profileDetails > div {
+  margin-bottom: 20px;
+}
+.saveButton{
+  margin-top: 100px;
+}
+
+
+.profile-container {
+  margin-left:30px;
+  margin-top:30px;
+  display: flex;
+  height: 100vh;
+}
+
+.profile-image-wrapper {
+  margin-top:50px;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+
+
+
+
+

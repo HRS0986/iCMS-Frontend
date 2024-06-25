@@ -1,9 +1,8 @@
-# iCMS Frontend
+# iCMS Frontend - Social Media
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.0.
 
 ## Setup Development Environment
-
 
 1. Install Node.js v20.11.0
 2. Install Angular 17 (not 16) - `npm install -g @angular/cli`

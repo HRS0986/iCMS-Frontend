@@ -1,0 +1,56 @@
+<div class="flex flex-col">
+    <div>
+        <p-panel>
+            <div class="block">
+                <p class="text-faded1">Sentiment Shift thresholds</p>
+                <p class="text-faded">3 Custom thresholds</p>
+            </div>
+
+            <div class="card">
+                <p-table [value]="thresholds" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:5%">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                            </th>
+                            <th pSortableColumn="platform" style="width:30%">
+                                PLATFORM
+                                <p-sortIcon field="platform"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="alertType" style="width:20%">
+                                ALERT TYPE
+                                <p-sortIcon field="alertType"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="overallSentiment" style="width:30%">
+                                OVERALL SENTIMENT
+                                <p-sortIcon field="overallSentiment"></p-sortIcon>
+                            </th>
+                            <th style="width:15%">
+                                ACTION
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td>
+                                <p-tableCheckbox></p-tableCheckbox>
+                            </td>
+                            <td>{{ item.platform }}</td>
+                            <td>{{ item.alertType }}</td>
+                            <td>
+                                <span>{{ item.overallSentiment }}</span>
+                                <progress-bar [value]="item.min" [bufferValue]="item.max" [color]="item.color"></progress-bar>
+                            </td>
+                            <td>
+                                <div class="flex align-items-center justify-content-center gap-2">
+                                    <button pButton pRipple type="button" icon="pi pi-pencil" (click)="onRowEdit(item)" class="p-button-text p-button-Primary"></button>
+                                    <button pButton pRipple type="button" icon="pi pi-trash" (click)="onRowDelete(item)" class="p-button-text p-button-danger"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-panel>
+    </div>
+</div>

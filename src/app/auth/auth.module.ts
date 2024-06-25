@@ -5,20 +5,25 @@ import {AuthRoutingModule} from "./auth-routing.module";
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { SigninComponent } from './components/signin/signin.component';
+import { SignoutComponent } from './components/signout/signout.component';
 
 
 @NgModule({
   declarations: [
-    SignupComponent
+    SignupComponent,
+    SigninComponent,
+    SignoutComponent
   ],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    PasswordModule,
-    ButtonModule,
-    InputTextModule,
-    FormsModule
-  ]
+    imports: [
+        CommonModule,
+        AuthRoutingModule,
+        PasswordModule,
+        ButtonModule,
+        InputTextModule,
+        FormsModule,
+        ReactiveFormsModule
+    ]
 })
 export class AuthModule { }

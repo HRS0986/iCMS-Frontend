@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from "primeng/api";
+import { MenuItem, PrimeIcons } from "primeng/api";
 
 @Component({
   selector: 'app-sidenav',
@@ -14,34 +14,59 @@ export class SidenavComponent implements OnInit {
     this.logoutItems = [
       {
         label: "Logout",
-        icon: "pi pi-fw pi-external-link"
+        icon: "pi pi-fw pi-external-link",
+        routerLink: "auth/signout"
       }
     ];
 
     this.menuItems = [
       {
         label: 'Dashboard',
-        icon: 'pi pi-fw pi-th-large'
+        icon: 'pi pi-fw pi-th-large',
+        routerLink: "main-dashboard"
       },
       {
         label: 'Email Analytics',
         icon: 'pi pi-fw pi-envelope',
         items: [
           {
-            label: 'Dashboard',
-            routerLink: "email/dashboard",
+            label: 'Sentiments Dashboard',
+            routerLink: "email/dashboard1",
+            icon: 'pi pi-fw pi-desktop'
+          },
+          {
+            label: 'Insights Dashboard',
+            routerLink: "email/dashboard2",
             icon: 'pi pi-fw pi-th-large'
           },
           {
-            label: 'Email Filtering',
+            label: 'Email Issues',
+            routerLink: "email/issues",
+            icon: 'pi pi-fw pi-flag'
+          },
+          {
+            label: 'Email Suggestions',
+            routerLink: "email/suggestions",
+            icon: 'pi pi-fw pi-star'
+          },
+          {
+            label: 'Email Inquiries',
+            routerLink: "email/inquiries",
+            icon: 'pi pi-fw pi-question'
+          },
+          {
+            label: '(temp) Email Filtering',
+            routerLink: "email/filtering",
             icon: 'pi pi-fw pi-filter'
           },
           {
             label: 'Conversation Summaries',
+            routerLink: "email/summaries",
             icon: 'pi pi-fw pi-book'
           },
           {
             label: 'Settings',
+            routerLink: "email/settings",
             icon: 'pi pi-fw pi-sliders-h'
           }
         ]
@@ -62,12 +87,18 @@ export class SidenavComponent implements OnInit {
           },
           {
             label: 'Call Filtering',
+            routerLink: "call/filtering",
             icon: 'pi pi-fw pi-filter',
+          },
+          {
+            label: 'Call Operators',
+            routerLink: 'call/operators',
+            icon: 'pi pi-fw pi-users',
           },
           {
             label: 'Settings',
             routerLink: 'call/settings',
-            icon: 'pi pi-fw pi-sliders-h',
+            icon: 'pi pi-fw pi-sliders-h'
           }
         ]
       },
@@ -104,13 +135,21 @@ export class SidenavComponent implements OnInit {
           {
             label: 'Users',
             icon: 'pi pi-fw pi-users',
+            routerLink: 'app-settings/users'
           },
           {
             label: 'Permissions',
             icon: 'pi pi-fw pi-unlock',
+            // routerLink: 'app-settings/permissions'
+          },
+          {
+            label: 'Role Management',
+            icon: 'pi pi-fw pi-user-edit',
+            routerLink: 'app-settings/role-management'
           }
         ]
-      }
+      },
+
     ];
   }
 }

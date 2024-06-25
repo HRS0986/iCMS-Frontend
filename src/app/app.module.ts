@@ -13,6 +13,18 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CalendarModule } from 'primeng/calendar';
 import { DividerModule } from 'primeng/divider';
 import { SharedModule } from './shared/shared.module';
+import { MultiSelectModule } from 'primeng/multiselect';
+
+import { MessageService } from "primeng/api";
+import { HttpClientModule } from '@angular/common/http';
+import { MessagesModule } from 'primeng/messages';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { FormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -30,8 +42,20 @@ import { SharedModule } from './shared/shared.module';
     CalendarModule,
     DividerModule,
     SharedModule,
+    MultiSelectModule,
+    HttpClientModule,
+    MessagesModule,
+    ConfirmPopupModule,
+    ToastModule,
+    DialogModule,
+    AvatarModule,
+    AvatarGroupModule,
+    FormsModule,
+
   ],
-  providers: [],
+  
+  providers: [MessageService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

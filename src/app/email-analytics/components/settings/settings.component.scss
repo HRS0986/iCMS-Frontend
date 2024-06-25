@@ -1,0 +1,37 @@
+.rightBottom{
+    bottom: 9px;
+    right: 5px;
+}
+
+:host ::ng-deep{
+.short-input.p-element{
+    .p-inputnumber-input{
+        width: 50px;
+    }
+}
+.long-input.p-element {
+        width: 100%;
+}
+}
+
+.space-between{
+justify-content: space-between;
+}
+
+
+hr{
+    margin-top: 5%;
+    margin-bottom: 4%;
+}
+
+b{
+    font-size: 1.1em;
+}
+
+::ng-deep .p-multiselect {
+    width: 100%; /* Set the width to 100% or adjust it as needed */
+  }
+
+.wider-input {
+    width: 300px; /* Adjust the width as needed */
+}

@@ -7,6 +7,12 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class LineAreaChartComponent implements OnInit {
   @Input() title!: string;
+  @Input() labels!: string[];
+  @Input() positive_values!: any[];
+  @Input() neutral_values!: any[];
+  @Input() negative_values!: any[];
+
+
   data: any;
 
   options: any;
@@ -18,11 +24,11 @@ export class LineAreaChartComponent implements OnInit {
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: this.labels || ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
         {
           label: 'Positive',
-          data: [65, 59, 80, 81, 56, 55, 40],
+          data: this.positive_values || [65, 59, 80, 81, 56, 55, 40],
           fill: false,
           borderColor: documentStyle.getPropertyValue('--green-500'),
           tension: 0.4,
@@ -30,7 +36,7 @@ export class LineAreaChartComponent implements OnInit {
         },
         {
           label: 'Negative',
-          data: [28, 48, 40, 19, 86, 27, 90],
+          data: this.negative_values || [28, 48, 40, 19, 86, 27, 90],
           fill: false,
           borderColor: documentStyle.getPropertyValue('--red-500'),
           tension: 0.4,
@@ -38,7 +44,7 @@ export class LineAreaChartComponent implements OnInit {
         },
         {
           label: 'Neutral',
-          data: [12, 51, 62, 33, 21, 62, 45],
+          data: this.neutral_values || [12, 51, 62, 33, 21, 62, 45],
           fill: false,
           borderColor: documentStyle.getPropertyValue('--yellow-500'),
           tension: 0.4,

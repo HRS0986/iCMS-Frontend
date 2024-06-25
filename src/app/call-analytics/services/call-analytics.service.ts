@@ -1,38 +1,48 @@
 import { Injectable } from '@angular/core';
-import { CallStatistics } from "../types";
+import { ApiResponse, CallStatistics } from "../types";
+import { HttpClient } from "@angular/common/http";
+import { firstValueFrom } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CallAnalyticsService {
 
-  constructor() { }
+  API_ROOT = "http://127.0.0.1:8000";
 
-  public getCallStatistics(): CallStatistics {
-    return {
-      negativeCalls: 50,
-      neutralCalls: 100,
-      positiveCalls: 75,
-      totalCalls: 225,
-      averageCallTime: 10,
-      totalMinutes: 1523
-    };
+  constructor(private http: HttpClient) {
   }
 
-  public getOverallCallStatus() {
-
+  public getCallStatistics(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/call-statistics`));
   }
 
-  public getRecentCalls() {
-
-
+  public getSentimentPercentages(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/sentiment-percentages`));
   }
+
+  public getOperatorCallsOverTime(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/operator-calls-over-time`));
+  }
+
+  public getTopicsDistribution(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/topics-distribution`));
+  }
+
 
   public getOverallCallSentimentScore() {
 
   }
 
-  public getSentimentTimeDetails() {
+  public getSentimentTimeDetails(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/sentiment-time-details`));
+  }
 
+  public getCallSummary(call_id: string): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/call-summary/${call_id}`));
+  }
+
+  public getAllKeywords(): Promise<ApiResponse> {
+    return  firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/all-keywords`));
   }
 }

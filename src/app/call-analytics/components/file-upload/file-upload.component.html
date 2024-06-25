@@ -1,18 +1,49 @@
-<app-page-header pageTitle="Call Analytics Recordings" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems"
-    [showDatePicker]="false" [showButton]="false" />
+<app-page-header pageTitle="Call Recordings" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems"
+                 [showDatePicker]="false" [showButton]="false"/>
+
+<p-confirmDialog />
+<p-toast />
 <div class="flex flex-col">
-        <div class="card flex justify-content-center">
-            <p-fileUpload name="myfile[]" url="https://www.primefaces.org/cdn/api/upload.php"
-                [multiple]="true" accept=".mp3,.wav" >
-                <ng-template pTemplate="toolbar">
-                    <div class="py-3">Upload 3 Files</div>
-                </ng-template>
-                <ng-template let-file pTemplate="file">
-                    <div>Custom UI to display a file</div>
-                </ng-template>
-                <ng-template pTemplate="content" let-files>
-                    <div>Additional content.</div>
-                </ng-template>
-            </p-fileUpload>
+  <div class="card flex justify-content-center">
+    <p-fileUpload [multiple]="true" #callUpload accept=".mp3,.wav" name="myfile[]" url="https://www.primefaces.org/cdn/api/upload.php"
+                (onSelect)="onSelectFilesToUpload($event)" (onClear)="onCancel()" [customUpload]="true" (uploadHandler)="handleBeforeUpload($event)"  >
+      <ng-template pTemplate="toolbar">
+        <div class="py-3">Upload {{ selectedFilesCount }} Files</div>
+      </ng-template>
+      <ng-template let-file let-i="index" pTemplate="file">
+        <h5>{{ file.name }}</h5>
+        <div class="grid p-fluid">
+          <p-inputGroup [class]="isSubmitted && !descriptionList[i] ? 'mb-2':'mb-5'">
+            <input type="text" [class]="isSubmitted && !descriptionList[i] ? 'ng-invalid ng-dirty':''"  required pInputText [(ngModel)]="descriptionList[i]" placeholder="Description*">
+            <p-inputGroupAddon>
+              <i class="pi pi-book"></i>
+            </p-inputGroupAddon>
+          </p-inputGroup>
+            <p class="text-red-500 mt-0" [style.display]="isSubmitted && !descriptionList[i] ? '':'none'">Please enter description.</p>
+          <p-dropdown [(ngModel)]="operatorsList[i]" [class]="isSubmitted && !operatorsList[i] ? 'ng-invalid ng-dirty mb-2':'mb-5'" optionValue="operator_id" [options]="callOperators" optionLabel="name" placeholder="Select a call operator*"></p-dropdown>
+          <p class="text-red-500 mt-0" [style.display]="isSubmitted && !operatorsList[i] ? '':'none'">Please select an operator.</p>
+          <p-calendar [(ngModel)]="dateList[i]" [showTime]="true" [showIcon]="true" placeholder="Date"></p-calendar>
         </div>
+      </ng-template>
+
+      <ng-template pTemplate="content" let-files>
+        <div *ngIf="selectedFilesCount == 0">
+          <p>Select Files To Upload</p>
+        </div>
+      </ng-template>
+    </p-fileUpload>
+  </div>
 </div>
+
+<p-dialog header="Upload Success" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+  <p>
+    Your calls have been added for analyze. This process will tak some time. When analysis completed you will be notified.
+  </p>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Ok"
+      [text]="true"
+      severity="secondary"
+      (click)="visible = false" />
+  </ng-template>
+</p-dialog>

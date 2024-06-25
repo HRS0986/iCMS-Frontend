@@ -1,0 +1,32 @@
+<div class="changePassword">
+    <h4>Change Password</h4>
+    <div>
+      <div class="inputLabel">
+        <label for="currentpassword">Current Password</label>
+      </div>
+      <div>
+        <p-password id="currentpassword" [toggleMask]="true" [(ngModel)]="currentPassword"></p-password>
+      </div>
+    </div>
+  <div>
+    <div class="inputLabel">
+      <label for="newpassword">New Password</label>
+    </div>
+    <div>
+      <p-password id="newpassword" [toggleMask]="true" [(ngModel)]="newPassword"></p-password>
+    </div>
+  </div>
+  <div>
+    <div class="inputLabel">
+      <label for="confirmpassword">Confirm Password</label>
+    </div>
+    <div>
+      <p-password id="confirmpassword" [toggleMask]="true" [(ngModel)]="confirmPassword"></p-password>
+    </div>
+  </div>
+  <div class="updateButton">
+    <p-button label="Update" size="small" (click)="changePassword()"></p-button>
+  </div>
+</div>
+
+

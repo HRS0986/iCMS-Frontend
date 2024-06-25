@@ -1,0 +1,42 @@
+<div class="h-screen w-100vh flex justify-between">
+  <div class="logo-section h-screen flex justify-center items-center">
+    <div>
+      <div class="sentiview">
+        <p>SentiView</p>
+      </div>
+      <div class="overlay1">
+        <img [src]="Image.image" width="400px" height="400px">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section h-screen flex justify-center items-center">
+    <div>
+      <div class="signup">
+        <h2>Sign In</h2>
+      </div>
+      <form [formGroup]="loginForm">
+        <div class="mt-10">
+          <label>Organization Email:</label><br>
+          <div class="flex flex-col mt-4">
+            <input type="text" pInputText formControlName="email" [class]="getEmailError() == '' ? '':'ng-invalid ng-dirty'"/>
+            <span class="text-red-500">{{getEmailError()}}</span>
+          </div>
+        </div>
+        <div class="mt-7 mb-10">
+          <label>Password:</label><br>
+          <div class="flex flex-col mt-2">
+            <p-password [toggleMask]="true" formControlName="password" [feedback]="false" [class]="getPasswordError() == '' ? '':'ng-invalid ng-dirty'"/>
+            <span class="text-red-500">{{getPasswordError()}}</span>
+          </div>
+        </div>
+        <div class="flex">
+          <p-button label="Sign In" (onClick)="signIn()" class="w-full"></p-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+

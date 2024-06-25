@@ -1,70 +1,81 @@
-<app-page-header pageTitle="Call Analytics Settings" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" />
+<app-page-header pageTitle="Call Analytics Settings" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems"/>
 <div class="flex flex-col">
-    <div>
-        <p-panel>
-            <p-tabView class="">
-                <p-tabPanel header="Notifications">
-                    <div class="flex flex-col">
-                        <form [formGroup] = "notifications" (ngSubmit)="onSubmit()">
-                            <div class="w-full flex justify-center mb-10">
-                                <img src="./assets/call/rating.png" alt="Image">
-                            </div>
-                            <div class="flex gap-2 space-between">
-                                <div class="flex align-items-center gap-1 text-sm">
-                                    <p-checkbox name="notify" formControlName="bellowNotify" value="notify"
-                                        label="Notify me when the sentiment score is below the value: "></p-checkbox>
-                                    <p-inputNumber [disabled]="true" class="short-input" formControlName="bellowScore" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
-                                        [max]="10">
-                                    </p-inputNumber>
-                                </div>
-                                <div class="flex align-items-center gap-1 text-sm">
-                                    <p-checkbox name="notify" value="notify" formControlName="aboveNotify"
-                                        label="Notify when the sentiment score is above: "></p-checkbox>
-                                    <p-inputNumber [disabled]="true" class="short-input" formControlName="aboveScore" mode="decimal" [showButtons]="true"
-                                        inputId="minmax-buttons" [min]="-10" [max]="10"
-                                        ></p-inputNumber>
-                                </div>
+  <div>
+    <p-toast></p-toast>
+    <p-panel>
+      <div class="flex flex-col">
+        <form [formGroup]="notificationsSettingsForm" (ngSubmit)="onSubmit()">
+          <div class="flex gap-20 px-10">
+            <div class="w-1/2">
+              <p-divider align="left" type="solid">
+                <b>Sentiment Shift Configuration</b>
+              </p-divider>
+              <div class="flex align-items-center gap-1 text-sm justify-between mb-3">
+                <p-checkbox name="notify" (onChange)="onChangeBelowScore($event)"
+                            formControlName="bellowNotify" value="true"
+                            label="Notify me when the sentiment score is below the value: "></p-checkbox>
+                <p-inputNumber [showButtons]="true" class="short-input"
+                               formControlName="bellowScore" mode="decimal" inputId="minmax-buttons"
+                               [min]="-10" [max]="10">
+                </p-inputNumber>
+              </div>
+              <div class="flex align-items-center gap-1 text-sm justify-between mb-10">
+                <p-checkbox name="notify" (onChange)="onChangeAboveScore($event)" value="true"
+                            formControlName="aboveNotify"
+                            label="Notify when the sentiment score is above: "></p-checkbox>
+                <p-inputNumber [disabled]="true" class="short-input" formControlName="aboveScore"
+                               mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
+                               [max]="10"></p-inputNumber>
+              </div>
 
-                            </div>
-                            <div class="w-full p-fluid">
-                                <p>Special Keywords To Send Notifications</p>
-                                <p-chips formControlName="keywords"></p-chips>
-                            </div>
-                            <div class="flex items-center justify-between w-1/2">
-                                <p>Email Notifications</p>
-                                <p-inputSwitch formControlName="checked"></p-inputSwitch>
-                            </div>
-                            <div class="w-full p-fluid mb-5">
-                                <p>Email Notifications Receivers</p>
-                                <p-chips formControlName="emails" [disabled]="!notifications.get('checked')?.value"></p-chips>
-                            </div>
-                            <div class="flex justify-end">
-                                <button pButton pRipple label="Update" class="p-button-success"></button>
-                            </div>
-                        </form>
-                    </div>
-                    
-                </p-tabPanel>
-                <p-tabPanel header="Call Integration">
-                    <div class="min-h-full">
-                        <form [formGroup]="callIntegration" (ngSubmit)="onSubmitCall()">
-                            <div class="mb-5">
-                                <p>Call Directory URL</p>
-                                <input type="text" class="long-input" pInputText formControlName="dir" />
-                            </div>
-                            <div class="flex align-items-center gap-3">
-                                <p-checkbox name="autoDelete" formControlName="autoDeleteStatus" value="autoDelete" label="Automatically Delete Calls After"></p-checkbox>
-                                <p-inputNumber class="short-input" formControlName="deleteAfter" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
-                                    [max]="10"></p-inputNumber>
-                                <p>Days</p>
-                            </div>
-                            <div class=" flex justify-end">
-                                <button pButton pRipple label="Update" class="p-button-success"></button>
-                            </div>
-                        </form>
-                    </div>
-                </p-tabPanel>
-            </p-tabView>
-        </p-panel>
-    </div>
+              <p-divider align="left" type="solid">
+                <b>Keywords Configuration</b>
+              </p-divider>
+
+              <div class="flex items-center justify-between ">
+                <p>Enable Keywords Notifications</p>
+                <p-inputSwitch formControlName="enableKeywordsNotification"/>
+              </div>
+
+              <div class="w-full p-fluid">
+                <p>Special Keywords To Send Notifications</p>
+                <p-chips formControlName="keywords" [disabled]="!notificationsSettingsForm.get('enableKeywordsNotification')?.value"/>
+              </div>
+
+            </div>
+            <div class="w-1/2">
+              <p-divider align="left" type="solid">
+                <b>Topics Configuration</b>
+              </p-divider>
+
+              <div class="w-full p-fluid mb-10">
+                <p>Topics to categorize calls</p>
+                <p-chips formControlName="topics"/>
+              </div>
+
+              <p-divider align="left" type="solid">
+                <b>Notification Channels Configuration</b>
+              </p-divider>
+
+              <div class="flex items-center justify-between ">
+                <p>Send Push Notifications</p>
+                <p-inputSwitch formControlName="enablePushNotification"/>
+              </div>
+              <div class="flex items-center justify-between ">
+                <p>Send Email Notifications</p>
+                <p-inputSwitch formControlName="enableEmailNotification"/>
+              </div>
+              <div class="w-full p-fluid mb-5">
+                <p>Email Notifications Receivers</p>
+                <p-chips formControlName="emails" [disabled]="!notificationsSettingsForm.get('enableEmailNotification')?.value"/>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end px-10 py-5">
+            <button pButton pRipple label="Update Settings" class="p-button-primary"></button>
+          </div>
+        </form>
+      </div>
+    </p-panel>
+  </div>
 </div>

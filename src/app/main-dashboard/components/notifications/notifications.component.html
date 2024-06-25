@@ -1,0 +1,14 @@
+<app-page-header
+  pageTitle="Notifications"
+  class="w-full h-fit"
+  [breadcrumbItems]="breadcrumbItems"
+/>
+<div>
+    <p-tabView [(activeIndex)]="activeIndex" (click)="clickTab($event)">
+      <p-tabPanel *ngFor="let tab of tabs" [header]="tab.title" >
+        <app-read-notifications *ngIf="tab.title === 'Read'" [title]="tab.title" ></app-read-notifications>
+        <app-unread-notifications *ngIf="tab.title === 'Unread'" [title]="tab.title"></app-unread-notifications>
+    </p-tabPanel>
+  </p-tabView>
+</div>
+
