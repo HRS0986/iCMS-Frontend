@@ -1,0 +1,13 @@
+<!-- <p-panel class="flex flex-col text-center justify-center w-[300px]">
+  <p class="font-medium text-xl">Sentiment Score</p>
+  <p class="font-bold text-3xl mt-0 mb-0">7.5</p>
+  <div echarts [options]="option"></div>
+</p-panel> -->
+
+<div
+  class="flex flex-col gap-x-3 justify-center items-center overflow-hidden border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150 w-auto absolute inset-0 p-2"
+  onclick="alert('You clicked me!')"
+  tooltip="New issues in the last 24 hours"
+>
+  <div class="place-self-center -mt-20 w-32 h-32 md:w-52 md:h-52" echarts [options]="options"></div>
+</div>

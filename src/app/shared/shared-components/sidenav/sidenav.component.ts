@@ -15,7 +15,7 @@ export class SidenavComponent implements OnInit {
       {
         label: "Logout",
         icon: "pi pi-fw pi-external-link",
-        routerLink: "auth/signup"
+        routerLink: "auth/signout"
       }
     ];
 
@@ -30,12 +30,32 @@ export class SidenavComponent implements OnInit {
         icon: 'pi pi-fw pi-envelope',
         items: [
           {
-            label: 'Dashboard',
-            routerLink: "email/dashboard",
+            label: 'Sentiments Dashboard',
+            routerLink: "email/dashboard1",
+            icon: 'pi pi-fw pi-desktop'
+          },
+          {
+            label: 'Insights Dashboard',
+            routerLink: "email/dashboard2",
             icon: 'pi pi-fw pi-th-large'
           },
           {
-            label: 'Email Filtering',
+            label: 'Email Issues',
+            routerLink: "email/issues",
+            icon: 'pi pi-fw pi-flag'
+          },
+          {
+            label: 'Email Suggestions',
+            routerLink: "email/suggestions",
+            icon: 'pi pi-fw pi-star'
+          },
+          {
+            label: 'Email Inquiries',
+            routerLink: "email/inquiries",
+            icon: 'pi pi-fw pi-question'
+          },
+          {
+            label: '(temp) Email Filtering',
             routerLink: "email/filtering",
             icon: 'pi pi-fw pi-filter'
           },

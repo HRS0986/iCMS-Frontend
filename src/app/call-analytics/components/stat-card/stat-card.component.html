@@ -1,9 +1,8 @@
-<p-panel class="flex w-[280px] mb-4">
+<p-panel class="flex w-[280px] mb-4" *ngIf="!isLoading">
+    <img src="./assets/{{imgPath}}" class="self-center w-[40px] h-[40px]"/>
 
-  <img src="./assets/{{imgPath}}" class="self-center w-[40px] h-[40px]"/>
-
-  <div class="mt-1 mb-1">
-    <p class="font-bold text-2xl mt-1 mb-1">{{ title }}</p>
-    <p class="text-sm text-gray-500 font-medium">{{ subTitle }}</p>
-  </div>
+    <div class="mt-1 mb-1">
+      <p class="font-bold text-2xl mt-1 mb-1">{{ title }}</p>
+      <p class="text-sm text-gray-500 font-medium">{{ subTitle }}</p>
+    </div>
 </p-panel>

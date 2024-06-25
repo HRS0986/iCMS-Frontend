@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-horizontal-bar-chart',
   templateUrl: './horizontal-bar-chart.component.html',
   styleUrl: './horizontal-bar-chart.component.scss'
 })
-export class HorizontalBarChartComponent {
+export class HorizontalBarChartComponent implements OnInit {
   data: any;
 
   options: any;
@@ -32,10 +32,14 @@ export class HorizontalBarChartComponent {
     };
 
     this.options = {
-      indexAxis: 'y',
+      indexAxis: 'x',
       maintainAspectRatio: false,
-      aspectRatio: 1,
+      aspectRatio: 0.8,
       plugins: {
+        tooltip: {
+          mode: 'index',
+          intersect: false
+        },
         legend: {
           display: false
         },

@@ -1,0 +1,97 @@
+  <div class="flex justify-between items-center px-3 mb-5" [style.display]="callRecordings.length == 0 ? 'block' : 'none'">
+    <img src="./assets/call/no-search.png" alt="No results found" width="300">
+  </div>
+
+  <div class="text-center text-gray-600 mt-4" [style.display]="visible ? 'block' : 'none'">
+    <p>Search result will display here</p>
+  </div>
+
+  <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of callRecordings">
+    <div class="flex justify-between" style="width:60%;">
+      <div class="flex items-center gap-8">
+        <img src="./assets/call/phone.png" width="25" height="25">
+        <div class="flex flex-col justify-start">
+          <p class="mb-0 mt-0 text-start">{{ call.description }}</p>
+          <p class="mb-0 mt-0 text-gray-500 w-fit text-xs">{{ call.date }}</p>
+        </div>
+      </div>
+      <p-tag [style]="{'background': statusColors[call.sentiment], 'width': '65px'}" value="{{call.sentiment}}"></p-tag>
+    </div>
+    <div class="flex gap-3">
+      <p-button icon="pi pi-bars" (click)="showDialogSummary(call)" severity="success" size="small"
+                [outlined]="true"></p-button>
+      <p-button icon="pi pi-play" (click)="showDialogPlay(call)" [outlined]="true" size="small"
+      ></p-button>
+      <p-button icon="pi pi-trash" (click)="showDialogConfirmation(call)" severity="danger" size="small"
+                [outlined]="true"></p-button>
+    </div>
+  </div>
+
+
+  <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleSummary" header="Call Summary" [modal]="true"
+            [(visible)]="visibleSummary" [style]="{width: '30vw', height: 'auto'}">
+    <div class="flex justify-between items-center px-3 mb-5">
+      <!-- Use selectedCall only when it is defined -->
+      <div class="flex items-center gap-8" *ngIf="selectedCall">
+        <img src="./assets/call/phone.png" width="25" height="25">
+        <div class="flex flex-col justify-start">
+          <p class="mb-0 mt-0">{{ selectedCall.description }}</p>
+          <p class="mb-0 mt-0 text-gray-500 w-fit text-xs">{{ selectedCall.date }}</p>
+        </div>
+      </div>
+      <div>
+        <!-- Use call.status since selectedCall is not in the ngFor context -->
+        <p-tag [style]="{'background': statusColors[selectedCall.sentiment], 'width': '65px'}"
+               value="{{ selectedCall.sentiment }}"></p-tag>
+      </div>
+    </div>
+    <p style="text-align: justify;"> {{ selectedCallSummary }} </p>
+    <div class="text-right">
+      <p-button label="Close" (click)="visibleSummary = false" icon="pi pi-times"></p-button>
+    </div>
+  </p-dialog>
+
+  <p-dialog [draggable]="false" [resizable]="false" *ngIf="visiblePlay" header="Play Call Recording"
+            [(visible)]="visiblePlay" [modal]="true" [style]="{width: '30vw', height: 'auto'}">
+    <div class="flex justify-between items-center px-3 mb-5 play">
+      <!-- Use selectedCall only when it is defined -->
+      <div class="flex items-center gap-8" *ngIf="selectedCall">
+        <img src="./assets/call/phone-record.png" width="25" height="25">
+        <div class="flex flex-col justify-start">
+          <p class="mb-0 mt-0 title">{{ selectedCall.description }}</p>
+          <p class="mb-0 mt-0 text-gray-500 w-fit text-xs date">{{ selectedCall.date }}</p>
+        </div>
+      </div>
+      <div>
+        <!-- Play Button -->
+        <i class="pi pi-play" style="color: wheat" (click)="playAudio(selectedCall.callUrl)" *ngIf="selectedCall"></i>
+        <!-- Pause Button -->
+        <i class="pi pi-pause" style="color: wheat" (click)="pauseAudio()"></i>
+        <!-- Resume Button -->
+        <i class="pi pi-play" style="color: wheat" (click)="resumeAudio()" *ngIf="audioPosition !== null"></i>
+        <!-- Volume Up Button -->
+        <i class="pi pi-volume-up" style="color: wheat" (click)="increaseVolume()"></i>
+      </div>
+      <!-- Timeline Indicator -->
+
+    </div>
+    <div class="timeline-container">
+      <progress [value]="currentTime" [max]="selectedCall.callUrl" class="timeline"></progress>
+    </div>
+    <p class="font-medium text-lg text-start">Transcript</p>
+    <p style="text-align: justify;"> {{ selectedCall.transcription }} </p>
+    <div class="text-right">
+      <p-button label="Close" (click)="visiblePlay = false" icon="pi pi-times"></p-button>
+    </div>
+  </p-dialog>
+
+  <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleConfirmation" header="Confirmation" [modal]="true"
+            [(visible)]="visibleConfirmation" [style]="{width: '30vw', height: 'auto'}">
+    <p style="text-align: justify;">
+      Are you sure you want to Delete this Call Recording?
+    </p>
+    <div class="text-right">
+      <p-button label="No" (click)="visibleConfirmation = false"></p-button>
+      <p-button label="Yes" (click)="onConfirmDelete(selectedCall.call_id)" styleClass="p-button-danger"></p-button>
+    </div>
+  </p-dialog>

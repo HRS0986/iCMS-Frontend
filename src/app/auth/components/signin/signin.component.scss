@@ -1,0 +1,53 @@
+.sentiview {
+  color: #ffffff;
+  margin-top: 100px;
+  margin-left: 195px;
+  font-size: 35px;
+}
+
+.signup {
+  margin-left: 160px;
+  margin-top: 40px;
+}
+
+.logo-section {
+  background-color: #6a8ac5;
+  width: 50vw;
+}
+
+.form-section {
+  background-color: #ffffff;
+  width: 50vw;
+}
+
+.already {
+  color: #6b7280;
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 10px;
+  margin-left: 125px;
+}
+
+.right a {
+  color: #6a8ac5;
+}
+
+.overlay1 {
+  margin-left: 70px;
+  margin-top: 0;
+}
+
+:host ::ng-deep {
+  .p-password {
+    margin-top: 0.5rem;
+    width: 410px;
+  }
+
+  .p-inputtext {
+    width: 410px;
+  }
+
+  .p-button {
+    width: 410px;
+  }
+}

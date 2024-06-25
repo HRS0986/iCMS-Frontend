@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Message } from 'primeng/api';
-// import { NotificationService } from '../notification-service/notification.service';
-import {NotificationService} from "../../../services/notification.service"
+import { NotificationService } from '../../../services/notification.service';
 import { OnInit } from '@angular/core';
 import { timer } from 'rxjs';
 
@@ -21,10 +20,10 @@ export class ReadNotificationsComponent implements OnInit {
   {}
 
   ngOnInit(): void {
-    timer(0, this.refreshTime).subscribe(() => {
-      // this.readNotification();
-      // this.updateOldNotificationsAsRead();
-    });
+    // timer(0, this.refreshTime).subscribe(() => {
+    //   this.readNotification();
+    //   this.updateOldNotificationsAsRead();
+    // });
   }
 
 
@@ -56,11 +55,7 @@ export class ReadNotificationsComponent implements OnInit {
         this.readnotifications = [{severity: "success", summary: "No Notifications", detail: "Empty" }];
         this. emptyRead = false
       }
-        // Update the Read flag
       },
-      (error) => {
-        console.error('Error fetching notifications: ', error);
-      }
 
     );
   }
@@ -76,14 +71,10 @@ export class ReadNotificationsComponent implements OnInit {
       if (existingNotificationIndex === -1) {
         this.refreshTime = 1000;
         // If the notification doesn't exist, mark it as unread
-        console.log(readNotification.id);
         this.notificationService.updateReadNotifications({"id": readNotification.id}).subscribe(
           (response) => {
-            console.log('Notification marked as unread successfully:', response);
+            
           },
-          (error) => {
-            console.error('Error marking notification as unread:', error);
-          }
         );
       }
       else{
