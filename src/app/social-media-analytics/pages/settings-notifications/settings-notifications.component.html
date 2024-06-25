@@ -2,13 +2,39 @@
   <div class="panel-wrapper mb-5">
     <p-panel>
       <h3>Sentiment Shift Alert Configuration</h3>
-      <form [formGroup]="notificationsSettingsFormSentiment" (ngSubmit)="onSubmitsentimentshigtcongif()">
+      <form
+        [formGroup]="notificationsSettingsFormSentiment"
+        (ngSubmit)="onSubmitsentimentshigtcongif()"
+      >
         <div class="input-sections">
           <div class="inputsection">
             <div class="tag">Platform:</div>
             <div class="full-width-dropdown">
-              <p-dropdown [options]="socialMediaPlatforms" formControlName="platform" optionLabel="name"
-                [showClear]="true" placeholder="Select a Platform"></p-dropdown>
+              <p-dropdown
+                [options]="platforms"
+                [(ngModel)]="selectedPlatform"
+                formControlName="platform"
+                optionLabel="name"
+                [showClear]="true"
+                placeholder="Select a Platform"
+                [style]="{ width: '100%' }"
+              >
+                <ng-template pTemplate="selectedItem">
+                  <div
+                    class="flex align-items-center gap-2"
+                    *ngIf="selectedPlatform"
+                  >
+                    <img [src]="selectedPlatform.icon" style="width: 20px" />
+                    <div>{{ selectedPlatform.name }}</div>
+                  </div>
+                </ng-template>
+                <ng-template let-platform pTemplate="item">
+                  <div class="flex align-items-center gap-2">
+                    <img [src]="platform.icon" style="width: 20px" />
+                    <div>{{ platform.name }}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
             </div>
           </div>
         </div>
@@ -18,108 +44,242 @@
           <img src="./assets/call/rating.png" alt="Image" style="width: 50%" />
           <span style="color: rgba(20, 24, 235, 0.877)">+10</span>
         </div>
-        <div class="flex justify-center mb-5 mt-5">
-          <!-- <div class="w-1/2">
-              <p-slider [(ngModel)]="rangeValues" [range]="true"></p-slider>
-            </div>  -->
-        </div>
+
         <div class="flex gap-2 space-between mb-10">
           <div class="flex align-items-center gap-1 text-sm">
-            <p-checkbox name="notify" value="false" formControlName="bellowNotify"
-              label="Notify me when the sentiment score is below the value: "></p-checkbox>
-            <p-inputNumber class="short-input" formControlName="bellowScore" mode="decimal" [showButtons]="true"
-              inputId="minmax-buttons" [min]="-10" [max]="10"></p-inputNumber>
+            <p-checkbox
+              name="notify"
+              value="false"
+              formControlName="bellowNotify"
+              label="Notify me when the sentiment score is below the value: "
+            ></p-checkbox>
+            <p-inputNumber
+              class="short-input"
+              formControlName="bellowScore"
+              mode="decimal"
+              [showButtons]="true"
+              inputId="minmax-buttons"
+              [min]="-10"
+              [max]="10"
+            ></p-inputNumber>
           </div>
           <div class="flex align-items-center gap-1 text-sm">
-            <p-checkbox name="notify" value="false" formControlName="aboveNotify"
-              label="Notify when the sentiment score is above: "></p-checkbox>
-            <p-inputNumber class="short-input" formControlName="aboveScore" mode="decimal" [showButtons]="true"
-              inputId="minmax-buttons" [min]="-10" [max]="10"></p-inputNumber>
+            <p-checkbox
+              name="notify"
+              value="false"
+              formControlName="aboveNotify"
+              label="Notify when the sentiment score is above: "
+            ></p-checkbox>
+            <p-inputNumber
+              class="short-input"
+              formControlName="aboveScore"
+              mode="decimal"
+              [showButtons]="true"
+              inputId="minmax-buttons"
+              [min]="-10"
+              [max]="10"
+            ></p-inputNumber>
           </div>
         </div>
+
         <div class="input-sections">
           <div class="inputsection">
             <div class="tag">Alert Type:</div>
             <div class="full-width-dropdown">
-              <p-dropdown [options]="alertTypes" formControlName="alertType" optionLabel="name" [showClear]="true"
-                placeholder="Select an Alert Type"></p-dropdown>
+              <p-dropdown
+                [options]="notificationTypes"
+                formControlName="alertType"
+                [(ngModel)]="selectedNotificationType"
+                optionLabel="name"
+                [showClear]="true"
+                placeholder="Select an Alert Type"
+              >
+                <ng-template pTemplate="selectedItem">
+                  <div
+                    class="flex align-items-center gap-2"
+                    *ngIf="selectedNotificationType"
+                  >
+                    <img
+                      [src]="selectedNotificationType.icon"
+                      style="width: 20px"
+                    />
+                    <div>{{ selectedNotificationType.name }}</div>
+                  </div>
+                </ng-template>
+                <ng-template let-notificationType pTemplate="item">
+                  <div class="flex align-items-center gap-2">
+                    <img [src]="notificationType.icon" style="width: 20px" />
+                    <div>{{ notificationType.name }}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
             </div>
           </div>
         </div>
 
         <div class="flex justify-end mt-10">
-          <button pButton pRipple label="Set Threshold" class="p-button-primary" type="submit"></button>
+          <button
+            pButton
+            pRipple
+            label="Set Threshold"
+            class="p-button-primary"
+            type="submit"
+          ></button>
         </div>
       </form>
     </p-panel>
   </div>
+
   <div class="panel-wrapper mb-5">
     <p-panel>
-      <h3>Keyword Alert Configeraton</h3>
-      <form [formGroup]="notificationsSettingsFormKeywordAlert" (ngSubmit)="onSubmitKeywordConfig()">
+      <h3>Keyword Alert Configuration</h3>
+      <form
+        [formGroup]="notificationsSettingsFormKeywordAlert"
+        (ngSubmit)="onSubmitKeywordConfig()"
+      >
         <div class="mid-section">
           <div class="input-sections">
             <div class="inputsection">
               <div class="tag">Platform:</div>
               <div class="full-width-dropdown">
-                <p-dropdown [options]="socialMediaPlatforms" [(ngModel)]="selectedPlatform" optionLabel="name"
-                  [showClear]="true" placeholder="Select a Platform"></p-dropdown>
+                <p-dropdown
+                  [options]="platforms"
+                  [(ngModel)]="selectedPlatform"
+                  formControlName="platform"
+                  optionLabel="name"
+                  [showClear]="true"
+                  placeholder="Select a Platform"
+                >
+                  <ng-template pTemplate="selectedItem">
+                    <div
+                      class="flex align-items-center gap-2"
+                      *ngIf="selectedPlatform"
+                    >
+                      <img [src]="selectedPlatform.icon" style="width: 20px" />
+                      <div>{{ selectedPlatform.name }}</div>
+                    </div>
+                  </ng-template>
+                  <ng-template let-platform pTemplate="item">
+                    <div class="flex align-items-center gap-2">
+                      <img [src]="platform.icon" style="width: 20px" />
+                      <div>{{ platform.name }}</div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
               </div>
             </div>
+
             <div class="inputsection">
               <div class="tag">Keywords:</div>
               <div class="full-width">
                 <div class="card p-fluid">
-                  <p-chips [(ngModel)]="values"></p-chips>
+                  <p-chips
+                    id="keyword-chips"
+                    [(ngModel)]="keywordsChips"
+                    formControlName="keywords"
+                  ></p-chips>
                 </div>
               </div>
             </div>
+
             <div class="inputsection">
               <div class="tag">Alert Type:</div>
               <div class="full-width-dropdown">
-                <p-dropdown [options]="alertTypes" [(ngModel)]="selectedAlertType" optionLabel="name" [showClear]="true"
-                  placeholder="Select an Alert Type"></p-dropdown>
+                <p-dropdown
+                  [options]="notificationTypes"
+                  formControlName="alertType"
+                  [(ngModel)]="selectedNotificationType"
+                  optionLabel="name"
+                  [showClear]="true"
+                  placeholder="Select an Alert Type"
+                >
+                  <ng-template pTemplate="selectedItem">
+                    <div
+                      class="flex align-items-center gap-2"
+                      *ngIf="selectedNotificationType"
+                    >
+                      <img
+                        [src]="selectedNotificationType.icon"
+                        style="width: 20px"
+                      />
+                      <div>{{ selectedNotificationType.name }}</div>
+                    </div>
+                  </ng-template>
+                  <ng-template let-notificationType pTemplate="item">
+                    <div class="flex align-items-center gap-2">
+                      <img [src]="notificationType.icon" style="width: 20px" />
+                      <div>{{ notificationType.name }}</div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
               </div>
             </div>
           </div>
+
           <div class="flex justify-end mt-20">
-            <button pButton pRipple label="Set Threshold" class="p-button-primary" type="submit"></button>
+            <button
+              pButton
+              pRipple
+              label="Set Threshold"
+              class="p-button-primary"
+              type="submit"
+            ></button>
           </div>
         </div>
       </form>
     </p-panel>
   </div>
+
   <div class="panel-wrapper mb-5">
     <p-panel>
-      <h3>Notification Channels Configeration</h3>
-      <form [formGroup]="notificationsSettingsFormChannelConfig" (ngSubmit)="onSubmitChannelConfig()">
+      <h3>Notification Channels Configuration</h3>
+      <form
+        [formGroup]="notificationsSettingsFormChannelConfig"
+        (ngSubmit)="onSubmitChannelConfig()"
+      >
         <div class="latter-section">
           <div class="latter-section-top">
             <div class="sec left">
               <div class="tag">Dashboard Notifications</div>
               <div class="switch">
-                <p-inputSwitch></p-inputSwitch>
+                <p-inputSwitch
+                  formControlName="dashboardNotifications"
+                ></p-inputSwitch>
               </div>
             </div>
             <div class="sec left">
               <div class="tag">Email Notifications</div>
               <div class="switch">
-                <p-inputSwitch></p-inputSwitch>
+                <p-inputSwitch
+                  formControlName="emailNotifications"
+                ></p-inputSwitch>
               </div>
             </div>
           </div>
+
           <div class="latter-inputsection">
             <div class="latter-tag" style="margin: 2rem 0 2rem 0">
               Emails to send Notifications to
             </div>
             <div class="full-width">
               <div class="card p-fluid">
-                <p-chips [(ngModel)]="values"></p-chips>
+                <p-chips
+                  id="email-chips"
+                  [(ngModel)]="NotificationChips"
+                  formControlName="notificationEmails"
+                ></p-chips>
               </div>
             </div>
           </div>
+
           <div class="flex justify-end mt-20">
-            <button pButton pRipple label="Set Threshold" class="p-button-primary" type="submit"></button>
+            <button
+              pButton
+              pRipple
+              label="Set Threshold"
+              class="p-button-primary"
+              type="submit"
+            ></button>
           </div>
         </div>
       </form>

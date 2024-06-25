@@ -41,6 +41,8 @@ import { WordCloudSmComponent } from './components/word-cloud-topics/word-cloud-
 import { WordCloudSm2Component } from './components/word-cloud-keywords/word-cloud-keywords.component';
 import { CaCardsComponent } from './components/ca-cards/ca-cards.component';
 import { LineChartInstagramComponent } from './components/charts/line-chart-instagram/line-chart-instagram.component';
+import { ModalExportPIComponent } from './components/Modals/modal-export-pi/modal-export-pi.component';
+import { ModalAddNewCampaignComponent } from './components/Modals/modal-add-new-campaign/modal-add-new-campaign.component';
 
 
 @NgModule({
@@ -66,6 +68,7 @@ import { LineChartInstagramComponent } from './components/charts/line-chart-inst
     WordCloudSm2Component,
     CaCardsComponent,
     LineChartInstagramComponent
+    
   ],
   imports: [
     PanelModule,
@@ -94,6 +97,8 @@ import { LineChartInstagramComponent } from './components/charts/line-chart-inst
     TabViewModule,
     ChartModule,
     ButtonModule,
+    ModalExportPIComponent,
+    ModalAddNewCampaignComponent,
     NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
   ]
 })

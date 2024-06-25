@@ -9,12 +9,17 @@ import { SettingsApiService } from '../../services/settings-api.service';
   templateUrl: './settings-notifications.component.html',
   styleUrls: ['./settings-notifications.component.scss']
 })
-
 export class SettingsNotificationsComponent implements OnInit {
 
-  socialMediaPlatforms: any[] | undefined;
-  selectedPlatform: string | undefined;
-  values: string[] | undefined;
+  platforms: any[] = [];
+  selectedPlatform: any;
+
+  notificationTypes: any[] = [];
+  selectedNotificationType: any;
+
+  keywordsChips: string[] = [];
+  NotificationChips: string[] = [];
+
   rangeValues: number[] = [20, 80];
   alertTypes: AlertType[] = [
     { name: 'Email Notification' },
@@ -42,22 +47,26 @@ export class SettingsNotificationsComponent implements OnInit {
 
     this.notificationsSettingsFormKeywordAlert = this.fb.group({
       platform: ['', Validators.required],
-      keywords: [[]],
+      keywords: [[], Validators.required],
       alertType: ['', Validators.required]
     });
 
     this.notificationsSettingsFormChannelConfig = this.fb.group({
       dashboardNotifications: [false],
       emailNotifications: [false],
-      notificationEmails: [[]]
+      notificationEmails: [[], Validators.email]
     });
   }
 
   ngOnInit() {
-    this.socialMediaPlatforms = [
-      { name: 'Instagram' },
-      { name: 'Facebook' },
-      { name: 'Twitter' }
+    this.platforms = [
+      { name: 'Facebook', icon: 'assets/social-media/icons/facebook.png' },
+      { name: 'Instagram', icon: 'assets/social-media/icons/instargram.png' },
+      { name: 'Twitter', icon: 'assets/social-media/icons/twitter.png' },
+    ];
+    this.notificationTypes = [
+      { name: 'Email Notification', icon: 'assets/social-media/icons/email-notification.png' },
+      { name: 'APP Notification', icon: 'assets/social-media/icons/APP-notification.png' },
     ];
 
     this.notificationsSettingsFormSentiment.get('aboveNotify')?.valueChanges.subscribe(checked => {
@@ -78,8 +87,6 @@ export class SettingsNotificationsComponent implements OnInit {
   }
 
   onSubmitsentimentshigtcongif(): void {
-    console.log("onSubmitsentimentshigtcongif");
-    console.log(this.notificationsSettingsFormSentiment.value);
     if (this.notificationsSettingsFormSentiment.valid) {
       const formData = this.notificationsSettingsFormSentiment.value;
       this.settingsApiService.setSentimentShift(formData).subscribe(
@@ -96,10 +103,34 @@ export class SettingsNotificationsComponent implements OnInit {
   }
 
   onSubmitKeywordConfig(): void {
-    // Implement keyword alert configuration submission logic here
+    if (this.notificationsSettingsFormKeywordAlert.valid) {
+      const formData = this.notificationsSettingsFormKeywordAlert.value;
+      this.settingsApiService.setKeywordAlerts(formData).subscribe(
+        response => {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Keyword alert settings saved successfully!' });
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to save keyword alert settings.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'Please fill out the form correctly.' });
+    }
   }
 
   onSubmitChannelConfig(): void {
-    // Implement channel configuration submission logic here
+    if (this.notificationsSettingsFormChannelConfig.valid) {
+      const formData = this.notificationsSettingsFormChannelConfig.value;
+      this.settingsApiService.setCampaigns(formData).subscribe(
+        response => {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Channel config settings saved successfully!' });
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to save channel config settings.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Warning', detail: 'Please fill out the form correctly.' });
+    }
   }
 }

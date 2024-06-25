@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from "primeng/api";
 import { PiPageItem } from '../../models/platform-insights';
 import { PlatformInsightsApiService } from '../../services/platform-insights-api.service';
-
+import { ModalAddNewCampaignComponent } from '../../components/Modals/modal-add-new-campaign/modal-add-new-campaign.component';
 
 @Component({
   selector: 'app-pi',
