@@ -35,11 +35,12 @@ import { TabItemComponent } from './components/tab-item/tab-item.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
-import { LineChartSmComponent } from './components/charts/line-chart-sm/line-chart-sm.component';
+import { LineChartFacebookComponent } from './components/charts/line-chart-facebook/line-chart-facebook.component'
 import { GaugeChartComponent } from './components/charts/gauge-chart/gauge-chart.component';
 import { WordCloudSmComponent } from './components/word-cloud-topics/word-cloud-topics.component';
 import { WordCloudSm2Component } from './components/word-cloud-keywords/word-cloud-keywords.component';
 import { CaCardsComponent } from './components/ca-cards/ca-cards.component';
+import { LineChartInstagramComponent } from './components/charts/line-chart-instagram/line-chart-instagram.component';
 
 
 @NgModule({
@@ -60,10 +61,11 @@ import { CaCardsComponent } from './components/ca-cards/ca-cards.component';
     SettingsNotificationsComponent,
     SettingsThresholdsComponent,
     GaugeChartComponent,
-    LineChartSmComponent,
+    LineChartFacebookComponent,
     WordCloudSmComponent,
     WordCloudSm2Component,
-    CaCardsComponent
+    CaCardsComponent,
+    LineChartInstagramComponent
   ],
   imports: [
     PanelModule,
