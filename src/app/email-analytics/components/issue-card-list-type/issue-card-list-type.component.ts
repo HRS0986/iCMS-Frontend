@@ -1,11 +1,10 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Issue, IssuePopupData } from '../../interfaces/issues';
-import { format, longFormatters } from 'date-fns';
+import { format } from 'date-fns';
 
 import { IssueService } from '../../services/issue.service';
 import { UtilityService } from '../../services/utility.service';
-// import product interface
-// import product service
+
 
 @Component({
   selector: 'app-issue-card-list-type',
@@ -34,7 +33,7 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
 
   private updateDisplayedDates() {
     const now = new Date();
-    console.log(typeof this.issueData.dateOpened);
+    // console.log(typeof this.issueData.dateOpened);
     const openedDiff = now.getTime() - this.issueData.dateOpened.getTime();
     this.displayedOpenedDate = this.formatTimeDifference(openedDiff);
 
@@ -93,12 +92,10 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
     efficiency: 0,
     sentiment: 0,
     id: '',
-  }
+  };
+
   errorMessage: string = "";
   
-  lorem = "lorem ipsum dolor sit amet, consectetur adipiscing elit. sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-  originalHeader = this.lorem;
-  // originalHeader = "hello world";
   load() {
     // this is to load the additional data from BE
     this.loading = true;
@@ -106,10 +103,10 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
     this.issueService.getIssueAdditionalData(this.issueData.id).subscribe({
       next: data => {
         this.additionalData = data;
-        console.log(this.additionalData);
+        // console.log(this.additionalData);
         this.closed = this.additionalData.status === 'closed';
         this.newState = this.additionalData.status === 'new';
-        console.log(data);
+        // console.log(data);
         this.headerObj = this.utility.shortenString(this.additionalData.subject, 40);
         this.updateAdditionalDates();
         this.loading = false;

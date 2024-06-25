@@ -76,6 +76,12 @@ export class UtilityService {
    *   console.log(shortenedText.text);  // Output: "This is a..."
    */
   shortenString(input: string, maxLength: number=50): { text: string, isShortened: boolean } {
+    if (!input) { // Check for null, undefined, or empty string
+      return {
+        text: 'N/A',
+        isShortened: false
+      }
+    }
     if (input.length <= maxLength) {
         return {
             text: input,

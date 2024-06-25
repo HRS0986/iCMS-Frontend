@@ -1,5 +1,5 @@
 export interface Issue {
-    id: string;     // can be removed if not needed later
+    id: string;     
     issue: string;
     subject: string;
     status: 'new' | 'waiting' | 'update' | 'closed';
@@ -14,17 +14,13 @@ export interface Issue {
     efficiency?: number;
 }
 
-// export interface IssueAdditionalData {
-//     gibberish: string;  
-// }
-
 export interface PopupEmail {
     body: string;
     isClient: boolean;
     dateTime: Date;
 }
 export interface IssuePopupData {
-    id: string;     // can be removed if not needed later
+    id: string;    
     issue: string;
     subject: string;
     status: 'new' | 'waiting' | 'update' | 'closed';
@@ -45,12 +41,14 @@ export interface IssuePopupData {
     emails: PopupEmail[];
 }
 
-export interface IssueMetaDataResponse {
+export interface IssueDataResponse {
     issues: Issue[];
     total: number;
     skip: number;
     limit: number;
 }
+
+// END
 
 // BUG: REMOVE in Production (everything with name Mock___)
 export interface MockIssueMetadata {

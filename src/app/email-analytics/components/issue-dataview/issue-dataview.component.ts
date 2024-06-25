@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Issue, IssueMetaDataResponse } from '../../interfaces/issues';
+import { Issue, IssueDataResponse } from '../../interfaces/issues';
 import { DataViewLazyLoadEvent, DataView } from 'primeng/dataview';
 import { MenuItem } from 'primeng/api';
 import { IssueService } from '../../services/issue.service';
@@ -50,11 +50,9 @@ export class IssueDataviewComponent {
 
   loadIssues($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
-    // test
-    // this.issueService.getIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({});
-    //
+
     this.issueService.getIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
-      next: (response: IssueMetaDataResponse) => {
+      next: (response: IssueDataResponse) => {
         this.issueData = response.issues;
         this.issueData.forEach((issue: Issue) => {
           issue.dateOpened = new Date(issue.dateOpened);
@@ -65,7 +63,7 @@ export class IssueDataviewComponent {
             issue.dateClosed = new Date(issue.dateClosed);
           }
         });
-        console.log(response);
+        // console.log(response);
         this.totalRecords = response.total;
         this.loading = false;
       },
