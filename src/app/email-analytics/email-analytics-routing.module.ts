@@ -8,6 +8,7 @@ import { Dashboard2Component } from './components/dashboard2/dashboard2.componen
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
 import { IssueDataviewComponent } from './components/issue-dataview/issue-dataview.component';
 import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
+import { ThreadDataviewComponent } from './components/thread-dataview/thread-dataview.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: "summaries",
-    component: SummaryCardsContainerComponent
+    component: ThreadDataviewComponent
   },
   {
     path: "suggestions",

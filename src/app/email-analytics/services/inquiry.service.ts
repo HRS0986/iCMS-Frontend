@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, timeout } from 'rxjs/operators'; // BUG: remove in production
 import { Filter } from '../interfaces/filters';
 import { UtilityService } from './utility.service';
-
+import { SETTINGS, URLS, ERRORS } from './app.constants';
 @Injectable({
   providedIn: 'root'
 })
@@ -99,7 +99,7 @@ export class InquiryService {
   //       timeout(this.timeoutDuration),
   //       catchError(e => {
   //         if (e.name === 'TimeoutError') {
-  //           return throwError(() => new Error("Request timed out. Please try again later."));
+  //           return throwError(() => new Error(ERRORS.timeoutError));
   //         } else {
   //           return throwError(() => new Error("Unknown error has occured. Please try again later."));
   //         }
@@ -116,7 +116,7 @@ export class InquiryService {
   //       timeout(this.timeoutDuration),
   //       catchError(e => {
     //         if (e.name === 'TimeoutError') {
-      //           return throwError(() => new Error("Request timed out. Please try again later."));
+      //           return throwError(() => new Error(ERRORS.timeoutError));
       //         } else {
         //           return throwError(() => new Error("Unknown error has occured. Please try again later."));
         //         }
@@ -124,10 +124,6 @@ export class InquiryService {
         //     );   // BUG: remove map part in production
         // }
         
-  private timeoutDuration = 5000; // Timeout duration in milliseconds
-
-  baseUrl = 'http://127.0.0.1:8000'; // Base URL for the API
-  baseUrlv2 = 'http://127.0.0.1:8000/email/v2'; // Base URL for the API version 2
         
   /**
    * Retrieves inquiry data based on the provided filter criteria, skip, and limit.
@@ -139,14 +135,14 @@ export class InquiryService {
   getInquiryData(filterCriteria: Filter, skip: number, limit: number): Observable<InquiryDataResponse> {
     let params = this.utility.buildFilterParams(filterCriteria, limit, skip);
     return this.http
-    .get<InquiryDataResponse>(`${this.baseUrlv2}/inquiries?${params}`)
+    .get<InquiryDataResponse>(`${URLS.baseUrlv2}/inquiries?${params}`)
     .pipe(
-      timeout(this.timeoutDuration),
+      timeout(SETTINGS.timeoutDuration),
       catchError(e => {
         if (e.name === 'TimeoutError') {
-          return throwError(() => new Error("Request timed out. Please try again later."));
+          return throwError(() => new Error(ERRORS.timeoutError));
         } else {
-          return throwError(() => new Error("Unknown error has occured. Please try again later." + e));
+          return throwError(() => new Error(ERRORS.unknownFetchError));
         }
       })
     );
@@ -154,14 +150,14 @@ export class InquiryService {
 
   getInquiryAdditionalData(id: string): Observable<InquiryPopupData> {
     return this.http
-      .get<InquiryPopupData>(`${this.baseUrlv2}/inquiries/${id}`)
+      .get<InquiryPopupData>(`${URLS.baseUrlv2}/inquiries/${id}`)
       .pipe(
-        timeout(this.timeoutDuration),
+        timeout(SETTINGS.timeoutDuration),
         catchError(e => {
           if (e.name === 'TimeoutError') {
-            return throwError(() => new Error("Request timed out. Please try again later."));
+            return throwError(() => new Error(ERRORS.timeoutError));
           } else {
-            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+            return throwError(() => new Error(ERRORS.unknownFetchError));
           }
         })
       ); 

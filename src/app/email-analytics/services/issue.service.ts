@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, timeout } from 'rxjs/operators'; // BUG: remove in production
 import { Filter } from '../interfaces/filters';
 import { UtilityService } from './utility.service';
-
+import { ERRORS, SETTINGS, URLS } from './app.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -99,22 +99,18 @@ export class IssueService {
   //   }
   // }
   // ---
-  private timeoutDuration = 5000; // Timeout duration in milliseconds
-
-  baseUrl = 'http://127.0.0.1:8000'; // Base URL for the API
-  baseUrlv2 = 'http://127.0.0.1:8000/email/v2'; // Base URL for the API version 2
 
   getIssueData(filterCriteria: Filter, skip: number, limit: number): Observable<IssueDataResponse> {
     const params = this.utility.buildFilterParams(filterCriteria, limit, skip);
     return this.http
-      .get<IssueDataResponse>(`${this.baseUrlv2}/issues?${params}`)
+      .get<IssueDataResponse>(`${URLS.baseUrlv2}/issues?${params}`)
       .pipe(
-        timeout(this.timeoutDuration),
+        timeout(SETTINGS.timeoutDuration),
         catchError(e => {
           if (e.name === 'TimeoutError') {
-            return throwError(() => new Error("Request timed out. Please try again later."));
+            return throwError(() => new Error(ERRORS.timeoutError));
           } else {
-            return throwError(() => new Error("Unknown data service error has occured. Please try again later." + e.message + "\n" + e.name + "\n" + e.stack));
+            return throwError(() => new Error(ERRORS.unknownFetchError));
           }
         })
       );
@@ -125,12 +121,12 @@ export class IssueService {
   //     .get<MockIssueMetadataResponse>(`https://dummyjson.com/products/?limit=${limit}&skip=${skip}`)
   //     .pipe(
   //       map(this.convertToIssueResponse),
-  //       timeout(this.timeoutDuration),
+  //       timeout(SETTINGS.timeoutDuration),
   //       catchError(e => {
   //         if (e.name === 'TimeoutError') {
-  //           return throwError(() => new Error("Request timed out. Please try again later."));
+  //           return throwError(() => new Error(ERRORS.timeoutError));
   //         } else {
-  //           return throwError(() => new Error("Unknown data service error has occured. Please try again later." + e));
+  //           return throwError(() => new Error(ERRORS.unknownFetchError + e));
   //         }
   //       })
   //     );
@@ -141,10 +137,10 @@ export class IssueService {
   //     .get<MockIssueMetadataResponse>(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`)
   //     .pipe(
   //       map(this.convertToIssueResponse),
-  //       timeout(this.timeoutDuration),
+  //       timeout(SETTINGS.timeoutDuration),
   //       catchError(e => {
   //         if (e.name === 'TimeoutError') {
-  //           return throwError(() => new Error("Request timed out. Please try again later."));
+  //           return throwError(() => new Error(ERRORS.timeoutError));
   //         } else {
   //           return throwError(() => new Error("Unknown error has occured. Please try again later.\n" + e.message + "\n" + e.name + "\n" + e.stack));
   //         }
@@ -157,10 +153,10 @@ export class IssueService {
   //     .get<any>(`https://dummyjson.com/posts/${issueId}`)
   //     .pipe(
   //       map(this.convertToIssueAdditionalData),
-  //       timeout(this.timeoutDuration),
+  //       timeout(SETTINGS.timeoutDuration),
   //       catchError(e => {
   //         if (e.name === 'TimeoutError') {
-  //           return throwError(() => new Error("Request timed out. Please try again later."));
+  //           return throwError(() => new Error(ERRORS.timeoutError));
   //         } else {
   //           return throwError(() => new Error("Unknown error has occured. Please try again later."));
   //         }
@@ -169,14 +165,14 @@ export class IssueService {
   // }
   getIssueAdditionalData(issueId: string): Observable<IssuePopupData> {
     return this.http
-      .get<IssuePopupData>(`${this.baseUrlv2}/issues/${issueId}`)
+      .get<IssuePopupData>(`${URLS.baseUrlv2}/issues/${issueId}`)
       .pipe(
-        timeout(this.timeoutDuration),
+        timeout(SETTINGS.timeoutDuration),
         catchError(e => {
           if (e.name === 'TimeoutError') {
-            return throwError(() => new Error("Request timed out. Please try again later."));
+            return throwError(() => new Error(ERRORS.timeoutError));
           } else {
-            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+            return throwError(() => new Error(ERRORS.unknownFetchError));
           }
         })
       );
