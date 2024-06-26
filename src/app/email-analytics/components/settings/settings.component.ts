@@ -180,7 +180,7 @@ export class SettingsComponent implements OnInit{
         
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Criticality checking emails updated succesfuly!' });
   
-        this.sentimentShiftsForm.reset();
+        this.getCiticalityCheckingDataOfUser()
       }, error => {
         console.error('Error sending data:', error);
         this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
@@ -205,10 +205,11 @@ export class SettingsComponent implements OnInit{
         
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Overdue checking emails updated succesfuly!' });
   
-        this.sentimentShiftsForm.reset();
+        this.getOverdueIssuesCheckingDataOfUser()
+
       }, error => {
         console.error('Error sending data:', error);
-        this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
+        this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured when updating overdue issue checking emails' });
       });
 
     });
@@ -261,7 +262,8 @@ export class SettingsComponent implements OnInit{
   
       this.dataService.postSystemConfigData(formData).subscribe(response => {
         console.log('Notification configurations Data sent successfully:', response);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Overdue time updated succesfully!'});       
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Overdue time updated succesfully!'}); 
+        this.getSystemConfigDataForCompany()      
       }, error => {
         this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
         console.error('Error sending data:', error);
@@ -296,6 +298,7 @@ export class SettingsComponent implements OnInit{
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Email info edited succesfuly!' });
             // Assuming you want to reset the form after successful submission
             this.emailEdit.reset();
+            this.getReadingEmailAccountsForSettingsPages()
           }, error => {
             this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
             console.error('Error sending data:', error);
@@ -331,7 +334,7 @@ export class SettingsComponent implements OnInit{
             if (response.message == "intergration complete"){
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'New email integrated succesfuly!' });
               this.emailInetgration.reset();
-              this.currentReadingEmailAccountsForIntegrationPage.push({ address: newEmailName , nickname:newEmailNName});
+              this.getReadingEmailAccountsForSettingsPages()
             }else{
               this.isVisibleClientSecretValidation = true
             }
@@ -456,15 +459,8 @@ deleteReadingEmail(email: string): void {
 
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Reading email deleted succesfully' });
 
-      this.dataService.getData().subscribe((data: EmailAccWithNickName[]) => {
-        console.log(data)
-        this.currentReadingEmailAccountsForIntegrationPage = data// Array of dictionaries received from the backend
-        this.currentReadingEmailAccountsForNotificationPage = data.map(obj => ({ address: obj.address }));
-        console.log('currentReadingEmailAccountsForNotificationPage',this.currentReadingEmailAccountsForNotificationPage)
-      });
+      this.getReadingEmailAccountsForSettingsPages()
       
-      // Assuming you want to reset the form after successful submission
-      this.emailInetgration.reset();
     }, error => {
       console.error('Error sending data:', error);
       this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
@@ -484,8 +480,7 @@ deleteNotiSendingEmail(emailName: string): void {
     this.dataService.deleteNotiSendingEmail(token, sendingData).subscribe(response => {
       console.log('Data sent successfully:', response);
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Notification sedning email address deletd succesfuly' });
-      // Assuming you want to reset the form after successful submission
-    
+      this.getNotiChannelsDataForUser()
     }, error => {
       console.error('Error sending data:', error);
       this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
@@ -618,6 +613,7 @@ ngOnInit() {
   
   // getting the email ID for the newly integrating email account
   this.getNewIntergratingEmailID()
+
  }
 
 
@@ -627,18 +623,30 @@ ngOnInit() {
     this.dataService.getUserRoleData(token).subscribe((data: UserRoleResponse) => {
       console.log('user role data', data);
       this.isShowingAdminFeatures = data.isAdmin;
-    });
+    },
+    error => {
+      console.error('Error fetching user role data:', error);
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while fetching user role data.' });
+    }
+  );
   });
 }
 
 getReadingEmailAccountsForSettingsPages(): void {
   
-  this.dataService.getData().subscribe((data: EmailAccWithNickName[]) => {
-    console.log(data)
-    this.currentReadingEmailAccountsForIntegrationPage = data// Array of dictionaries received from the backend
-    this.currentReadingEmailAccountsForNotificationPage = data.map(obj => ({ address: obj.address }));
-    console.log('currentReadingEmailAccountsForNotificationPage',this.currentReadingEmailAccountsForNotificationPage)
-  });
+  this.dataService.getData().subscribe(
+    (data: EmailAccWithNickName[]) => {
+      console.log(data);
+      this.currentReadingEmailAccountsForIntegrationPage = data; // Array of dictionaries received from the backend
+      this.currentReadingEmailAccountsForNotificationPage = data.map(obj => ({ address: obj.address }));
+      console.log('currentReadingEmailAccountsForNotificationPage', this.currentReadingEmailAccountsForNotificationPage);
+    },
+    error => {
+      console.error('Error fetching reading email data:', error);
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while fetching reading email data.' });
+    }
+  );
+  
 
 }
 
@@ -659,7 +667,12 @@ getSentimentShiftDataOfUser(): void {
   
       this.sentimentShiftsForm.controls['lowerNotify'].setValue(data.is_lower_checking);
       this.sentimentShiftsForm.controls['upperNotify'].setValue(data.is_upper_checking);
-    });
+    },
+    error => {
+      console.error('Error fetching sentiment shifts data:', error);
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while fetching current sentiment shifts data.' });
+    }
+  );
   });
 
 }
@@ -674,7 +687,12 @@ getCiticalityCheckingDataOfUser(): void {
       this.criticalityForm.patchValue({
         emailAccsToCheckCriticality: this.currentCritiCheckingEmailAccountsofUser
       });
-    });
+    },
+    error => {
+      console.error('Error fetching criticality checking data:', error);
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while fetching criticality checking data.' });
+    }
+  );
   });
 }
 
@@ -687,9 +705,15 @@ getNewIntergratingEmailID(): void{
 
     this.newIntergratingEmailIDMessages = [{ severity: 'info', detail:  msgDetail}]
 
-  });
+  },
+  error => {
+    console.error('Error fetching new intergrating email id', error);
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while fetching new intergrating email id.' });
+  }
+);
   
 }
+
 getOverdueIssuesCheckingDataOfUser(): void{
   this.authService.getIdToken().subscribe((token: string) => {
     this.dataService.getOverdueIssuesCheckingEmails(token).subscribe((data: EmailAcc[]) => {
@@ -698,7 +722,12 @@ getOverdueIssuesCheckingDataOfUser(): void{
       this.overdueIssuesForm.patchValue({
         emailAccsToCheckOverdueIssues: this.currentOVerdueCheckingAccountsofUser
       });
-    });
+    },
+    error => {
+      console.error('Error fetching overdue issues checking data', error);
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while fetching overdue issues checking emails.' });
+    }
+  );
   });
 
 }
@@ -713,7 +742,12 @@ getNotiChannelsDataForUser(): void {
           emailChannelChecked: data.is_email_notifications,
           dashboardChannelChecked:data.is_dashboard_notifications
       });
-    });
+    },
+    error => {
+      console.error('Error fetching notification channels data', error);
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while fetching notification channels data.' });
+    }
+  );
   });
 }
 
@@ -725,7 +759,12 @@ getSystemConfigDataForCompany(): void {
     this.systemConfigurations.patchValue({
         overdueInterval: data.overdue_margin_time,
     });
-  });
+  },
+  error => {
+    console.error('Error fetching system config data', error);
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while fetching system config data.' });
+  }
+);
 }
 
 
