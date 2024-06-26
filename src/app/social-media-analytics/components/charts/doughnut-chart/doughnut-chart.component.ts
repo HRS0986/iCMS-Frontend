@@ -1,12 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-doughnut-chart',
+  selector: 'doughnut-chart',
   templateUrl: './doughnut-chart.component.html',
   styleUrl: './doughnut-chart.component.scss'
 })
+
 export class DoughnutChartComponent implements OnInit {
   @Input() title!: string;
+  @Input() percentages!: number[];
   data: any;
 
   options: any;
@@ -19,7 +21,7 @@ export class DoughnutChartComponent implements OnInit {
       labels: ['Negative', 'Positive', 'Neutral'],
       datasets: [
         {
-          data: [300, 50, 100],
+          data: this.percentages,
           backgroundColor: [
             documentStyle.getPropertyValue('--negative-color'),
             documentStyle.getPropertyValue('--positive-color'),
