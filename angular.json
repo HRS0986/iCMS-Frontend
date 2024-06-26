@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "iCMS-Frontend": {
+    "icms-frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -35,7 +35,9 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.json",
+              "src/firebase-messaging-sw.js"
             ],
             "styles": [
               "src/styles.scss"
@@ -59,7 +61,8 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,
@@ -73,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "iCMS-Frontend:build:production"
+              "buildTarget": "icms-frontend:build:production"
             },
             "development": {
-              "buildTarget": "iCMS-Frontend:build:development"
+              "buildTarget": "icms-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "iCMS-Frontend:build"
+            "buildTarget": "icms-frontend:build"
           }
         },
         "test": {
@@ -99,7 +102,9 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.json",
+              "src/firebase-messaging-sw.js"
             ],
             "styles": [
               "../src/styles.scss"

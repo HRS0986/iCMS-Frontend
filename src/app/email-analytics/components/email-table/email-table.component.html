@@ -21,7 +21,7 @@
         <th scope="col" id="topics-header">Products</th>
       </tr>
     </ng-template>
-    
+
     <ng-template pTemplate="body" let-row>
 
       <ng-container *ngIf="loading">
@@ -44,7 +44,7 @@
           <td>
             <p-tag
               value="{{ row.sentiment }}"
-              severity="{{ getSeverity(row.sentiment) }}"
+              [severity]="getSeverity(row.sentiment)"
             ></p-tag>
           </td>
           <td>

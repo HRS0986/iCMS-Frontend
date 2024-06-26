@@ -24,6 +24,7 @@ import { DialogModule } from 'primeng/dialog';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { FormsModule } from '@angular/forms';
+import { messaging } from "../configs/firebase.config";
 
 
 
@@ -50,11 +51,12 @@ import { FormsModule } from '@angular/forms';
     DialogModule,
     AvatarModule,
     AvatarGroupModule,
-    FormsModule,
-
+    FormsModule
   ],
-  
-  providers: [MessageService],
+  providers: [
+    MessageService,
+    { provide: 'messaging', useValue: messaging}
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

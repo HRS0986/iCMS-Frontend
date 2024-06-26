@@ -52,7 +52,7 @@ export class EmailTableComponent {
     this.loadEmails({ first: event.first, rows:this.rowsPerPage });
   }
 
-  getSeverity(sentiment: string): string {
+  getSeverity(sentiment: string): "success" | "info" | "danger" {
     if (sentiment === 'Positive') {
       return 'success';
     } else if (sentiment === 'Negative') {

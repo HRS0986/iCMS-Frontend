@@ -83,7 +83,6 @@
         <p-tag
           class="p-1"
           styleClass="text-sm"
-          severity="primary"
           *ngFor="let tag of issueData.tags"
           value="{{ tag }}"
         />
@@ -109,7 +108,7 @@
   header="Additional Details"
   [(visible)]="dialogVisible"
   [modal]="true"
-  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
   [style]="{ width: '50vw' }"
   [draggable]="false"
   [resizable]="false"
@@ -132,7 +131,7 @@
           'self-end': !email.isClient
         }"
       >
-        <div 
+        <div
           class="font-medium text-gray-800 text-opacity-70 px-4 py-2"
           [ngClass]="{
             'text-right': !email.isClient
