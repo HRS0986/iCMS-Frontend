@@ -77,6 +77,7 @@ import { SuggestionCardListTypeComponent } from './components/suggestion-card-li
 import { InquiryCardListTypeComponent } from './components/inquiry-card-list-type/inquiry-card-list-type.component';
 import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
 import { DashboardSmallCardComponent } from './components/dashboard-small-card/dashboard-small-card.component';
+import { AuthorizationMessageComponent } from './components/authorization-message/authorization-message.component';
 import { DashboardIssueCardComponent } from './components/dashboard-issue-card/dashboard-issue-card.component';
 import { DashboardInquiryCardComponent } from './components/dashboard-inquiry-card/dashboard-inquiry-card.component';
 import { DashboardSuggestionCardComponent } from './components/dashboard-suggestion-card/dashboard-suggestion-card.component';
@@ -85,9 +86,13 @@ import { DashboardSummaryCardComponent } from './components/dashboard-summary-ca
 import { DashboardActionablesComponent } from './components/dashboard-actionables/dashboard-actionables.component';
 import { DashboardResponsetimeComponent } from './components/dashboard-responsetime/dashboard-responsetime.component';
 import { FilteringComponent } from './components/filtering/filtering.component';
+
+import { MessagesModule } from 'primeng/messages';
+
 import { ThreadDataviewComponent } from './components/thread-dataview/thread-dataview.component';
 import { ThreadCardListTypeComponent } from './components/thread-card-list-type/thread-card-list-type.component';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+
 
 @NgModule({
   declarations: [
@@ -126,6 +131,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
     InquiryCardListTypeComponent,
     InquiryDataviewComponent,
     DashboardSmallCardComponent,
+    AuthorizationMessageComponent,
     DashboardIssueCardComponent,
     DashboardInquiryCardComponent,
     DashboardSuggestionCardComponent,
@@ -169,10 +175,13 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
     DropdownModule,
     DividerModule,
     PaginatorModule,
+    DividerModule,
+    SkeletonModule,
     SkeletonModule,
     ProgressBarModule,
     AutoCompleteModule,
-    ToggleButtonModule,
+    MessagesModule,
+    ToggleButtonModule
   ],
   providers: [MessageService],
 })

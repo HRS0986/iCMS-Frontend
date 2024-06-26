@@ -39,11 +39,11 @@ export class AuthenticationService {
 
     return new Observable(observer => {
       cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: (session:any) => {
+        onSuccess: (session) => {
           observer.next(session);
           observer.complete();
         },
-        onFailure: (err:any) => {
+        onFailure: (err) => {
           observer.error(err);
         }
       });
@@ -80,4 +80,7 @@ export class AuthenticationService {
     const currentUser = this.userPool.getCurrentUser();
     return currentUser != null;
   }
+
 }
+
+
