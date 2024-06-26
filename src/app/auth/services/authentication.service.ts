@@ -80,4 +80,7 @@ export class AuthenticationService {
     const currentUser = this.userPool.getCurrentUser();
     return currentUser != null;
   }
+
 }
+
+

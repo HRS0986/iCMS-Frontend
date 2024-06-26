@@ -1,0 +1,21 @@
+:host ::ng-deep li {
+    word-break: break-all;  // Don't remove. This prevents p-autoComplete from overflowing
+}
+// for filtering header
+:host ::ng-deep .p-panel .p-panel-header {
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 0.25rem 1.25rem;
+    cursor: pointer;
+}
+// for filtering header hover
+:host ::ng-deep .p-panel .p-panel-header:hover {
+    background-color: #f5f7fa;
+}
+
+// for autocomplete dropdown height bug - see issue #121 : https://github.com/HRS0986/iCMS-Frontend/issues/121
+:host ::ng-deep p-autocomplete div.p-scroller {
+    height: 400px;
+}
+
+

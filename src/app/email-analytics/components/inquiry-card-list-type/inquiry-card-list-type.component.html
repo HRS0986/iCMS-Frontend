@@ -1,140 +1,253 @@
-<div class="bg-gray-50 rounded my-5 border border-solid border-gray-200">
-  <div class="grid grid-cols-4 px-5 py-3">
-    <div class="col-span-3 grid grid-rows-4">
-      <div class="-ml-1 flex items-center">
-        <span>
-          <p-tag
-            class="p-1"
-            styleClass="text-sm"
-            *ngIf="inquiryData.isNew"
-            severity="info"
-            value="New"
-          >
-            <i class="pi pi-info-circle text-sm pr-2"></i>
-          </p-tag>
-          <p-tag
-            class="p-1"
-            styleClass="text-sm"
-            *ngIf="inquiryData.isNewUpdate"
-            severity="info"
-            value="Update"
-          >
-            <i class="pi pi-history text-sm pr-2"></i>
-          </p-tag>
-          <p-tag
-            class="p-1"
-            styleClass="text-sm"
-            *ngIf="inquiryData.isAnswered"
-            severity="success"
-            value="Answered"
-          >
-            <i class="pi pi-check-circle text-sm pr-2"></i>
-          </p-tag>
-          <p-tag
-            class="p-1"
-            styleClass="text-sm"
-            *ngIf="!inquiryData.isAnswered"
-            severity="secondary"
-            value="Open"
-          >
-            <i class="pi pi-inbox text-sm pr-2"></i>
-          </p-tag>
-          <p-tag
-            class="p-1"
-            styleClass="text-sm"
-            severity="constrast"
-            value="{{ inquiryData.inquiry_type }}"
-          >
-            <i class="pi pi-tags text-sm pr-2"></i>
-          </p-tag>
-          <p-tag
-            class="p-1"
-            styleClass="text-sm"
-            severity="info"
-            value="Effectivity: {{ inquiryData.effectivity }}"
-          >
-            <i class="pi pi-shield text-sm pr-2"></i>
-          </p-tag>
-          <p-tag
-            class="p-1"
-            styleClass="text-sm"
-            severity="success"
-            value="Efficiency: {{ inquiryData.efficiency }}"
-          >
-            <i class="pi pi-clock text-sm pr-2"></i>
-          </p-tag>
-        </span>
-      </div>
-      <div
-        class="row-span-2 flex items-center text-base font-medium py-2 text-justify"
+<div
+  class="bg-gray-50 hover:bg-blue-100 hover:cursor-pointer rounded my-5 border border-solid border-gray-200 transition hover:duration-150"
+  (click)="load()"
+>
+  <div class="px-4 py-4 grid grid-cols-1 gap-y-3 gap-x-3 lg:grid-cols-6">
+    <!-- status -->
+    <div class="order-0 -mx-1 lg:col-span-3">
+      <!-- new status -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="inquiryData.status === 'new'"
+        severity="info"
+        value="New"
       >
-        {{ inquiryData.inquiry }}
-      </div>
-      <div class="grid grid-cols-3 gap-x-8">
-        <!-- TODO: make these spans fixed size and truncate if text is too long -->
-
-        <span class="flex items-center overflow-hidden">
-          <i class="pi pi-send text-sm font-thin pr-2"></i>
-          Sent: {{ inquiryData.sender }}</span
-        >
-        <span class="flex items-center overflow-hidden">
-          <i class="pi pi-question text-sm font-thin pr-2"></i>
-          Asked: {{ displayedOpenedDate }}</span
-        >
-      </div>
+        <i class="pi pi-info-circle text-sm pr-2"></i>
+      </p-tag>
+      <!-- update status -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="inquiryData.status === 'update'"
+        severity="warning"
+        value="Update"
+      >
+        <i class="pi pi-refresh text-sm pr-2"></i>
+      </p-tag>
+      <!-- open status -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm bg-gray-500 "
+        *ngIf="inquiryData.status === 'waiting'"
+        severity="secondary"
+        value="Waiting"
+      >
+        <i class="pi pi-inbox text-sm pr-2"></i>
+      </p-tag>
+      <!-- overdue status -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="inquiryData.isOverdue"
+        severity="danger"
+        value="Overdue"
+      >
+        <i class="pi pi-exclamation-triangle text-sm pr-2"></i>
+      </p-tag>
+      <!-- closed status -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="inquiryData.status === 'closed'"
+        severity="success"
+        value="Closed"
+      >
+        <i class="pi pi-check-circle text-sm pr-2"></i>
+      </p-tag>
+      <p-tag
+        class="p-1"
+        severity="secondary"
+        styleClass="text-sm bg-gray-500"
+        *ngIf="inquiryData.status === 'closed'"
+      >
+        <i class="pi pi-shield text-sm font-thin pr-2"></i>
+        <span class="hidden md:inline">Effectivity:&nbsp;</span>
+        <span>{{ inquiryData.effectivity }}</span>
+      </p-tag>
+      <p-tag
+        class="p-1 my-class"
+        severity="secondary"
+        styleClass="text-sm bg-gray-500"
+        *ngIf="inquiryData.status === 'closed'"
+      >
+        <i class="pi pi-clock text-sm font-thin pr-2"></i>
+        <span class="hidden md:inline">Efficiency:&nbsp;</span>
+        <span>{{ inquiryData.efficiency }}</span>
+      </p-tag>
     </div>
-    <div class="grid grid-rows-2 justify-center gap-4 py-2">
-      <div class="flex items-center justify-center overflow-hidden">
-        <!-- TODO: truncate additional tags if overflowing and add a tag with +n where n is the number of hidden tags -->
-        <p-tag
-          class="p-1"
-          styleClass="text-sm"
-          severity="primary"
-          *ngFor="let tag of inquiryData.tags"
-          value="{{ tag }}"
-        />
-      </div>
-      <div class="flex justify-center items-center">
-        <p-button
-          label="View"
-          icon="pi pi-arrow-right"
-          [loading]="loading"
-          (onClick)="load()"
-          [rounded]="true"
-          size="small"
-          [raised]="true"
-          [text]="true"
-          [outlined]="true"
-        ></p-button>
-      </div>
+    <!-- summary -->
+    <div class="order-2 font-medium py-2 text-justify lg:col-span-6">
+      {{ inquiryData.inquiry }}
+    </div>
+    <!-- client -->
+    <div class="order-2 lg:col-span-2">
+      <span class="flex items-start overflow-hidden">
+        <i class="pi pi-send text-sm font-thin pr-2"></i>
+        Client: {{ inquiryData.client }}</span
+      >
+    </div>
+    <!-- opened -->
+    <div class="order-2 lg:col-span-2">
+      <span class="flex items-start overflow-hidden">
+        <i class="pi pi-flag text-sm font-thin pr-2"></i>
+        Opened: {{ displayedOpenedDate }}</span
+      >
+    </div>
+    <!-- last update / closed -->
+    <div class="order-2 lg:col-span-2">
+      <!-- closed date (if closed) -->
+      <span
+        *ngIf="inquiryData.status === 'closed'"
+        class="flex items-start overflow-hidden"
+      >
+        <i class="pi pi-check text-sm font-thin pr-2"></i>
+        Closed: {{ displayedClosedDate }}
+      </span>
+      <!-- last update date (if not closed) -->
+      <span
+        *ngIf="inquiryData.status !== 'closed'"
+        class="flex items-start overflow-hidden"
+      >
+        <i class="pi pi-refresh text-sm font-thin pr-2"></i>
+        Update: {{ displayedUpdateDate }}
+      </span>
+    </div>
+    <!-- tags -->
+    <div class="order-2 -mr-1 lg:order-1 lg:col-span-3 lg:justify-self-end">
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        severity="primary"
+        *ngFor="let tag of inquiryData.tags"
+        value="{{ tag }}"
+      />
     </div>
   </div>
 </div>
 
 <p-dialog
-  header="Additional Details"
+  header="{{ headerObj.text }}"
   [(visible)]="dialogVisible"
   [modal]="true"
-  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-  [style]="{ width: '50vw' }"
+  [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
+  [style]="{ width: '70vw' }"
   [draggable]="false"
   [resizable]="false"
 >
-  <div *ngIf="!errorMessage">
-    <div class="additional-info flex justify-center mb-8">
-      <div
-        class="max-w-[75%] py-10 px-5 border-dashed border-4 border-gray-500 rounded-3xl text-2xl"
-      >
-        Additional Content Goes Here
+  <!-- loading screen -->
+  <div *ngIf="loading">
+    <p-skeleton width="100%" height="100px" />
+    <p-divider></p-divider>
+    <p-skeleton width="100%" height="200px" />
+  </div>
+
+  <!-- actual content (if no errors) -->
+  <div *ngIf="!errorMessage && !loading">
+    <div class="font-medium text-2xl text-gray-800 text-opacity-70 px-4 pb-4">
+      Details
+    </div>
+    <div class="px-4 grid grid-cols-1 lg:grid-cols-2 gap-y-3 gap-x-1">
+      <!-- section 1 -->
+      <div class="lg:col-span-2" *ngIf="headerObj.isShortened">
+        <i class="pi pi-hashtag text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Subject:&nbsp;</span>
+        <div class="pl-10 text-justify">{{ additionalData.subject }}</div>
+      </div>
+      <div class="lg:col-span-2">
+        <i class="pi pi-book text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Summary: <br /></span>
+        <div class="pl-10 text-justify">
+          {{additionalData.inquiry}}
+        </div>
+      </div>
+      <div class="lg:col-span-2">
+        <i class="pi pi-tags text-sm font-thin pr-2"></i>
+        <span class="font-semibold hidden md:inline">Tags:&nbsp;</span>
+        <span class="">{{additionalData.tags}}</span>
+      </div>
+      <p-divider class="-my-4 lg:col-span-2"></p-divider>
+      <!-- section 2 -->
+      <div class="">
+        <i class="pi pi-user text-sm font-thin pr-2"></i>
+        <span class="font-semibold hidden md:inline">Client:&nbsp;</span>
+        <span>{{additionalData.client}}</span>
+      </div>
+      <div class="">
+        <i class="pi pi-building text-sm font-thin pr-2"></i>
+        <span class="font-semibold hidden md:inline">Company:&nbsp;</span>
+        <span>{{additionalData.company}}</span>
+      </div>
+      <p-divider class="-my-4 lg:col-span-2"></p-divider>
+      <!-- section 2 -->
+      <div class="">
+        <i class="pi pi-play text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Status:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{additionalData.status}}</span>
+      </div>
+      <div class="">
+        <i class="pi pi-flag text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Opened:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ dateOpened }}</span>
+      </div>
+      <div class="" *ngIf="!closed">
+        <i class="pi pi-refresh text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Update:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ dateUpdate }}</span>
+      </div>
+      <div class="" *ngIf="closed">
+        <i class="pi pi-check-circle text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Closed:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ dateClosed }}</span>
+      </div>
+      <div class="">
+        <i class="pi pi-exclamation-triangle text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Overdue:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ dateOverdue }}</span>
+      </div>
+      <p-divider class="-my-4 lg:col-span-2" *ngIf="!newState"></p-divider>
+      <!-- section 3 -->
+      <div class="" *ngIf="!newState">
+        <i class="pi pi-plus-circle text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">First response time:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ firstResponseTime }}</span>
+      </div>
+      <div class="" *ngIf="!newState">
+        <i class="pi pi-history text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Avg response time:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ avgResponseTime }}</span>
+      </div>
+      <div class="" *ngIf="closed">
+        <i class="pi pi-cog text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Resolution time:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{ resolutionTime }}</span>
+      </div>
+      <p-divider class="-my-4 lg:col-span-2"></p-divider>
+      <!-- section 4 -->
+      <div class="" *ngIf="closed">
+        <i class="pi pi-clock text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Efficiency:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{additionalData.efficiency}}</span>
+      </div>
+      <div class="" *ngIf="closed">
+        <i class="pi pi-shield text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Effectivity:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{additionalData.effectivity}}</span>
+      </div>
+      <div class="">
+        <i class="pi pi-thumbs-up text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Sentiment:&nbsp;</span>
+        <span class="block ml-10 md:inline md:ml-0">{{additionalData.sentiment}}</span>
       </div>
     </div>
-    <div class="conversation flex flex-col">
+    <!-- conversation -->
+    <div class="conversation flex flex-col pt-8">
       <div class="font-medium text-2xl text-gray-800 text-opacity-70 px-4 py-2">
         Original Conversation
       </div>
       <div
         *ngFor="let email of additionalData.emails"
-        class="py-2 px-4 max-w-[80%]"
+        class="py-2 px-4 max-w-full md:max-w-[80%]"
         [ngClass]="{
           'self-start': email.isClient,
           'self-end': !email.isClient
@@ -162,5 +275,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <!-- error (if occured) -->
+  <div *ngIf="errorMessage && !loading">{{ errorMessage }}</div>
 </p-dialog>

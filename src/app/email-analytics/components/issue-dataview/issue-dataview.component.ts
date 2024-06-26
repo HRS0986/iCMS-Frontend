@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { Issue, IssueMetaDataResponse } from '../../interfaces/issues';
-import { DataViewLazyLoadEvent } from 'primeng/dataview';
+import { Component, ViewChild } from '@angular/core';
+import { Issue, IssueDataResponse } from '../../interfaces/issues';
+import { DataViewLazyLoadEvent, DataView } from 'primeng/dataview';
 import { MenuItem } from 'primeng/api';
 import { IssueService } from '../../services/issue.service';
-import { identifierName } from '@angular/compiler';
+import { Filter } from '../../interfaces/filters';
 
 @Component({
   selector: 'app-issue-dataview',
@@ -11,19 +11,18 @@ import { identifierName } from '@angular/compiler';
   styleUrl: './issue-dataview.component.scss'
 })
 export class IssueDataviewComponent {
-  
+
+  @ViewChild('dataView') dataView!: DataView;
+
   issueData: Issue[] = new Array(10).fill({
     id: '',
     issue: '',
-    isNew: false,
-    isOverdue: false,
-    isClosed: false,
-    sender: '',
-    recipient: '',
+    subject: '',
+    status: 'new',
+    client: '',
+    company: '',
     dateOpened: new Date(),
-    tags: [],
-    effectivity: 0,
-    efficiency: 0
+    tags: []
   });
 
   totalRecords: number = 0;
@@ -35,13 +34,36 @@ export class IssueDataviewComponent {
   errorMessage: string = '';
   dialogVisible: boolean = false;
 
+  filterCriteria: Filter = {
+    selectedSenders: [],
+    selectedReceivers: [],
+    selectedTags: [],
+    reqAllTags: false,
+    selectedStatus: [],
+    selectedDate: [],
+    searchText: '',
+    importantOnly: false,
+    newOnly: false
+  }
+
   constructor(private issueService: IssueService) {}
 
-  loadIssues($event: DataViewLazyLoadEvent) {
+  loadIssues($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
-    this.issueService.getIssueMetadata($event.first ?? 0, $event.rows ?? 20).subscribe({
-      next: (response: IssueMetaDataResponse) => {
-        this.issueData = response.data;
+
+    this.issueService.getIssueData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
+      next: (response: IssueDataResponse) => {
+        this.issueData = response.issues;
+        this.issueData.forEach((issue: Issue) => {
+          issue.dateOpened = new Date(issue.dateOpened);
+          if (issue.dateUpdate) {
+            issue.dateUpdate = new Date(issue.dateUpdate);
+          }
+          if (issue.dateClosed) {
+            issue.dateClosed = new Date(issue.dateClosed);
+          }
+        });
+        // console.log(response);
         this.totalRecords = response.total;
         this.loading = false;
       },
@@ -54,12 +76,17 @@ export class IssueDataviewComponent {
   }
   onPageChange(event: any) {
     this.rowsPerPage = event.rows;
-    this.loadIssues({ first: event.first, rows:this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder});
+    this.loadIssues({ first: event.first, rows:this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder }, this.filterCriteria);
+  }
+
+  onFilterChange(filterCriteria: Filter) {
+    this.filterCriteria = filterCriteria;
+    this.dataView.first = 0;
+    this.loadIssues({ first: 0, rows: this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder }, filterCriteria);
   }
 
   breadcrumbItems: MenuItem[] = [
-    {label: "Email Analytics"},
+    {label: "Email Analytics", routerLink: "/email/dashboard2"},
     {label: "Email Issues"}
   ];
-
 }

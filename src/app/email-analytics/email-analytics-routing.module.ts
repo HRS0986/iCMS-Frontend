@@ -8,9 +8,13 @@ import { Dashboard2Component } from './components/dashboard2/dashboard2.componen
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
 import { IssueDataviewComponent } from './components/issue-dataview/issue-dataview.component';
 import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
+
 import { conditionGuard } from './condition.guard';
 import {AuthorizationMessageComponent} from './components/authorization-message/authorization-message.component'
 import { AuthGuardService } from '../shared/shared-services/auth-guard.service';
+
+import { ThreadDataviewComponent } from './components/thread-dataview/thread-dataview.component';
+
 
 const routes: Routes = [
   {
@@ -25,8 +29,9 @@ const routes: Routes = [
   },
   {
     path: "summaries",
-    component: SummaryCardsContainerComponent,
+    component: ThreadDataviewComponent,
     canActivate: [conditionGuard,AuthGuardService]
+
   },
   {
     path: "suggestions",
@@ -38,8 +43,21 @@ const routes: Routes = [
     component: SettingsComponent,
     canActivate: [conditionGuard,AuthGuardService]
   },
+
   { path: "authorization-component", 
-    component: AuthorizationMessageComponent }
+    component: AuthorizationMessageComponent },
+
+  {
+    path: "issues",
+    component: IssueDataviewComponent,
+    canActivate: [conditionGuard,AuthGuardService]
+  },
+  {
+    path: "inquiries",
+    component: InquiryDataviewComponent,
+    canActivate: [conditionGuard,AuthGuardService]
+  }
+
 ];
 
 @NgModule({

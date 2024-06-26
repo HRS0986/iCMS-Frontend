@@ -1,0 +1,11 @@
+:host ::ng-deep .p-togglebutton.p-button.p-highlight {
+    background-color: #d54b4e;
+    border-color: #d54b4e;
+    color: #fff;
+}
+
+:host ::ng-deep .p-togglebutton.p-button.p-highlight:hover {
+    background-color: #e44f52;
+    border-color: #e44f52;
+    color: #fff;
+}

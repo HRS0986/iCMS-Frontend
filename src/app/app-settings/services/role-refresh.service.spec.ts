@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SummaryService } from './summary.service';
+import { RoleRefreshService } from './role-refresh.service';
 
-describe('SummaryService', () => {
-  let service: SummaryService;
+describe('RoleRefreshService', () => {
+  let service: RoleRefreshService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SummaryService);
+    service = TestBed.inject(RoleRefreshService);
   });
 
   it('should be created', () => {

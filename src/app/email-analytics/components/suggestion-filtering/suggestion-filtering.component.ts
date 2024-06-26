@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { DataService } from './suggestion-filtering.component.service';
-import { DataViewLazyLoadEvent } from 'primeng/dataview';
+import { DataViewLazyLoadEvent, DataView } from 'primeng/dataview';
 import { SuggestionService } from '../../services/suggestion.service';
+
 import { Suggestion, SuggestionMetaDataResponse, SuggestionsData } from '../../interfaces/suggestions';
+
+import { Filter } from '../../interfaces/filters';
 
 
 interface PageEvent {
@@ -19,10 +22,9 @@ interface PageEvent {
   styleUrl: './suggestion-filtering.component.scss'
 })
 export class SuggestionFilteringComponent {
-  suggestionsData = [
-    {receiver:"readingEmail1@gmail.com", date:"2024.05.06", products:["VEGA"], suggestion:"bla bla bla suggestion."},
-    {receiver:"readingEmail2@gmail.com", date:"2024.06.06", products:["EV"], suggestion:"some other suggestion."}
-  ]
+
+  @ViewChild('dataView') dataView!: DataView;
+  
 
   suggestionData: Suggestion[] = new Array(10).fill({
     id: '',
@@ -42,6 +44,18 @@ export class SuggestionFilteringComponent {
   sortOrder: number = -1;
   errorMessage: string = '';
   dialogVisible: boolean = false;
+
+  filterCriteria: Filter = {
+    selectedSenders: [],
+    selectedReceivers: [],
+    selectedTags: [],
+    reqAllTags: false,
+    selectedStatus: [],
+    selectedDate: [],
+    searchText: '',
+    importantOnly: false,
+    newOnly: false
+  }
   
   // Ranindu's vars
   dateRange: Date[] = [];
@@ -155,9 +169,12 @@ export class SuggestionFilteringComponent {
   }
   // ---- End of Ranindu's functions
 
-  loadSuggestions($event: DataViewLazyLoadEvent) {
+  loadSuggestions($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
-    this.suggestionService.getSuggestionMetadata($event.first ?? 0, $event.rows ?? 20).subscribe({
+
+    this.suggestionService.getSuggestionData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({});
+    
+    this.suggestionService.getMockSuggestionData(criteria, $event.first ?? 0, $event.rows ?? 20).subscribe({
       next: (response: SuggestionMetaDataResponse) => {
         this.suggestionData = response.data;
         this.totalRecords = response.total;
@@ -175,9 +192,14 @@ export class SuggestionFilteringComponent {
     this.rowsPerPage = event.rows;
     this.loadSuggestions({ first: event.first, rows: this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder });
   }
-
+  
+  onFilterChange(filterCriteria: Filter) {
+    this.filterCriteria = filterCriteria;
+    this.dataView.first = 0;
+    this.loadSuggestions({ first: 0, rows: this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder }, filterCriteria);
+  }
   breadcrumbItems: MenuItem[] = [
-    {label: "Email Analytics"},
+    {label: "Email Analytics", routerLink: "/email/dashboard2"},
     {label: "Email Suggestions"}
   ];
 
