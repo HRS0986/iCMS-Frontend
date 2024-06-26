@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { Dashboard2Component } from './components/dashboard2/dashboard2.component';
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
@@ -25,10 +24,6 @@ const routes: Routes = [
   {
     path: "suggestions",
     component: SuggestionFilteringComponent
-  },
-  {
-    path: "filtering",
-    component: EmailFilteringComponent
   },
   {
     path: "settings",

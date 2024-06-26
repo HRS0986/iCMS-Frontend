@@ -95,8 +95,6 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
     LineAreaChartComponent,
     StatCardComponent,
     KeywordCloudComponent,
-    // SummaryCardComponent,
-    // SummaryCardsContainerComponent,
     // EmailFilteringComponent,
     // EmailTableComponent,
     SettingsComponent,
