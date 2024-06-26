@@ -120,23 +120,18 @@ export class AddRoleBarComponent implements OnInit {
   resetData() {
 
     this.permissions = [
+      {name: 'Add User', value: false},
       {name: 'View Users', value: false},
-      {name: 'Edit Users', value: false},
-      {name: 'Delete Users', value: false},
+      {name: 'View User', value: false},
+      {name: 'Edit User', value: false},
+      {name: 'Delete User', value: false},
+      {name: 'Enable User', value: false},
+      {name: 'Disable User', value: false},
+      {name: 'Add Role', value: false},
       {name: 'View Roles', value: false},
-      {name: 'Edit Roles', value: false},
-      {name: 'Delete Roles', value: false},
-      {name: 'View Permissions', value: false},
-      {name: 'Edit Permissions', value: false},
-      {name: 'Delete Permissions', value: false},
-      {name: 'View Products', value: false},
-      {name: 'Edit Products', value: false},
-      {name: 'Delete Products', value: false},
-      {name: 'View Reports', value: false},
-      {name: 'View Dashboard', value: false},
-      {name: 'View Settings', value: false},
-      {name: 'Edit Settings', value: false},
-      {name: 'Delete Settings', value: false},
+      {name: 'View Role', value: false},
+      {name: 'Edit Role', value: false},
+      {name: 'Delete Role', value: false},
     ];
     this.roleName = '';
     this.selectedUsers = [];
