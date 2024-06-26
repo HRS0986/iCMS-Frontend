@@ -1,0 +1,148 @@
+.card {
+  width: 320px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+
+.image-container {
+  height: 225px;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  grid-row: 1;
+  border-radius: 10px;
+  padding: 0;
+}
+
+.count {
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+  color: #80808F;
+}
+
+.change {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #80808F;
+}
+
+.positive {
+  color: green;
+}
+
+.negative {
+  color: red;
+}
+
+.campaign-image {
+  filter: brightness(70%);
+}
+
+.tab-icon {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+.stats {
+  position: absolute;
+  top: -30px;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.stat {
+  width: 42%;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 10px 0;
+}
+
+.campaign-name-overlay {
+  position: absolute;
+  top: -220px;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgb(255, 255, 255);
+  margin: 15px 15px 0px 15px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.text-container {
+  border-radius: 0 0 10px 10px;
+  height: 300px;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.text-container p {
+  margin: 0;
+}
+
+.text-container button {
+  display: inline-block;
+  margin-top: auto;
+  justify-content: center;
+}
+
+.text-container button:last-child {
+  margin-bottom: 10px;
+}
+
+.campaign-info {
+  margin: 60px 20px 20px 20px;
+
+  .row1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .campaign-name {
+    margin-right: 10px;
+  }
+
+  .row2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .sentiment-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.card-item {
+  width: 100%;
+  margin: 10px 0;
+  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
