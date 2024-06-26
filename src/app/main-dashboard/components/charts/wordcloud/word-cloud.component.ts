@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,EventEmitter, OnChanges, SimpleChanges,Output } from '@angular/core';
 declare var $: any;
-import { DateRangeService } from '../../../services/shared/date-range.service';
+import { DateRangeService } from '../../../services/shared-date-range/date-range.service';
+import { ChartsService } from '../../../services/charts.service';
+import { Subscription } from 'rxjs';
+import { timer } from 'rxjs';
 
 export interface WordCloudItem {
   word: string;
@@ -13,35 +16,137 @@ export interface WordCloudItem {
   templateUrl: './word-cloud.component.html',
   styleUrls: ['./word-cloud.component.scss']
 })
-export class WordcloudComponent implements OnInit {
+export class WordcloudComponent implements OnInit,OnChanges {
   @Input() title!: string;
+  @Output() changesEvent = new EventEmitter<boolean>();
   @Input() sources!:string[];
   words: WordCloudItem[] = [];
 
+  selectedCategories:any[]=[];
+  categories:string[]=['email','call','social'];
+
   selectedDateRange: string[] | undefined;
   Date: any;
+
+  private socketSubscription: Subscription | undefined;
 
   callWord: string[] = [];
   emailWord: string[] = [];
   socialWord: string[] = [];
 
-  constructor(private dateRangeService: DateRangeService){}
+  @Input() changes:boolean=false;
+
+  constructor(private dateRangeService: DateRangeService,private chartService: ChartsService){}
   ngOnInit() {
-    // this.wordCloudExtract(this.sources);
-    // this.dateRangeService.currentDateRange.subscribe(range => {
-    //   if (range && range.length === 2 && range[0] && range[1]) {
-    //     this.selectedDateRange = range.map(date => this.formatDate(date));
-    //     this.Date = null;
-    //     this.wordCloudExtract(this.sources);
-    //     console.log('Selected Date Range:', this.selectedDateRange);
-    //   } else if(range && range.length === 2 && range[0]){
-    //     this.selectedDateRange = undefined;
-    //     this.Date = this.formatDate(range[0]);
-    //     this.wordCloudExtract(this.sources);
-    //     console.log('Incomplete Date Range:',this.Date );
+    this.selectedCategories=this.sources;
+
+    if(this.selectedCategories){
+      this.wordCloudExtract(this.selectedCategories);
+    }
+    
+    timer(0,1000).subscribe(() => {
+      if(this.changes){
+          this.wordCloudExtract(this.selectedCategories);
+        this.changes=false;
+      }
+    });
+    // this.socketSubscription = this.chartService.messages$.subscribe(
+    //   message => {
+    //     if (message.response === 'data') {
+    //       if(this.sources){
+    //         this.wordCloudExtract(this.sources);
+    //       }
+    //     }
     //   }
-    // });
+    // );
+
+    this.dateRangeService.currentDateRange.subscribe(range => {
+      if (range && range.length === 2 && range[0] && range[1]) {
+        this.selectedDateRange = range.map(date => this.formatDate(date));
+        this.Date = null;
+        if(this.selectedCategories){
+          this.wordCloudExtract(this.selectedCategories);
+        }
+      } else if(range && range.length === 2 && range[0]){
+        this.selectedDateRange = undefined;
+        this.Date = this.formatDate(range[0]);
+        if(this.selectedCategories){
+          this.wordCloudExtract(this.selectedCategories);
+        }
+      }
+    });
   }
+
+  onSourceChange(category:any){
+    if(this.selectedCategories[0]!=null){
+      this.wordCloudExtract(this.selectedCategories);
+    }
+    else{
+      this.selectedCategories=this.sources;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['changes'] && changes['changes'].currentValue === true) {
+      // Defer the method execution until after the view has been checked
+      setTimeout(() => {
+        this.chartDataGet();
+        this.changesEvent.emit(false); // Reset the changes flag to false
+      });
+    }
+  }
+
+  chartDataGet(): void {
+    this.chartService.chartData().subscribe(
+      (response) => {       
+        caches.open('all-data').then(cache => {
+          cache.match('data').then((cachedResponse) => {
+            if (cachedResponse) {
+              cachedResponse.json().then((cachedData: any) => {
+                // Compare the response with the cached data
+                if (!this.isEqual(response, cachedData)) {
+                  // Update only the changed data in the cache
+                  // const updatedData = { ...cachedData, ...response };
+                  const dataResponse = new Response(JSON.stringify(response), {
+                    headers: { 'Content-Type': 'application/json' }
+                  });
+                  cache.put('data', dataResponse);
+                  // this.DataCacheChange = true;
+                }
+              });
+            } else {
+              // Cache the response if no cached data exists
+              const dataResponse = new Response(JSON.stringify(response), {
+                headers: { 'Content-Type': 'application/json' }
+              });
+              cache.put('data', dataResponse);
+            }
+          });
+        });
+        this.changes=true;
+      },
+      (error) => {
+        console.error('Error fetching doughnut chart data:', error);
+      } 
+    );
+  }
+  
+  isEqual(obj1: any, obj2: any): boolean {
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+  
+    if (keys1.length !== keys2.length) return false;
+  
+    for (let key of keys1) {
+      if (!keys2.includes(key)) return false;
+      if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
 
   formatDate(date: Date): string {
     const options: Intl.DateTimeFormatOptions = {
@@ -68,7 +173,7 @@ export class WordcloudComponent implements OnInit {
               if (source === 'call') {
                 this.callWord = data.flatMap((item: any) =>
                   item.call.filter((callItem: any) => this.isDateInRange(callItem.Date))
-                           .flatMap((callItem: any) => JSON.parse(callItem.Word))
+                           .flatMap((callItem: any)=> callItem.Word)
                 );
               }
               if (source === 'email') {
@@ -76,19 +181,17 @@ export class WordcloudComponent implements OnInit {
                   item.email.filter((emailItem: any) => this.isDateInRange(emailItem.Date))
                             .flatMap((emailItem: any) => emailItem.Word)
                 );
-                console.log(this.emailWord);
               }
               if (source === 'social') {
                 this.socialWord = data.flatMap((item: any) =>
                   item.social.filter((socialItem: any) => this.isDateInRange(socialItem.Date))
-                             .flatMap((socialItem: any) => JSON.parse(socialItem.Word))
+                             .flatMap((socialItem: any) => socialItem.Word)
                 );
               }
             });
 
             const allWords = [...this.callWord, ...this.emailWord, ...this.socialWord];
             this.words = this.aggregateWordCloudData(allWords);
-            console.log(this.words);
             this.showWords();
           });
         } else {
@@ -142,7 +245,6 @@ export class WordcloudComponent implements OnInit {
   }
 
   showWords() {
-    console.log(this.words);
     $("#wordCloud").jQWCloud({
       words: this.words,
       maxFont: 60,

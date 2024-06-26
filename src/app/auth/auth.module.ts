@@ -8,13 +8,16 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SigninComponent } from './components/signin/signin.component';
 import { SignoutComponent } from './components/signout/signout.component';
+import {ToastModule} from "primeng/toast";
+import { NewPasswordComponent } from './components/new-password/new-password.component';
 
 
 @NgModule({
   declarations: [
     SignupComponent,
     SigninComponent,
-    SignoutComponent
+    SignoutComponent,
+    NewPasswordComponent
   ],
     imports: [
         CommonModule,
@@ -23,6 +26,7 @@ import { SignoutComponent } from './components/signout/signout.component';
         ButtonModule,
         InputTextModule,
         FormsModule,
+        ToastModule,
         ReactiveFormsModule
     ]
 })

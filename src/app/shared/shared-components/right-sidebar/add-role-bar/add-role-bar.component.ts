@@ -5,6 +5,7 @@ import {AuthenticationService} from "../../../../auth/services/authentication.se
 import { MessageService } from 'primeng/api';
 import {RoleRefreshService} from "../../../../app-settings/services/role-refresh.service";
 import {UserDataService} from "../../../../app-settings/services/user-data.service";
+import {RoleUpdateService} from "../../../../app-settings/services/role-update.service";
 
 
 @Component({
@@ -13,29 +14,13 @@ import {UserDataService} from "../../../../app-settings/services/user-data.servi
   styleUrls: ['./add-role-bar.component.scss']
 })
 export class AddRoleBarComponent implements OnInit {
+  isRoleUpdate: boolean = false;
   sidebarVisible!: boolean;
   formGroup!: FormGroup;
+  permissions: {name: string, value: boolean}[] = [];
 
   //sample permissions
-  permissions = [
-    {name: 'View Users', value: false},
-    {name: 'Edit Users', value: false},
-    {name: 'Delete Users', value: false},
-    {name: 'View Roles', value: false},
-    {name: 'Edit Roles', value: false},
-    {name: 'Delete Roles', value: false},
-    {name: 'View Permissions', value: false},
-    {name: 'Edit Permissions', value: false},
-    {name: 'Delete Permissions', value: false},
-    {name: 'View Products', value: false},
-    {name: 'Edit Products', value: false},
-    {name: 'Delete Products', value: false},
-    {name: 'View Reports', value: false},
-    {name: 'View Dashboard', value: false},
-    {name: 'View Settings', value: false},
-    {name: 'Edit Settings', value: false},
-    {name: 'Delete Settings', value: false},
-  ];
+
   roleName: any;
 
   users!: {user_name:string}[];
@@ -47,13 +32,36 @@ export class AddRoleBarComponent implements OnInit {
     private addRoleService: AddRoleService,
     private messageService: MessageService,
     private roleRefreshService: RoleRefreshService,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    private roleUpdateService: RoleUpdateService
   ) {
 
 
   }
 
   ngOnInit(): void {
+    this.permissions = [
+      {name: 'View Users', value: false},
+      {name: 'Edit Users', value: false},
+      {name: 'Delete Users', value: false},
+      {name: 'View Roles', value: false},
+      {name: 'Edit Roles', value: false},
+      {name: 'Delete Roles', value: false},
+      {name: 'View Permissions', value: false},
+      {name: 'Edit Permissions', value: false},
+      {name: 'Delete Permissions', value: false},
+      {name: 'View Products', value: false},
+      {name: 'Edit Products', value: false},
+      {name: 'Delete Products', value: false},
+      {name: 'View Reports', value: false},
+      {name: 'View Dashboard', value: false},
+      {name: 'View Settings', value: false},
+      {name: 'Edit Settings', value: false},
+      {name: 'Delete Settings', value: false},
+    ];
+    this.roleUpdateService.roleToUpdate.subscribe((roleData: any) => {
+      this.populateForm(roleData);
+    });
 
   }
 
@@ -69,6 +77,8 @@ export class AddRoleBarComponent implements OnInit {
       });
     });
 
+
+
   }
 
 
@@ -79,6 +89,58 @@ export class AddRoleBarComponent implements OnInit {
         console.log(this.users)
       });
     });
+
+  }
+  populateForm(roleData: any) {
+    this.isRoleUpdate = true;
+    this.roleName = roleData.Group.GroupName;
+    this.permissions = roleData.Group.Permissions.map((permission: any) => {
+      return {name: permission.Name, value: permission.Value === 'true'};
+    });
+    this.selectedUsers = roleData.Group.Users;
+    this.sidebarVisible = true;
+  }
+
+  saveUpdateRole() {
+    let roleData = {
+      group_name: this.roleName,
+      permissions: this.permissions
+    }
+    // Logic for updating the role goes here
+    this.authService.getIdToken().subscribe((token: any) => {
+      this.roleUpdateService.updateRole(token, roleData).subscribe((data: any) => {
+        console.log(data);
+        // window.location.reload();
+        this.messageService.add({severity:'success', summary: 'Success', detail: 'Role Updated Successfully'});
+        this.roleRefreshService.roleAdded.next();
+      });
+    });
+  }
+
+  resetData() {
+
+    this.permissions = [
+      {name: 'View Users', value: false},
+      {name: 'Edit Users', value: false},
+      {name: 'Delete Users', value: false},
+      {name: 'View Roles', value: false},
+      {name: 'Edit Roles', value: false},
+      {name: 'Delete Roles', value: false},
+      {name: 'View Permissions', value: false},
+      {name: 'Edit Permissions', value: false},
+      {name: 'Delete Permissions', value: false},
+      {name: 'View Products', value: false},
+      {name: 'Edit Products', value: false},
+      {name: 'Delete Products', value: false},
+      {name: 'View Reports', value: false},
+      {name: 'View Dashboard', value: false},
+      {name: 'View Settings', value: false},
+      {name: 'Edit Settings', value: false},
+      {name: 'Delete Settings', value: false},
+    ];
+    this.roleName = '';
+    this.selectedUsers = [];
+    this.sidebarVisible = true;
 
   }
 }

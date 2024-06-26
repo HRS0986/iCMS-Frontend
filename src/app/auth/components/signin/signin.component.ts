@@ -2,6 +2,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router'; // Import Router
 import { AuthenticationService } from "../../services/authentication.service";
+import {MessageService} from "primeng/api";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
@@ -22,7 +23,11 @@ export class SigninComponent {
     image: '/assets/Strategic consulting-pana 1.png'
   }
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router,
+    private messageService: MessageService
+  ) {}
 
   signIn(): void {
     this.isSubmitted = true;

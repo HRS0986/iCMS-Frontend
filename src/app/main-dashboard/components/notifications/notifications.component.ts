@@ -6,6 +6,8 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import {NotificationService} from "../../services/notification.service"
 import { MenuItem } from 'primeng/api';
+import { ChartsService } from '../../services/charts.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-notifications',
@@ -15,9 +17,13 @@ import { MenuItem } from 'primeng/api';
 })
 export class NotificationsComponent implements OnInit{
 
+  private socketSubscription: Subscription | undefined;
+
   activeIndex: number = 0;
   //create string array to store tab title and content
-  list: string[] = ["Unread", "Read"];
+  list: string[] = ["New Notifications","Old Notifications"];
+  // list: string[] = ["New", "Read"];
+  constructor(private notificationService:NotificationService){}
 
   tabs: { title: string; content: string }[] = [];
   breadcrumbItems: MenuItem[] = [
@@ -37,11 +43,15 @@ export class NotificationsComponent implements OnInit{
 
   ngOnInit(): void {
     this.tabs = [
-      { title: "Unread", content: "Unread Notifications"},
-      { title: "Read", content: "Read Notifications"}
+      { title: "New Notifications", content: "new Notifications"},
+      { title: "Old Notifications", content: "Old Notifications"}
     ];
 
-
+    this.socketSubscription = this.notificationService.messages$.subscribe(
+      message => {
+        console.log(message);
+      }
+  );
   }
 
 }

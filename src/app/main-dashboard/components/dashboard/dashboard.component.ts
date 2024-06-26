@@ -1,15 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy,ViewChild } from '@angular/core';
 import {MenuItem} from "primeng/api";
 import { AuthendicationService } from '../../services/authendication.service';
 import { ChartsService } from '../../services/charts.service';
 import { CookieService } from 'ngx-cookie-service';
+import { timer } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { GridComponent } from '../grid/grid.component';
+import { of } from 'rxjs';
+import { tap, switchMap } from 'rxjs/operators';
+import { Observable} from 'rxjs';
+import { concatMap } from 'rxjs/operators';
+import { DoughnutChartComponent } from '../charts/doughnut-chart/doughnut-chart.component';
+import { LineAreaChartComponent } from '../charts/line-area-chart/line-area-chart.component';
+import { WordcloudComponent } from '../charts/wordcloud/word-cloud.component';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit,OnDestroy{
+
+  @ViewChild(GridComponent) gridComponent!: GridComponent;
+  @ViewChild(DoughnutChartComponent) doughnutComponent!: DoughnutChartComponent;
+  @ViewChild(LineAreaChartComponent) lineAreaComponent!: LineAreaChartComponent;
+  @ViewChild(WordcloudComponent) wordCloudComponent!: WordcloudComponent;
+
+  username:any;
 
   DataCacheChange:boolean= false;
   widgetCacheChange:boolean=false;
@@ -22,10 +39,6 @@ export class DashboardComponent implements OnInit{
   callDoughnut: any;
   emailDoughnut: any;
   socialDoughnut:any ;
-
-  widgetTitle: any;
-  widgetChart: any;
-  widgetSoucrce: any;
 
   chartValues:any;
   chartTitle:any;
@@ -40,11 +53,17 @@ export class DashboardComponent implements OnInit{
   emailWord:any;
   socialWord:any;
 
+  widgetTitle: any;
+  widgetChart: any;
+  widgetSoucrce: any;
+  widgetGrid:any;
+
   lineChartdates : any;
   lineChartpositive : any;
   lineChartnegative : any;
   lineChartneutral: any;
 
+  
   totalSums:any;
 
   percentage: number[] = [];
@@ -74,13 +93,33 @@ export class DashboardComponent implements OnInit{
   //   {word: 'Rishi', weight: 80},
   //   {word: 'Chintan', weight: 22}
   // ]
+  
+  private socketSubscription: Subscription | undefined;
 
-  constructor(private authService: AuthendicationService, private chartService:ChartsService, private cookieService: CookieService) { }
+  constructor(private authService: AuthendicationService,
+    private chartService:ChartsService,
+    private cookieService: CookieService,
+    // private grid:GridComponent
+  ) { }
+
+
   ngOnInit(): void {
     // this.loginAndFetchUserDetails();
-    // this.widgetsUserData();
-    // this.chartDataGet();
-    // this.widgetsUser();
+    this.widgetsUserData();
+    this.chartDataGet();
+
+    this.socketSubscription = this.chartService.messages$.subscribe(
+      message => {
+        if (message.response === 'widget') {    
+          this.gridComponent.changes=true;
+          this.widgetsUserData();
+        }
+        // if (message.response === 'data') {
+        //   this.chartDataGet();          
+        // }
+      }
+    );
+
 
     // timer(0,1000).subscribe(() => {
     //   this.widgetsUserData();
@@ -93,14 +132,264 @@ export class DashboardComponent implements OnInit{
     //     }
     // });
   }
+
+  
+  ngOnDestroy() {
+    if (this.socketSubscription) {
+      this.socketSubscription.unsubscribe();
+    }
+  }
+
   // loginAndFetchUserDetails(): void {
-  //   const loginData: any = { "email": "Thenujan@gmail.com", "password": "Thenujan" };
+  //   const loginData: any = { "username": "janithravisankax@gmail.com", "password": "12345678" };
   //   this.authService.login(loginData).subscribe(
   //     (response) => {
-  //       this.cookieService.set('token', response.access_token);
-  //       console.log(response.access_token);
+  //       this.cookieService.set('token', response.AuthenticationResult.IdToken);
   //     },
   //   );
   // }
 
+  chartDataGet(): void {
+    this.chartService.chartData().subscribe(
+      (response) => {  
+        caches.open('all-data').then(cache => {
+          cache.match('data').then((cachedResponse) => {
+            if (cachedResponse) {
+              cachedResponse.json().then((cachedData: any) => {
+                // Compare the response with the cached data
+                if (!this.isEqual(response, cachedData)) {
+                  // Update only the changed data in the cache
+                  // const updatedData = { ...cachedData, ...response };
+                  const dataResponse = new Response(JSON.stringify(response), {
+                    headers: { 'Content-Type': 'application/json' }
+                  });
+                  cache.put('data', dataResponse);
+                  this.DataCacheChange = true;
+                }
+              });
+            } else {
+              // Cache the response if no cached data exists
+              const dataResponse = new Response(JSON.stringify(response), {
+                headers: { 'Content-Type': 'application/json' }
+              });
+              cache.put('data', dataResponse);
+            }
+          });
+        });
+      },
+      (error) => {
+        console.error('Error fetching doughnut chart data:', error);
+      } 
+    );
+  }
+
+
+
+
+  
+  widgetsUserData(): void {
+    const token = localStorage.getItem('idToken');
+    if (token) {
+      this.chartService.widgetsUser().subscribe(
+        async (response) => {
+          try {
+            const cache = await caches.open('widgets');
+            const cachedResponse = await cache.match('widgets-data');
+  
+            if (cachedResponse) {
+              const cachedData = await cachedResponse.json();
+              if (!this.isEqual(response, cachedData)) {
+                const dataResponse = new Response(JSON.stringify(response), {
+                  headers: { 'Content-Type': 'application/json' }
+                });
+                await cache.put('widgets-data', dataResponse);
+                this.widgetCacheChange = true;
+                this.gridComponent.changes = true;
+              }
+            } else {
+              const dataResponse = new Response(JSON.stringify(response), {
+                headers: { 'Content-Type': 'application/json' }
+              });
+              await cache.put('widgets-data', dataResponse);
+            }
+          } catch (error) {
+            console.error('Error handling cache:', error);
+          }
+        },
+        (error) => {
+          console.error('Error fetching widgets user data:', error);
+        }
+      );
+    } else {
+      console.error('Token not found in local storage');
+    }
 }
+
+  
+  
+  
+  isEqual(obj1: any, obj2: any): boolean {
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) return false;
+
+    for (let key of keys1) {
+      if (!keys2.includes(key)) return false;
+      if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
+
+
+
+
+
+
+  // doughnutChartData(): void {
+  //   this.chartService.doughnutChart().subscribe(
+  //     (response) => {
+  //       console.log(response);        
+  //       caches.open('chart-data').then(cache => {
+  //         cache.match('doughnutChart').then((cachedResponse) => {
+  //           if (cachedResponse) {
+  //             cachedResponse.json().then((cachedData: any) => {
+
+  //               if (!this.isEqual(response, cachedData)) {
+  //                 const dataResponse = new Response(JSON.stringify(response), {
+  //                   headers: { 'Content-Type': 'application/json' }
+  //                 });
+  //                 cache.put('doughnutChart', dataResponse);
+  //                 this.cacheChange=true;
+  //                 console.log(dataResponse);
+  //               }
+  //             });
+  //           } else {
+  //             const dataResponse = new Response(JSON.stringify(response), {
+  //               headers: { 'Content-Type': 'application/json' }
+  //             });
+  //             cache.put('doughnutChart', dataResponse);
+  //             console.log(dataResponse);
+  //           }
+  //         });
+  //       });
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching doughnut chart data:', error);
+  //     }
+
+  //   );
+  // }
+
+  // wordCloudData(): void {
+  //   this.chartService.wordCloud().subscribe(
+  //     (response) => {        
+  //       caches.open('chart-data').then(cache => {
+  //         cache.match('wordChart').then((cachedResponse) => {
+  //           if (cachedResponse) {
+  //             cachedResponse.json().then((cachedData: any) => {
+
+  //               if (!this.isEqual(response, cachedData)) {
+  //                 const dataResponse = new Response(JSON.stringify(response), {
+  //                   headers: { 'Content-Type': 'application/json' }
+  //                 });
+  //                 cache.put('wordChart', dataResponse);
+  //                 this.cacheChange=true;
+  //                 console.log(this.cacheChange);
+  //               }
+  //             });
+  //           } else {
+  //             const dataResponse = new Response(JSON.stringify(response), {
+  //               headers: { 'Content-Type': 'application/json' }
+  //             });
+  //             cache.put('wordChart', dataResponse);
+  //           }
+  //         });
+  //       });
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching doughnut chart data:', error);
+  //     }
+
+  //   );
+  // }
+
+
+
+
+  // lineAreaData(): void {
+  //   this.chartService.lineChart().subscribe(
+  //     (response) => {        
+  //       caches.open('chart-data').then(cache => {
+  //         cache.match('lineChart').then((cachedResponse) => {
+  //           if (cachedResponse) {
+  //             cachedResponse.json().then((cachedData: any) => {
+
+  //               if (!this.isEqual(response, cachedData)) {
+  //                 const dataResponse = new Response(JSON.stringify(response), {
+  //                   headers: { 'Content-Type': 'application/json' }
+  //                 });
+  //                 cache.put('lineChart', dataResponse);
+  //                 this.cacheChange=true;
+  //                 console.log(this.cacheChange);
+  //               }
+  //             });
+  //           } else {
+  //             const dataResponse = new Response(JSON.stringify(response), {
+  //               headers: { 'Content-Type': 'application/json' }
+  //             });
+  //             cache.put('lineChart', dataResponse);
+  //           }
+  //         });
+  //       });
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching doughnut chart data:', error);
+  //     }
+
+  //   );
+  // }
+
+  // widgets(): void {
+  //   const token = this.cookieService.get('token');
+  //   this.chartService.allWidgets(token).subscribe(
+  //     (response) => {        
+  //     // this.chartValues = response.map((item: any) => item.chart);
+  //     // this.chartTitle = response.map((item: any) => item.title);
+
+  //       caches.open('widgets').then(cache => {
+  //         cache.match('widgets-data').then((cachedResponse) => {
+  //           if (cachedResponse) {
+  //             cachedResponse.json().then((cachedData: any) => {
+
+  //               if (!this.isEqual(response, cachedData)) {
+  //                 const dataResponse = new Response(JSON.stringify(response), {
+  //                   headers: { 'Content-Type': 'application/json' }
+  //                 });
+  //                 cache.put('widgets-data', dataResponse);
+  //                 this.cacheChange=true;
+  //                 console.log(this.cacheChange);
+  //               }
+  //             });
+  //           } else {
+  //             const dataResponse = new Response(JSON.stringify(response), {
+  //               headers: { 'Content-Type': 'application/json' }
+  //             });
+  //             cache.put('widgets-data', dataResponse);
+  //           }
+  //         });
+  //       });
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching doughnut chart data:', error);
+  //     }
+
+  //   );
+  // }
+
+}
+
