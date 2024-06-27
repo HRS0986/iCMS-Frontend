@@ -4,7 +4,7 @@ import { Observable, catchError, map, throwError, timeout } from 'rxjs';
 import { MockSuggestionMetadataResponse, SuggestionMetaDataResponse, SuggestionPopupData } from '../interfaces/suggestions';
 import { Filter } from '../interfaces/filters';
 import { UtilityService } from './utility.service';
-
+import { ERRORS, URLS, SETTINGS } from './app.constants';
 @Injectable({
   providedIn: 'root'
 })
@@ -113,9 +113,9 @@ export class SuggestionService {
 
     const params = this.utility.buildFilterParams(filterCriteria, limit, skip);
     return this.http
-      .get<SuggestionMetaDataResponse>(`${this.baseUrlv2}/suggestions?${params}`)
+      .get<SuggestionMetaDataResponse>(`${URLS.baseUrlv2}/suggestions?${params}`)
       .pipe(
-        timeout(this.timeoutDuration),
+        timeout(SETTINGS.timeoutDuration),
         catchError(e => {
           if (e.name === 'TimeoutError') {
             return throwError(() => new Error("Request timed out. Please try again later."));

@@ -1,5 +1,5 @@
 <app-page-header
-  pageTitle="Email Issues"
+  pageTitle="Thread Summaries"
   class="w-full h-fit"
   [breadcrumbItems]="breadcrumbItems"
   [showButton]="false"
@@ -32,6 +32,7 @@
           onIcon="pi pi-comments"
           offLabel="All Threads"
           offIcon="pi pi-inbox"
+          (onChange)="onHotThreadsChange($event)"
         />
       </div>
       <div>

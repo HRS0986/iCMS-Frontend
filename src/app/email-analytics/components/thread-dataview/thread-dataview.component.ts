@@ -48,23 +48,41 @@ export class ThreadDataviewComponent {
 
   loadThreads($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
-
-    this.threadService.getMockHotThreads(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
-      next: (response: ThreadResponse) => {
-        this.threadData = response.threads;
-        this.threadData.forEach((thread: Thread) => {
-          thread.lastUpdate = new Date(thread.lastUpdate);
-        });
-        this.totalRecords = response.total;
-        this.loading = false;
-        console.log(this.threadData);
-      },
-      error: (error: any) => {
-        this.errorMessage = error;
-        this.loading = false;
-        this.dialogVisible = true;
-      }
-    });
+    if (this.hotThreads) {
+      this.threadService.getMockHotThreads(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
+        next: (response: ThreadResponse) => {
+          this.threadData = response.threads;
+          this.threadData.forEach((thread: Thread) => {
+            thread.lastUpdate = new Date(thread.lastUpdate);
+          });
+          this.totalRecords = response.total;
+          this.loading = false;
+          console.log(this.threadData);
+        },
+        error: (error: any) => {
+          this.errorMessage = error;
+          this.loading = false;
+          this.dialogVisible = true;
+        }
+      });
+    } else {
+      this.threadService.getMockAllThreads(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
+        next: (response: ThreadResponse) => {
+          this.threadData = response.threads;
+          this.threadData.forEach((thread: Thread) => {
+            thread.lastUpdate = new Date(thread.lastUpdate);
+          });
+          this.totalRecords = response.total;
+          this.loading = false;
+          console.log(this.threadData);
+        },
+        error: (error: any) => {
+          this.errorMessage = error;
+          this.loading = false;
+          this.dialogVisible = true;
+        }
+      });
+    }
   }
   onPageChange(event: any) {
     this.rowsPerPage = event.rows;
@@ -77,8 +95,14 @@ export class ThreadDataviewComponent {
     this.loadThreads({ first: 0, rows: this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder }, filterCriteria);
   }
 
+  onHotThreadsChange($event: any) {
+    // BUG: check this thoroughly
+    this.dataView.first = 0;
+    this.loadThreads({ first: 0, rows: this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder }, this.filterCriteria);
+  }
+
   breadcrumbItems: MenuItem[] = [
     {label: "Email Analytics", routerLink: "/email/dashboard2"},
-    {label: "Threads Summary"}
+    {label: "Thread Summaries"}
   ];
 }
