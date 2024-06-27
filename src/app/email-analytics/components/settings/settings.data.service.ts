@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, EmailINtegrationPostResponseMessage, GetEditingEmailResponse, GetNewIntergratingEmailID, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
-
+import { URLS } from '../../services/app.constants'
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
 
-  baseUrl: string = 'http://127.0.0.1:8000/email/settings';
+  baseUrl: string = `${URLS.baseUrl}/settings`;
 
 
   //-------------------------------------------get dataservices  -------------------------------------------------------------

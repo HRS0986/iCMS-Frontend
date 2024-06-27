@@ -88,8 +88,8 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
     firstResponseTime: 0,
     avgResponseTime: 0,
     resolutionTime: 0,
-    effectivity: 0,
-    efficiency: 0,
+    effectivity: '',
+    efficiency: '',
     sentiment: 0,
     id: '',
   };

@@ -3,7 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { DataViewLazyLoadEvent, DataView } from 'primeng/dataview';
 import { SuggestionService } from '../../services/suggestion.service';
 
-import { Suggestion, SuggestionMetaDataResponse, SuggestionsData } from '../../interfaces/suggestions';
+import { Suggestion, SuggestionResponse } from '../../interfaces/suggestions';
 
 import { Filter } from '../../interfaces/filters';
 
@@ -26,14 +26,10 @@ export class SuggestionFilteringComponent {
   
 
   suggestionData: Suggestion[] = new Array(10).fill({
-    id: '',
     suggestion: '',
-    isNew: false,
-    isPopular: false,
     dateSuggested: new Date(),
     tags: [],
-    sender: '',
-    recipient: '',
+    recipient: ''
   });
 
   totalRecords: number = 0;
@@ -55,25 +51,18 @@ export class SuggestionFilteringComponent {
     importantOnly: false,
     newOnly: false
   }
-  
-  // // Ranindu's vars
-  // dateRange: Date[] = [];
-  // products: string[] | undefined;
-  // productSelected!: string;
-  // recipientEmails: string[] | undefined;
-  // recipientEmailSelected!: string;
-
 
   constructor(private suggestionService: SuggestionService) { }
 
   loadSuggestions($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
 
-    this.suggestionService.getSuggestionData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({});
-    
-    this.suggestionService.getMockSuggestionData(criteria, $event.first ?? 0, $event.rows ?? 20).subscribe({
-      next: (response: SuggestionMetaDataResponse) => {
-        this.suggestionData = response.data;
+    this.suggestionService.getSuggestionData(criteria, $event.first ?? 0, $event.rows ?? 20).subscribe({
+      next: (response: SuggestionResponse) => {
+        this.suggestionData = response.suggestions;
+        this.suggestionData.forEach((suggestion: Suggestion) => {
+          suggestion.dateSuggested = new Date(suggestion.dateSuggested);
+        });
         this.totalRecords = response.total;
         this.loading = false;
       },

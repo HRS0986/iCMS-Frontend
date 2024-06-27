@@ -9,8 +9,8 @@ export interface Inquiry {
     dateUpdate?: Date;
     isOverdue?: boolean;
     tags: string[];
-    effectivity?: number;
-    efficiency?: number;
+    effectivity?: string;
+    efficiency?: string;
 }
 
 export interface PopupEmail {
@@ -31,8 +31,8 @@ export interface InquiryPopupData {
     dateUpdate?: Date;
     isOverdue?: boolean;
     tags: string[];
-    effectivity?: number;
-    efficiency?: number;
+    effectivity?: string;
+    efficiency?: string;
     dateOverdue: Date;
     firstResponseTime?: number; // in minutes
     avgResponseTime?: number;   // in minutes

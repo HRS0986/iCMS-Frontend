@@ -19,7 +19,7 @@ export class ThreadService {
   getHotThreads(criteria: Filter, first: number, rows: number): Observable<ThreadResponse> {
     const params = this.utility.buildFilterParams(criteria, rows, first);
     return this.http
-      .get<ThreadResponse>(`${URLS.baseUrlv2}/threads?${params}`)
+      .get<ThreadResponse>(`${URLS.baseUrlv2}/threads/hot-threads?${params}`)
       .pipe(
         timeout(SETTINGS.timeoutDuration),
         catchError(e => {

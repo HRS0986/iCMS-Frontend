@@ -49,7 +49,7 @@ export class ThreadDataviewComponent {
   loadThreads($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
     if (this.hotThreads) {
-      this.threadService.getMockHotThreads(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
+      this.threadService.getHotThreads(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
         next: (response: ThreadResponse) => {
           this.threadData = response.threads;
           this.threadData.forEach((thread: Thread) => {
@@ -66,7 +66,7 @@ export class ThreadDataviewComponent {
         }
       });
     } else {
-      this.threadService.getMockAllThreads(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
+      this.threadService.getAllThreads(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({
         next: (response: ThreadResponse) => {
           this.threadData = response.threads;
           this.threadData.forEach((thread: Thread) => {

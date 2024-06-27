@@ -9,26 +9,36 @@
       <p-tag
         class="p-1"
         styleClass="text-sm"
-        *ngIf="threadData.type === 'hot'"
+        *ngIf="!threadData.type || threadData.type === 'hot'"
         severity="danger"
         value="Hot"
       >
         <i class="pi pi-comments text-sm pr-2"></i>
       </p-tag>
+      <!-- normal status -->
+      <p-tag
+      class="p-1"
+      styleClass="text-sm bg-gray-400"
+      *ngIf="threadData.type === 'normal'"
+      severity="secondary"
+      value="General"
+    >
+      <i class="pi pi-inbox text-sm pr-2"></i>
+    </p-tag>
     </div>
     <!-- subject -->
     <div class="order-2 font-medium py-2 text-justify lg:col-span-6">
-      {{ threadData.subject }} dspajflkfjlafjlfjaflkjlfjd
+      {{ threadData.subject }} 
     </div>
     <!-- snippet -->
     <div class="order-2 font-normal text-sm py-2 text-justify lg:col-span-6">
       {{ threadData.snippet }} ...
     </div>
     <!-- client -->
-    <div class="order-2 lg:col-span-2 hidden">
+    <div class="order-2 lg:col-span-2">
       <span class="flex items-start overflow-hidden">
-        <i class="pi pi-send text-sm font-thin pr-2"></i>
-        Client: {{ threadData.subject }}</span
+        <i class="pi pi-history text-sm font-thin pr-2"></i>
+        Last Update: {{ displayedLastUpdate }}</span
       >
     </div>
     <!-- opened -->
@@ -103,6 +113,11 @@
         <i class="pi pi-tags text-sm font-thin pr-2"></i>
         <span class="font-semibold hidden md:inline">Tags:&nbsp;</span>
         <span class="">{{ threadData.tags }}</span>
+      </div>
+      <div class="lg:col-span-2">
+        <i class="pi pi-history text-sm font-thin pr-2"></i>
+        <span class="font-semibold hidden md:inline">Last Update:&nbsp;</span>
+        <span class="">{{ popupDisplayedLastUpdate }}</span>
       </div>
       <div class="my-hidden-class hidden">
         <p-divider class="-my-4 lg:col-span-2"></p-divider>

@@ -27,12 +27,12 @@
     <ng-template pTemplate="list" let-threads>
       <div class="flex justify-end">
         <p-toggleButton
-          [(ngModel)]="hotThreads"
-          onLabel="Hot Threads"
-          onIcon="pi pi-comments"
-          offLabel="All Threads"
-          offIcon="pi pi-inbox"
-          (onChange)="onHotThreadsChange($event)"
+        [(ngModel)]="hotThreads"
+        onLabel="Hot Threads"
+        onIcon="pi pi-comments"
+        offLabel="All Threads"
+        offIcon="pi pi-inbox"
+        (onChange)="onHotThreadsChange($event)"
         />
       </div>
       <div>
