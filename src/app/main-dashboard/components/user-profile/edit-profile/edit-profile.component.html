@@ -2,7 +2,7 @@
   <div class="profile-container">
 <div class="profile-container">
   <div class="profile-image-wrapper">
-    <img [src]="profileImage" alt="Profile Image" class="profile-image" (click)="openFileUpload()">
+    <img [src]="getProfileImageUrl()" alt="Profile Image" class="profile-image" (click)="openFileUpload()">
     <button pButton icon="pi pi-pencil" class="update-icon" (click)="openFileUpload()"></button>
   </div>
   <input #fileInput type="file" (change)="onFileSelected($event)" style="display: none;" />
@@ -42,6 +42,7 @@
   </div>
 
   </div>
+  <p-toast></p-toast>
 </div>
 
 

@@ -52,6 +52,20 @@ export class RoleSettingsService {
     return this.http.post<any>(this.apiUrl+'/newUser', body, {headers});
   }
 
+  updateUser(token: string, userName: string, email: string, phoneNumber: string, roles: { group_name: string, number_of_users: number }[]): any {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    let role_list = roles.map(role => role.group_name);
+    let body = {
+      username:userName,
+      email:email,
+      phone_number:phoneNumber,
+      roles:role_list
+    };
+    return this.http.put<any>(this.apiUrl+'/updateUser', body, {headers});
+  }
+
 
 
 }

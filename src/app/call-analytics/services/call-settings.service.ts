@@ -12,11 +12,11 @@ export class CallSettingsService {
   API_ROOT = 'http://127.0.0.1:8000';
 
   public getNotificationSettings(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.API_ROOT}/get-notification-settings`);
+    return this.http.get<ApiResponse>(`${this.API_ROOT}/notification-settings`);
   }
 
   public updateNotificationSettings(settings: CallSettingsDetails): Promise<ApiResponse> {
     console.log(settings)
-    return firstValueFrom(this.http.post<ApiResponse>(this.API_ROOT + '/update-notification-settings', settings));
+    return firstValueFrom(this.http.post<ApiResponse>(this.API_ROOT + '/notification-settings', settings));
   }
 }

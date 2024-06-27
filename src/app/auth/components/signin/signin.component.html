@@ -1,52 +1,41 @@
-
-<!-- login.component.html -->
-<!--<div class="login-container">-->
-<!--  <h2>Login</h2>-->
-<!--  <form (submit)="signIn()">-->
-<!--    <div class="form-group">-->
-<!--      <label for="username">Username</label>-->
-<!--      <input type="text" id="username" name="username" [(ngModel)]="username" required>-->
-<!--    </div>-->
-<!--    <div class="form-group">-->
-<!--      <label for="password">Password</label>-->
-<!--      <input type="password" id="password" name="password" [(ngModel)]="password" required>-->
-<!--    </div>-->
-<!--    <button type="submit">Sign In</button>-->
-<!--  </form>-->
-<!--</div>-->
 <p-toast></p-toast>
 
 <div class="h-screen w-100vh flex justify-between">
-  <div class="left h-screen">
-    <div class="sentiview">
-      <p>SentiView</p>
-    </div>
-    <div class="overlay1">
-      <img [src]="Image.image" width="400px" height="400px">
+  <div class="logo-section h-screen flex justify-center items-center">
+    <div>
+      <div class="sentiview">
+        <p>SentiView</p>
+      </div>
+      <div class="overlay1">
+        <img [src]="Image.image" width="400px" height="400px">
+      </div>
     </div>
   </div>
 
-  <div class="right h-screen">
-    <div class="overlay2">
+  <div class="form-section h-screen flex justify-center items-center">
+    <div>
       <div class="signup">
         <h2>Sign In</h2>
       </div>
-
-
-      <form>
-        <div class="form-group">
-          <label>Organization Email</label><br>
-          <input type="text" pInputText [(ngModel)]="username" name="username" />
+      <form [formGroup]="loginForm">
+        <div class="mt-10">
+          <label>Organization Email:</label><br>
+          <div class="flex flex-col mt-4">
+            <input type="text" pInputText formControlName="email" [class]="getEmailError() == '' ? '':'ng-invalid ng-dirty'"/>
+            <span class="text-red-500">{{getEmailError()}}</span>
+          </div>
         </div>
-
-        <div class="form-group">
+        <div class="mt-7 mb-10">
           <label>Password:</label><br>
-          <p-password [toggleMask]="true" [(ngModel)]="password" name="password"></p-password>
+          <div class="flex flex-col mt-2">
+            <p-password [toggleMask]="true" formControlName="password" [feedback]="false" [class]="getPasswordError() == '' ? '':'ng-invalid ng-dirty'"/>
+            <span class="text-red-500">{{getPasswordError()}}</span>
+          </div>
         </div>
-
-        <p-button label="Sign In" (onClick)="signIn()"></p-button>
+        <div class="flex">
+          <p-button label="Sign In" (onClick)="signIn()" class="w-full"></p-button>
+        </div>
       </form>
-
     </div>
   </div>
 </div>

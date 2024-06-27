@@ -6,5 +6,6 @@ import { Subject } from 'rxjs';
 })
 export class UserRefreshService {
   userAdded = new Subject<void>();
+  userUpdated = new Subject<void>();
   constructor() { }
 }
