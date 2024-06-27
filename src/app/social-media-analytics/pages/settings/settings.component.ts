@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from "primeng/api";
 import { Content } from '../../models/main-types';
-import { ModalExportPIComponent } from '../../components/Modals/modal-export-pi/modal-export-pi.component';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',

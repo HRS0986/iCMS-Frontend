@@ -1,0 +1,143 @@
+<div class="card flex justify-content-center">
+  <img
+    src="assets/social-media/svg/add.svg"
+    alt="Add Icon"
+    class="right-bar-icon"
+    style="cursor: pointer; width: 36px"
+    (click)="showDialog()"
+  />
+  <p-dialog
+    header="Set Topic Alerts"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '45rem' }"
+  >
+    <div class="flex align-items-center mb-3">
+      <label
+        for="topic"
+        class="font-semibold"
+        style="width: 6rem; flex-shrink: 0"
+        >Topic</label
+      >
+      <div style="flex-grow: 1">
+        <p-dropdown
+          [options]="platforms"
+          [(ngModel)]="selectedPlatform"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Select a Platform"
+          [style]="{ width: '100%' }"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedPlatform">
+              <img [src]="selectedPlatform.icon" style="width: 20px" />
+              <div>{{ selectedPlatform.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-platform pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <img [src]="platform.icon" style="width: 20px" />
+              <div>{{ platform.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+
+    <div class="flex align-items-center mb-3">
+      <label
+        for="alertType"
+        class="font-semibold"
+        style="width: 6rem; flex-shrink: 0"
+        >Alert Type</label
+      >
+      <div style="flex-grow: 1">
+        <p-dropdown
+          [options]="notificationTypes"
+          [(ngModel)]="selectedNotificationType"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Select an Alert Type"
+          id="alertType"
+          [style]="{ width: '100%' }"
+        >
+          <ng-template let-notificationType pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <img [src]="notificationType.icon" style="width: 20px" />
+              <div>{{ notificationType.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+
+    <div class="flex align-items-center mb-3">
+      <label
+        for="threshold"
+        class="font-semibold"
+        style="width: 6rem; flex-shrink: 0"
+        >Threshold</label
+      >
+    </div>
+    <div
+      class="flex align-items-center mb-3"
+      style="align-items: center; justify-content: space-evenly"
+    >
+      <div style="display: flex; flex-direction: row; align-items: center">
+        <label
+          for="minThreshold"
+          class="font-semibold"
+          style="width: 6rem; flex-shrink: 0"
+          >Min :
+        </label>
+        <p-inputNumber
+          class="short-input"
+          mode="decimal"
+          [showButtons]="true"
+          inputId="minThreshold"
+          [min]="-10"
+          [max]="10"
+          [(ngModel)]="minValue"
+          [style]="{ width: '100px' }"
+          [inputStyle]="{ width: '100%', 'font-size': '14px' }"
+        ></p-inputNumber>
+      </div>
+      <div
+        style="
+          display: flex;
+          justify-content: space-evenly;
+          flex-direction: row;
+          align-items: center;
+        "
+      >
+        <label
+          for="maxThreshold"
+          class="font-semibold"
+          style="width: 6rem; flex-shrink: 0"
+          >Max :
+        </label>
+        <p-inputNumber
+          class="short-input"
+          mode="decimal"
+          [showButtons]="true"
+          inputId="maxThreshold"
+          [min]="-10"
+          [max]="10"
+          [(ngModel)]="maxValue"
+          [style]="{ width: '100px' }"
+          [inputStyle]="{ width: '100%', 'font-size': '14px' }"
+        ></p-inputNumber>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: center">
+      <button
+        pButton
+        type="button"
+        label="Save"
+        (click)="visible = false"
+        style="margin: 0 auto"
+      ></button>
+    </div>
+  </p-dialog>
+</div>

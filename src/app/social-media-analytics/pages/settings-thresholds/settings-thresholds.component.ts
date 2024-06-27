@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Thresholds } from '../../models/settings';
 import { SettingsApiService } from '../../services/settings-api.service';
-
+import { ModalSetThresholdComponent } from '../../components/Modals/modal-set-threshold/modal-set-threshold.component';
 
 @Component({
   selector: 'settings-thresholds',
@@ -10,6 +10,7 @@ import { SettingsApiService } from '../../services/settings-api.service';
 })
 
 export class SettingsThresholdsComponent implements OnInit {
+  topBarCaption:string = "Add New"
   list_thresholds: Thresholds[] = [];
   thresholds!: Thresholds[];
 

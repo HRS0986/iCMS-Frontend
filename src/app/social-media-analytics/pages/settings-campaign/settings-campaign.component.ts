@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SortEvent } from 'primeng/api';
 import { Campaign, CampaignData } from '../../models/campaign-analysis';
 import { SettingsApiService } from '../../services/settings-api.service';
-
+import { ModalAddNewCampaignComponent } from '../../components/Modals/modal-add-new-campaign/modal-add-new-campaign.component';
 
 @Component({
   selector: 'settings-campaign',
