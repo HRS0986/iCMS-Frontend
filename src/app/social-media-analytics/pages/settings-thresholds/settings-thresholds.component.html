@@ -1,8 +1,19 @@
 <div class="flex flex-col">
   <div>
     <p-panel>
-      <div class="block">
+      <div
+        class="block"
+        style="
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        "
+      >
         <p class="text-faded">3 Custom thresholds</p>
+        <div style="display: flex; flex-direction: row; align-items: center">
+          <p class="text-top-right-bar">{{ topBarCaption }} :</p>
+          <app-modal-set-threshold></app-modal-set-threshold>
+        </div>
       </div>
 
       <div class="card">

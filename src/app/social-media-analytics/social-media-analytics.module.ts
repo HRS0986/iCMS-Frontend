@@ -43,6 +43,8 @@ import { CaCardsComponent } from './components/ca-cards/ca-cards.component';
 import { LineChartInstagramComponent } from './components/charts/line-chart-instagram/line-chart-instagram.component';
 import { ModalExportPIComponent } from './components/Modals/modal-export-pi/modal-export-pi.component';
 import { ModalAddNewCampaignComponent } from './components/Modals/modal-add-new-campaign/modal-add-new-campaign.component';
+import { ModalSetAlertComponent } from './components/Modals/modal-set-alert/modal-set-alert.component';
+import { ModalSetThresholdComponent } from './components/Modals/modal-set-threshold/modal-set-threshold.component';
 
 
 @NgModule({
@@ -68,6 +70,8 @@ import { ModalAddNewCampaignComponent } from './components/Modals/modal-add-new-
     WordCloudSm2Component,
     CaCardsComponent,
     LineChartInstagramComponent
+    
+  
     
   ],
   imports: [
@@ -99,6 +103,8 @@ import { ModalAddNewCampaignComponent } from './components/Modals/modal-add-new-
     ButtonModule,
     ModalExportPIComponent,
     ModalAddNewCampaignComponent,
+    ModalSetAlertComponent,
+    ModalSetThresholdComponent,
     NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
   ]
 })

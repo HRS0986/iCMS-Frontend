@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { SettingAlertsData, AlertItem } from '../../models/settings';
 import { SettingsApiService } from '../../services/settings-api.service';
 
-
 @Component({
   selector: 'settings-alerts',
   templateUrl: './settings-alerts.component.html',
@@ -47,7 +46,7 @@ export class SettingsAlerts implements OnInit {
   }
 
   tabFacebook = { title: 'Facebook', img: 'assets/social-media/icons/facebook.png' };
-  tabInstergram = { title: 'Instergram', img: 'assets/social-media/icons/instargram.png' };
+  tabInstergram = { title: 'Instagram', img: 'assets/social-media/icons/instargram.png' };
   tabTwitter = { title: 'Twitter', img: 'assets/social-media/icons/twitter.png' };
 
   contentFacebook: SettingAlertsData = { subtitle: "Facebook", data: this.list_facebook };

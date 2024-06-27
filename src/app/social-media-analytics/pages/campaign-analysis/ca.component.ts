@@ -22,7 +22,7 @@ export class CAComponent {
   caPageItem2: Content = { title: 'Top Performing Campaigns on Instergram' };
   caPageItem3: Content = { title: 'Top Performing Campaigns on Twitter' };
 
-  topBarCaption = "Custom Campaigns";
+  topBarCaption = "Add New:";
 
   showAdditionalCards: boolean = false;
 

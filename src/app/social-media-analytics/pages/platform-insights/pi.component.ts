@@ -3,7 +3,7 @@ import { MenuItem } from "primeng/api";
 import { PiPageItem } from '../../models/platform-insights';
 import { PlatformInsightsApiService } from '../../services/platform-insights-api.service';
 import { ModalAddNewCampaignComponent } from '../../components/Modals/modal-add-new-campaign/modal-add-new-campaign.component';
-
+import { ModalSetAlertComponent } from '../../components/Modals/modal-set-alert/modal-set-alert.component';
 @Component({
   selector: 'app-pi',
   templateUrl: './pi.component.html',
