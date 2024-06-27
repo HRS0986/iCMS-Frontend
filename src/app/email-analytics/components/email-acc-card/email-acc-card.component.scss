@@ -56,7 +56,28 @@ html {
     width: 30%;
   }
 
-  table td button {
+  table td #btnEdit {
+    --primary: #2b80e9;
+    --secondary: white;
+    padding: 0.5rem 0;
+    width: 150px;
+    background-color: var(--primary);
+    border-radius: 5px;
+    font-size: 1rem;
+    color: var(--secondary);
+    border: 0;
+   }
+  table td #btnEdit:hover {
+    background-color: #4991e9;
+    color: var(--primary);
+    background-color: var(--secondary);
+    -webkit-box-shadow:inset 0px 0px 0px 2px var(--primary);
+    -moz-box-shadow:inset 0px 0px 0px 2px var(--primary);
+    box-shadow:inset 0px 0px 0px 2px var(--primary);
+    cursor: pointer;
+   }
+
+  table td #btnDel {
     --primary: #fa333d;
     --secondary: white;
     padding: 0.5rem 0;
@@ -67,7 +88,7 @@ html {
     color: var(--secondary);
     border: 0;
    }
-  table td button:hover {
+  table td #btnDel:hover {
     background-color: red;
     color: var(--primary);
     background-color: var(--secondary);

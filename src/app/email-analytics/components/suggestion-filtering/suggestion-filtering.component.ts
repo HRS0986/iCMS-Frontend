@@ -3,8 +3,11 @@ import { MenuItem } from 'primeng/api';
 import { DataService } from './suggestion-filtering.component.service';
 import { DataViewLazyLoadEvent, DataView } from 'primeng/dataview';
 import { SuggestionService } from '../../services/suggestion.service';
-import { Suggestion, SuggestionMetaDataResponse } from '../../interfaces/suggestions';
+
+import { Suggestion, SuggestionMetaDataResponse, SuggestionsData } from '../../interfaces/suggestions';
+
 import { Filter } from '../../interfaces/filters';
+
 
 interface PageEvent {
   first: number | undefined;
@@ -19,8 +22,10 @@ interface PageEvent {
   styleUrl: './suggestion-filtering.component.scss'
 })
 export class SuggestionFilteringComponent {
+
   @ViewChild('dataView') dataView!: DataView;
   
+
   suggestionData: Suggestion[] = new Array(10).fill({
     id: '',
     suggestion: '',
@@ -105,13 +110,12 @@ export class SuggestionFilteringComponent {
     const intervalInDays = this.calculateDatesInterval(this.dateRange)
     this.getFilteredSuggestions(intervalInDays, this.productSelected, this.recipientEmailSelected)
   }
+  
   getFilteredSuggestions(intervalInDays: number, productSelected: string, recipientEmailSelected:string){
 
-    type dict = { [key: string]: any };
-
-    this.dataservice.getDataForFilterSuggestions( intervalInDays, productSelected, recipientEmailSelected).subscribe((data: dict) => {
+    this.dataservice.getDataForFilterSuggestions( intervalInDays, productSelected, recipientEmailSelected).subscribe((data: SuggestionsData[]) => {
       console.log("suggestions data", data)
-      // this.suggestionsData= data["suggestionsData"]
+      this.suggestionsData= data
       
      });
 

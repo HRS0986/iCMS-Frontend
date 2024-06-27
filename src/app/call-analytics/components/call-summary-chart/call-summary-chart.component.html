@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <p-panel class="flex flex-col text-center justify-center mb-4">
 
-  <div class="flex justify-between items-center px-3 mb-5" [style.display]="noCalls ? 'block' : 'none'">
+  <div class="flex justify-between items-center px-3 mb-5" [style.display]="noData ? 'block' : 'none'">
     <img src="./assets/call/noresult.png">
   </div>
 
@@ -43,7 +43,7 @@
     </ul>
   </div>
 
-  <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of callRecordings">
+  <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of callRecordings" [style.display]="isLoading ? 'none':''">
     <div class="flex justify-between" style="width:60%;">
       <div class="flex items-center gap-8">
         <img src="./assets/call/phone.png" width="25" height="25">

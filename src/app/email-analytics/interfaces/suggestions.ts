@@ -9,6 +9,8 @@ export interface Suggestion {
     recipient: string;
 }
 
+
+
 export interface SuggestionMetaDataResponse {
     data: Suggestion[];
     total: number;
@@ -51,4 +53,19 @@ export interface MockSuggestionAdditionalDataResponse {
     body: string;
 }
 
-// ---
+// ---Ranindu added interface
+export interface SuggestionsData{
+    receiver: string;
+    date: string;
+    products: string[];
+    suggestion: string;
+}
+
+export interface RecepientsResponse{
+   recepients: string[];
+}
+
+export interface ProductsResponse{
+    products: string[];
+ }
+   

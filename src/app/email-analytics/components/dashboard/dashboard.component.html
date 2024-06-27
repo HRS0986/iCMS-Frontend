@@ -22,14 +22,14 @@
     <div class="stat-cards">
       <app-doughnut-chart title="Current Overall Sentiments" [chartData]="chartData" *ngIf="!isLoadingDC"/>
       <!-- <app-doughnut-chart title="Current Overall Sentiments" /> -->
-      <app-keyword-cloud title="Trending keywords" [keywords]="keywords"></app-keyword-cloud>
+     
       <app-wordcloud [words]="wordCloudData" title="Trending Topics" *ngIf="!isLoadingWCC"/>
     </div>
     <div class="stat-cards">
       <app-line-area-chart title="Sentiments Over Time"  [labels]="labelsForSentimentsByTime" [positive_values]="positive_values_forSentimentsByTime" 
       [neutral_values]="neutral_values_forSentimentsByTime" [negative_values]="negative_values_forSentimentsbyTime" *ngIf="!isLoadingSBTime"/>
       <div *ngFor="let item of statsData">
-        <app-stat-card
+        <app-stat-card *ngIf="!isLoadingStatCards"
           [title]="item.title.toString()"
           [subTitle]="item.sub_title"
           [imgPath]="item.imgPath"

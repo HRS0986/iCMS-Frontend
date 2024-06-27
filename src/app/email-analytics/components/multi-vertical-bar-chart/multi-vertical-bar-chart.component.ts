@@ -31,13 +31,13 @@ export class MultiVerticalBarChartComponent implements OnInit{
             labels: this.labels||['test1', "test2", "test3", "test4"],
             datasets: [
                 {
-                    label: "Resolved Issues",
+                    label: "no of Resolved Issues",
                     backgroundColor: "rgba(18, 86, 222, 0.9)",
                     borderColor: "rgba(18, 86, 222, 0.9)",
                     data: this.efficiency_dataset_for_issues || [5,5,5,5]
                 },
                 {
-                    label: 'Resolved Inquiries',
+                    label: 'no of Resolved Inquiries',
                     backgroundColor: "rgba(222, 18, 195, 0.9)",
                     borderColor: "rgba(222, 18, 195, 0.9)",
                     data: this.efficiency_dataset_for_inquiries || [5,5,5,5]

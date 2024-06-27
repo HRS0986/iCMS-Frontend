@@ -10,7 +10,10 @@
       [maxDate]="maxDate"
     />
   </div>
-  <div
+
+</div>
+
+<div
     class="my-child-2 flex-grow min-h-[900px] grid grid-cols-2 gap-5 md:grid-cols-3 md:grid-rows-4 md:min-h-[600px]"
   >
     <div
@@ -63,7 +66,6 @@
       <app-dashboard-actionables></app-dashboard-actionables>
     </div>
   </div>
-</div>
 
 <!-- the calendars
 
@@ -91,14 +93,14 @@
       </div>
     </div>
     <!-- Current Overall efficiency donought chart-->
-    <div class="stat-cards h-40">
+    <!-- <div class="stat-cards h-40"> -->
       <app-effi-effec-donought-chart
         title="Current Overall Efficiency"
         [chartData]="dntChartDataOverallEfficiency"
         [chartLabels]="dntChartOverallEfficiencyLabels"
         *ngIf="!isLoadingDCOverallEfficiency"
       />
-    </div>
+    <!-- </div> -->
     <!-- Current Overall progress donought chart-->
     <app-progress-donought-chart
       title="Current Progress of both issues and inquiries"
