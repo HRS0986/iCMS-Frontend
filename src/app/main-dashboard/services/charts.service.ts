@@ -18,6 +18,8 @@ export class ChartsService {
   private messagesSubject$ = new Subject<any>();
   public messages$ = this.messagesSubject$.asObservable();
 
+  private baseUrl = 'http://127.0.0.1:8002/charts';
+
   username:any;
 
 
@@ -26,7 +28,7 @@ export class ChartsService {
   }
 
   private connect() {
-    this.socket$ = webSocket('http://127.0.0.1:8002/charts/ws');
+    this.socket$ = webSocket(`${this.baseUrl}/ws`);
 
     this.socket$.subscribe(
       message => this.messagesSubject$.next(message),
@@ -51,7 +53,7 @@ export class ChartsService {
     }
   }
 
-  private baseUrl = 'http://127.0.0.1:8002/charts';
+
   // private baseUrlUser = 'http://127.0.0.1:8001/authendication';
   
   // constructor(private http: HttpClient ) {}

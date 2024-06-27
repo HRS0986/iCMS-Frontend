@@ -19,7 +19,7 @@ export class NotificationService {
   }
 
   private connect() {
-    this.socket$ = webSocket('http://127.0.0.1:8001/Notifications/ws');
+    this.socket$ = webSocket(`${this.baseUrl}/ws`);
     this.socket$.subscribe(
       message => this.messagesSubject$.next(message),
       err => console.error(err),
