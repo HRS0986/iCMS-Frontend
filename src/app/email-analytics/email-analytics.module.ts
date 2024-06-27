@@ -23,10 +23,8 @@ import { DialogModule } from 'primeng/dialog';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.component';
-import { SummaryCardComponent } from './components/summary-card/summary-card.component';
-import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
-import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
-import { EmailTableComponent } from './components/email-table/email-table.component';
+// import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
+// import { EmailTableComponent } from './components/email-table/email-table.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.component';
 
@@ -102,10 +100,8 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
     LineAreaChartComponent,
     StatCardComponent,
     KeywordCloudComponent,
-    SummaryCardComponent,
-    SummaryCardsContainerComponent,
-    EmailFilteringComponent,
-    EmailTableComponent,
+    // EmailFilteringComponent,
+    // EmailTableComponent,
     SettingsComponent,
     EmailAccCardComponent,
     NotiSendingEmailAccCardComponent,

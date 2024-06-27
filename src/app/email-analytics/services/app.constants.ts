@@ -1,12 +1,14 @@
 export const URLS = {
-    baseUrl: 'http://localhost:8000/email',
-    baseUrlv2: 'http://localhost:8000/email/v2',
+    // baseUrl: 'http://localhost:8000/email',
+    // baseUrlv2: 'http://localhost:8000/email/v2',
+    baseUrl: 'http://54.202.21.67:8080/email',
+    baseUrlv2: 'http://54.202.21.67:8080/email/v2',
 }
 
 export const SETTINGS = {
     defaultLimit: 10,
     defaultSkip: 0,
-    timeoutDuration: 5000,  // Timeout duration in milliseconds
+    timeoutDuration: 10000,  // Timeout duration in milliseconds
 }
 
 export const ERRORS = {

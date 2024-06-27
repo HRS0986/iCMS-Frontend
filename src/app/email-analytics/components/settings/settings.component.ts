@@ -701,8 +701,8 @@ getNewIntergratingEmailID(): void{
   this.dataService.getNewIntegratingEmailID().subscribe((data: GetNewIntergratingEmailID) => {
     console.log('OverdueIssues checking emails',data)
     this.newlyIntegratingEmailID = data.emailID
-    let msgDetail = `Use the following redirect url when setting up the gmail API for the following newly intergrating email account \n \n http://127.0.0.1:8000/email/info_and_retrieval/callback?id=${this.newlyIntegratingEmailID}`
-
+    // let msgDetail = `Use the following redirect url when setting up the gmail API for the following newly intergrating email account \n \n http://127.0.0.1:8000/email/info_and_retrieval/callback?id=${this.newlyIntegratingEmailID}`
+    let msgDetail = `Use the following redirect url when setting up the gmail API for the following newly intergrating email account \n \n ${this.dataService.baseUrl}=${this.newlyIntegratingEmailID}`
     this.newIntergratingEmailIDMessages = [{ severity: 'info', detail:  msgDetail}]
 
   },
