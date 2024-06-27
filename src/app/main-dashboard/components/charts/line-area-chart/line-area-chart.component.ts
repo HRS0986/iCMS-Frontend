@@ -4,6 +4,7 @@ import { ChartsService } from '../../../services/charts.service';
 import { timer } from 'rxjs';
 import { DateRangeService } from '../../../services/shared-date-range/date-range.service';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from '../../../../auth/services/authentication.service';
 
 @Component({
   selector: 'app-line-area-chart',
@@ -49,7 +50,9 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
 
   private socketSubscription: Subscription | undefined;
 
-  constructor(private http: HttpClient, private chartService: ChartsService,private dateRangeService: DateRangeService) {}
+  constructor(private http: HttpClient, private chartService: ChartsService,private dateRangeService: DateRangeService,
+    private authService:AuthenticationService
+  ) {}
 
   ngOnInit() {
     if(this.yAxis==='sentiment-count'){
@@ -189,7 +192,8 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
   }
 
   chartDataGet(): void {
-    this.chartService.chartData().subscribe(
+    this.authService.getIdToken().subscribe((token) =>{
+    this.chartService.chartData(token).subscribe(
       (response) => {      
         caches.open('all-data').then(cache => {
           cache.match('data').then((cachedResponse) => {
@@ -221,6 +225,7 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
       //   console.error('Error fetching doughnut chart data:', error);
       // } 
     );
+  });
   }
   
   isEqual(obj1: any, obj2: any): boolean {

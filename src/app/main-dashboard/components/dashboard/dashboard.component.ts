@@ -1,6 +1,6 @@
 import { Component, OnInit,OnDestroy,ViewChild } from '@angular/core';
 import {MenuItem} from "primeng/api";
-import { AuthendicationService } from '../../services/authendication.service';
+// import { AuthendicationService } from '../../services/authendication.service';
 import { ChartsService } from '../../services/charts.service';
 import { CookieService } from 'ngx-cookie-service';
 import { timer } from 'rxjs';
@@ -15,7 +15,7 @@ import { LineAreaChartComponent } from '../charts/line-area-chart/line-area-char
 import { WordcloudComponent } from '../charts/wordcloud/word-cloud.component';
 import { DateRangeService } from '../../services/shared-date-range/date-range.service';
 import { DashboardResponsetimeComponent } from '../../../email-analytics/components/dashboard-responsetime/dashboard-responsetime.component';
-
+import { AuthenticationService } from '../../../auth/services/authentication.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
   
   private socketSubscription: Subscription | undefined;
 
-  constructor(private authService: AuthendicationService,
+  constructor(private authService: AuthenticationService,
     private chartService:ChartsService,
     private cookieService: CookieService,
     private dateRangeService: DateRangeService
@@ -154,7 +154,8 @@ export class DashboardComponent implements OnInit,OnDestroy{
   // }
 
   chartDataGet(): void {
-    this.chartService.chartData().subscribe(
+    this.authService.getIdToken().subscribe((token) =>{
+    this.chartService.chartData(token).subscribe(
       (response) => {  
         caches.open('all-data').then(cache => {
           cache.match('data').then((cachedResponse) => {
@@ -185,11 +186,13 @@ export class DashboardComponent implements OnInit,OnDestroy{
       //   console.error('Error fetching doughnut chart data:', error);
       // } 
     );
+  });
   }
 
   widgetsUserData(): void {
     console.log("chnaged widgets");
-      this.chartService.widgetsUser().subscribe(
+    this.authService.getIdToken().subscribe((token) =>{
+      this.chartService.widgetsUser(token).subscribe(
         async (response) => {
             try {
               const cache = await caches.open('widgets');
@@ -222,6 +225,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
           // console.error('Error fetching widgets user data:', error);
         }
       );
+  });
 }
 
   

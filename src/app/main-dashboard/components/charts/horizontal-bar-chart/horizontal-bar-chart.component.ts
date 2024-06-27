@@ -2,6 +2,7 @@ import {  Component, Input, OnInit,EventEmitter, OnChanges, SimpleChanges,Output
 import { DateRangeService } from '../../../services/shared-date-range/date-range.service';
 import { ChartsService } from '../../../services/charts.service';
 import { timer } from 'rxjs';
+import { AuthenticationService } from '../../../../auth/services/authentication.service';
 
 @Component({
   selector: 'app-horizontal-bar-chart',
@@ -52,7 +53,9 @@ export class HorizontalBarChartComponent implements OnInit,OnChanges{
 
   chartCategory:string='topic';
 
-  constructor(private dateRangeService: DateRangeService,private chartService: ChartsService){}
+  constructor(private dateRangeService: DateRangeService,private chartService: ChartsService,
+private authService:AuthenticationService
+  ){}
 
   ngOnInit() {
     this.categories=this.source;
@@ -153,7 +156,8 @@ export class HorizontalBarChartComponent implements OnInit,OnChanges{
 
   
   chartDataGet(): void {
-    this.chartService.chartData().subscribe(
+    this.authService.getIdToken().subscribe((token) =>{
+    this.chartService.chartData(token).subscribe(
       (response) => {       
         caches.open('all-data').then(cache => {
           cache.match('data').then((cachedResponse) => {
@@ -185,6 +189,7 @@ export class HorizontalBarChartComponent implements OnInit,OnChanges{
       //   console.error('Error fetching doughnut chart data:', error);
       // } 
     );
+  });
   }
   
   isEqual(obj1: any, obj2: any): boolean {

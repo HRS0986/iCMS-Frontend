@@ -60,8 +60,7 @@ export class ChartsService {
   //   return this.http.get<any>(`${this.baseUrl}/doughnutChart`);
   // }
 
-  chartData(): Observable<any> {
-    const token = localStorage.getItem('idToken');
+  chartData(token:string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -90,8 +89,7 @@ export class ChartsService {
   //   return this.http.get<any>(`${this.baseUrl}/lineChart`);
   // }
 
-  newWidget(widgetData: any): Observable<any> {
-    const token = localStorage.getItem('idToken');
+  newWidget(token:string,widgetData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -100,8 +98,7 @@ export class ChartsService {
     return this.http.post<any>(`${this.baseUrl}/newWidget`, {'widget':widgetData}, { headers });
   }
 
-  saveGridLayout(widgetData: any): Observable<any> {
-    const token = localStorage.getItem('idToken');
+  saveGridLayout(token:string,widgetData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -109,8 +106,7 @@ export class ChartsService {
     return this.http.post<any>(`${this.baseUrl}/gridChanged`, {'items':widgetData}, { headers });
   }
 
-  saveGridStatus(id:string,status:any): Observable<any> {
-    const token = localStorage.getItem('idToken');
+  saveGridStatus(token:string,id:string,status:any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -135,8 +131,7 @@ export class ChartsService {
   //   return this.http.get<any>(`${this.baseUrl}/allWidgets`,{headers});
   // }
 
-  widgetsUser(): Observable<any> {
-    const token = localStorage.getItem('idToken');
+  widgetsUser(token:string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -145,88 +140,88 @@ export class ChartsService {
     return this.http.get<any>(`${this.baseUrl}/widgetsUser`, { headers });
 }
 
-  chartDataGet(): void {
-    this.chartData().subscribe(
-      (response) => {
-        caches.open('all-data').then(cache => {
-          cache.match('data').then((cachedResponse) => {
-            if (cachedResponse) {
-              cachedResponse.json().then((cachedData: any) => {
-                // Compare the response with the cached data
-                if (!this.isEqual(response, cachedData)) {
-                  // Update only the changed data in the cache
-                  // const updatedData = { ...cachedData, ...response };
-                  const dataResponse = new Response(JSON.stringify(response), {
-                    headers: { 'Content-Type': 'application/json' }
-                  });
-                  cache.put('data', dataResponse);
-                  // Emit an event indicating that data has changed
-                  this.messagesSubject$.next({ type: 'data-change', data: response });
-                }
-              });
-            } else {
-              // Cache the response if no cached data exists
-              const dataResponse = new Response(JSON.stringify(response), {
-                headers: { 'Content-Type': 'application/json' }
-              });
-              cache.put('data', dataResponse);
-            }
-          });
-        });
-      },
-      // (error) => {
-      //   console.error('Error fetching chart data:', error);
-      // }
-    );
-  }
+  // chartDataGet(): void {
+  //   this.chartData().subscribe(
+  //     (response) => {
+  //       caches.open('all-data').then(cache => {
+  //         cache.match('data').then((cachedResponse) => {
+  //           if (cachedResponse) {
+  //             cachedResponse.json().then((cachedData: any) => {
+  //               // Compare the response with the cached data
+  //               if (!this.isEqual(response, cachedData)) {
+  //                 // Update only the changed data in the cache
+  //                 // const updatedData = { ...cachedData, ...response };
+  //                 const dataResponse = new Response(JSON.stringify(response), {
+  //                   headers: { 'Content-Type': 'application/json' }
+  //                 });
+  //                 cache.put('data', dataResponse);
+  //                 // Emit an event indicating that data has changed
+  //                 this.messagesSubject$.next({ type: 'data-change', data: response });
+  //               }
+  //             });
+  //           } else {
+  //             // Cache the response if no cached data exists
+  //             const dataResponse = new Response(JSON.stringify(response), {
+  //               headers: { 'Content-Type': 'application/json' }
+  //             });
+  //             cache.put('data', dataResponse);
+  //           }
+  //         });
+  //       });
+  //     },
+  //     // (error) => {
+  //     //   console.error('Error fetching chart data:', error);
+  //     // }
+  //   );
+  // }
 
-  widgetsUserData(): void {
-    this.widgetsUser().subscribe(
-      (response) => {
-        console.log('service widgetsUser');
-        caches.open('widgets').then(cache => {
-          cache.match('widgets-data').then((cachedResponse) => {
-            if (cachedResponse) {
-              cachedResponse.json().then((cachedData: any) => {
+//   widgetsUserData(): void {
+//     this.widgetsUser().subscribe(
+//       (response) => {
+//         console.log('service widgetsUser');
+//         caches.open('widgets').then(cache => {
+//           cache.match('widgets-data').then((cachedResponse) => {
+//             if (cachedResponse) {
+//               cachedResponse.json().then((cachedData: any) => {
 
-                if (!this.isEqual(response, cachedData)) {
-                  const dataResponse = new Response(JSON.stringify(response), {
-                    headers: { 'Content-Type': 'application/json' }
-                  });
-                  cache.put('widgets-data', dataResponse);
-                  // this.widgetCacheChange=true;
-                }
-              });
-            } else {
-              const dataResponse = new Response(JSON.stringify(response), {
-                headers: { 'Content-Type': 'application/json' }
-              });
-              cache.put('widgets-data', dataResponse);
-            }
-          });
-        });
-      },
-      // (error) => {
-      //   console.error('Error fetching doughnut chart data:', error);
-      // }  
-    );
-}
+//                 if (!this.isEqual(response, cachedData)) {
+//                   const dataResponse = new Response(JSON.stringify(response), {
+//                     headers: { 'Content-Type': 'application/json' }
+//                   });
+//                   cache.put('widgets-data', dataResponse);
+//                   // this.widgetCacheChange=true;
+//                 }
+//               });
+//             } else {
+//               const dataResponse = new Response(JSON.stringify(response), {
+//                 headers: { 'Content-Type': 'application/json' }
+//               });
+//               cache.put('widgets-data', dataResponse);
+//             }
+//           });
+//         });
+//       },
+//       // (error) => {
+//       //   console.error('Error fetching doughnut chart data:', error);
+//       // }  
+//     );
+// }
 
-  isEqual(obj1: any, obj2: any): boolean {
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
+//   isEqual(obj1: any, obj2: any): boolean {
+//     const keys1 = Object.keys(obj1);
+//     const keys2 = Object.keys(obj2);
 
-    if (keys1.length !== keys2.length) return false;
+//     if (keys1.length !== keys2.length) return false;
 
-    for (let key of keys1) {
-      if (!keys2.includes(key)) return false;
-      if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
-        return false;
-      }
-    }
-    return true;
+//     for (let key of keys1) {
+//       if (!keys2.includes(key)) return false;
+//       if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
+//         return false;
+//       }
+//     }
+//     return true;
  
-  }
+//   }
+// }
+
 }
-
-

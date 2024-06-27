@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 import { timer } from 'rxjs';
 import {MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
-
+import { AuthenticationService } from '../../../auth/services/authentication.service';
 interface Product {
   id: number;
   title: string;
@@ -110,6 +110,7 @@ export class GridComponent implements OnInit {
     private ChartService: ChartsService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
+    ,private authService:AuthenticationService
     ) {}
   ngOnInit(): void {
     this.gridStart = 0;
@@ -178,8 +179,8 @@ addChart($event: MouseEvent | TouchEvent, item:any): void {
 }
 
 saveStatus(item:any,status:string){
-
-    this.ChartService.saveGridStatus(item.id,status).subscribe(
+  this.authService.getIdToken().subscribe((token) =>{
+    this.ChartService.saveGridStatus(token,item.id,status).subscribe(
       response => {
         // console.log('Grid layout saved successfully:', response);
       },
@@ -187,8 +188,21 @@ saveStatus(item:any,status:string){
         // console.error('Error saving grid layout:', error);
       }
     );
+  });
   }
   
+  saveLayout(change:any): void {
+    this.authService.getIdToken().subscribe((token) =>{
+    this.ChartService.saveGridLayout(token,change).subscribe(
+      response => {
+        // console.log('Grid layout saved successfully:', response);
+      },
+      error => {
+        // console.error('Error saving grid layout:', error);
+      }
+    );
+  });
+  }
 
 onDeleteConfirmed(item:any) {
   item.status='hide';
@@ -233,9 +247,8 @@ showMessage(detail: string) {
 
 
 chartDataGet(): void {
-  const token = localStorage.getItem('idToken');
-  if (token) {
-  this.ChartService.chartData().subscribe(
+  this.authService.getIdToken().subscribe((token) =>{
+  this.ChartService.chartData(token).subscribe(
     (response) => {      
       caches.open('all-data').then(cache => {
         cache.match('data').then((cachedResponse) => {
@@ -266,7 +279,8 @@ chartDataGet(): void {
     //   console.error('Error fetching doughnut chart data:', error);
     // } 
   );
-}
+
+});
 }
 
 isEqual(obj1: any, obj2: any): boolean {
@@ -551,15 +565,6 @@ itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): v
 
 }
 
-saveLayout(change:any): void {
-  this.ChartService.saveGridLayout(change).subscribe(
-    response => {
-      // console.log('Grid layout saved successfully:', response);
-    },
-    error => {
-      // console.error('Error saving grid layout:', error);
-    }
-  );
-}
+
 
 }

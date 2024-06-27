@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ChartsService } from '../../../../../main-dashboard/services/charts.service';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthendicationService } from '../../../../../main-dashboard/services/authendication.service';
-
+// import { AuthendicationService } from '../../../../../main-dashboard/services/authendication.service';
+import { AuthenticationService } from '../../../../../auth/services/authentication.service';
 @Component({
   selector: 'app-addchart',
   templateUrl: './addchart.component.html',
@@ -133,7 +133,7 @@ export class AddchartComponent {
   constructor(
     private chartService: ChartsService,
     private cookieService: CookieService,
-    private authService: AuthendicationService
+    private authService: AuthenticationService
   ) {
     this.sidebarVisible = false;
   }
@@ -195,13 +195,15 @@ export class AddchartComponent {
     };
 
 
-    this.chartService.newWidget(widgetData).subscribe(
+    this.authService.getIdToken().subscribe((token) =>{
+    this.chartService.newWidget(token,widgetData).subscribe(
       (response: any) => {
         if (response.success === true) {
           this.selectedCities=[];
         }
       }
     );
+  });
   }
   
   showDialog(){

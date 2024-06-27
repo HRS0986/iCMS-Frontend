@@ -6,6 +6,7 @@ import { DateRangeService } from '../../../services/shared-date-range/date-range
 import { ChartsService } from '../../../services/charts.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { AuthenticationService } from '../../../../auth/services/authentication.service';
 
 interface MeterItem {
   label: string;
@@ -68,7 +69,8 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
     private dateRangeService: DateRangeService,
     private chartService:ChartsService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService) {}
+    private messageService: MessageService,
+  private authService:AuthenticationService) {}
 
   ngOnInit() {
     this.categories=this.source;
@@ -183,7 +185,8 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
   }
 
   chartDataGet(): void {
-    this.chartService.chartData().subscribe(
+    this.authService.getIdToken().subscribe((token) =>{
+    this.chartService.chartData(token).subscribe(
       (response) => {      
         caches.open('all-data').then(cache => {
           cache.match('data').then((cachedResponse) => {
@@ -215,6 +218,7 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
       //   console.error('Error fetching doughnut chart data:', error);
       // } 
     );
+  });
   }
   
   isEqual(obj1: any, obj2: any): boolean {
