@@ -27,9 +27,6 @@ import { FormsModule } from '@angular/forms';
 import { MainDashboardModule } from './main-dashboard/main-dashboard.module';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 
-
-
-
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -55,11 +52,9 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     AvatarGroupModule,
     FormsModule,
     MainDashboardModule,
-    OverlayPanelModule
+    OverlayPanelModule,
   ],
-  
   providers: [MessageService],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

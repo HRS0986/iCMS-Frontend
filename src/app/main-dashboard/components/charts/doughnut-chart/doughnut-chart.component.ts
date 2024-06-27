@@ -7,6 +7,14 @@ import { ChartsService } from '../../../services/charts.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
+interface MeterItem {
+  label: string;
+  value: number;
+  color1: string;
+  color2: string;
+  icon: string;
+}
+
 @Component({
   selector: 'app-doughnut-chart',
   templateUrl: './doughnut-chart.component.html',
@@ -14,6 +22,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   providers:[MessageService]
 })
 export class DoughnutChartComponent implements OnInit,OnChanges{
+  @Output() deleteConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  
+  @Input() closable:boolean = true;
   @Input() title!: string;
   @Input() data!: any;
   @Output() changesEvent = new EventEmitter<boolean>();
@@ -25,6 +36,12 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
   emailDoughnut: any[] = [];
   socialDoughnut: any[] = [];
   DateCount:number=0;
+
+  @Input() items: MeterItem[] = [
+    { label: 'Positive', value: 50, color1: '#4CAF50', color2: '#8BC34A', icon: 'pi pi-home' },
+    { label: 'Negative', value: 30, color1: '#2196F3', color2: '#03A9F4', icon: 'pi pi-sitemap' },
+    { label: 'Neutral', value: 70, color1: '#FF9800', color2: '#FFC107', icon: 'pi pi-desktop' }
+  ];
 
   @Input() id!: string; 
 
@@ -114,6 +131,11 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
     });
   }
   
+  confirmDeleted() {
+    console.log('confirm button');
+    this.deleteConfirmed.emit();
+}
+
   onDateRangeChange() {
     if (this.rangeDates && this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
       this.selectedDateRange = this.rangeDates.map(date => this.formatDate(date));
@@ -234,25 +256,25 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
           cachedResponse.json().then(data => {
             sources.forEach(source => {
               if (source === 'call') {
-                this.callDoughnut = data.flatMap((item: any) => 
+                this.callDoughnut = data.flatMap((item: any) =>
                   item.call.filter((callItem: any) => this.isDateInRange(callItem.Date)).map((callItem: any) => callItem.data)
                 );
               }
               if (source === 'email') {
-                this.emailDoughnut = data.flatMap((item: any) => 
+                this.emailDoughnut = data.flatMap((item: any) =>
                   item.email.filter((emailItem: any) => this.isDateInRange(emailItem.Date)).map((emailItem: any) => emailItem.data)
                 );
               }
               if (source === 'social') {
-                this.socialDoughnut = data.flatMap((item: any) => 
+                this.socialDoughnut = data.flatMap((item: any) =>
                   item.social.filter((socialItem: any) => this.isDateInRange(socialItem.Date)).map((socialItem: any) => socialItem.data)
                 );
               }
             });
-
+  
             this.sumDoughnutData(this.callDoughnut, this.emailDoughnut, this.socialDoughnut, sources);
           });
-        } 
+        }
         // else {
         //   console.log('Data not found in cache');
         // }
@@ -285,27 +307,27 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
   }
 
   sumDoughnutData(callData: any[], emailData: any[], socialData: any[], sources: string[]) {
-    this.totalSums = { positive: 0, negative: 0, neutral: 0 }
-    const sumData = (dataArray: any[]) => {
-        dataArray.forEach((item: any) => {
-            item.forEach((data: any) => {
-              
-                  Object.keys(data.Sentiment).forEach((key) => {
-                    const sentimentScore = data.Sentiment[key];
-                    if (key.toLowerCase() === 'positive') {
-                      this.totalSums.positive += 1;
-                    } else if (key.toLowerCase() === 'negative') {
-                      this.totalSums.negative += 1;
-                    } else if (key.toLowerCase() === 'neutral') {
-                      this.totalSums.neutral += 1;
-                    }
-                  });
-                });
-              });
-    };
-
+    this.totalSums = { positive: 0, negative: 0, neutral: 0 };
     
-
+    const sumData = (dataArray: any[]) => {
+      dataArray.forEach((item: any) => {
+        item.forEach((data: any) => {
+          if (data && data.Sentiment) {
+            Object.keys(data.Sentiment).forEach((key) => {
+              const sentimentScore = data.Sentiment[key];
+              if (key.toLowerCase() === 'positive') {
+                this.totalSums.positive += 1;
+              } else if (key.toLowerCase() === 'negative') {
+                this.totalSums.negative += 1;
+              } else if (key.toLowerCase() === 'neutral') {
+                this.totalSums.neutral += 1;
+              }
+            });
+          }
+        });
+      });
+    };
+  
     sources.forEach(source => {
       if (source === 'call') {
         sumData(callData);
@@ -317,12 +339,13 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
         sumData(socialData);
       }
     });
-
-    
-    this.percentages = [this.totalSums.negative, 
-    this.totalSums.positive,
-    this.totalSums.neutral];
-    
+  
+    this.percentages = [
+      this.totalSums.negative,
+      this.totalSums.positive,
+      this.totalSums.neutral
+    ];
+  
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     this.data = {
@@ -333,7 +356,7 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
           backgroundColor: [
             documentStyle.getPropertyValue('--negative-color'),
             documentStyle.getPropertyValue('--positive-color'),
-            documentStyle.getPropertyValue('--neutral-color'),
+            documentStyle.getPropertyValue('--neutral-color')
           ],
           hoverBackgroundColor: [
             documentStyle.getPropertyValue('--red-400'),

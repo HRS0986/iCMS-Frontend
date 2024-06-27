@@ -13,6 +13,8 @@ import { concatMap } from 'rxjs/operators';
 import { DoughnutChartComponent } from '../charts/doughnut-chart/doughnut-chart.component';
 import { LineAreaChartComponent } from '../charts/line-area-chart/line-area-chart.component';
 import { WordcloudComponent } from '../charts/wordcloud/word-cloud.component';
+import { DateRangeService } from '../../services/shared-date-range/date-range.service';
+import { DashboardResponsetimeComponent } from '../../../email-analytics/components/dashboard-responsetime/dashboard-responsetime.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -99,6 +101,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
   constructor(private authService: AuthendicationService,
     private chartService:ChartsService,
     private cookieService: CookieService,
+    private dateRangeService: DateRangeService
     // private grid:GridComponent
   ) { }
 
@@ -110,7 +113,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
 
     this.socketSubscription = this.chartService.messages$.subscribe(
       message => {
-        if (message.response === 'widget') {    
+        if (message.response === 'widget') {  
           this.gridComponent.changes=true;
           this.widgetsUserData();
         }
@@ -131,6 +134,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
     //       this.DataCacheChange=false;
     //     }
     // });
+
   }
 
   
@@ -177,56 +181,49 @@ export class DashboardComponent implements OnInit,OnDestroy{
           });
         });
       },
-      (error) => {
-        console.error('Error fetching doughnut chart data:', error);
-      } 
+      // (error) => {
+      //   console.error('Error fetching doughnut chart data:', error);
+      // } 
     );
   }
 
-
-
-
-  
   widgetsUserData(): void {
-    const token = localStorage.getItem('idToken');
-    if (token) {
+    console.log("chnaged widgets");
       this.chartService.widgetsUser().subscribe(
         async (response) => {
-          try {
-            const cache = await caches.open('widgets');
-            const cachedResponse = await cache.match('widgets-data');
-  
-            if (cachedResponse) {
-              const cachedData = await cachedResponse.json();
-              if (!this.isEqual(response, cachedData)) {
+            try {
+              const cache = await caches.open('widgets');
+              const cachedResponse = await cache.match('widgets-data');
+    
+              if (cachedResponse) {
+                const cachedData = await cachedResponse.json();
+                if (!this.isEqual(response, cachedData)) {
+                  const dataResponse = new Response(JSON.stringify(response), {
+                    headers: { 'Content-Type': 'application/json' }
+                  });
+                  await cache.put('widgets-data', dataResponse);
+                  this.widgetCacheChange = true;
+                  this.gridComponent.changes = true;
+                }
+              } else {
                 const dataResponse = new Response(JSON.stringify(response), {
                   headers: { 'Content-Type': 'application/json' }
                 });
                 await cache.put('widgets-data', dataResponse);
-                this.widgetCacheChange = true;
-                this.gridComponent.changes = true;
               }
-            } else {
-              const dataResponse = new Response(JSON.stringify(response), {
-                headers: { 'Content-Type': 'application/json' }
-              });
-              await cache.put('widgets-data', dataResponse);
+            } 
+            catch (error) {
+              // console.error('Error handling cache:', error);
             }
-          } catch (error) {
-            console.error('Error handling cache:', error);
           }
-        },
+          
+        ,
         (error) => {
-          console.error('Error fetching widgets user data:', error);
+          // console.error('Error fetching widgets user data:', error);
         }
       );
-    } else {
-      console.error('Token not found in local storage');
-    }
 }
 
-  
-  
   
   isEqual(obj1: any, obj2: any): boolean {
     const keys1 = Object.keys(obj1);

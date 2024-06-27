@@ -3,6 +3,7 @@ import { DateRangeService } from '../../../services/shared-date-range/date-range
 import { ChartsService } from '../../../services/charts.service';
 import { timer } from 'rxjs';
 
+
 @Component({
   selector: 'app-vertical-ber-chart',
   templateUrl: './vertical-ber-chart.component.html',
@@ -10,6 +11,10 @@ import { timer } from 'rxjs';
 })
 
 export class VerticalBerChartComponent implements OnInit,OnChanges{
+  
+  @Output() deleteConfirmed: EventEmitter<void> = new EventEmitter<void>();
+
+  @Input() closable:boolean = true;
   
   data:any;
   @Input() persentages: any[]=[];
@@ -20,7 +25,7 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
   options: any;
   @Output() changesEvent = new EventEmitter<boolean>();
 
- @Input() topics: string[] = ["health","technology","education"];
+  @Input() topics: string[] = [];
   @Input() sources: string[] = ['call', 'email', 'social'];
 
 
@@ -32,7 +37,8 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
   emailCount: string[] = [];
   socialCount: string[] = [];
 
-  allData: { [key: string]: { positive: number; negative: number; neutral: number } } = {};
+  allDataTpoic: { [key: string]: { positive: number; negative: number; neutral: number } } = {};
+  allData: { [key: string]: { ongoing: number; closed: number} } = {};
 
 
   @Input() title!: any;
@@ -42,12 +48,16 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
   selectedCategories:any[]=[];
   categories:string[]=['email','call','social'];
 
+  @Input() yAxis!: any;
+  @Input() xAxis!: any;
+
   selectedDateRange: string[] | undefined;
   Date:any;
 
   chartCategory:string='topic';
 
-  constructor(private dateRangeService: DateRangeService,private chartService: ChartsService){}
+  constructor(private dateRangeService: DateRangeService,private chartService: ChartsService,
+  ){}
 
   ngOnInit() {
     this.categories=this.source;
@@ -86,6 +96,12 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
     
   }
 
+ confirmDeleted() {
+        console.log('confirm button');
+        this.deleteConfirmed.emit();
+  }
+
+  
   onSourceChange(category:any){
     if(this.selectedCategories[0]!=null){
       this.barChartExtract(this.selectedCategories);
@@ -171,9 +187,9 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
         });
         this.changes=true;
       },
-      (error) => {
-        console.error('Error fetching doughnut chart data:', error);
-      } 
+      // (error) => {
+      //   console.error('Error fetching doughnut chart data:', error);
+      // } 
     );
   }
   
@@ -210,60 +226,66 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
 
   barChartExtract(sources: string[]): void {
     this.datasets = [];
-    this.labels=[];
-    this.allData={}
-
+    this.labels = [];
+    this.allDataTpoic = {};
+    this.allData={};
+  
     caches.open('all-data').then(cache => {
       cache.match('data').then(cachedResponse => {
         if (cachedResponse) {
           cachedResponse.json().then(data => {
             const documentStyle = getComputedStyle(document.documentElement);
-
+            const allTopics: string[] = [];
+  
+            sources.forEach(source => {
+              let callTopics: any[] = [];
+              let emailTopics: any[] = [];
+  
+              if (source === 'call') {
+                callTopics = this.extractTopics(data, 'call');
+                allTopics.push(...callTopics);
+              }
+  
+              if (source === 'email') {
+                emailTopics = this.extractTopics(data, 'email');
+                allTopics.push(...emailTopics);
+              }
+            });
+  
+            // Create a set to get distinct topics
+            this.topics = [...new Set(allTopics)];
+  
             sources.forEach(source => {
               let sourceData: any[] = [];
-
+  
               if (source === 'call') {
-                this.callCount = data.flatMap((item: any) =>
-                  item.call.filter((callItem: any) => this.isDateInRange(callItem.Date))
-                    .flatMap((callItem: any) => callItem.data)
-                );
+                this.callCount = this.extractCounts(data, 'call');
                 sourceData = this.aggregateWordCloudData(this.callCount, this.topics);
               }
-
+  
               if (source === 'email') {
-                this.emailCount = data.flatMap((item: any) =>
-                  item.email.filter((emailItem: any) => this.isDateInRange(emailItem.Date))
-                    .flatMap((emailItem: any) => emailItem.data)
-                );
+                this.emailCount = this.extractCounts(data, 'email');
                 sourceData = this.aggregateWordCloudData(this.emailCount, this.topics);
-
               }
-
-              // if (source === 'social') {
-              //   this.socialCount = data.flatMap((item: any) =>
-              //     item.social.filter((socialItem: any) => this.isDateInRange(socialItem.Date))
-              //       .flatMap((socialItem: any) => socialItem.data)
-              //   );
-              //   sourceData = this.aggregateWordCloudData(this.socialCount, this.topics);
-              // }
-
-              
-              this.updateAllData(this.transformData(sourceData[0]), 'positive');
-              this.updateAllData(this.transformData(sourceData[1]), 'negative');
-              this.updateAllData(this.transformData(sourceData[2]), 'neutral');
-            
+  
+              if (sourceData && sourceData.length === 3) {
+                this.updateAllData(this.transformData(sourceData[0]), 'positive');
+                this.updateAllData(this.transformData(sourceData[1]), 'negative');
+                this.updateAllData(this.transformData(sourceData[2]), 'neutral');
+              } else if (sourceData && sourceData.length === 2) {
+                this.updateAllData(this.transformData(sourceData[0]), 'ongoing');
+                this.updateAllData(this.transformData(sourceData[1]), 'closed');
+               
+              }
             });
+  
             this.createDatasets(documentStyle);
             this.getMaxValues(this.datasets);
             this.labels = this.topics; // Update labels based on dynamic topics
-
+  
             this.chart();
           });
-
-        } 
-        // else {
-        //   console.log('Data not found in cache');
-        // }
+        }
       });
     });
   }
@@ -308,124 +330,209 @@ transformData(data: any[]): { [key: string]: { count: number, percentage: number
       percentage: item.percentage
     };
   });
-
   return transformedData;
 }
 
 updateAllData(sourceData: any, sentiment: string): void {
+  if (this.xAxis === 'topics' || this.xAxis === 'keywords') {
+    Object.keys(sourceData).forEach(topic => {
+      if (!this.allDataTpoic[topic]) {
+        this.allDataTpoic[topic] = { positive: 0, negative: 0, neutral: 0 };
+      }
 
+      if (sentiment === 'positive') {
+        this.allDataTpoic[topic].positive += sourceData[topic].count;
+      }
+      if (sentiment === 'negative') {
+        this.allDataTpoic[topic].negative += sourceData[topic].count;
+      }
+      if (sentiment === 'neutral') {
+        this.allDataTpoic[topic].neutral += sourceData[topic].count;
+      }
+    });
+  } else {
+    Object.keys(sourceData).forEach(topic => {
+      if (!this.allData[topic]) {
+        this.allData[topic] = { ongoing: 0, closed: 0 };
+      }
 
-  Object.keys(sourceData).forEach(topic => {
-    if (!this.allData[topic]) {
-      this.allData[topic] = { positive: 0, negative: 0, neutral: 0 };
-    }
-
-    if (sentiment === 'positive') {
-      this.allData[topic].positive += sourceData[topic].count;
-    }
-    if (sentiment === 'negative') {
-      this.allData[topic].negative += sourceData[topic].count;
-    }
-    if (sentiment === 'neutral') {
-      this.allData[topic].neutral += sourceData[topic].count;
-    }
-  });
-
+      if (sentiment === 'ongoing') {
+        this.allData[topic].ongoing += sourceData[topic].count;
+      }
+      if (sentiment === 'closed') {
+        this.allData[topic].closed += sourceData[topic].count;
+      }
+    });
+  }
+  
 }
 
 
-createDatasets( documentStyle: CSSStyleDeclaration): void {
-  this.datasets=[];
+createDatasets(documentStyle: CSSStyleDeclaration): void {
+  this.datasets = [];
+  if(this.xAxis === 'topics' || this.xAxis === 'keywords'){
   this.datasets.push({
     label: 'Positive',
     backgroundColor: documentStyle.getPropertyValue('--positive-color'),
-    data: this.topics.map(topic => this.allData[topic]?.positive || 0)
+    data: this.topics.map(topic => this.allDataTpoic[topic]?.positive || 0)
   });
   this.datasets.push({
     label: 'Negative',
     backgroundColor: documentStyle.getPropertyValue('--negative-color'),
-    data: this.topics.map(topic => this.allData[topic]?.negative || 0)
+    data: this.topics.map(topic => this.allDataTpoic[topic]?.negative || 0)
   });
   this.datasets.push({
     label: 'Neutral',
     backgroundColor: documentStyle.getPropertyValue('--neutral-color'),
-    data: this.topics.map(topic => this.allData[topic]?.neutral || 0)
+    data: this.topics.map(topic => this.allDataTpoic[topic]?.neutral || 0)
+  });
+}
+else{
+  this.datasets.push({
+    label: 'Ongoing',
+    backgroundColor: documentStyle.getPropertyValue('--neutral-color'),
+    data: this.topics.map(topic => this.allData[topic]?.ongoing || 0)
+  });
+  this.datasets.push({
+    label: 'Closed',
+    backgroundColor: documentStyle.getPropertyValue('--negative-color'),
+    data: this.topics.map(topic => this.allData[topic]?.closed || 0)
   });
 }
 
+}
+
+extractTopics(data: any, sourceType: string): any[] {
+  return data.flatMap((item: any) =>
+    item[sourceType]
+      .filter((sourceItem: any) => this.isDateInRange(sourceItem.Date))
+      .flatMap((sourceItem: any) => {
+        if (this.xAxis === 'topics') {
+          return sourceItem.data.flatMap((dataItem: any) => dataItem.topic);
+        } else if (this.xAxis === 'keywords') {
+          return sourceItem.data.flatMap((dataItem: any) => dataItem.keywords);
+        } else if (this.xAxis === 'issues') {
+          return sourceItem.data.flatMap((dataItem: any) => dataItem.issue_type);
+        } else if (this.xAxis === 'inquiries') {
+          return sourceItem.data.flatMap((dataItem: any) => dataItem.inquiry_type);
+        } else {
+          return [];
+        }
+      }).filter((element: any) => element != null)
+  );
+}
+
+extractCounts(data: any, sourceType: string): any[] {
+  return data.flatMap((item: any) =>
+    item[sourceType]
+      .filter((sourceItem: any) => this.isDateInRange(sourceItem.Date))
+      .flatMap((sourceItem: any) => sourceItem.data)
+      .filter((element: any) => element != null)
+  );
+}
+
 aggregateWordCloudData(allCount: any, topics: string[]): any[] {
+
   this.total = 0;
-  
-  // Initialize the category maps with the topics and sentiments
   const categoryMapPositive: { [topic: string]: number } = {};
   const categoryMapNegative: { [topic: string]: number } = {};
   const categoryMapNeutral: { [topic: string]: number } = {};
+  const categoryMapOngoing: { [topic: string]: number } = {};
+  const categoryMapClosed: { [topic: string]: number } = {};
 
   topics.forEach(topic => {
-    categoryMapPositive[topic] = 0;
-    categoryMapNegative[topic] = 0;
-    categoryMapNeutral[topic] = 0;
+    if (this.xAxis === 'topics' || this.xAxis === 'keywords') {
+      categoryMapPositive[topic] = 0;
+      categoryMapNegative[topic] = 0;
+      categoryMapNeutral[topic] = 0;
+    } else {
+      categoryMapOngoing[topic] = 0;
+      categoryMapClosed[topic] = 0;
+    }
   });
 
   allCount.forEach((item: any) => {
     if (item.Sentiment) {
-      const itemTopics = Array.isArray(item.topic) ? item.topic : [item.topic];
-      
-      // Check if any of the item's topics are in the list of topics
+      let itemTopics: any[] = [];
+
+      if (this.xAxis === 'topics') {
+        itemTopics = Array.isArray(item.topic) ? item.topic : (item.topic ? [item.topic] : []);
+      } else if (this.xAxis === 'inquiries') {
+        itemTopics = Array.isArray(item.inquiry_type) ? item.inquiry_type : (item.inquiry_type ? [item.inquiry_type] : []);
+      } else if (this.xAxis === 'issues') {
+        itemTopics = Array.isArray(item.issue_type) ? item.issue_type : (item.issue_type ? [item.issue_type] : []);
+      } else if (this.xAxis === 'keywords') {
+        itemTopics = Array.isArray(item.keywords) ? item.keywords : (item.keywords ? [item.keywords] : []);
+      }
+
       if (itemTopics.some((topic: any) => topics.includes(topic))) {
         this.total += 1;
-        
+
         itemTopics.forEach((topic: string) => {
           if (topics.includes(topic)) {
+            if (this.xAxis === 'topics' || this.xAxis === 'keywords') {
             Object.keys(item.Sentiment).forEach((key) => {
-              const sentimentScore = item.Sentiment[key];
-              if (key.toLowerCase() === 'positive') {
-                categoryMapPositive[topic] += 1;
-              } else if (key.toLowerCase() === 'negative') {
-                categoryMapNegative[topic] += 1;
-              } else if (key.toLowerCase() === 'neutral') {
-                categoryMapNeutral[topic] += 1;
+              
+                if (key.toLowerCase() === 'positive') {
+                  categoryMapPositive[topic] += 1;
+                } else if (key.toLowerCase() === 'negative') {
+                  categoryMapNegative[topic] += 1;
+                } else if (key.toLowerCase() === 'neutral') {
+                  categoryMapNeutral[topic] += 1;
+                }});
+            }
+            else {
+                if (item.status.toLowerCase() === 'ongoing') {
+                  categoryMapOngoing[topic] += 1;
+                } else if (item.status.toLowerCase() === 'closed') {
+                  categoryMapClosed[topic] += 1;
+                }
+             
               }
-            });
+            
+            
           }
         });
-
-        // itemTopics.forEach((topic: string) => {
-        //   if (topics.includes(topic)) {
-        //     Object.keys(item.Sentiment).forEach((key) => {
-        //       const sentimentScore = item.Sentiment[key];
-        //       if (key.toLowerCase() === 'positive') {
-        //         categoryMapPositive[topic] += 1;
-        //       } else if (key.toLowerCase() === 'negative') {
-        //         categoryMapNegative[topic] += 1;
-        //       } else if (key.toLowerCase() === 'neutral') {
-        //         categoryMapNeutral[topic] += 1;
-        //       }
-        //     });
-        //   }
-        // });
       }
     }
   });
 
-  const positiveData = topics.map(topic => ({
-    category: topic,
-    count: categoryMapPositive[topic],
-    percentage: parseFloat(((categoryMapPositive[topic] / this.total) * 100).toFixed(2))
-  }));
+  if (this.xAxis === 'topics' || this.xAxis === 'keywords') {
+    const positiveData = topics.map(topic => ({
+      category: topic,
+      count: categoryMapPositive[topic],
+      percentage: parseFloat(((categoryMapPositive[topic] / this.total) * 100).toFixed(2))
+    }));
 
-  const negativeData = topics.map(topic => ({
-    category: topic,
-    count: categoryMapNegative[topic],
-    percentage: parseFloat(((categoryMapNegative[topic] / this.total) * 100).toFixed(2))
-  }));
+    const negativeData = topics.map(topic => ({
+      category: topic,
+      count: categoryMapNegative[topic],
+      percentage: parseFloat(((categoryMapNegative[topic] / this.total) * 100).toFixed(2))
+    }));
 
-  const neutralData = topics.map(topic => ({
-    category: topic,
-    count: categoryMapNeutral[topic],
-    percentage: parseFloat(((categoryMapNeutral[topic] / this.total) * 100).toFixed(2))
-  }));
-  return [positiveData, negativeData, neutralData];
+    const neutralData = topics.map(topic => ({
+      category: topic,
+      count: categoryMapNeutral[topic],
+      percentage: parseFloat(((categoryMapNeutral[topic] / this.total) * 100).toFixed(2))
+    }));
+
+    return [positiveData, negativeData, neutralData];
+  } else {
+    const ongoingData = topics.map(topic => ({
+      category: topic,
+      count: categoryMapOngoing[topic],
+      percentage: parseFloat(((categoryMapOngoing[topic] / this.total) * 100).toFixed(2))
+    }));
+
+    const closedData = topics.map(topic => ({
+      category: topic,
+      count: categoryMapClosed[topic],
+      percentage: parseFloat(((categoryMapClosed[topic] / this.total) * 100).toFixed(2))
+    }));
+   
+    return [ongoingData, closedData];
+  }
+  
 }
 
 
@@ -456,7 +563,7 @@ aggregateWordCloudData(allCount: any, topics: string[]): any[] {
   chart(){
     const documentStyle = getComputedStyle(document.documentElement);
     // const textColor = documentStyle.getPropertyValue('--text-color');
-
+    
     this.data = {
       labels: this.labels,
       datasets: this.datasets

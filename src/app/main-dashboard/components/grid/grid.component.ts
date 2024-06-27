@@ -10,6 +10,16 @@ import { WordcloudComponent } from '../charts/wordcloud/word-cloud.component';
 import { ChartsService } from '../../services/charts.service';
 import { Subscription } from 'rxjs';
 import { timer } from 'rxjs';
+import {MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+
+interface Product {
+  id: number;
+  title: string;
+  chart: string;
+  price: number;
+  category: string;
+}
 
 interface Widget {
   key: number;
@@ -40,6 +50,23 @@ interface Safe extends GridsterConfig {
 })
 
 export class GridComponent implements OnInit {
+  
+  chartIcons: { [key: string]: string } = {
+    'Bar Chart': 'pi pi-chart-bar', // Replace with your actual paths
+    'Line Chart': 'pi pi-chart-line',
+    'Pie Chart': 'pi pi-chart-pie',
+    'Table': 'pi pi-table',
+    'Horizontal Bar Chart': 'pi pi-chart-bar rotate-90',
+    'Word Cloud': 'pi pi-slack',
+};
+
+  products: Product[] = []; // Initialize with your products
+  selectedProduct: Product | null = null;
+  selectedDashboard: Widget | null = null;
+
+  private changesQueue: any[] = [];
+  private timeoutId: any;
+  gridStart:number = 0;
 
   @ViewChild(DoughnutChartComponent) doughnutComponent!: DoughnutChartComponent;
   @ViewChild(LineAreaChartComponent) lineAreaComponent!: LineAreaChartComponent;
@@ -48,14 +75,17 @@ export class GridComponent implements OnInit {
   options!: Safe;
   dashboard!: Array<GridsterItem>;
 
+  gridList!:Array<GridsterItem>;
+
   data!: ChartData;
   chartOptions!: ChartOptions;
 
   ID:any;
 
+  xAxis:string[]=[];
   yAxis:string[]=[];
   topic:string[]=[];
-
+  status:string[]=[];
   widgetTitle: any;
   widgetChart: any;
   widgetSoucrce: any;
@@ -78,8 +108,11 @@ export class GridComponent implements OnInit {
 
   constructor(private injector: Injector,
     private ChartService: ChartsService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
     ) {}
   ngOnInit(): void {
+    this.gridStart = 0;
     this.widgetsUser();
     
     timer(0,1000).subscribe(() => {
@@ -107,39 +140,101 @@ export class GridComponent implements OnInit {
             }
             if (widget.chartType === 'Word Cloud' && widget.sources.includes(message.name)) {
               widget.changes = true;
-
             }
             
           });
-    
-          // Optionally, log the updated widgetData to verify changes
-
-
-          // // this.doughnutComponent.changes=true;
-          // // this.doughnutComponent.refresh(message.name);
-          // if (this.widgetChart.includes('pie-chart')){
-          //   this.doughnutComponent.changes=true;
-          //   this.doughnutComponent.refresh(message.name);
-          // }
-          // // if (this.widgetChart.includes('line-chart')){
-          //   this.lineAreaComponent.changes=true;
-          //   this.lineAreaComponent.refresh(message.name);
-          // // }
-          // // if (this.widgetChart.includes('word-cloud')){
-          //   this.wordCloudComponent.changes=true;
-          //   this.wordCloudComponent.refresh(message.name);
-          // // }
 
         }
       }
     );
     // console.log(this.userChartInfo);
     this.grid();
+    this.gridStart=1;
+}
+
+onRowSelect(event: any, op: any) {
+  op.hide();
+}
+
+addItem() {
+  // Implement your add item logic here
+}
+
+showOverlay(op: any): void {
+  op.toggle(event);
+}
+
+removeItem($event: MouseEvent | TouchEvent, item:any): void {
+  this.gridDeleteConfirmed(item,item.title);
+}
+
+addChart($event: MouseEvent | TouchEvent, item:any): void {
+  $event.preventDefault();
+  $event.stopPropagation();
+  console.log(item.id);
+  this.gridList.splice(this.gridList.indexOf(item), 1);
+  this.dashboard.push(item);
+  this.saveStatus(item,'show');
+}
+
+saveStatus(item:any,status:string){
+
+    this.ChartService.saveGridStatus(item.id,status).subscribe(
+      response => {
+        // console.log('Grid layout saved successfully:', response);
+      },
+      error => {
+        // console.error('Error saving grid layout:', error);
+      }
+    );
+  }
+  
+
+onDeleteConfirmed(item:any) {
+  item.status='hide';
+  this.dashboard.splice(this.dashboard.indexOf(item), 1);
+  this.gridList.push(item);
+  this.saveStatus(item,'hide');
+}
+
+gridDeleteConfirmed(id:any,title:string) {
+  this.confirmationService.confirm({
+    message: `Are you sure that you want to delete ${title} grid?`,
+    header: 'Delete Confirmation',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      this.ChartService.gridDeleted(id.id).subscribe(
+        response => {
+          this.dashboard.splice(this.dashboard.indexOf(id), 1);
+          this.gridList.splice(this.gridList.indexOf(id), 1);
+          this.showMessage("Grid Deleted");
+        },
+        error => {
+          // console.error('Error saving grid layout:', error);
+        }
+      );
+      
+    },
+    reject: () => {
+      // Logic for rejection (optional)
+    }
+  });
+  // Logic to handle deletion confirmation
+  
+  // Optionally perform any action or update data in the parent component
 }
 
 
 
+
+showMessage(detail: string) {
+  this.messageService.add({ severity: 'error', summary: 'Deleted', detail: detail });
+}
+
+
 chartDataGet(): void {
+  const token = localStorage.getItem('idToken');
+  if (token) {
   this.ChartService.chartData().subscribe(
     (response) => {      
       caches.open('all-data').then(cache => {
@@ -171,6 +266,7 @@ chartDataGet(): void {
     //   console.error('Error fetching doughnut chart data:', error);
     // } 
   );
+}
 }
 
 isEqual(obj1: any, obj2: any): boolean {
@@ -205,7 +301,7 @@ grid(){
     // outerMarginRight: null,
     // outerMarginBottom: null,
     minCols: 6,
-    maxCols: 6,
+    maxCols: 7,
     minRows: 6,
     maxRows: 80,
     maxItemCols: 7,
@@ -213,7 +309,7 @@ grid(){
     maxItemRows: 10,
     minItemRows: 1,
     maxItemArea: 25,
-    minItemArea: 1,
+    minItemArea: 8,
     defaultItemCols: 1,
     defaultItemRows: 1,
     fixedColWidth: 20,
@@ -222,7 +318,7 @@ grid(){
     scrollSpeed: 8,
     draggable: {
       enabled: true,
-
+      dropOverItems:false
     },
     resizable: {
       enabled: true,
@@ -239,13 +335,16 @@ grid(){
         nw: false,
       }
     },
-    // swap: false,
+    swap: true,
     pushItems: true,
+    swapWhileDragging: true,
     disablePushOnDrag: false,
     disablePushOnResize: false,
+    // enableBoundaryControl:true,
     pushDirections: {north: true, east: true, south: true, west: true},
     pushResizeItems: false,
     displayGrid: DisplayGrid.None,
+    disableAutoPositionOnConflict:false,
     // disableWindowResize:false,
     disableWarnings: true,
     scrollToNewItems: true,
@@ -254,15 +353,8 @@ grid(){
 
     //janith
     itemResizeCallback: this.itemResize.bind(this), // Add this line
-    // itemChangeCallback: this.itemChange.bind(this),
+    itemChangeCallback: this.itemChange.bind(this),
   };
-
-  // this.dashboard = [
-  //   {key:1, cols: 5, rows: 3, y: 0, x: 0, chartType: 'line-chart', initialRatio: Math.round(5/3)},
-  //   {key:2, cols: 2, rows: 3, y: 0, x: 2, chartType: 'gauge',initialRatio: Math.round(2/2)},
-  //   {key:3, cols: 5, rows: 3, y: 0, x: 4, chartType: 'pie-chart', initialRatio: Math.round(2/2)},
-  //   {key:4, cols: 5, rows: 3, y: 1, x: 0, chartType: 'word-cloud', initialRatio: Math.round(2/2)},
-  // ];
 
 this.data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -286,20 +378,25 @@ widgetsUser(){
   caches.open('widgets').then(cache => {
     cache.match('widgets-data').then(cachedResponse => {
       if (cachedResponse) {
-        cachedResponse.json().then(data => {
+        cachedResponse.json().then((data: any[]) => { // Ensure data is typed as array
           this.widgetTitle = data.map((item: any) => item.title);
           this.widgetChart = data.map((item: any) => item.chartType);
           this.widgetSoucrce = data.map((item: any) => item.sources);
           this.yAxis = data.map((item: any) => item.yAxis);
+          this.xAxis = data.map((item: any) => item.xAxis);
           this.topic = data.map((item: any) => item.topics);
           this.widgetGrid = data.map((item: any) => item.grid);
           this.ID = data.map((item: any) => item.id);
+          this.status = data.map((item: any) => item.status);
+          console.log(data);
           // this.widgetData = this.processWidgetData(this.widgetTitle, this.widgetChart, this.widgetSoucrce);
-          const response = this.processGridData(this.widgetTitle, this.widgetChart, this.widgetSoucrce, this.widgetGrid,this.ID,this.topic,this.yAxis);
-          this.dashboard= response[0];
+          const response = this.processGridData(this.widgetTitle, this.widgetChart, this.widgetSoucrce, this.widgetGrid,this.ID,this.topic,this.yAxis,this.xAxis,this.status);
+          this.dashboard= response[0].filter((item:any) => item['status'] !== 'hide');
+          console.log(this.dashboard);
+          this.gridList = response[0].filter((item:any) => item['status'] !== 'show');
           this.ChartSources=response[1];
-          
-        });}
+        });
+      }
       // } else {
       //   console.log('Data not found in cache');
       // }
@@ -309,7 +406,7 @@ widgetsUser(){
 
 
 
-processGridData(titles: string[], chartTypes: string[], sources: any[], grids: any[],ids:any[],topic:any[],yAxis:any[]): any[] {
+processGridData(titles: string[], chartTypes: string[], sources: any[], grids: any[],ids:any[],topic:any[],yAxis:any[],xAxis:any[],status:any[]): any[] {
   const datasetList: any[] = [];
   const changedList: { [key: string]: string[] } = {};
   const validSources = ['email', 'call', 'social'];
@@ -319,14 +416,6 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
     const grid = grids[index];
     const chartType = chartTypes[index];
     const id = ids[index];
-
-    // Extract valid sources from the title
-    // const titleSources = source.toLowerCase().split(/[\s,-]+/).filter((word:any) => validSources.includes(word));
-    // console.log(titleSources);
-    // if (titleSources.length === 0) {
-    //   console.warn(`Title "${title}" does not have a valid source`);
-    //   return;
-    // }
 
     // Create a dataset object
     const dataset = {
@@ -342,14 +431,10 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
       changes:false,
       id:id,
       yAxis:yAxis[index],
-      topics:topic[index]
+      xAxis:xAxis[index],
+      topics:topic[index],
+      status:status[index]
     };
-
-    if (chartType === 'Line Chart') { // Assuming xAxis is part of the source object
-      dataset.yAxis = yAxis[index];  // Assuming yAxis is part of the source object
-    } else if (chartType === 'Bar Chart') {
-      dataset.topics = topic[index];  // Assuming topics is part of the source object
-    }
 
     datasetList.push(dataset);
     
@@ -367,15 +452,8 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
 
 
 
-  removeItem($event: MouseEvent | TouchEvent, item:any): void {
-    $event.preventDefault();
-    $event.stopPropagation();
-    this.dashboard.splice(this.dashboard.indexOf(item), 1);
-  }
 
-  addItem(): void {
-    this.dashboard.push({ x: 0, y: 0, cols: 1, rows: 1 });
-  }
+
 
   getComponent(chartType: string) {
     switch (chartType) {
@@ -439,15 +517,49 @@ itemResize(item: GridsterItem, itemComponent: GridsterItemComponentInterface): v
   // If the new ratio is different from the initial ratio, adjust the cols or rows
   if (newRatio !== item['initialRatio']) {
     // Here we adjust the rows, but you can also adjust the cols if you prefer
-    // console.log('itemResized', Math.round(item.cols / item['initialRatio']));
     item.rows = Math.round(item.cols / item['initialRatio']);
   }
 }
 
 itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
   // This method will be called when the item is moved or resized
-  // console.log('itemChanged', item);
+
+  if (item && this.gridStart==1){
+    const change = {
+      id: item["id"],   // Assuming item.key is the unique identifier
+      cols: item.cols,
+      rows: item.rows,
+      x: item.x,
+      y: item.y
+      // Add other properties as needed
+    };
+    
+    const existingChangeIndex = this.changesQueue.findIndex(c => c.id === change.id);
+    if (existingChangeIndex !== -1) {
+      this.changesQueue[existingChangeIndex] = change;
+    } else {
+      this.changesQueue.push(change);
+    }
+
+    // Debounce or delay sending changes to backend for efficiency
+    clearTimeout(this.timeoutId); // Clear previous timeout if any
+    this.timeoutId = setTimeout(() => this.saveLayout(this.changesQueue), 1000); // Delay sending changes for 1 second
+
+    
+  }
+  
+
 }
 
+saveLayout(change:any): void {
+  this.ChartService.saveGridLayout(change).subscribe(
+    response => {
+      // console.log('Grid layout saved successfully:', response);
+    },
+    error => {
+      // console.error('Error saving grid layout:', error);
+    }
+  );
+}
 
 }

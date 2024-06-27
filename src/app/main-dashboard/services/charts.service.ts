@@ -61,12 +61,25 @@ export class ChartsService {
   // }
 
   chartData(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/chartData`);
+    const token = localStorage.getItem('idToken');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    
+    return this.http.get<any>(`${this.baseUrl}/chartData`,{ headers });
   }
 
   gridDeleted(id:any): Observable<any>{
 
-    return this.http.delete<any>(`${this.baseUrl}/gridDeleted/${id}`);
+    const token = localStorage.getItem('idToken');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.delete<any>(`${this.baseUrl}/gridDeleted/${id}`,{ headers });
 
   }
   // wordCloud(): Observable<any> {
@@ -83,8 +96,28 @@ export class ChartsService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
+
     return this.http.post<any>(`${this.baseUrl}/newWidget`, {'widget':widgetData}, { headers });
   }
+
+  saveGridLayout(widgetData: any): Observable<any> {
+    const token = localStorage.getItem('idToken');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<any>(`${this.baseUrl}/gridChanged`, {'items':widgetData}, { headers });
+  }
+
+  saveGridStatus(id:string,status:any): Observable<any> {
+    const token = localStorage.getItem('idToken');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<any>(`${this.baseUrl}/gridStatus`, {'id':id , 'status':status}, { headers });
+  }
+
 
   barChart(sources: any,date:any): Observable<any> {
     console.log({"collections":sources,
@@ -104,7 +137,6 @@ export class ChartsService {
 
   widgetsUser(): Observable<any> {
     const token = localStorage.getItem('idToken');
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -112,9 +144,6 @@ export class ChartsService {
     
     return this.http.get<any>(`${this.baseUrl}/widgetsUser`, { headers });
 }
-  
-  
-  
 
   chartDataGet(): void {
     this.chartData().subscribe(

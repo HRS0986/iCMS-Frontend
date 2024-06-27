@@ -8,17 +8,21 @@ import { AuthendicationService } from '../../../../../main-dashboard/services/au
   templateUrl: './addchart.component.html',
   styleUrls: ['./addchart.component.scss']
 })
+
 export class AddchartComponent {
+
   title: string | undefined;
   sidebarVisible: boolean;
   selectedChartType: string | null = null;
   selectedXAxis: string | null = null;
   selectedYAxis: string | null = null;
+  wordselectedYAxis:string | null =null;
   selectedTopics: string[] = [];
   selectedCities: any;
   selectedKeywords: any;
   change:boolean=false;
 
+  
   members: Array<{ name: string; email: string; role: string; image: string }> = [
     { name: 'John Doe', email: 'john.doe@example.com', role: 'Admin', image: 'avatar1.png' },
     { name: 'Jane Smith', email: 'jane.smith@example.com', role: 'Member', image: 'avatar2.png' },
@@ -44,24 +48,73 @@ export class AddchartComponent {
     { label: 'Source with Score', value: 'sources' }
   ];
 
+  wordYAxisOptions = [
+    { label: 'Topics', value: 'topics' },
+    { label: 'Keywords', value: 'keywords' },
+    { label: 'Products', value: 'products' },
+  ];
+
   barChartXAxisOptions = [
     { label: 'Topics', value: 'topics' }
   ];
 
   barChartYAxisOptions = [
-    { label: 'Sentiment Count', value: 'sentiment-count' }
+    { label: 'Sentiment Count', value: 'sentiment-count' },
+  ];
+
+  pieYAxisOptions = [
+    { label: 'Sentiment Count', value: 'sentiment-count' },
+
+  ];
+
+  emailBarChartYAxisOptions = [
+    { label: 'Status', value: 'status' },
+  ];
+
+  horizontalChartYAxisOptions = [
+    { label: 'Counts', value: 'counts' },
   ];
 
   topicsOptions = [
-    { label: 'Health', value: 'health' },
-    { label: 'Technology', value: 'technology' },
-    { label: 'Education', value: 'education' }
+    { label: 'Topics', value: 'topics' },
+    { label: 'Issues', value: 'issues' },
+    { label: 'Inquires', value: 'inquries' },
+    { label: 'Keywords', value: 'keywords' },
   ];
 
-  sources = [
+
+
+  allSources = [
     { name: 'email', code: 'email' },
     { name: 'social', code: 'social' },
     { name: 'call', code: 'call' }
+  ];
+
+  emailCallSources = [
+    { name: 'email', code: 'email' },
+    { name: 'call', code: 'call' }
+  ];
+
+  socialCallSources = [
+    { name: 'social', code: 'social' },
+    { name: 'call', code: 'call' }
+  ];
+
+  emailSocialSources = [
+    { name: 'social', code: 'social' },
+    { name: 'email', code: 'email' }
+  ];
+
+  emailSource = [
+    { name: 'email', code: 'email' }
+  ];
+
+  callSource = [
+    { name: 'call', code: 'call' }
+  ];
+
+  socialSource = [
+    { name: 'social', code: 'social' }
   ];
 
   keywords = [
@@ -85,6 +138,10 @@ export class AddchartComponent {
     this.sidebarVisible = false;
   }
 
+  hasEmailInSelectedCities(): any[] {
+    return this.selectedCities.some((city: any) => city.name);
+  }
+
   onChartTypeChange(chartType: string) {
     this.change=false;
     this.selectedChartType = chartType;
@@ -99,28 +156,52 @@ export class AddchartComponent {
     this.selectedTopics = []; // Reset topics selection when x-axis changes
   }
 
+
+
+
   saveWidget() {
-    this.change=false;
+    const gridConfigurations: any = {
+      'Line Chart': { cols: 6, rows: 4, x: 0, y: 0 },
+      'Bar Chart': { cols: 5, rows: 3, x: 1, y: 1 },
+      'Horizontal Bar Chart': { cols: 7, rows: 3, x: 2, y: 2 },
+      'Pie Chart': { cols: 4, rows: 4, x: 3, y: 3 },
+      'Word Cloud': { cols: 5, rows: 3, x: 0, y: 4 },
+      'Table': { cols: 8, rows: 5, x: 4, y: 0 }
+    };
+
+    this.change = false;
     const sourceNames = this.selectedCities.map((source: any) => source.name);
-    const keywordNames = this.selectedKeywords.map((keyword: any) => keyword.name);
+    
+    const keywordNames = this.selectedKeywords ? this.selectedKeywords.map((keyword: any) => keyword.name) : [];
+
+    const selectedChartType: string = this.selectedChartType || 'Line Chart';
+
+    // Ensure selectedChartType is not null or undefined
+    let gridConfig= { cols: 5, rows: 3, x: 0, y: 0 }; // default grid configuration
+    if (selectedChartType && gridConfigurations[selectedChartType]) {
+      gridConfig = gridConfigurations[selectedChartType];
+    }
 
     const widgetData = {
       title: this.title,
-      chartType: this.selectedChartType,
+      chartType: selectedChartType,
       xAxis: this.selectedXAxis,
       yAxis: this.selectedYAxis,
       topics: this.selectedTopics,
       sources: sourceNames,
       keywords: keywordNames,
-      grid: { cols: 5, rows: 3, x: 0, y: 4 }
+      grid: gridConfig,
+      status:'show'
     };
 
 
     this.chartService.newWidget(widgetData).subscribe(
-            (counts: any) => {
-             
-            }
-          );
+      (response: any) => {
+        if (response.success === true) {
+          this.selectedCities=[];
+        }
+      }
+    );
   }
   
   showDialog(){
