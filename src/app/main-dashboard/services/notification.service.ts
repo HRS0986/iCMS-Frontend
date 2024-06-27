@@ -12,14 +12,14 @@ export class NotificationService {
   private messagesSubject$ = new Subject<any>();
   public messages$ = this.messagesSubject$.asObservable();
 
-  private baseUrl = 'http://127.0.0.1:8001/Notifications';
+  private baseUrl = 'http://13.201.19.67:8001/Notifications';
 
   constructor(private http: HttpClient) {
     this.connect();
   }
 
   private connect() {
-    this.socket$ = webSocket('http://127.0.0.1:8001/Notifications/ws');
+    this.socket$ = webSocket('http://13.201.19.67:8001/Notifications/ws');
     this.socket$.subscribe(
       message => this.messagesSubject$.next(message),
       err => console.error(err),
@@ -68,5 +68,6 @@ export class NotificationService {
     // Replace 'apiEndpoint' with your actual API endpoint
     return this.http.get<any>(`${this.baseUrl}/Readnotification`);
   }
+
 
 }

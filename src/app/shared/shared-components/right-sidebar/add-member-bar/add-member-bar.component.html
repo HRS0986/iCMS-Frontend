@@ -59,7 +59,7 @@
 
     <div class="save-button mt-5">
       <div class="save-button mt-5">
-        <p-button label="Save" class="saveButton" (click)="isUpdate ? saveUpdateUser() : addUser()"></p-button>
+        <p-button label="Save" class="saveButton" (click)="isUpdate ? saveUpdateUser() : addUser();sidebarVisible=false"></p-button>
       </div>
     </div>
   </ng-template>

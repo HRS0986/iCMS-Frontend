@@ -26,7 +26,7 @@ export class ChartsService {
   }
 
   private connect() {
-    this.socket$ = webSocket('http://127.0.0.1:8002/charts/ws');
+    this.socket$ = webSocket('http://3.110.74.4:8002/charts/ws');
 
     this.socket$.subscribe(
       message => this.messagesSubject$.next(message),
@@ -51,9 +51,9 @@ export class ChartsService {
     }
   }
 
-  private baseUrl = 'http://127.0.0.1:8002/charts';
+  private baseUrl = 'http://3.110.74.4:8002/charts';
   // private baseUrlUser = 'http://127.0.0.1:8001/authendication';
-  
+
   // constructor(private http: HttpClient ) {}
 
   // doughnutChart(): Observable<any> {
@@ -65,7 +65,7 @@ export class ChartsService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    
+
     return this.http.get<any>(`${this.baseUrl}/chartData`,{ headers });
   }
 
@@ -84,7 +84,7 @@ export class ChartsService {
   // wordCloud(): Observable<any> {
   //   return this.http.get<any>(`${this.baseUrl}/wordCloud`);
   // }
-  
+
   // lineChart(): Observable<any> {
   //   return this.http.get<any>(`${this.baseUrl}/lineChart`);
   // }
@@ -121,13 +121,13 @@ export class ChartsService {
     return this.http.post<any>(`${this.baseUrl}/barChart`,{"collections":sources,
     "date_range":date || []});
   }
-  
+
   // allWidgets(token :string): Observable<any> {
   //   const headers = new HttpHeaders({
   //     'Content-Type': 'application/json',
   //     'Authorization': `Bearer ${token}`
   //   });
-  
+
   //   return this.http.get<any>(`${this.baseUrl}/allWidgets`,{headers});
   // }
 
@@ -136,7 +136,7 @@ export class ChartsService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    
+
     return this.http.get<any>(`${this.baseUrl}/widgetsUser`, { headers });
 }
 
@@ -203,7 +203,7 @@ export class ChartsService {
 //       },
 //       // (error) => {
 //       //   console.error('Error fetching doughnut chart data:', error);
-//       // }  
+//       // }
 //     );
 // }
 
@@ -220,7 +220,7 @@ export class ChartsService {
 //       }
 //     }
 //     return true;
- 
+
 //   }
 // }
 

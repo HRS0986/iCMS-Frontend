@@ -113,6 +113,7 @@ export class AddRoleBarComponent implements OnInit {
         // window.location.reload();
         this.messageService.add({severity:'success', summary: 'Success', detail: 'Role Updated Successfully'});
         this.roleRefreshService.roleAdded.next();
+        this.isRoleUpdate = false;
       });
     });
   }
@@ -132,10 +133,13 @@ export class AddRoleBarComponent implements OnInit {
       {name: 'View Role', value: false},
       {name: 'Edit Role', value: false},
       {name: 'Delete Role', value: false},
+      {name: 'Edit Config', value: false},
+      {name: 'View Config', value: false},
     ];
     this.roleName = '';
     this.selectedUsers = [];
     this.sidebarVisible = true;
+    this.isRoleUpdate = false;
 
   }
 }
