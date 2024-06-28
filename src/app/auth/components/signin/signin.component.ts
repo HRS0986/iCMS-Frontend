@@ -5,6 +5,7 @@ import { AuthenticationService } from "../../services/authentication.service";
 import {MessageService} from "primeng/api";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './signin.component.html',
@@ -13,7 +14,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 export class SigninComponent {
 
   loginForm = new FormGroup({
-    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    email: new FormControl<string>('', [Validators.required]),
     password: new FormControl<string>('', [Validators.required])
   });
 
@@ -26,7 +27,7 @@ export class SigninComponent {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {}
 
   signIn(): void {
@@ -38,10 +39,17 @@ export class SigninComponent {
             console.log('Logged in successfully', session);
             // Redirect or perform actions after successful login
             this.router.navigate(['/']).then(r => console.log('Navigated to home'));
+            this.authService.getIdToken().subscribe((token: any) => {
+              // Get user permissions and store them in the Local Storage
+              this.authService.getUserPermissions(token).subscribe((data: any) => {
+                console.log(data);
+                this.authService.setPermissions(data);
+              });
+
+            });
           },
           error: (error) => {
             console.error('Error during login', error);
-            // Handle login error
           }
         });
     }
@@ -49,9 +57,6 @@ export class SigninComponent {
 
   getEmailError() {
     if (this.isSubmitted) {
-      if (this.loginForm.controls["email"].hasError('email')) {
-        return "Please enter valid email address.";
-      }
       if (this.loginForm.controls["email"].hasError('required')) {
         return "Email is required.";
       }

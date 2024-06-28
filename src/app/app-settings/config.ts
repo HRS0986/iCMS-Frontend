@@ -2,6 +2,6 @@
 
 // export const apiEndpoint = 'http://localhost:8000';
 
-export const apiEndpoint = 'http://13.201.128.121:8000';
+export const apiEndpoint = 'http://3.111.44.98:8000';
 
 
