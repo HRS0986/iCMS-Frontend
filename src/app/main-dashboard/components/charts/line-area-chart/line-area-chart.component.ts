@@ -586,21 +586,27 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
         dataArray.forEach(data => {
           const date = new Date(data.Date);
           const monthYear = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
-  
+      
           if (!combinedDataMap[monthYear]) {
             combinedDataMap[monthYear] = {
               Date: monthYear,
               positive: 0,
               negative: 0,
-              neutral: 0
+              neutral: 0,
+              positiveCount: 0,
+              negativeCount: 0,
+              neutralCount: 0
             };
           }
           combinedDataMap[monthYear].positive += data.positive;
           combinedDataMap[monthYear].negative += data.negative;
           combinedDataMap[monthYear].neutral += data.neutral;
+          combinedDataMap[monthYear].positiveCount += 1;
+          combinedDataMap[monthYear].negativeCount += 1;
+          combinedDataMap[monthYear].neutralCount += 1;
         });
       };
-
+      
       sources.forEach(source => {
         if (source === 'call') {
           processData(callData);
@@ -612,15 +618,23 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           processData(socialData);
         }
       });
-  
+      
       this.dates = Object.values(combinedDataMap).map((entry: any) => entry.Date);
-      this.positive = Object.values(combinedDataMap).map((entry: any) => entry.positive);
-      this.negative = Object.values(combinedDataMap).map((entry: any) => entry.negative);
-      this.neutral = Object.values(combinedDataMap).map((entry: any) => entry.neutral);
-  
+      
+      // Calculate average sentiment scores
+      Object.values(combinedDataMap).forEach((entry: any) => {
+        entry.avgPositive = entry.positive / entry.positiveCount;
+        entry.avgNegative = entry.negative / entry.negativeCount;
+        entry.avgNeutral = entry.neutral / entry.neutralCount;
+      });
+      
+      this.positive = Object.values(combinedDataMap).map((entry: any) => entry.avgPositive);
+      this.negative = Object.values(combinedDataMap).map((entry: any) => entry.avgNegative);
+      this.neutral = Object.values(combinedDataMap).map((entry: any) => entry.avgNeutral);
+      
       const documentStyle = getComputedStyle(document.documentElement);
       
-      this.dataset=[
+      this.dataset = [
         {
           label: 'Positive',
           data: this.positive,
@@ -645,8 +659,8 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           tension: 0.4,
           backgroundColor: 'rgba(255,167,38,0.2)'
         }
-      ]
-  
+      ];
+      
       this.lineChartShow();
     }
     else if(this.chartCategory=='Score'){
@@ -655,17 +669,19 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
         dataArray.forEach(data => {
           const date = new Date(data.Date);
           const monthYear = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
-  
+      
           if (!combinedDataMap[monthYear]) {
             combinedDataMap[monthYear] = {
               Date: monthYear,
-              score: 0,
+              totalScore: 0,
+              count: 0,
             };
           }
-          combinedDataMap[monthYear].score += data.score;
+          combinedDataMap[monthYear].totalScore += data.score;
+          combinedDataMap[monthYear].count += 1;
         });
       };
-
+      
       sources.forEach(source => {
         if (source === 'call') {
           processData(callData);
@@ -677,270 +693,61 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           processData(socialData);
         }
       });
-  
+      
       this.dates = Object.values(combinedDataMap).map((entry: any) => entry.Date);
       const documentStyle = getComputedStyle(document.documentElement);
       
-      this.dataset=[
+      // Calculate average score
+      Object.values(combinedDataMap).forEach((entry: any) => {
+        entry.avgScore = entry.totalScore / entry.count;
+      });
+      
+      this.dataset = [
         {
-          label: 'Score',
-          data: Object.values(combinedDataMap).map((entry: any) => entry.score),
+          label: 'Average Score',
+          data: Object.values(combinedDataMap).map((entry: any) => entry.avgScore),
           fill: true,
           borderColor: documentStyle.getPropertyValue('--green-500'),
           tension: 0.4,
-          backgroundColor: 'rgba(60,180,16,0.2)'
+          backgroundColor: 'rgba(60,180,16,0.2)',
         },
       ]
-  
+      
       this.lineChartShow();
     }
     else if(this.chartCategory='Separate'){
       const documentStyle = getComputedStyle(document.documentElement);
-      this.dataset=[]
+      this.dataset = [];
+      
       const processData = (dataArray: any[]) => {
         const combined: { [key: string]: any } = {};
         dataArray.forEach(data => {
           const date = new Date(data.Date);
           const monthYear = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
-  
+      
           if (!combinedDataMap[monthYear]) {
             combinedDataMap[monthYear] = {
               Date: monthYear,
               score: 0,
+              count: 0,
             };
           }
           combinedDataMap[monthYear].score += data.score;
-
+          combinedDataMap[monthYear].count += 1;
+      
           if (!combined[monthYear]) {
             combined[monthYear] = {
               Date: monthYear,
               score: 0,
+              count: 0,
             };
           }
           combined[monthYear].score += data.score;
-
-        });
-        return combined
-      };
-
-        const allUniqueDates = new Set<string>();
-      sources.forEach(source => {
-        let finalData: any = {};
-        if (source === 'call') {
-          finalData = processData(callData);
-          Object.keys(finalData).forEach(date => allUniqueDates.add(date));
-          this.dataset.push({
-            label: 'Call',
-            data: finalData,
-            fill: true,
-            borderColor: documentStyle.getPropertyValue('--green-500'),
-            tension: 0.4,
-            backgroundColor: 'rgba(60,180,16,0.2)'
-          });
-        }
-        if (source === 'email') {
-          finalData = processData(emailData);
-          Object.keys(finalData).forEach(date => allUniqueDates.add(date));
-          this.dataset.push({
-            label: 'Email',
-            data: finalData,
-            fill: true,
-            borderColor: documentStyle.getPropertyValue('--red-500'),
-            tension: 0.4,
-            backgroundColor: 'rgba(60,180,16,0.2)'
-          });
-        }
-        if (source === 'social') {
-          finalData = processData(socialData);
-          Object.keys(finalData).forEach(date => allUniqueDates.add(date));
-          this.dataset.push({
-            label: 'Social Media',
-            data: finalData,
-            fill: true,
-            borderColor: documentStyle.getPropertyValue('--blue-500'),
-            tension: 0.4,
-            backgroundColor: 'rgba(60,180,16,0.2)'
-          });
-        }
-      });
-
-      // Convert the set of unique dates to a sorted array
-      const sortedDates = Array.from(allUniqueDates).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-
-      // Fill missing dates with zeros for each dataset
-      this.dataset = this.dataset.map(dataset => {
-        const filledData = sortedDates.map(date => dataset.data[date] ? dataset.data[date].score : 0);
-        return { ...dataset, data: filledData };
-      });
-
-      // Set dates for the chart
-      this.dates = sortedDates;
-
-      // Function to show the chart
-      this.lineChartShow();
-    }
-    
-
-    
-  }
-
-  combineSentimentDayData(callData: any[], emailData: any[], socialData: any[], sources: string[]) {
-    
-    const combinedDataMap: { [key: string]: any } = {};
-    
-    if(this.chartCategory=='Count'){
-      
-      const processData = (dataArray: any[]) => {
-        dataArray.forEach(data => {
-          const date = new Date(data.Date);
-          const dayMonthYear = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`; // Format: YYYY-MM-DD
-    
-          if (!combinedDataMap[dayMonthYear]) {
-            combinedDataMap[dayMonthYear] = {
-              Date: dayMonthYear,
-              positive: 0,
-              negative: 0,
-              neutral: 0
-            };
-          }
-          combinedDataMap[dayMonthYear].positive += data.positive;
-          combinedDataMap[dayMonthYear].negative += data.negative;
-          combinedDataMap[dayMonthYear].neutral += data.neutral;
-        });
-      };
-    
-      sources.forEach(source => {
-        if (source === 'call') {
-          processData(callData);
-        }
-        if (source === 'email') {
-          processData(emailData);
-        }
-        if (source === 'social') {
-          processData(socialData);
-        }
-      });
-    
-  
-      this.dates = Object.values(combinedDataMap).map((entry: any) => entry.Date);
-      this.positive = Object.values(combinedDataMap).map((entry: any) => entry.positive);
-      this.negative = Object.values(combinedDataMap).map((entry: any) => entry.negative);
-      this.neutral = Object.values(combinedDataMap).map((entry: any) => entry.neutral);
-  
-      const documentStyle = getComputedStyle(document.documentElement);
-  
-      this.dataset=[
-        {
-          label: 'Positive',
-          data: this.positive,
-          fill: true,
-          borderColor: documentStyle.getPropertyValue('--green-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(60,180,16,0.2)'
-        },
-        {
-          label: 'Negative',
-          data: this.negative,
-          fill: true,
-          borderColor: documentStyle.getPropertyValue('--red-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(152,37,40,0.2)'
-        },
-        {
-          label: 'Neutral',
-          data: this.neutral,
-          fill: true,
-          borderColor: documentStyle.getPropertyValue('--yellow-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(255,167,38,0.2)'
-        }
-      ]
-      this.lineChartShow();
-
-    }
-    else if(this.chartCategory=='Score'){
-     
-      const processData = (dataArray: any[]) => {
-        dataArray.forEach(data => {
-          const date = new Date(data.Date);
-          const dayMonthYear = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`; // Format: YYYY-MM-DD
-    
-          if (!combinedDataMap[dayMonthYear]) {
-            combinedDataMap[dayMonthYear] = {
-              Date: dayMonthYear,
-              score: 0,
-            };
-          }
-          combinedDataMap[dayMonthYear].score += data.score;
-
-        });
-      };
-    
-      sources.forEach(source => {
-        if (source === 'call') {
-          processData(callData);
-        }
-        if (source === 'email') {
-          processData(emailData);
-        }
-        if (source === 'social') {
-          processData(socialData);
-        }
-      });
-    
-  
-      this.dates = Object.values(combinedDataMap).map((entry: any) => entry.Date);
-      this.positive = Object.values(combinedDataMap).map((entry: any) => entry.positive);
-      this.negative = Object.values(combinedDataMap).map((entry: any) => entry.negative);
-      this.neutral = Object.values(combinedDataMap).map((entry: any) => entry.neutral);
-  
-      const documentStyle = getComputedStyle(document.documentElement);
-  
-      this.dataset=[
-        {
-          label: 'Score',
-          data: Object.values(combinedDataMap).map((entry: any) => entry.score),
-          fill: true,
-          borderColor: documentStyle.getPropertyValue('--green-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(60,180,16,0.2)'
-        }
-      ]
-      this.lineChartShow();
-    }
-    else if(this.chartCategory=='Separate'){
-      // Initialize dataset and combinedDataMap
-      const documentStyle = getComputedStyle(document.documentElement);
-      this.dataset = [];
-      const combinedDataMap: { [key: string]: any } = {};
-
-      // Function to process data and collect unique dates
-      const processData = (dataArray: any[]): any => {
-        const combined: { [key: string]: any } = {};
-        dataArray.forEach(data => {
-          const date = new Date(data.Date);
-          const dayMonthYear = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`; // Format: YYYY-MM-DD
-
-          if (!combinedDataMap[dayMonthYear]) {
-            combinedDataMap[dayMonthYear] = {
-              Date: dayMonthYear,
-              score: 0,
-            };
-          }
-          combinedDataMap[dayMonthYear].score += data.score;
-
-          if (!combined[dayMonthYear]) {
-            combined[dayMonthYear] = {
-              Date: dayMonthYear,
-              score: 0,
-            };
-          }
-          combined[dayMonthYear].score += data.score;
+          combined[monthYear].count += 1;
         });
         return combined;
       };
-
-      // Collect data from all sources and process it
+      
       const allUniqueDates = new Set<string>();
       sources.forEach(source => {
         let finalData: any = {};
@@ -981,26 +788,266 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           });
         }
       });
-
+      
       // Convert the set of unique dates to a sorted array
       const sortedDates = Array.from(allUniqueDates).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-
-      // Fill missing dates with zeros for each dataset
+      
+      // Calculate averages and fill missing dates with zeros for each dataset
       this.dataset = this.dataset.map(dataset => {
-        const filledData = sortedDates.map(date => dataset.data[date] ? dataset.data[date].score : 0);
+        const filledData = sortedDates.map(date => {
+          if (dataset.data[date]) {
+            return dataset.data[date].score / dataset.data[date].count;
+          } else {
+            return 0;
+          }
+        });
         return { ...dataset, data: filledData };
       });
+      
+      
 
       // Set dates for the chart
       this.dates = sortedDates;
 
       // Function to show the chart
       this.lineChartShow();
+    }
+    
 
-
-      }
     
   }
+
+  combineSentimentDayData(callData: any[], emailData: any[], socialData: any[], sources: string[]) {
+    const combinedDataMap: { [key: string]: any } = {};
+    const allUniqueDates = new Set<string>();
+
+    if (this.chartCategory === 'Count') {
+        const processData = (dataArray: any[]) => {
+            dataArray.forEach(data => {
+                const date = new Date(data.Date);
+                const dayMonthYear = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`; // Format: YYYY-MM-DD
+
+                if (!combinedDataMap[dayMonthYear]) {
+                    combinedDataMap[dayMonthYear] = {
+                        Date: dayMonthYear,
+                        positive: 0,
+                        negative: 0,
+                        neutral: 0,
+                        positiveCount: 0,
+                        negativeCount: 0,
+                        neutralCount: 0
+                    };
+                }
+                combinedDataMap[dayMonthYear].positive += data.positive;
+                combinedDataMap[dayMonthYear].negative += data.negative;
+                combinedDataMap[dayMonthYear].neutral += data.neutral;
+                combinedDataMap[dayMonthYear].positiveCount += 1;
+                combinedDataMap[dayMonthYear].negativeCount += 1;
+                combinedDataMap[dayMonthYear].neutralCount += 1;
+            });
+        };
+
+        sources.forEach(source => {
+            if (source === 'call') {
+                processData(callData);
+            }
+            if (source === 'email') {
+                processData(emailData);
+            }
+            if (source === 'social') {
+                processData(socialData);
+            }
+        });
+
+        this.dates = Object.values(combinedDataMap).map((entry: any) => entry.Date);
+
+        // Calculate average sentiment scores
+        Object.values(combinedDataMap).forEach((entry: any) => {
+            entry.avgPositive = entry.positive / entry.positiveCount;
+            entry.avgNegative = entry.negative / entry.negativeCount;
+            entry.avgNeutral = entry.neutral / entry.neutralCount;
+        });
+
+        this.positive = Object.values(combinedDataMap).map((entry: any) => entry.avgPositive);
+        this.negative = Object.values(combinedDataMap).map((entry: any) => entry.avgNegative);
+        this.neutral = Object.values(combinedDataMap).map((entry: any) => entry.avgNeutral);
+
+        const documentStyle = getComputedStyle(document.documentElement);
+
+        this.dataset = [
+            {
+                label: 'Positive',
+                data: this.positive,
+                fill: true,
+                borderColor: documentStyle.getPropertyValue('--green-500'),
+                tension: 0.4,
+                backgroundColor: 'rgba(60,180,16,0.2)'
+            },
+            {
+                label: 'Negative',
+                data: this.negative,
+                fill: true,
+                borderColor: documentStyle.getPropertyValue('--red-500'),
+                tension: 0.4,
+                backgroundColor: 'rgba(152,37,40,0.2)'
+            },
+            {
+                label: 'Neutral',
+                data: this.neutral,
+                fill: true,
+                borderColor: documentStyle.getPropertyValue('--yellow-500'),
+                tension: 0.4,
+                backgroundColor: 'rgba(255,167,38,0.2)'
+            }
+        ];
+
+        this.lineChartShow();
+    } else if (this.chartCategory === 'Score') {
+        const processData = (dataArray: any[]) => {
+            dataArray.forEach(data => {
+                const date = new Date(data.Date);
+                const dayMonthYear = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`; // Format: YYYY-MM-DD
+
+                if (!combinedDataMap[dayMonthYear]) {
+                    combinedDataMap[dayMonthYear] = {
+                        Date: dayMonthYear,
+                        totalScore: 0,
+                        count: 0,
+                    };
+                }
+                combinedDataMap[dayMonthYear].totalScore += data.score;
+                combinedDataMap[dayMonthYear].count += 1;
+            });
+        };
+
+        sources.forEach(source => {
+            if (source === 'call') {
+                processData(callData);
+            }
+            if (source === 'email') {
+                processData(emailData);
+            }
+            if (source === 'social') {
+                processData(socialData);
+            }
+        });
+
+        this.dates = Object.values(combinedDataMap).map((entry: any) => entry.Date);
+        const documentStyle = getComputedStyle(document.documentElement);
+
+        // Calculate average score
+        Object.values(combinedDataMap).forEach((entry: any) => {
+            entry.avgScore = entry.totalScore / entry.count;
+        });
+
+        this.dataset = [
+            {
+                label: 'Average Score',
+                data: Object.values(combinedDataMap).map((entry: any) => entry.avgScore),
+                fill: true,
+                borderColor: documentStyle.getPropertyValue('--green-500'),
+                tension: 0.4,
+                backgroundColor: 'rgba(60,180,16,0.2)',
+            },
+        ];
+
+        this.lineChartShow();
+    } else if (this.chartCategory === 'Separate') {
+        const documentStyle = getComputedStyle(document.documentElement);
+        this.dataset = [];
+
+        const processData = (dataArray: any[]) => {
+            const combined: { [key: string]: any } = {};
+            dataArray.forEach(data => {
+                const date = new Date(data.Date);
+                const dayMonthYear = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`; // Format: YYYY-MM-DD
+
+                if (!combinedDataMap[dayMonthYear]) {
+                    combinedDataMap[dayMonthYear] = {
+                        Date: dayMonthYear,
+                        score: 0,
+                        count: 0,
+                    };
+                }
+                combinedDataMap[dayMonthYear].score += data.score;
+                combinedDataMap[dayMonthYear].count += 1;
+
+                if (!combined[dayMonthYear]) {
+                    combined[dayMonthYear] = {
+                        Date: dayMonthYear,
+                        score: 0,
+                        count: 0,
+                    };
+                }
+                combined[dayMonthYear].score += data.score;
+                combined[dayMonthYear].count += 1;
+            });
+            return combined;
+        };
+
+        sources.forEach(source => {
+            let finalData: any = {};
+            if (source === 'call') {
+                finalData = processData(callData);
+                Object.keys(finalData).forEach(date => allUniqueDates.add(date));
+                this.dataset.push({
+                    label: 'Call',
+                    data: finalData,
+                    fill: true,
+                    borderColor: documentStyle.getPropertyValue('--green-500'),
+                    tension: 0.4,
+                    backgroundColor: 'rgba(60,180,16,0.2)'
+                });
+            }
+            if (source === 'email') {
+                finalData = processData(emailData);
+                Object.keys(finalData).forEach(date => allUniqueDates.add(date));
+                this.dataset.push({
+                    label: 'Email',
+                    data: finalData,
+                    fill: true,
+                    borderColor: documentStyle.getPropertyValue('--red-500'),
+                    tension: 0.4,
+                    backgroundColor: 'rgba(60,180,16,0.2)'
+                });
+            }
+            if (source === 'social') {
+                finalData = processData(socialData);
+                Object.keys(finalData).forEach(date => allUniqueDates.add(date));
+                this.dataset.push({
+                    label: 'Social Media',
+                    data: finalData,
+                    fill: true,
+                    borderColor: documentStyle.getPropertyValue('--blue-500'),
+                    tension: 0.4,
+                    backgroundColor: 'rgba(60,180,16,0.2)'
+                });
+            }
+        });
+
+        // Convert the set of unique dates to a sorted array
+        const sortedDates = Array.from(allUniqueDates).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+
+        // Calculate averages and fill missing dates with zeros for each dataset
+        this.dataset = this.dataset.map(dataset => {
+            const filledData = sortedDates.map(date => {
+                if (dataset.data[date]) {
+                    return dataset.data[date].score / dataset.data[date].count;
+                } else {
+                    return 0;
+                }
+            });
+            return { ...dataset, data: filledData };
+        });
+
+        // Set dates for the chart
+        this.dates = sortedDates;
+
+        // Function to show the chart
+        this.lineChartShow();
+    }
+}
+
 
   
 

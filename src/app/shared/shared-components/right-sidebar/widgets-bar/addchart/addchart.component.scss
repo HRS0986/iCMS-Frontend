@@ -99,7 +99,9 @@
 
 }
 
-
+.rotate-90 {
+  transform: rotate(90deg);
+}
 .main-container {
   display: flex;
   flex-direction: row;

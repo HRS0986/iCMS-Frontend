@@ -1,7 +1,8 @@
 <p-toast></p-toast>
 
 <!-- Search Button -->
-<button pButton type="button"  label="Charts" icon="pi pi-bars" (click)="showOverlay(op)"></button>
+<button pButton type="button" label="Charts" icon="pi pi-bars" (click)="showOverlay(op)" [ngStyle]="{'background-color': 'black', 'color': 'white'}"></button>
+
 
 
 <!-- Overlay Panel -->
@@ -41,7 +42,7 @@
                           <app-word-cloud  [title]="chart['title']" [sources]="chart['sources']" [yAxis]="chart['yAxis']" [closable]="false"></app-word-cloud >
                       </ng-container>
                     </p-overlayPanel>
-                    <p-button (click)="op.toggle($event)" [icon]="chartIcons[chart.chartType]" label="View"></p-button>
+                    <p-button (click)="op.toggle($event)" [icon]="chartIcons[chart.chartType]" label="View" ></p-button>
 
                     </td>
                     <td>{{chart.sources.join(', ')}}</td>
@@ -68,7 +69,7 @@
 <p-confirmDialog></p-confirmDialog>
 <p-toast></p-toast>
 
-<gridster [options]="options" class="chartGrid">
+<gridster [options]="options" class="chartGrid" *ngIf="dashboard && dashboard.length > 0">
   <gridster-item [item]="item" *ngFor="let item of dashboard; let i = index" class="container-border">
     <div class="chart-container">
       <ng-container *ngIf="item['chartType'] === 'Pie Chart'">
