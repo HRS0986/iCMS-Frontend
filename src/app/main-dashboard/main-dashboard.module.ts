@@ -44,6 +44,10 @@ import { VerticalBerChartComponent } from './components/charts/vertical-ber-char
 import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MenuModule } from 'primeng/menu';
+import { CardModule } from 'primeng/card';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { TableModule } from 'primeng/table';
+
 
 @NgModule({
   declarations: [
@@ -95,7 +99,10 @@ import { MenuModule } from 'primeng/menu';
     CalendarModule,
     CheckboxModule,
     ConfirmDialogModule,
-    MenuModule
+    MenuModule,
+    CardModule,
+    OverlayPanelModule,
+    TableModule,
 
   ],
   exports: [

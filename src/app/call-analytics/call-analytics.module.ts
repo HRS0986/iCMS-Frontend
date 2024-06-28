@@ -51,6 +51,7 @@ import { BestOperatorsCardComponent } from './components/best-operators-card/bes
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CallFilteringResultComponent } from './components/call-filtering-result/call-filtering-result.component';
+import { OperatorCardItemComponent } from './components/operator-card-item/operator-card-item.component';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { CallFilteringResultComponent } from './components/call-filtering-result
     StackedBarChartComponent,
     CallFilteringResultComponent,
     BestOperatorsCardComponent,
+    OperatorCardItemComponent,
   ],
   imports: [
     CommonModule,
