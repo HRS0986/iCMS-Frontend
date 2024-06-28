@@ -13,6 +13,7 @@ export class DataService {
 
 
   baseUrl: string = `${URLS.baseUrl}/settings`;
+  
 
 
   //-------------------------------------------get dataservices  -------------------------------------------------------------

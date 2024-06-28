@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-progress-donought-chart',
   templateUrl: './progress-donought-chart.component.html',
   styleUrl: './progress-donought-chart.component.scss'
 })
-export class ProgressDonoughtChartComponent implements OnInit{
+export class ProgressDonoughtChartComponent implements OnInit, OnChanges{
   @Input() title!: string;
   @Input() chartData!: any[];
   @Input() chartLabels!: any[];
@@ -14,6 +14,25 @@ export class ProgressDonoughtChartComponent implements OnInit{
   options: any;
 
   ngOnInit() {
+    this.initializeChart();
+  }
+
+  ngOnChanges(changes: any) {
+    // if (changes.chartData && changes.chartData.currentValue) {
+    //   this.data.datasets[0].data = changes.chartData.currentValue;
+    // }
+
+    if (changes['chartData'] && changes['chartData'].currentValue) {
+      if (this.data && this.data.datasets) {
+        this.data.datasets[0].data = changes['chartData'].currentValue;
+      } else {
+        this.initializeChart();  // Ensure the chart is initialized
+        this.data.datasets[0].data = changes['chartData'].currentValue;
+      }
+    }
+  }
+
+  private initializeChart() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
 
@@ -51,11 +70,5 @@ export class ProgressDonoughtChartComponent implements OnInit{
         }
       }
     };
-  }
-
-  ngOnChanges(changes: any) {
-    if (changes.chartData && changes.chartData.currentValue) {
-      this.data.datasets[0].data = changes.chartData.currentValue;
-    }
   }
 }

@@ -333,9 +333,9 @@ getDataForOverallEfficiencyandEffectivenessDntChart(){
   this.dataService.getCurrentOverallEfficiencyandEffectiveness(this.intervalInDays).subscribe((data: OverallyEfficiencyEffectivenessPecentagesResponse) => {
     console.log("data for overall efficiency and effectiveness", data)
     this.dntChartDataOverallEfficiency = [0,0,40,60]
-    this.dntChartOverallEfficiencyLabels= data.efficiency_categories
+    this.dntChartOverallEfficiencyLabels= data.efficiency_categories.reverse()
     this.dntChartDataOverallEffeftiveness= [0,0,30,70]
-    this.dntChartOverallEffectivenessLabels = data.effectiveness_categories
+    this.dntChartOverallEffectivenessLabels = data.effectiveness_categories.reverse()
 
     this.isLoadingDCOverallEfficiency = false
     this.isLoadingDCOverallEffectiveness = false
