@@ -12,7 +12,7 @@ export class CaCardsComponent implements OnInit {
   @Input() showAdditionalCards: boolean = false;
 
   viewCampaign(card: any) {
-    // Handle the click event, e.g., navigate to a campaign detail page
+    window.open(card.postUrl, '_blank');
   }
 
   ngOnInit() {
@@ -57,11 +57,11 @@ export class CaCardsComponent implements OnInit {
             label: 'Sentiments',
             data: this.campaigns[i].dataSentimentValues,
             fill: false,
-            borderColor: '#2391ff',
-            borderWidth: 1,
-            pointBackgroundColor: "#2391ff",
-            pointBorderColor: "#2391ff",
-            pointRadius: 1.5,
+            borderColor: this.campaigns[i].color,
+            borderWidth: 1.5,
+            pointBackgroundColor: this.campaigns[i].color,
+            pointBorderColor: this.campaigns[i].color,
+            pointRadius: 2,
             tension: 0.2
           }
         ]

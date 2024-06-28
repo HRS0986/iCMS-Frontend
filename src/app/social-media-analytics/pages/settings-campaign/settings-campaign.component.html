@@ -14,12 +14,12 @@
           [templateRightRef]="topBarRight"
           [content]="content2"
         ></tab-item>
-        <tab-item
+        <!-- <tab-item
           [tabItem]="tabTwitter"
           [templateContentRef]="tempContent"
           [templateRightRef]="topBarRight"
           [content]="content3"
-        ></tab-item>
+        ></tab-item> -->
       </tabs>
 
       <ng-template #topBarRight let-content="content">
@@ -66,11 +66,11 @@
                 <td>{{ item.title }}</td>
                 <td>{{ item.company }}</td>
                 <td>
-                  <span>{{ item.overall_sentiment }}</span>
+                  <span>{{ item.s_score*100 }} %</span>
                   <progress-bar
-                    [value]="item.min_val"
-                    [bufferValue]="item.max_val"
-                    [color]="'#23B103'"
+                    [value]="0"
+                    [bufferValue]="item.s_score*100"
+                    [color]="item.color"
                   ></progress-bar>
                 </td>
                 <td>

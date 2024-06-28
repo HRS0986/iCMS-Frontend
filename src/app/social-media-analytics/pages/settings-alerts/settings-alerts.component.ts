@@ -16,33 +16,47 @@ export class SettingsAlerts implements OnInit {
   constructor(private settingsApiService: SettingsApiService) { }
 
   ngOnInit() {
-    this.settingsApiService.getKeywordAlerts().subscribe(response => {
-      const alerts = response[0] as AlertItem[];
-      alerts.forEach(alert => {
-        switch (alert.sm_id) {
-          case "SM01":
-            this.list_facebook.push(alert);
-            break;
-          case "SM02":
-            this.list_instagram.push(alert);
-            break;
-          case "SM03":
-            this.list_twitter.push(alert);
-            break;
-          default:
-            console.log("Invalid sm_id:", alert.sm_id);
-        }
-      });
-    },
+    this.settingsApiService.getTopicAlerts().subscribe(
+      (response: AlertItem[]) => {
+        // Clear the lists before populating
+        this.list_facebook = [];
+        this.list_instagram = [];
+        this.list_twitter = [];
+
+        // Divide the response into Facebook, Instagram, and Twitter
+        response.forEach(alert => {
+          switch (alert.sm_id) {
+            case "SM01":
+              this.list_facebook.push(alert);
+              break;
+            case "SM02":
+              this.list_instagram.push(alert);
+              break;
+            case "SM03":
+              this.list_twitter.push(alert);
+              break;
+            default:
+              console.warn(`Invalid sm_id: ${alert.sm_id}`);
+          }
+        });
+
+        // Update content data
+        this.contentFacebook.data = this.list_facebook;
+        this.contentInstergram.data = this.list_instagram;
+        this.contentTwitter.data = this.list_twitter;
+      },
       error => {
         console.error('Error fetching data:', error);
-      });
+      }
+    );
   }
 
   onRowEdit(item: AlertItem) {
+    // Implement edit functionality
   }
 
   onRowDelete(item: AlertItem) {
+    // Implement delete functionality
   }
 
   tabFacebook = { title: 'Facebook', img: 'assets/social-media/icons/facebook.png' };

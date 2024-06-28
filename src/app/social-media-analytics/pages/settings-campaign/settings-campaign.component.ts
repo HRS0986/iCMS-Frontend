@@ -32,10 +32,28 @@ export class SettingsCampaignComponent implements OnInit {
 
   fetchCampaignsBySM(): void {
     this.settingsApiService.getCampaigns().subscribe(
-      (response: { [key: string]: Campaign[] }) => {
-        this.list_facebook = response['SM01'] || [];
-        this.list_instagram = response['SM02'] || [];
-        this.list_twitter = response['SM03'] || [];
+      (response: Campaign[]) => {
+        this.list_facebook = [];
+        this.list_instagram = [];
+        this.list_twitter = [];
+
+        response.forEach(campaign => {
+          campaign.title = campaign.description?.split('\n')[0];
+
+          switch (campaign.platform) {
+            case 'SM01':
+              this.list_facebook.push(campaign);
+              break;
+            case 'SM02':
+              this.list_instagram.push(campaign);
+              break;
+            case 'SM03':
+              this.list_twitter.push(campaign);
+              break;
+            default:
+              console.warn(`Unknown platform: ${campaign.platform}`);
+          }
+        });
 
         this.content1.data = this.list_facebook;
         this.content2.data = this.list_instagram;
@@ -46,6 +64,7 @@ export class SettingsCampaignComponent implements OnInit {
       }
     );
   }
+
 
   onRowEdit(item: Campaign): void {
     // Implement edit functionality

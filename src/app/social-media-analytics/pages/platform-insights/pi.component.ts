@@ -33,7 +33,7 @@ export class PIComponent implements OnInit {
     let totalCommentsData: any[] = [];
 
     let SentimentOverTimeLabels: string[] = [];
-    let SentimentOverTimeReactsData: any[] = [];
+    let SentimentOverTimeSubCommentsData: any[] = [];
     let SentimentOverTimeCommentsData: any[] = [];
 
     const documentStyle = getComputedStyle(document.documentElement);
@@ -41,12 +41,13 @@ export class PIComponent implements OnInit {
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.platformInsightsApiService.getPIData("2024-05-01", "2024-05-30").subscribe(response => {
+
+    this.platformInsightsApiService.getKeywordTrendCount("2024-05-01", "2024-07-30").subscribe(response => {
       console.log(response);
 
       // ############ 0: Keyword Trends ############
 
-      const keyword_trends = response[0];
+      const keyword_trends = response;
 
       for (const [key, value] of Object.entries(keyword_trends)) {
         keywordThrendsLabels.push(key);
@@ -64,11 +65,14 @@ export class PIComponent implements OnInit {
           }
         ]
       };
+    });
 
+    this.platformInsightsApiService.getTotalReactions("2024-05-01", "2024-07-30").subscribe(response => {
+      console.log(response);
 
       // ############ 1: Get total reactions of posts ############
 
-      const total_reactions = response[1];
+      const total_reactions = response;
 
       for (const [key, value] of Object.entries(total_reactions)) {
         totalReactionsLabels.push(key);
@@ -87,11 +91,14 @@ export class PIComponent implements OnInit {
           }
         ]
       };
+    });
 
+    this.platformInsightsApiService.getTotalComments("2024-05-01", "2024-07-30").subscribe(response => {
+      console.log(response);
 
       // ############ 2: Get total comments of posts ############
 
-      const total_comments = response[2];
+      const total_comments = response;
 
       for (const [key, value] of Object.entries(total_comments)) {
         totalCommentsLabels.push(key);
@@ -110,11 +117,14 @@ export class PIComponent implements OnInit {
           }
         ]
       };
+    });
 
+    this.platformInsightsApiService.getHighlightedComments("2024-05-01", "2024-07-30").subscribe(response => {
+      console.log(response);
 
       // ############ 3: Get Highlighted comments ############
 
-      const highlighted_comments = response[3];
+      const highlighted_comments = response;
       highlighted_comments.forEach((item: any) => {
         if (item.description.length > 100) {
           item.description = item.description.slice(0, 150) + '...';
@@ -122,27 +132,30 @@ export class PIComponent implements OnInit {
         item.s_score = Math.round((item.s_score + 1) * 50);
       });
       this.items = highlighted_comments;
+    });
 
+    this.platformInsightsApiService.getAverageSentimentScore("2024-05-01", "2024-07-30").subscribe(response => {
+      console.log(response);
 
       // ############ 4: Get average sentiment score of comments and reacts ############
 
-      const sentiment_scores = response[4];
+      const sentiment_scores = response;
 
-      for (const [key, value] of Object.entries(sentiment_scores.comment_sentiment_scores)) {
+      for (const [key, value] of Object.entries(sentiment_scores.comments)) {
         SentimentOverTimeLabels.push(key);
         SentimentOverTimeCommentsData.push(value);
       }
 
-      for (const [key, value] of Object.entries(sentiment_scores.post_sentiment_scores)) {
-        SentimentOverTimeReactsData.push(value);
+      for (const [key, value] of Object.entries(sentiment_scores.subcomments)) {
+        SentimentOverTimeSubCommentsData.push(value);
       }
 
       this.DataSentimentOverTime = {
         labels: SentimentOverTimeLabels,
         datasets: [
           {
-            label: 'Reacts',
-            data: SentimentOverTimeReactsData,
+            label: 'Sub Comments',
+            data: SentimentOverTimeSubCommentsData,
             fill: false,
             borderColor: documentStyle.getPropertyValue('--blue-500'),
             tension: 0.2
@@ -156,11 +169,7 @@ export class PIComponent implements OnInit {
           }
         ]
       };
-
-    },
-      error => {
-        console.error('Error fetching data:', error);
-      });
+    });
 
 
     this.OptionsKeywordThrends = {

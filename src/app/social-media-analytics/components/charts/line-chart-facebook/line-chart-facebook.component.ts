@@ -1,4 +1,4 @@
-import { Component ,Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DashboardApiService } from '../../../services/dashboard-api.service';
 
 
@@ -10,11 +10,11 @@ import { DashboardApiService } from '../../../services/dashboard-api.service';
 export class LineChartFacebookComponent {
   @Input() title!: string;
   data: any;
-  
+
 
   options: any;
 
-  constructor(private facebookdataApiservice:DashboardApiService){}
+  constructor(private facebookdataApiservice: DashboardApiService) { }
 
   ngOnInit() {
     const documentStyle = getComputedStyle(document.documentElement);
@@ -23,14 +23,23 @@ export class LineChartFacebookComponent {
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
     const startDate = '2024-05-01';
     const endDate = '2024-07-01';
-
+    
     this.facebookdataApiservice.getFacebookAnalysisData(startDate, endDate)
       .subscribe(
         (data: any) => {
           console.log(data);
-          
+
+          const convertDateFormat = (dateString: string): string => {
+            const date = new Date(dateString);
+            const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+            const day = date.getDate().toString().padStart(2, '0');
+            return `${month}-${day}`;
+          };
+
+          const labels = Object.keys(data['1']).map(dateString => convertDateFormat(dateString));
+
           this.data = {
-            labels: Object.keys(data['1']),
+            labels: labels,
             datasets: [
               {
                 label: 'Reacts',

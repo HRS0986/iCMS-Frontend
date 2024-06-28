@@ -12,8 +12,24 @@ export class PlatformInsightsApiService {
 
   constructor(private http: HttpClient) {}
 
-  getPIData(startDate: string, endDate: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/platform_insights_data?startDate=${startDate}&endDate=${endDate}`);
+  getKeywordTrendCount(startDate: string, endDate: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/keyword_trend_count?startDate=${startDate}&endDate=${endDate}`);
+  }
+
+  getTotalReactions(startDate: string, endDate: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/total_reactions?startDate=${startDate}&endDate=${endDate}`);
+  }
+
+  getTotalComments(startDate: string, endDate: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/total_comments?startDate=${startDate}&endDate=${endDate}`);
+  }
+
+  getHighlightedComments(startDate: string, endDate: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/highlighted_comments?startDate=${startDate}&endDate=${endDate}`);
+  }
+
+  getAverageSentimentScore(startDate: string, endDate: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/average_sentiment_score?startDate=${startDate}&endDate=${endDate}`);
   }
 
 }

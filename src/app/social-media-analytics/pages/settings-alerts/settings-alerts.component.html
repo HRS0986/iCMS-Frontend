@@ -14,12 +14,12 @@
           [templateRightRef]="topBarRight"
           [content]="contentInstergram"
         ></tab-item>
-        <tab-item
+        <!-- <tab-item
           [tabItem]="tabTwitter"
           [templateContentRef]="tempContent"
           [templateRightRef]="topBarRight"
           [content]="contentTwitter"
-        ></tab-item>
+        ></tab-item> -->
       </tabs>
 
       <ng-template #topBarRight let-content="content">
@@ -62,13 +62,13 @@
                 <td>
                   <p-tableCheckbox></p-tableCheckbox>
                 </td>
-                <td>{{ item.keywords.join(", ") }}</td>
+                <td>{{ item.topic }}</td>
                 <td>{{ item.alert_type }}</td>
                 <td>
                   <span>From {{ item.min_val }} to {{ item.max_val }}</span>
                   <progress-bar
-                    [value]="item.min_val"
-                    [bufferValue]="item.max_val"
+                    [value]="(item.min_val + 10) * 5"
+                    [bufferValue]="(item.max_val + 10) * 5"
                     [color]="'#3699FF'"
                   ></progress-bar>
                 </td>
