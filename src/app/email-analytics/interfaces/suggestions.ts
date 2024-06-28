@@ -1,24 +1,17 @@
 export interface Suggestion {
-    id: string;
+    // id: string;
     suggestion: string;
-    isNew: boolean;
-    isPopular: boolean;
     dateSuggested: Date;
     tags: string[];
-    sender: string;
-    recipient: string;
+    company: string;
 }
 
-export interface SuggestionMetaDataResponse {
-    data: Suggestion[];
+export interface SuggestionResponse {
+    suggestions: Suggestion[];
     total: number;
     skip: number;
     limit: number;
 }
-
-// export interface SuggestionAdditionalData {
-//     gibberish: string;
-// }
 
 export interface PopupEmail {
     body: string;
@@ -51,4 +44,19 @@ export interface MockSuggestionAdditionalDataResponse {
     body: string;
 }
 
-// ---
+// ---Ranindu added interface
+export interface SuggestionsData{
+    receiver: string;
+    date: string;
+    products: string[];
+    suggestion: string;
+}
+
+export interface RecepientsResponse{
+   recepients: string[];
+}
+
+export interface ProductsResponse{
+    products: string[];
+ }
+   

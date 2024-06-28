@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map, timeout } from 'rxjs/operators'; // BUG: remove in production
+import { catchError, timeout } from 'rxjs/operators'; // BUG: remove in production
 
-import { EmailMetadataResponse, MockEmailMetadataResponse } from '../interfaces/emails';
-import { ThreadSummaryResponse, MockThreadSummaryResponse } from '../interfaces/threads';
 import { AllCompanyAddresses, AllStatus, AllTags, ClientAddresses } from '../interfaces/filters';
-
+import { ERRORS, SETTINGS, URLS } from './app.constants';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,119 +12,61 @@ export class FilterService {
 
   constructor(private http: HttpClient) { }
 
-  // BUG: REMOVE in Production
-  private convertToEmailResponse(mockedResponse: MockEmailMetadataResponse): EmailMetadataResponse {
-    const convertedData = mockedResponse.products.map((mockedEmail) => ({
-      id: mockedEmail.id.toString(),
-      subject: mockedEmail.title,
-      sentiment: mockedEmail.rating.toString(),
-      sender: "test",
-      receiver: "test",
-      date: "2020-10-10", 
-      time: "10.10 PM",
-      topics: ["CG", "VG"],
-    }));
-  
-    return {
-      data: convertedData,
-      total: mockedResponse.total,
-      skip: mockedResponse.skip,
-      limit: mockedResponse.limit,
-    };
-  }
-
-  // BUG: REMOVE in Production
-  private convertToThreadResponse(mockedResponse: MockThreadSummaryResponse): ThreadSummaryResponse {
-    const convertedData = mockedResponse.products.map((mockedThread) => ({
-      id: mockedThread.id.toString(),
-      subject: mockedThread.title,
-      sentiment: mockedThread.rating.toString(),
-      sender: "test",
-      receiver: "test",
-      date: "2020-10-10", 
-      time: "10.10 PM",
-      topics: ["CG", "VG"],
-      summary: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, vestibulum mi id, ultricies turpis. Nullam nec purus feugiat, vestibulum mi id, ultricies turpis. Nullam nec purus feugiat, vestibulum mi id, ultricies turpis. Nullam nec purus feugiat, vestibulum mi id, ultricies turpis. Nullam nec purus feugiat, vestibulum mi id, ultricies turpis. Nullam nec purus feugiat, vestibulum mi id, ultricies turpis. Nullam nec purus feugiat, vestibulum mi id, ultricies turpis. Nullam nec purus feugiat, vestibulum mi id, ultricies turpis. Nullam nec purus feugiat, vestibulum mi id, ultricies turpis. Nullam nec purus feugiat, vestibulum mi id, ultricies turpis. Nullam nec purus feugiat, vestibulum mi id, ultricies turpis.",
-    }));
-  
-    return {
-      data: convertedData,
-      total: mockedResponse.total,
-      skip: mockedResponse.skip,
-      limit: mockedResponse.limit,
-    };
-  }
-
-  getThreadSummaries(skip: number, limit: number): Observable<ThreadSummaryResponse> {
+  getTags(type: "issue" | "inquiry" | "suggestion"): Observable<AllTags> {
     return this.http
-      .get<MockThreadSummaryResponse>(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`)
-      .pipe(map(this.convertToThreadResponse));   // BUG: remove pipe in production
-  }
-
-  getEmailMetadata(skip: number, limit: number): Observable<EmailMetadataResponse> {
-    return this.http
-      .get<MockEmailMetadataResponse>(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`)
-      .pipe(map(this.convertToEmailResponse));   // BUG: remove pipe in production
-  }
-
-  baseUrlv2 = 'http://127.0.0.1:8000/email/v2';
-  timeoutDuration = 5000;
-
-  getTags(): Observable<AllTags> {
-    return this.http
-      .get<AllTags>(`${this.baseUrlv2}/filter/tags`)
+      .get<AllTags>(`${URLS.baseUrlv2}/filter/tags?type=${type}`)
       .pipe(
-        timeout(this.timeoutDuration),
+        timeout(SETTINGS.timeoutDuration),
         catchError(e => {
           if (e.name === 'TimeoutError') {
-            return throwError(() => new Error("Request timed out. Please try again later."));
+            return throwError(() => new Error(ERRORS.timeoutError));
           } else {
-            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+            return throwError(() => new Error(ERRORS.unknownFetchError));
           }
         })
       );
   }
 
-  getStatus(): Observable<AllStatus> {
+  getStatus(type: "issue" | "inquiry" | "suggestion"): Observable<AllStatus> {
     return this.http
-      .get<AllStatus>(`${this.baseUrlv2}/filter/status`)
+      .get<AllStatus>(`${URLS.baseUrlv2}/filter/statuses?type=${type}`)
       .pipe(
-        timeout(this.timeoutDuration),
+        timeout(SETTINGS.timeoutDuration),
         catchError(e => {
           if (e.name === 'TimeoutError') {
-            return throwError(() => new Error("Request timed out. Please try again later."));
+            return throwError(() => new Error(ERRORS.timeoutError));
           } else {
-            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+            return throwError(() => new Error(ERRORS.unknownFetchError));
           }
         })
       );
   }
 
-  getCompanyAddresses(): Observable<AllCompanyAddresses> {
+  getCompanyAddresses(type: "issue" | "inquiry" | "suggestion"): Observable<AllCompanyAddresses> {
     return this.http
-      .get<AllCompanyAddresses>(`${this.baseUrlv2}/filter/company-addresses`)
+      .get<AllCompanyAddresses>(`${URLS.baseUrlv2}/filter/company-addresses?type=${type}`)
       .pipe(
-        timeout(this.timeoutDuration),
+        timeout(SETTINGS.timeoutDuration),
         catchError(e => {
           if (e.name === 'TimeoutError') {
-            return throwError(() => new Error("Request timed out. Please try again later."));
+            return throwError(() => new Error(ERRORS.timeoutError));
           } else {
-            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+            return throwError(() => new Error(ERRORS.unknownFetchError));
           }
         })
       );
   }
 
-  getClientAddresses(): Observable<ClientAddresses> {
+  getClientAddresses(type: "issue" | "inquiry" | "suggestion"): Observable<ClientAddresses> {
     return this.http
-      .get<ClientAddresses>(`${this.baseUrlv2}/filter/client-addresses`)
+      .get<ClientAddresses>(`${URLS.baseUrlv2}/filter/client-addresses?type=${type}`)
       .pipe(
-        timeout(this.timeoutDuration),
+        timeout(SETTINGS.timeoutDuration),
         catchError(e => {
           if (e.name === 'TimeoutError') {
-            return throwError(() => new Error("Request timed out. Please try again later."));
+            return throwError(() => new Error(ERRORS.timeoutError));
           } else {
-            return throwError(() => new Error("Unknown error has occured. Please try again later."));
+            return throwError(() => new Error(ERRORS.unknownFetchError));
           }
         })
       );

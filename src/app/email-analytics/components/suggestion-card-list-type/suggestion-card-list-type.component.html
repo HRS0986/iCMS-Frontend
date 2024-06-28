@@ -1,124 +1,39 @@
-<div class="bg-gray-50 rounded my-5 border border-solid border-gray-200">
-  <div class="grid grid-cols-4 px-5 py-3">
-    <div class="col-span-3 grid grid-rows-4">
-      <div class="-ml-1 flex items-center">
-        <span>
-          <p-tag
-            class="p-1"
-            styleClass="text-sm"
-            *ngIf="suggestionData.isNew"
-            severity="info"
-            value="New"
-          >
-            <i class="pi pi-info-circle text-sm pr-2"></i>
-          </p-tag>
-          <p-tag
-            class="p-1"
-            styleClass="text-sm"
-            *ngIf="suggestionData.isPopular"
-            severity="success"
-            value="Popular"
-          >
-            <i class="pi pi-star text-sm pr-2"></i>
-          </p-tag>
-        </span>
-      </div>
-      <div
-        class="row-span-2 flex items-center text-base font-medium py-2 text-justify"
-      >
-        {{ suggestionData.suggestion }}
-      </div>
-      <div class="grid grid-cols-3 gap-x-8">
-        <!-- TODO: make these spans fixed size and truncate if text is too long -->
+<div
+  class="bg-gray-50 rounded my-5 border border-solid border-gray-200 transition"
+>
+  <div class="px-4 py-4 grid grid-cols-1 gap-y-3 gap-x-3 lg:grid-cols-6">
+    <!-- status -->
+    <div class="order-0 -mx-1 lg:col-span-3">
 
-        <span class="flex items-center overflow-hidden">
-          <i class="pi pi-send text-sm font-thin pr-2"></i>
-          Sent: {{ suggestionData.sender }}</span
-        >
-        <span class="flex items-center overflow-hidden">
-          <i class="pi pi-bolt text-sm font-thin pr-2"></i>
-          Suggested: {{ displayedSuggestedDate }}</span
-        >
-      </div>
     </div>
-    <div class="grid grid-rows-2 justify-center gap-4 py-2">
-      <div class="flex items-center justify-center overflow-hidden">
-        <!-- TODO: truncate additional tags if overflowing and add a tag with +n where n is the number of hidden tags -->
-        <p-tag
-          class="p-1"
-          styleClass="text-sm"
-          severity="primary"
-          *ngFor="let tag of suggestionData.tags"
-          value="{{ tag }}"
-        />
-      </div>
-      <div class="flex justify-center items-center">
-        <p-button
-          label="View"
-          icon="pi pi-arrow-right"
-          [loading]="loading"
-          (onClick)="load()"
-          [rounded]="true"
-          size="small"
-          [raised]="true"
-          [text]="true"
-          [outlined]="true"
-        ></p-button>
-      </div>
+    <!-- summary -->
+    <div class="order-2 font-medium py-2 text-justify lg:col-span-6">
+      {{ suggestionData.suggestion }}
+    </div>
+    <!-- client -->
+    <div class="order-2 lg:col-span-2">
+      <span class="flex items-start overflow-hidden">
+        <i class="pi pi-send text-sm font-thin pr-2"></i>
+        Client: {{ suggestionData.company }}</span
+      >
+    </div>
+    <!-- opened -->
+    <div class="order-2 lg:col-span-2">
+      <span class="flex items-start overflow-hidden">
+        <i class="pi pi-flag text-sm font-thin pr-2"></i>
+        Suggested: {{ displayedSuggestedDate }}</span
+      >
+    </div>
+
+    <!-- tags -->
+    <div class="order-2 -mr-1 lg:order-1 lg:col-span-3 lg:justify-self-end">
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        severity="primary"
+        *ngFor="let tag of suggestionData.tags"
+        value="{{ tag }}"
+      />
     </div>
   </div>
 </div>
-
-<p-dialog
-  header="Additional Details"
-  [(visible)]="dialogVisible"
-  [modal]="true"
-  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-  [style]="{ width: '50vw' }"
-  [draggable]="false"
-  [resizable]="false"
->
-  <div *ngIf="!errorMessage">
-    <div class="additional-info flex justify-center mb-8">
-      <div
-        class="max-w-[75%] py-10 px-5 border-dashed border-4 border-gray-500 rounded-3xl text-2xl"
-      >
-        Additional Content Goes Here
-      </div>
-    </div>
-    <div class="conversation flex flex-col">
-      <div class="font-medium text-2xl text-gray-800 text-opacity-70 px-4 py-2">
-        Original Conversation
-      </div>
-      <div
-        *ngFor="let email of additionalData.emails"
-        class="py-2 px-4 max-w-[80%]"
-        [ngClass]="{
-          'self-start': email.isClient,
-          'self-end': !email.isClient
-        }"
-      >
-        <div
-          class="font-medium text-gray-800 text-opacity-70 px-4 py-2"
-          [ngClass]="{
-            'text-right': !email.isClient
-          }"
-        >
-          {{ formatDate(email.dateTime) }}
-        </div>
-        <div
-          class="leading-relaxed py-4 px-6 rounded-t-3xl md:text-justify"
-          [ngClass]="{
-            'bg-gray-200': email.isClient,
-            'rounded-br-3xl': email.isClient,
-            'bg-blue-400': !email.isClient,
-            'rounded-bl-3xl': !email.isClient,
-          }"
-        >
-          {{ email.body }}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="errorMessage">{{ errorMessage }}</div>
-</p-dialog>

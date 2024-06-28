@@ -1,21 +1,18 @@
 export interface Issue {
-    id: string;     // can be removed if not needed later
+    id: string;     
     issue: string;
-    isNew: boolean;
-    isOverdue: boolean;
-    isClosed: boolean;
-    sender: string;
-    recipient: string;
+    subject: string;
+    status: 'new' | 'waiting' | 'update' | 'closed';
+    client: string;
+    company: string;
     dateOpened: Date;
     dateClosed?: Date;
+    dateUpdate?: Date;
+    isOverdue?: boolean;
     tags: string[];
-    effectivity: number;
-    efficiency: number;
+    effectivity?: string;
+    efficiency?: string;
 }
-
-// export interface IssueAdditionalData {
-//     gibberish: string;  
-// }
 
 export interface PopupEmail {
     body: string;
@@ -23,15 +20,35 @@ export interface PopupEmail {
     dateTime: Date;
 }
 export interface IssuePopupData {
+    id: string;    
+    issue: string;
+    subject: string;
+    status: 'new' | 'waiting' | 'update' | 'closed';
+    client: string;
+    company: string;
+    dateOpened: Date;
+    dateClosed?: Date;
+    dateUpdate?: Date;
+    isOverdue?: boolean;
+    tags: string[];
+    effectivity?: string;
+    efficiency?: string;
+    dateOverdue: Date;
+    firstResponseTime?: number; // in minutes
+    avgResponseTime?: number;   // in minutes
+    resolutionTime?: number;    // in minutes
+    sentiment?: number;
     emails: PopupEmail[];
 }
 
-export interface IssueMetaDataResponse {
-    data: Issue[];
+export interface IssueDataResponse {
+    issues: Issue[];
     total: number;
     skip: number;
     limit: number;
 }
+
+// END
 
 // BUG: REMOVE in Production (everything with name Mock___)
 export interface MockIssueMetadata {

@@ -23,11 +23,8 @@ import { DialogModule } from 'primeng/dialog';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 import { KeywordCloudComponent } from './components/keyword-cloud/keyword-cloud.component';
-import { SummaryCardComponent } from './components/summary-card/summary-card.component';
-import { SummaryCardsContainerComponent } from './components/summary-cards-container/summary-cards-container.component';
-import { FilterQueryComponent } from './components/filter-query/filter-query.component';
-import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
-import { EmailTableComponent } from './components/email-table/email-table.component';
+// import { EmailFilteringComponent } from './components/email-filtering/email-filtering.component';
+// import { EmailTableComponent } from './components/email-table/email-table.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.component';
 
@@ -69,7 +66,6 @@ import { DynamicStackedBarChartComponent } from './components/dynamic-stacked-ba
 import { BestWorstCardComponent } from './components/best-worst-card/best-worst-card.component';
 import { DynamicHorizontalBarchartComponent } from './components/dynamic-horizontal-barchart/dynamic-horizontal-barchart.component';
 import { SkeletonModule } from 'primeng/skeleton';
-import { FilterQuerySuggestionsComponent } from './components/filter-query-suggestions/filter-query-suggestions.component';
 import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
 import { SuggestionFilteringComponent } from './components/suggestion-filtering/suggestion-filtering.component';
 import { PaginatorModule } from 'primeng/paginator';
@@ -79,6 +75,7 @@ import { SuggestionCardListTypeComponent } from './components/suggestion-card-li
 import { InquiryCardListTypeComponent } from './components/inquiry-card-list-type/inquiry-card-list-type.component';
 import { InquiryDataviewComponent } from './components/inquiry-dataview/inquiry-dataview.component';
 import { DashboardSmallCardComponent } from './components/dashboard-small-card/dashboard-small-card.component';
+import { AuthorizationMessageComponent } from './components/authorization-message/authorization-message.component';
 import { DashboardIssueCardComponent } from './components/dashboard-issue-card/dashboard-issue-card.component';
 import { DashboardInquiryCardComponent } from './components/dashboard-inquiry-card/dashboard-inquiry-card.component';
 import { DashboardSuggestionCardComponent } from './components/dashboard-suggestion-card/dashboard-suggestion-card.component';
@@ -88,6 +85,13 @@ import { DashboardActionablesComponent } from './components/dashboard-actionable
 import { DashboardResponsetimeComponent } from './components/dashboard-responsetime/dashboard-responsetime.component';
 import { FilteringComponent } from './components/filtering/filtering.component';
 
+import { MessagesModule } from 'primeng/messages';
+
+import { ThreadDataviewComponent } from './components/thread-dataview/thread-dataview.component';
+import { ThreadCardListTypeComponent } from './components/thread-card-list-type/thread-card-list-type.component';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -96,11 +100,8 @@ import { FilteringComponent } from './components/filtering/filtering.component';
     LineAreaChartComponent,
     StatCardComponent,
     KeywordCloudComponent,
-    SummaryCardComponent,
-    SummaryCardsContainerComponent,
-    FilterQueryComponent,
-    EmailFilteringComponent,
-    EmailTableComponent,
+    // EmailFilteringComponent,
+    // EmailTableComponent,
     SettingsComponent,
     EmailAccCardComponent,
     NotiSendingEmailAccCardComponent,
@@ -118,7 +119,6 @@ import { FilteringComponent } from './components/filtering/filtering.component';
     DynamicStackedBarChartComponent,
     BestWorstCardComponent,
     DynamicHorizontalBarchartComponent,
-    FilterQuerySuggestionsComponent,
     SuggestionCardComponent,
     SuggestionFilteringComponent,
     IssueCardListTypeComponent,
@@ -127,6 +127,7 @@ import { FilteringComponent } from './components/filtering/filtering.component';
     InquiryCardListTypeComponent,
     InquiryDataviewComponent,
     DashboardSmallCardComponent,
+    AuthorizationMessageComponent,
     DashboardIssueCardComponent,
     DashboardInquiryCardComponent,
     DashboardSuggestionCardComponent,
@@ -135,6 +136,8 @@ import { FilteringComponent } from './components/filtering/filtering.component';
     DashboardActionablesComponent,
     DashboardResponsetimeComponent,
     FilteringComponent,
+    ThreadDataviewComponent,
+    ThreadCardListTypeComponent,
   ],
   imports: [
     CommonModule,
@@ -168,9 +171,13 @@ import { FilteringComponent } from './components/filtering/filtering.component';
     DropdownModule,
     DividerModule,
     PaginatorModule,
+    DividerModule,
+    SkeletonModule,
     SkeletonModule,
     ProgressBarModule,
     AutoCompleteModule,
+    MessagesModule,
+    ToggleButtonModule
   ],
   providers: [MessageService],
 })
