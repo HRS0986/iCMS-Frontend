@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BestPerformingEmailAccResponse, EmailAccEfficiencyResponse, InquiriesByEfficiencyEffectivenessResponse, IssueInquiryFreqByProdcuts, IssueInquiryFreqByTypeResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverallyEfficiencyEffectivenessPecentagesResponse, OverdueIssuesResponse } from '../../interfaces/dashboard';
-
+import { URLS } from '../../services/app.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
   
-  private baseUrl: string = 'http://127.0.0.1:8000/email/dashboard';
+  private baseUrl: string = `${URLS.baseUrl}/dashboard`;
 
   getDataForStatCards(intervalIndays: number): Observable<OngoingAndClosedStatsResponse> {
     const url = `${this.baseUrl}/get_data_for_ongoing_and_closed_stats?intervalIndays=${intervalIndays}`;

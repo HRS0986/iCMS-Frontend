@@ -23,7 +23,7 @@ interface TrendingWord {
 export class Dashboard2Component implements OnInit{
   breadcrumbItems: MenuItem[] = [
     {label: "Email Analytics"},
-    {label: "Dashboard2"}
+    {label: "Dashboard"}
   ];
 
   intervalInDays: number = 29;

@@ -20,7 +20,6 @@ export class CallSummaryChartComponent implements OnInit {
   visiblePlay: boolean = false;
   visibleConfirmation: boolean = false;
   selectedCall!: CallRecording; // Add a property to store the selected call details
-  noCalls: boolean = false;
   audio: any;
   audioPosition: any;
   currentTime: any;
@@ -28,6 +27,7 @@ export class CallSummaryChartComponent implements OnInit {
   selectedCallSummary: string = "";
   isError: boolean = false;
   isLoading: boolean = true;
+  noData: boolean = false;
   protected readonly userMessages = userMessages;
 
   constructor(
@@ -58,18 +58,23 @@ export class CallSummaryChartComponent implements OnInit {
       this.callRecordingService.getCallsList().subscribe((data) => {
         // Map the fetched data to match the structure of callRecordings
         if (data.status) {
-          this.callRecordings = data.data.map((record: any) => {
-            return {
-              id: record.id,
-              description: record.description,
-              transcription: record.transcription,
-              callUrl: record.call_recording_url,
-              duration: record.call_duration ?? 4.39,
-              date: new Date(record.call_date),
-              sentiment: record.sentiment
-            } as CallRecording;
-          });
-          console.log('Fetched callRecordings:', this.callRecordings);
+          if (data.data.length === 0) {
+            this.noData = true;
+          } else {
+            this.noData = false;
+            this.callRecordings = data.data.map((record: any) => {
+              return {
+                id: record.id,
+                description: record.description,
+                transcription: record.transcription,
+                callUrl: record.call_recording_url,
+                duration: record.call_duration ?? 4.39,
+                date: new Date(record.call_date),
+                sentiment: record.sentiment
+              } as CallRecording;
+            });
+            console.log('Fetched callRecordings:', this.callRecordings);
+          }
         } else {
           this.isError = true;
           this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.FETCH_ERROR});

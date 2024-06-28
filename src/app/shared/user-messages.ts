@@ -1,8 +1,8 @@
 export default class UserMessages {
 
   // Call Analytics
-  public static readonly UPLOAD_SUCCESS = 'File uploaded successfully';
-  public static readonly UPLOAD_ERROR = 'Error uploading file';
+  public static readonly UPLOAD_SUCCESS = 'Your calls have been uploaded for analyze.';
+  public static readonly UPLOAD_ERROR = 'Failed to upload files';
 
   // Main Dashboard
 

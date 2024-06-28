@@ -20,10 +20,10 @@ export class ReadNotificationsComponent implements OnInit {
   {}
 
   ngOnInit(): void {
-    timer(0, this.refreshTime).subscribe(() => {
-      this.readNotification();
-      this.updateOldNotificationsAsRead();
-    });
+    // timer(0, this.refreshTime).subscribe(() => {
+    //   this.readNotification();
+    //   this.updateOldNotificationsAsRead();
+    // });
   }
 
 

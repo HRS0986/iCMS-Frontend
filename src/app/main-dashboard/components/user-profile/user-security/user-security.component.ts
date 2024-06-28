@@ -1,6 +1,9 @@
 // user-security.component.ts
 import { Component, EventEmitter, Output } from '@angular/core';
-import { AuthendicationService } from '../../../services/authendication.service';
+import  {AuthenticationService} from "../../../../auth/services/authentication.service";
+import { CookieService } from 'ngx-cookie-service';
+import { UserChangePasswordService } from '../../../services/user-change-password.service';
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-user-security',
@@ -14,27 +17,23 @@ export class UserSecurityComponent {
   newPassword: string = '';
   confirmPassword: string = '';
 
-  constructor(private authService: AuthendicationService) { }
+  constructor(private http:HttpClient ,private authService: AuthenticationService, private cookieService:CookieService,  private changePasswordService: UserChangePasswordService) { }
 
   sendDataToParentMethod(dataToSend: any) {
     this.sendDataToParent.emit(dataToSend);
   }
 
-  changePassword(): void {
-    if (this.newPassword !== this.confirmPassword) {
-      return;
+  changePassword(){
+
+    if(this.newPassword === this.confirmPassword){
+      this.authService.getIdToken().subscribe((token: any) => {
+        console.log(token);
+        this.changePasswordService.changePassword(token, this.currentPassword, this.newPassword).subscribe((data: any) => {
+          console.log(data);
+        });
+      });
     }
-
-    const changePasswordData = {
-      "currentPassword": this.currentPassword,
-      "password": this.newPassword,
-      "conpassword": this.confirmPassword
-    };
-
-    const token = localStorage.getItem('token') || '';
-    this.authService.changePassword(changePasswordData, token).subscribe(
-      (response) => {
-      }
-    );
   }
+
+
 }

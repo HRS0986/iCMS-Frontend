@@ -1,0 +1,264 @@
+<div
+  class="bg-gray-50 hover:bg-blue-100 hover:cursor-pointer rounded my-5 border border-solid border-gray-200 transition hover:duration-150"
+  (click)="load()"
+>
+  <div class="px-4 py-4 grid grid-cols-1 gap-y-0 gap-x-3 lg:grid-cols-6">
+    <!-- status -->
+    <div class="order-0 -mx-1 lg:col-span-3">
+      <!-- hot status -->
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        *ngIf="!threadData.type || threadData.type === 'hot'"
+        severity="danger"
+        value="Hot"
+      >
+        <i class="pi pi-comments text-sm pr-2"></i>
+      </p-tag>
+      <!-- normal status -->
+      <p-tag
+      class="p-1"
+      styleClass="text-sm bg-gray-400"
+      *ngIf="threadData.type === 'normal'"
+      severity="secondary"
+      value="General"
+    >
+      <i class="pi pi-inbox text-sm pr-2"></i>
+    </p-tag>
+    </div>
+    <!-- subject -->
+    <div class="order-2 font-medium py-2 text-justify lg:col-span-6">
+      {{ threadData.subject }} 
+    </div>
+    <!-- snippet -->
+    <div class="order-2 font-normal text-sm py-2 text-justify lg:col-span-6">
+      {{ threadData.snippet }} ...
+    </div>
+    <!-- client -->
+    <div class="order-2 lg:col-span-2">
+      <span class="flex items-start overflow-hidden">
+        <i class="pi pi-history text-sm font-thin pr-2"></i>
+        Last Update: {{ displayedLastUpdate }}</span
+      >
+    </div>
+    <!-- opened -->
+    <div class="order-2 lg:col-span-2 hidden">
+      <span class="flex items-start overflow-hidden">
+        <i class="pi pi-flag text-sm font-thin pr-2"></i>
+        Opened: {{ threadData.subject }}</span
+      >
+    </div>
+    <!-- last update / closed -->
+    <div class="order-2 lg:col-span-2 hidden">
+      <!-- closed date (if closed) -->
+      <span *ngIf="" class="flex items-start overflow-hidden">
+        <i class="pi pi-check text-sm font-thin pr-2"></i>
+        Closed: {{ threadData.subject }}
+      </span>
+      <!-- last update date (if not closed) -->
+      <span *ngIf="" class="flex items-start overflow-hidden">
+        <i class="pi pi-refresh text-sm font-thin pr-2"></i>
+        Update: {{ threadData.subject }}
+      </span>
+    </div>
+    <!-- tags -->
+    <div class="order-2 -mr-1 lg:order-1 lg:col-span-3 lg:justify-self-end">
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        severity="primary"
+        *ngFor="let tag of threadData.tags"
+        value="{{ tag }}"
+      />
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  header="{{ threadData.subject }}"
+  [(visible)]="dialogVisible"
+  [modal]="true"
+  [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
+  [style]="{ width: '70vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <!-- loading screen -->
+  <div *ngIf="loading">
+    <p-skeleton width="100%" height="100px" />
+    <p-divider></p-divider>
+    <p-skeleton width="100%" height="200px" />
+  </div>
+
+  <!-- actual content (if no errors) -->
+  <div *ngIf="!errorMessage && !loading">
+    <div class="font-medium text-2xl text-gray-800 text-opacity-70 px-4 pb-4">
+      Details
+    </div>
+    <div class="px-4 grid grid-cols-1 lg:grid-cols-2 gap-y-3 gap-x-1">
+      <!-- section 1 -->
+      <div class="lg:col-span-2" *ngIf="">
+        <i class="pi pi-hashtag text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Subject:&nbsp;</span>
+        <div class="pl-10 text-justify">{{ threadData.subject }}</div>
+      </div>
+      <div class="lg:col-span-2">
+        <i class="pi pi-book text-sm font-thin pr-2"></i>
+        <span class="font-semibold inline md:inline">Summary: <br /></span>
+        <div class="pl-10 text-justify">
+          {{ threadData.summary }}
+        </div>
+      </div>
+      <div class="lg:col-span-2">
+        <i class="pi pi-tags text-sm font-thin pr-2"></i>
+        <span class="font-semibold hidden md:inline">Tags:&nbsp;</span>
+        <span class="">{{ threadData.tags }}</span>
+      </div>
+      <div class="lg:col-span-2">
+        <i class="pi pi-history text-sm font-thin pr-2"></i>
+        <span class="font-semibold hidden md:inline">Last Update:&nbsp;</span>
+        <span class="">{{ popupDisplayedLastUpdate }}</span>
+      </div>
+      <div class="my-hidden-class hidden">
+        <p-divider class="-my-4 lg:col-span-2"></p-divider>
+        <!-- section 2 -->
+        <div class="">
+          <i class="pi pi-user text-sm font-thin pr-2"></i>
+          <span class="font-semibold hidden md:inline">Client:&nbsp;</span>
+          <span>{{ threadData.subject }}</span>
+        </div>
+        <div class="">
+          <i class="pi pi-building text-sm font-thin pr-2"></i>
+          <span class="font-semibold hidden md:inline">Company:&nbsp;</span>
+          <span>{{ threadData.subject }}</span>
+        </div>
+        <p-divider class="-my-4 lg:col-span-2"></p-divider>
+        <!-- section 2 -->
+        <div class="">
+          <i class="pi pi-play text-sm font-thin pr-2"></i>
+          <span class="font-semibold inline md:inline">Status:&nbsp;</span>
+          <span class="block ml-10 md:inline md:ml-0">{{
+            threadData.subject
+          }}</span>
+        </div>
+        <div class="">
+          <i class="pi pi-flag text-sm font-thin pr-2"></i>
+          <span class="font-semibold inline md:inline">Opened:&nbsp;</span>
+          <span class="block ml-10 md:inline md:ml-0">{{
+            threadData.subject
+          }}</span>
+        </div>
+        <div class="" *ngIf="">
+          <i class="pi pi-refresh text-sm font-thin pr-2"></i>
+          <span class="font-semibold inline md:inline">Update:&nbsp;</span>
+          <span class="block ml-10 md:inline md:ml-0">{{
+            threadData.subject
+          }}</span>
+        </div>
+        <div class="" *ngIf="">
+          <i class="pi pi-check-circle text-sm font-thin pr-2"></i>
+          <span class="font-semibold inline md:inline">Closed:&nbsp;</span>
+          <span class="block ml-10 md:inline md:ml-0">{{
+            threadData.subject
+          }}</span>
+        </div>
+        <div class="">
+          <i class="pi pi-exclamation-triangle text-sm font-thin pr-2"></i>
+          <span class="font-semibold inline md:inline">Overdue:&nbsp;</span>
+          <span class="block ml-10 md:inline md:ml-0">{{
+            threadData.subject
+          }}</span>
+        </div>
+        <p-divider class="-my-4 lg:col-span-2" *ngIf=""></p-divider>
+        <!-- section 3 -->
+        <div class="" *ngIf="">
+          <i class="pi pi-plus-circle text-sm font-thin pr-2"></i>
+          <span class="font-semibold inline md:inline"
+            >First response time:&nbsp;</span
+          >
+          <span class="block ml-10 md:inline md:ml-0">{{
+            threadData.subject
+          }}</span>
+        </div>
+        <div class="" *ngIf="">
+          <i class="pi pi-history text-sm font-thin pr-2"></i>
+          <span class="font-semibold inline md:inline"
+            >Avg response time:&nbsp;</span
+          >
+          <span class="block ml-10 md:inline md:ml-0">{{
+            threadData.subject
+          }}</span>
+        </div>
+        <div class="" *ngIf="">
+          <i class="pi pi-cog text-sm font-thin pr-2"></i>
+          <span class="font-semibold inline md:inline"
+            >Resolution time:&nbsp;</span
+          >
+          <span class="block ml-10 md:inline md:ml-0">{{
+            threadData.subject
+          }}</span>
+        </div>
+        <p-divider class="-my-4 lg:col-span-2"></p-divider>
+        <!-- section 4 -->
+        <div class="" *ngIf="">
+          <i class="pi pi-clock text-sm font-thin pr-2"></i>
+          <span class="font-semibold inline md:inline">Efficiency:&nbsp;</span>
+          <span class="block ml-10 md:inline md:ml-0">{{
+            threadData.subject
+          }}</span>
+        </div>
+        <div class="" *ngIf="">
+          <i class="pi pi-shield text-sm font-thin pr-2"></i>
+          <span class="font-semibold inline md:inline">Effectivity:&nbsp;</span>
+          <span class="block ml-10 md:inline md:ml-0">{{
+            threadData.subject
+          }}</span>
+        </div>
+        <div class="">
+          <i class="pi pi-thumbs-up text-sm font-thin pr-2"></i>
+          <span class="font-semibold inline md:inline">Sentiment:&nbsp;</span>
+          <span class="block ml-10 md:inline md:ml-0">{{
+            threadData.subject
+          }}</span>
+        </div>
+      </div>
+    </div>
+    <!-- conversation -->
+    <div class="hidden conversation flex flex-col pt-8">
+      <div class="font-medium text-2xl text-gray-800 text-opacity-70 px-4 py-2">
+        Original Conversation
+      </div>
+      <div
+        *ngFor="let email of threadData.tags"
+        class="py-2 px-4 max-w-full md:max-w-[80%]"
+        [ngClass]="{
+          'self-start': true,
+          'self-end': !true
+        }"
+      >
+        <div
+          class="font-medium text-gray-800 text-opacity-70 px-4 py-2"
+          [ngClass]="{
+            'text-right': !true
+          }"
+        >
+          {{ threadData.subject }}
+        </div>
+        <div
+          class="leading-relaxed py-4 px-6 rounded-t-3xl md:text-justify"
+          [ngClass]="{
+            'bg-gray-200': true,
+            'rounded-br-3xl': true,
+            'bg-blue-400': !true,
+            'rounded-bl-3xl': !true,
+          }"
+        >
+          {{ threadData.subject }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- error (if occured) -->
+  <div *ngIf="errorMessage && !loading">{{ errorMessage }}</div>
+</p-dialog>
