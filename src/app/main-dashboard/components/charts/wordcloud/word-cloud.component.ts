@@ -85,7 +85,7 @@ export class WordcloudComponent implements OnInit, OnChanges, AfterViewInit {
 }
 
   ngAfterViewInit() {
-    this.showWords(); // Initialize the word cloud after the view is fully initialized
+    // this.showWords(); // Initialize the word cloud after the view is fully initialized
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -301,6 +301,13 @@ export class WordcloudComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   showWords() {
+    if (!this.words || this.words.length === 0) {
+      console.error('No words to display in the word cloud.');
+      return;
+    }
+
+    console.log('Words:', this.words);  // Debugging: Check the words array
+
     $(this.wordCloudContainer.nativeElement).jQWCloud({
       words: this.words,
       maxFont: 60,

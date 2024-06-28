@@ -217,7 +217,8 @@ gridDeleteConfirmed(id:any,title:string) {
     header: 'Delete Confirmation',
     icon: 'pi pi-exclamation-triangle',
     accept: () => {
-      this.ChartService.gridDeleted(id.id).subscribe(
+      this.authService.getIdToken().subscribe((token) =>{
+      this.ChartService.gridDeleted(id.id,token).subscribe(
         response => {
           this.dashboard.splice(this.dashboard.indexOf(id), 1);
           this.gridList.splice(this.gridList.indexOf(id), 1);
@@ -227,6 +228,7 @@ gridDeleteConfirmed(id:any,title:string) {
           // console.error('Error saving grid layout:', error);
         }
       );
+    });
       
     },
     reject: () => {

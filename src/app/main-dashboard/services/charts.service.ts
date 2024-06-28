@@ -18,7 +18,7 @@ export class ChartsService {
   private messagesSubject$ = new Subject<any>();
   public messages$ = this.messagesSubject$.asObservable();
 
-  private baseUrl = 'http://3.110.74.4:8002/charts';
+  private baseUrl = 'http://13.233.43.207:8002/charts';
 
   username:any;
 
@@ -70,9 +70,7 @@ export class ChartsService {
     return this.http.get<any>(`${this.baseUrl}/chartData`,{ headers });
   }
 
-  gridDeleted(id:any): Observable<any>{
-
-    const token = localStorage.getItem('idToken');
+  gridDeleted(id:any,token:string): Observable<any>{
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

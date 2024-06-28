@@ -123,7 +123,7 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
 
-        this.chartService.gridDeleted(this.id).subscribe((response)=>{});
+        // this.chartService.gridDeleted(this.id).subscribe((response)=>{});
         this.messageService.add({severity:'danger', summary:'Confirmed', detail:'Item deleted'});
       },
       reject: () => {
