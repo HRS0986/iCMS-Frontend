@@ -18,7 +18,7 @@ export class ConditionService {
     }
   
     private getNeedForAuthorization(): Observable<any> {
-      const url = `${URLS.baseUrl}/email/info_and_retrieval/get_need_for_authorization`;
+      const url = `${URLS.baseUrl}/info_and_retrieval/get_need_for_authorization`;
       return this.http.get<any>(url);
     }
   
