@@ -10,7 +10,10 @@
       [maxDate]="maxDate"
     />
   </div>
-  <div
+
+</div>
+
+<div
     class="my-child-2 flex-grow min-h-[900px] grid grid-cols-2 gap-5 md:grid-cols-3 md:grid-rows-4 md:min-h-[600px]"
   >
     <div
@@ -63,7 +66,6 @@
       <app-dashboard-actionables></app-dashboard-actionables>
     </div>
   </div>
-</div>
 
 <!-- the calendars
 
@@ -74,7 +76,7 @@
 
 <!-- TODO: Dashboard interface link: https://chatgpt.com/share/0de7e86e-c8e0-47d0-b7a7-b329cde45d49 -->
 
-<div class="size-1/2"></div>
+<div class="size-1/5"></div>
 
 <div class="flex flex-col">
   <div class="flex flex-wrap gap-6">
@@ -91,14 +93,14 @@
       </div>
     </div>
     <!-- Current Overall efficiency donought chart-->
-    <div class="stat-cards h-40">
+    <!-- <div class="stat-cards h-40"> -->
       <app-effi-effec-donought-chart
         title="Current Overall Efficiency"
         [chartData]="dntChartDataOverallEfficiency"
         [chartLabels]="dntChartOverallEfficiencyLabels"
         *ngIf="!isLoadingDCOverallEfficiency"
       />
-    </div>
+    <!-- </div> -->
     <!-- Current Overall progress donought chart-->
     <app-progress-donought-chart
       title="Current Progress of both issues and inquiries"

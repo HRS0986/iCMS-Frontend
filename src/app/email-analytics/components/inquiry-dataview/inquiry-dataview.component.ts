@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Inquiry, InquiryMetaDataResponse } from '../../interfaces/inquiries';
+import { Inquiry, InquiryDataResponse } from '../../interfaces/inquiries';
 import { InquiryService } from '../../services/inquiry.service';
 import { DataViewLazyLoadEvent, DataView } from 'primeng/dataview';
 import { MenuItem } from 'primeng/api';
@@ -16,17 +16,12 @@ export class InquiryDataviewComponent {
   inquiryData: Inquiry[] = new Array(10).fill({
     id: '',
     inquiry: '',
-    inquiry_type: '',
-    status: '',
-    isNew: false,
-    isNewUpdate: false,
-    isAnswered: false,
-    dateInquired: new Date(),
+    subject: '',
+    status: 'new',
+    client: '',
+    company: '',
+    dateOpened: new Date(),
     tags: [],
-    sender: '',
-    recipient: '',
-    effectivity: 0,
-    efficiency: 0
   });
 
   totalRecords: number = 0;
@@ -54,10 +49,19 @@ export class InquiryDataviewComponent {
 
   loadInquiries($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
-    this.inquiryService.getInquiryData(criteria, $event.first ?? 0, $event.rows ?? 10).subscribe({});
-    this.inquiryService.getMockInquiryData(criteria, $event.first ?? 0, $event.rows ?? 20).subscribe({
-      next: (response: InquiryMetaDataResponse) => {
-        this.inquiryData = response.data;
+
+    this.inquiryService.getInquiryData(criteria, $event.first ?? 0, $event.rows ?? 20).subscribe({
+      next: (response: InquiryDataResponse) => {
+        this.inquiryData = response.inquiries;
+        this.inquiryData.forEach((inquiry: Inquiry) => {
+          inquiry.dateOpened = new Date(inquiry.dateOpened);
+          if (inquiry.dateUpdate) {
+            inquiry.dateUpdate = new Date(inquiry.dateUpdate);
+          }
+          if (inquiry.dateClosed) {
+            inquiry.dateClosed = new Date(inquiry.dateClosed);
+          }
+        });
         this.totalRecords = response.total;
         this.loading = false;
       },
