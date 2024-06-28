@@ -29,13 +29,13 @@ export class SidenavComponent implements OnInit {
         label: 'Email Analytics',
         icon: 'pi pi-fw pi-envelope',
         items: [
+          // {
+          //   label: 'Sentiments Dashboard',
+          //   routerLink: "email/dashboard1",
+          //   icon: 'pi pi-fw pi-desktop'
+          // },
           {
-            label: 'Sentiments Dashboard',
-            routerLink: "email/dashboard1",
-            icon: 'pi pi-fw pi-desktop'
-          },
-          {
-            label: 'Insights Dashboard',
+            label: 'Dashboard',
             routerLink: "email/dashboard2",
             icon: 'pi pi-fw pi-th-large'
           },
@@ -45,24 +45,19 @@ export class SidenavComponent implements OnInit {
             icon: 'pi pi-fw pi-flag'
           },
           {
-            label: 'Email Suggestions',
-            routerLink: "email/suggestions",
-            icon: 'pi pi-fw pi-star'
-          },
-          {
             label: 'Email Inquiries',
             routerLink: "email/inquiries",
             icon: 'pi pi-fw pi-question'
           },
           {
-            label: '(temp) Email Filtering',
-            routerLink: "email/filtering",
-            icon: 'pi pi-fw pi-filter'
+            label: 'Email Suggestions',
+            routerLink: "email/suggestions",
+            icon: 'pi pi-fw pi-bolt'
           },
           {
-            label: 'Conversation Summaries',
+            label: 'Thread Summaries',
             routerLink: "email/summaries",
-            icon: 'pi pi-fw pi-book'
+            icon: 'pi pi-fw pi-link'
           },
           {
             label: 'Settings',

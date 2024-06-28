@@ -8,6 +8,7 @@ import {Component, Input} from '@angular/core';
 export class RightSidebarComponent {
   @Input() showAddMemberButton: boolean = false;
   @Input() showAddWidgetButton: boolean = false;
+  @Input() showAddRoleButton: boolean = false;
 
 
 }

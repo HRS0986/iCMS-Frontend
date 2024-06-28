@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { Inquiry, InquiryMetaDataResponse } from '../../interfaces/inquiries';
+import { Component, ViewChild } from '@angular/core';
+import { Inquiry, InquiryDataResponse } from '../../interfaces/inquiries';
 import { InquiryService } from '../../services/inquiry.service';
-import { DataViewLazyLoadEvent } from 'primeng/dataview';
+import { DataViewLazyLoadEvent, DataView } from 'primeng/dataview';
 import { MenuItem } from 'primeng/api';
+import { Filter } from '../../interfaces/filters';
 
 @Component({
   selector: 'app-inquiry-dataview',
@@ -10,20 +11,17 @@ import { MenuItem } from 'primeng/api';
   styleUrl: './inquiry-dataview.component.scss'
 })
 export class InquiryDataviewComponent {
+  @ViewChild('dataView') dataView!: DataView;
+
   inquiryData: Inquiry[] = new Array(10).fill({
     id: '',
     inquiry: '',
-    inquiry_type: '',
-    status: '',
-    isNew: false,
-    isNewUpdate: false,
-    isAnswered: false,
-    dateInquired: new Date(),
+    subject: '',
+    status: 'new',
+    client: '',
+    company: '',
+    dateOpened: new Date(),
     tags: [],
-    sender: '',
-    recipient: '',
-    effectivity: 0,
-    efficiency: 0
   });
 
   totalRecords: number = 0;
@@ -35,13 +33,35 @@ export class InquiryDataviewComponent {
   errorMessage: string = '';
   dialogVisible: boolean = false;
 
+  filterCriteria: Filter = {
+    selectedSenders: [],
+    selectedReceivers: [],
+    selectedTags: [],
+    reqAllTags: false,
+    selectedStatus: [],
+    selectedDate: [],
+    searchText: '',
+    importantOnly: false,
+    newOnly: false
+  }
+
   constructor(private inquiryService: InquiryService) {}
 
-  loadInquiries($event: DataViewLazyLoadEvent) {
+  loadInquiries($event: DataViewLazyLoadEvent, criteria: Filter = this.filterCriteria) {
     this.loading = true;
-    this.inquiryService.getInquiryMetadata($event.first ?? 0, $event.rows ?? 20).subscribe({
-      next: (response: InquiryMetaDataResponse) => {
-        this.inquiryData = response.data;
+
+    this.inquiryService.getInquiryData(criteria, $event.first ?? 0, $event.rows ?? 20).subscribe({
+      next: (response: InquiryDataResponse) => {
+        this.inquiryData = response.inquiries;
+        this.inquiryData.forEach((inquiry: Inquiry) => {
+          inquiry.dateOpened = new Date(inquiry.dateOpened);
+          if (inquiry.dateUpdate) {
+            inquiry.dateUpdate = new Date(inquiry.dateUpdate);
+          }
+          if (inquiry.dateClosed) {
+            inquiry.dateClosed = new Date(inquiry.dateClosed);
+          }
+        });
         this.totalRecords = response.total;
         this.loading = false;
       },
@@ -57,8 +77,14 @@ export class InquiryDataviewComponent {
     this.loadInquiries({ first: event.first, rows:this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder});
   }
 
+  onFilterChange(filterCriteria: Filter) {
+    this.filterCriteria = filterCriteria;
+    this.dataView.first = 0;
+    this.loadInquiries({ first: 0, rows: this.rowsPerPage, sortField: this.sortField, sortOrder: this.sortOrder }, filterCriteria);
+  }
+
   breadcrumbItems: MenuItem[] = [
-    {label: "Email Analytics"},
+    {label: "Email Analytics", routerLink: "/email/dashboard2"},
     {label: "Email Inquiries"}
   ];
 

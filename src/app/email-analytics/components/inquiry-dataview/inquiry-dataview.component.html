@@ -5,7 +5,8 @@
   [showButton]="false"
 />
 
-<app-filter-query></app-filter-query>
+<app-filtering (filterEmitter)="onFilterChange($event)" type="inquiry"></app-filtering>
+
 <p-panel>
   <p-dataView
     [value]="inquiryData"
@@ -21,6 +22,7 @@
     (onPageChange)="onPageChange($event)"
     [sortField]="sortField"
     [sortOrder]="sortOrder"
+    #dataView
   >
     <ng-template pTemplate="list" let-inquiries>
       <div class="px-5 py-1">

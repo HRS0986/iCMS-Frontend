@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MainDashboardRoutingModule } from './main-dashboard-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
@@ -34,7 +33,11 @@ import {LineAreaChartComponent} from "./components/charts/line-area-chart/line-a
 import {HorizontalBarChartComponent} from "./components/charts/horizontal-bar-chart/horizontal-bar-chart.component";
 import {GaugeChartComponent} from "./components/charts/gauge-chart/gauge-chart.component";
 import { NgxEchartsModule } from 'ngx-echarts';
-
+import { WordcloudComponent } from './components/charts/wordcloud/word-cloud.component';
+import { GridComponent } from './components/grid/grid.component';
+import {GridsterComponent, GridsterItemComponent} from "angular-gridster2";
+import {MatIcon} from "@angular/material/icon";
+import {FileUploadModule} from "primeng/fileupload";
 
 @NgModule({
   declarations: [
@@ -49,7 +52,9 @@ import { NgxEchartsModule } from 'ngx-echarts';
     UnreadNotificationsComponent,
     ReadNotificationsComponent,
     HorizontalBarChartComponent,
-    GaugeChartComponent
+    GaugeChartComponent,
+    GridComponent,
+    WordcloudComponent
 
   ],
   imports: [
@@ -72,7 +77,11 @@ import { NgxEchartsModule } from 'ngx-echarts';
     AvatarModule,
     AvatarGroupModule,
     PanelModule,
-    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
+    GridsterItemComponent,
+    GridsterComponent,
+    MatIcon,
+    FileUploadModule,
   ],
   providers:[ConfirmationService]
 })

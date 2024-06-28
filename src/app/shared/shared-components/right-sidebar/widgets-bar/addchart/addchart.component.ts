@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ChartsService } from '../../../../../main-dashboard/services/charts.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-addchart',
@@ -102,7 +104,7 @@ export class AddchartComponent {
     this.selectedChartType = type;
   }
 
-  constructor() {
+  constructor(private ChartService: ChartsService, private cookieService: CookieService) {
     this.sidebarVisible = false;
     this.chartType = '';
 
@@ -110,6 +112,24 @@ export class AddchartComponent {
 
 
   saveWidget() {
+    const sourceNames = this.selectedCities.map((source: any) => source.name);
+    const keywordNames = this.selectedKeywords.map((keyword: any) => keyword.name);
 
+    const widgetData = {
+      title: this.title,
+      chartType: this.value, 
+      sources: sourceNames,
+      keywords: keywordNames
+    };
+    const jsonData = JSON.stringify(widgetData);
+    const token = this.cookieService.get('token');
+    console.log(jsonData);
+    this.ChartService.newWidget(jsonData,token).subscribe(
+      (counts: any) => {
+       console.log(counts);
+      }
+    );
   }
+
+
 }
