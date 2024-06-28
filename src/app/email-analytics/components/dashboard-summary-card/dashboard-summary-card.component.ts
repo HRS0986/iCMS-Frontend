@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
 })
 export class DashboardSummaryCardComponent {
 
+  loading: boolean = false;
+  dialogVisible: boolean = false;
+
   emails_done_percentage!: number;
   issues_done_percentage!: number;
   inquiries_done_percentage!: number;
@@ -69,5 +72,13 @@ export class DashboardSummaryCardComponent {
 
     this.avg_response_time = 45;
     this.avg_response_time_displayed = this.avg_response_time + 'mins';
+  }
+
+  load() {
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+      this.dialogVisible = true;
+    }, 1000);
   }
 }

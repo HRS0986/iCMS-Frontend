@@ -16,10 +16,10 @@ export class DashboardResponsetimeComponent {
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     this.data = {
-      labels: ['25 June', '26 June', '27 June', '28 June', '29 June', 'Yesterday', 'Today'],
+      labels: ['22 June','23 June', '24 June', '25 June', '26 June', 'Yesterday', 'Today'],
       datasets: [
         {
-          label: 'First Dataset',
+          label: 'Email load',
           data: [65, 59, 80, 81, 56, 55, 40],
           fill: false,
           borderColor: documentStyle.getPropertyValue('--blue-500'),
@@ -27,7 +27,7 @@ export class DashboardResponsetimeComponent {
           yAxisID: 'y'
         },
         {
-          label: 'Second Dataset',
+          label: 'Avg Response time',
           data: [31, 20, 45, 60, 28, 19, 34],
           fill: false,
           borderColor: documentStyle.getPropertyValue('--pink-500'),

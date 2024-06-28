@@ -90,3 +90,10 @@ export interface SentimentPercentages {
   negative: number;
   neutral: number;
 }
+
+export interface BestOperatorItem {
+  _id: number;
+  name: string;
+  avg_duration: number;
+  total: number;
+}

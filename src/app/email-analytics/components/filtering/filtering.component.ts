@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Filter } from '../../interfaces/filters';
 import { FilterService } from '../../services/filter.service';
 
@@ -14,6 +14,7 @@ interface AutoCompleteCompleteEvent {
 })
 export class FilteringComponent {
   otherText: string = '';
+  @Input() type!: "issue" | "inquiry" | "suggestion";
 
   // Arrays to hold the returned data from the server
   dataSender: string[] = [];
@@ -57,23 +58,23 @@ export class FilteringComponent {
   }
 
   loadTags() {
-    this.filterService.getTags().subscribe((response) => {
+    this.filterService.getTags(this.type).subscribe((response) => {
       this.dataTags = response.tags;
     });
   }
   loadStatus() {
-    this.filterService.getStatus().subscribe((response) => {
+    this.filterService.getStatus(this.type).subscribe((response) => {
       this.dataStatus = response.status;
     });
   }
   loadCompanyAddresses() {
-    this.filterService.getCompanyAddresses().subscribe((response) => {
-      this.dataSender = response.companyAddresses;
+    this.filterService.getCompanyAddresses(this.type).subscribe((response) => {
+      this.dataReceiver = response.company_addresses;
     });
   }
   loadClientAddresses() {
-    this.filterService.getClientAddresses().subscribe((response) => {
-      this.dataReceiver = response.clientAddresses;
+    this.filterService.getClientAddresses(this.type).subscribe((response) => {
+      this.dataSender = response.client_addresses;
     });
   }
 
