@@ -1,6 +1,6 @@
 import { Component, Input, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Content, TabItem } from '../../structs';
+import { Content, TabItem } from '../../models/main-types';
 
 
 @Component({

@@ -1,0 +1,163 @@
+<div class="card flex justify-content-center">
+  <div
+    (click)="showDialog()"
+    style="
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      cursor: pointer;
+    "
+  >
+    <p>{{ topBarCaption }} :</p>
+    <img
+      src="assets/social-media/svg/Duotone.svg"
+      alt="Add Icon"
+      class="right-bar-icon"
+      style="width: 45px"
+    />
+  </div>
+  <p-dialog
+    header="Export Platform Insight"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '45rem' }"
+  >
+    <!-- Platform Dropdown -->
+    <div style="margin-bottom: 1rem; display: flex; align-items: center">
+      <label
+        for="email1"
+        class="font-semibold"
+        style="width: 8rem; display: inline-block"
+        >Platform</label
+      >
+      <div
+        class="card flex justify-content-center"
+        style="display: inline-block; width: calc(100% - 8rem)"
+      >
+        <p-dropdown
+          [options]="platforms"
+          [(ngModel)]="selectedPlatform"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Select a Platform"
+          [style]="{ width: '100%' }"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedPlatform">
+              <img [src]="selectedPlatform.icon" style="width: 20px" />
+              <div>{{ selectedPlatform.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-platform pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <img [src]="platform.icon" style="width: 20px" />
+              <div>{{ platform.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+
+    <!-- Date Dropdown -->
+    <div style="margin-bottom: 1rem; display: flex; align-items: center">
+      <div style="margin-right: 1rem; flex: 1">
+        <label
+          for="email1"
+          class="font-semibold"
+          style="width: 8rem; display: inline-block"
+          >Select Date</label
+        >
+        <div
+          class="card flex justify-content-center"
+          style="display: inline-block; width: calc(100% - 8rem)"
+        >
+          <p-dropdown
+            [options]="date"
+            [(ngModel)]="selectedDate"
+            optionLabel="name"
+            [style]="{ width: '100%' }"
+          >
+            <ng-template pTemplate="selectedItem">
+              <div class="flex align-items-center gap-2" *ngIf="selectedDate">
+                <img [src]="selectedDate.icon" style="width: 20px" />
+                <div>{{ selectedDate.name }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-dateOption pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <img [src]="dateOption.icon" style="width: 20px" />
+                <div>{{ dateOption.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+      </div>
+
+      <!-- Type Dropdown -->
+      <div style="flex: 1">
+        <label
+          for="email1"
+          class="font-semibold"
+          style="width: 8rem; display: inline-block"
+          >Select Type</label
+        >
+        <div
+          class="card flex justify-content-center"
+          style="display: inline-block; width: calc(100% - 8rem)"
+        >
+          <p-dropdown
+            [options]="type"
+            [(ngModel)]="selectedType"
+            optionLabel="name"
+            [style]="{ width: '100%' }"
+          >
+            <ng-template pTemplate="selectedItem">
+              <div class="flex align-items-center gap-2" *ngIf="selectedType">
+                <img [src]="selectedType.icon" style="width: 20px" />
+                <div>{{ selectedType.name }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-typeOption pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <img [src]="typeOption.icon" style="width: 20px" />
+                <div>{{ typeOption.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password Input -->
+    <div style="margin-bottom: 1rem; display: flex; align-items: center">
+      <label
+        for="email2"
+        class="font-semibold"
+        style="width: 8rem; display: inline-block"
+        >Enter Password</label
+      >
+      <div
+        class="card flex justify-content-center"
+        style="display: inline-block; width: calc(100% - 8rem)"
+      >
+        <p-password
+          [(ngModel)]="value"
+          [feedback]="false"
+          [toggleMask]="true"
+          [inputStyle]="{ width: '100%' }"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+    </div>
+
+    <!-- Download Button -->
+    <div style="display: flex; justify-content: center; margin-top: 1rem">
+      <p-button
+        label="Download"
+        icon="pi pi-arrow-down"
+        [loading]="loading"
+        (click)="load()"
+      ></p-button>
+    </div>
+  </p-dialog>
+</div>

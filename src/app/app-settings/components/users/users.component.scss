@@ -57,6 +57,34 @@
   .p-datatable-customers .p-datatable-tbody > tr > td .p-column-title {
     display: none;
   }
+
+  .action-button button{
+    background-color: black;
+    border: 1px solid #ffffff;
+  }
+  .action-button button:first-child{
+    border-left: 1px solid #000000;
+  //  make button disabled
+    &:disabled{
+      background-color: #f1f1f1;
+      border: 1px solid #f1f1f1;
+    }
+
+
+  }
+
+    .profile-image{
+    //round image
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+
+  }
+
+  .confirm{
+    background-color: #f1f1f1;
+  }
+
 }
 
 @media screen and (max-width: 960px) {
@@ -100,4 +128,5 @@
   .userDataRow{
     color: #0000;
   }
+
 }

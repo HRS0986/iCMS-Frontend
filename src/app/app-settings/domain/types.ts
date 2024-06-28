@@ -1,7 +1,20 @@
 export interface User{
-  id: number;
-  name: string;
+  username: string;
   email: string;
-  roles: string[];
+  groups: string[];
   status: string;
+}
+
+
+export interface ViewUser{
+  profileImage: string;
+  username: string;
+  email: string;
+  phone_number: string;
+  roles: string[];
+}
+
+export interface Role{
+  group_name: string;
+  number_of_users: number;
 }

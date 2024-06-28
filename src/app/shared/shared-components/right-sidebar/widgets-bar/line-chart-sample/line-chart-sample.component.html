@@ -1,0 +1,19 @@
+<p-panel class="flex flex-col text-center justify-center">
+    <p class="font-medium text-xl">{{ title }}</p>
+    <p-chart type="line" [data]="data" [options]="options"></p-chart>
+  {{yAxis}}
+  {{sources}}
+  {{selectedDateRange}}
+    <!-- <div *ngIf="categories.length > 1">
+      <div *ngFor="let category of categories" class="field-checkbox flex align-items-center">
+        <p-checkbox 
+            [(ngModel)]="selectedCategories"
+            [label]="category" 
+            name="group" 
+            [value]="category" 
+            (ngModelChange)="onSourceChange(category)"/>
+      </div>
+    </div> -->
+    
+  </p-panel>
+  
