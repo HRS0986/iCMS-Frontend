@@ -1,0 +1,101 @@
+<div
+  class="card flex justify-content-center"
+  style="display: flex; flex-direction: column; align-items: center"
+>
+  <!-- Show Button -->
+  <img
+    src="assets/social-media/svg/add.svg"
+    alt="Add Icon"
+    class="right-bar-icon"
+    (click)="showDialog()"
+  />
+
+  <!-- Add Campaign Dialog -->
+  <p-dialog
+    header="Add Campaign"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '45rem' }"
+  >
+    <!-- Platform Dropdown -->
+    <div style="margin-bottom: 1rem; display: flex; align-items: center">
+      <label
+        for="platform"
+        class="font-semibold"
+        style="width: 8rem; display: inline-block"
+        >Platform</label
+      >
+      <div
+        class="card flex justify-content-center"
+        style="display: inline-block; width: calc(100% - 8rem)"
+      >
+        <p-dropdown
+          [options]="platform"
+          [(ngModel)]="selectedPlatform"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Select a Platform"
+          [style]="{ width: '100%' }"
+        >
+          <ng-template let-platform pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <img [src]="platform.icon" style="width: 20px" />
+              <div>{{ platform.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+
+    <!-- Post Title Input -->
+    <div style="margin-bottom: 1rem; display: flex; align-items: center">
+      <label
+        for="postTitle"
+        class="font-semibold"
+        style="width: 8rem; display: inline-block"
+        >Post Title</label
+      >
+      <input
+        pInputText
+        id="postTitle"
+        aria-describedby="postTitle-help"
+        [(ngModel)]="postTitle"
+        style="
+          flex: 1;
+          padding: 0.5rem;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          margin-left: 0.5rem;
+        "
+      />
+    </div>
+
+    <!-- Company Input -->
+    <div style="margin-bottom: 1rem; display: flex; align-items: center">
+      <label
+        for="company"
+        class="font-semibold"
+        style="width: 8rem; display: inline-block"
+        >Company</label
+      >
+      <input
+        pInputText
+        id="company"
+        aria-describedby="company-help"
+        [(ngModel)]="company"
+        style="
+          flex: 1;
+          padding: 0.5rem;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          margin-left: 0.5rem;
+        "
+      />
+    </div>
+
+    <!-- Add Campaign Button -->
+    <div style="display: flex; justify-content: center; margin-top: 1rem">
+      <p-button label="Add Campaign" (click)="visible = false"></p-button>
+    </div>
+  </p-dialog>
+</div>

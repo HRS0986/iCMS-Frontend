@@ -7,6 +7,8 @@ import { EChartsOption } from 'echarts';
   styleUrl: './dashboard-sentiment-card.component.scss'
 })
 export class DashboardSentimentCardComponent {
+  loading = false;
+  dialogVisible = false;
   value:number = 0.7
   options: EChartsOption = {
     series: [
@@ -83,5 +85,13 @@ export class DashboardSentimentCardComponent {
       }
     ]
   };
+
+  load() {
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+      this.dialogVisible = true;
+    }, 1000);
+  }
   
 }  

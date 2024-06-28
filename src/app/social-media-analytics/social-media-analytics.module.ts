@@ -20,6 +20,7 @@ import { ButtonModule } from 'primeng/button';
 import { ChipsModule } from 'primeng/chips';
 import { TabViewModule } from 'primeng/tabview';
 import { CardModule } from 'primeng/card';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
 import { CAComponent } from "./pages/campaign-analysis/ca.component";
@@ -34,7 +35,14 @@ import { TabItemComponent } from './components/tab-item/tab-item.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
-import { HorizontalBarChartComponent } from './components/charts/horizontal-bar-chart/horizontal-bar-chart.component';
+import { LineChartFacebookComponent } from './components/charts/line-chart-facebook/line-chart-facebook.component'
+import { GaugeChartComponent } from './components/charts/gauge-chart/gauge-chart.component';
+import { WordCloudSmComponent } from './components/word-cloud-topics/word-cloud-topics.component';
+import { WordCloudSm2Component } from './components/word-cloud-keywords/word-cloud-keywords.component';
+import { CaCardsComponent } from './components/ca-cards/ca-cards.component';
+import { LineChartInstagramComponent } from './components/charts/line-chart-instagram/line-chart-instagram.component';
+import { ModalExportPIComponent } from './components/Modals/modal-export-pi/modal-export-pi.component';
+import { ModalAddNewCampaignComponent } from './components/Modals/modal-add-new-campaign/modal-add-new-campaign.component';
 
 
 @NgModule({
@@ -42,7 +50,6 @@ import { HorizontalBarChartComponent } from './components/charts/horizontal-bar-
     DashboardComponent,
     CAComponent,
     PIComponent,
-    HorizontalBarChartComponent,
     DoughnutChartComponent,
     SettingsAlerts,
     ProgressBarComponent,
@@ -55,6 +62,13 @@ import { HorizontalBarChartComponent } from './components/charts/horizontal-bar-
     SettingsCampaignComponent,
     SettingsNotificationsComponent,
     SettingsThresholdsComponent,
+    GaugeChartComponent,
+    LineChartFacebookComponent,
+    WordCloudSmComponent,
+    WordCloudSm2Component,
+    CaCardsComponent,
+    LineChartInstagramComponent
+    
   ],
   imports: [
     PanelModule,
@@ -83,6 +97,9 @@ import { HorizontalBarChartComponent } from './components/charts/horizontal-bar-
     TabViewModule,
     ChartModule,
     ButtonModule,
+    ModalExportPIComponent,
+    ModalAddNewCampaignComponent,
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
   ]
 })
 export class SMAnalyticsModule {

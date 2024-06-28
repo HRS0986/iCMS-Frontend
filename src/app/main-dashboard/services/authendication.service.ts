@@ -13,7 +13,12 @@ export class AuthendicationService {
 
   login(login: any): Observable<any> {
     // Replace 'apiEndpoint' with your actual API endpoint
-    return this.http.post('http://127.0.0.1:8001/authendication/login', login);
+    return this.http.post('http://127.0.0.1:8000/login', login);
+  }
+
+  userEmail(token: string): Observable<any> {
+    console.log(token);
+    return this.http.post('http://127.0.0.1:8002/charts/user_email', {'token':token});
   }
 
   signUp(signUp:any): Observable<any> {

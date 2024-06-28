@@ -5,8 +5,61 @@
   </button>
 </div>
 
+
 <gridster [options]="options" class="chartGrid">
-  <gridster-item class="gridItem" [item]="item" *ngFor="let item of dashboard">
-    <ng-container *ngComponentOutlet="getComponent(item['chartType'])"></ng-container>
+  <gridster-item class="gridItem" [item]="item" *ngFor="let item of dashboard; let i = index">
+
+    <div class="chart-container"  class="container-border">
+
+      <ng-container *ngIf="item['chartType'] === 'Pie Chart'">
+        <app-doughnut-chart 
+          [title]="item['title']"  
+          [source]="item['sources']"
+          [changes]="item['changes']"
+          [id]="item['id']"
+          (changesEvent)="onChanges($event, i)"
+          >
+        </app-doughnut-chart>
+      </ng-container>
+
+      <ng-container *ngIf="item['chartType'] === 'Line Chart'">
+        <app-line-area-chart 
+        [title]="item['title']"
+        [sources]="item['sources']"
+        [changes]="item['changes']"
+        [yAxis]="item['yAxis']"
+        (changesEvent)="onChanges($event, i)"></app-line-area-chart>
+      </ng-container>
+
+      <ng-container *ngIf="item['chartType'] === 'Table'">
+      <app-gauge-chart/>
+      </ng-container>
+
+      <ng-container *ngIf="item['chartType'] === 'Horizontal Bar Chart'">
+        <app-horizontal-bar-chart
+        [title]="item['title']"
+        [source]="item['sources']"
+        [changes]="item['changes']"
+        (changesEvent)="onChanges($event, i)"
+        />
+      </ng-container>
+
+      <ng-container *ngIf="item['chartType'] === 'Word Cloud'">
+        <app-word-cloud [title]="item['title']"
+        [sources]="item['sources']"
+        [changes]="item['changes']"
+        (changesEvent)="onChanges($event, i)"></app-word-cloud>
+      </ng-container>
+
+        <ng-container *ngIf="item['chartType'] === 'Bar Chart'">
+      <app-vertical-ber-chart
+      [title]="item['title']"
+        [source]="item['sources']"
+        [changes]="item['changes']"
+        (changesEvent)="onChanges($event, i)"/>
+      </ng-container>
+    </div>
   </gridster-item>
 </gridster>
+
+

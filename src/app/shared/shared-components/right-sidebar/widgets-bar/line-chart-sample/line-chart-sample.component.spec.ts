@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddUserPopupComponent } from './add-user-popup.component';
+import { LineChartSampleComponent } from './line-chart-sample.component';
 
-describe('AddUserPopupComponent', () => {
-  let component: AddUserPopupComponent;
-  let fixture: ComponentFixture<AddUserPopupComponent>;
+describe('LineChartSampleComponent', () => {
+  let component: LineChartSampleComponent;
+  let fixture: ComponentFixture<LineChartSampleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddUserPopupComponent]
+      declarations: [LineChartSampleComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AddUserPopupComponent);
+    fixture = TestBed.createComponent(LineChartSampleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

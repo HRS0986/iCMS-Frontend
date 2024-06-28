@@ -1,5 +1,49 @@
-<p-panel class="flex flex-col text-center justify-center w-[300px]">
-  <p class="font-medium text-xl">{{ title }}</p>
-  <p-chart type="doughnut" [data]="data" [options]="options"></p-chart>
-  <p *ngIf="Date">{{ Date}}</p>
-</p-panel>
+
+
+<div class="container-border">
+        <div class="left-top">
+        <p-panel class="flex flex-col text-center justify-center w-[300px]">
+          <p class="font-medium text-xl">{{ title }}</p>
+          <p-chart type="doughnut" [data]="data" [options]="options"></p-chart>
+    
+          <div *ngIf="categories.length > 1">
+            <div *ngFor="let category of categories" class="field-checkbox flex align-items-center">
+              <p-checkbox 
+                  [(ngModel)]="selectedCategories"
+                  [label]="category" 
+                  name="group" 
+                  [value]="category" 
+                  (ngModelChange)="onSourceChange(category)"/>
+            </div>
+          </div>
+    
+          <p *ngIf="selectedDateRange && selectedDateRange.length === 2 && selectedDateRange[0] && selectedDateRange[1]">{{ selectedDateRange[0]}} - {{ selectedDateRange[1]}}</p>
+          <p *ngIf="Date">{{ Date}}</p>
+        </p-panel>
+      </div>
+
+
+
+      <!-- <div >
+      <div >
+        <p-calendar 
+          [(ngModel)]="rangeDates" 
+          selectionMode="range" 
+          dateFormat="yy-mm-dd" 
+          [readonlyInput]="false" 
+          [showIcon]="true" 
+          (ngModelChange)="onDateRangeChange()"
+        ></p-calendar>
+        <i class="pi pi-history" style="font-size: 1.3rem; margin-left: 10px" (click)="dateReset()"></i>
+      </div>
+    </div> -->
+<!-- 
+
+      <div >
+        <p-toast></p-toast>
+        <p-confirmDialog></p-confirmDialog>
+        <p-button icon="pi pi-times" [rounded]="true" [text]="true" [raised]="true" severity="danger " (click)="confirmDelete($event)"/>
+      </div> -->
+
+
+</div>
