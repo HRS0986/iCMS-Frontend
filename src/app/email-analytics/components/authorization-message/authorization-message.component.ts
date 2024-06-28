@@ -31,6 +31,7 @@ export class AuthorizationMessageComponent implements OnInit{
     if (!this.authorizationInfoLoading){
       console.log("authorization url", this.authorization_url)
       window.location.href = this.authorization_url
+      console.log(this.authorization_url)
     }
    
   }
