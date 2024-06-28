@@ -4,6 +4,7 @@ import { ChartsService } from '../../../services/charts.service';
 import { timer } from 'rxjs';
 import { DateRangeService } from '../../../services/shared-date-range/date-range.service';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from '../../../../auth/services/authentication.service';
 
 @Component({
   selector: 'app-line-area-chart',
@@ -11,9 +12,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./line-area-chart.component.scss']
 })
 export class LineAreaChartComponent implements OnInit,OnChanges {
+
+  @Output() deleteConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  
   @Input() title!: string;
   @Output() changesEvent = new EventEmitter<boolean>();
-
+  @Input() closable:boolean = true;
+  
   data: any;
   options: any;
   
@@ -45,7 +50,9 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
 
   private socketSubscription: Subscription | undefined;
 
-  constructor(private http: HttpClient, private chartService: ChartsService,private dateRangeService: DateRangeService) {}
+  constructor(private http: HttpClient, private chartService: ChartsService,private dateRangeService: DateRangeService,
+    private authService:AuthenticationService
+  ) {}
 
   ngOnInit() {
     if(this.yAxis==='sentiment-count'){
@@ -134,6 +141,11 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
     
   }
 
+  confirmDeleted() {
+    console.log('confirm button');
+    this.deleteConfirmed.emit();
+}
+
   onSourceChange(category:any){
     if(this.chartCategory=='Score')
       {
@@ -180,7 +192,8 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
   }
 
   chartDataGet(): void {
-    this.chartService.chartData().subscribe(
+    this.authService.getIdToken().subscribe((token) =>{
+    this.chartService.chartData(token).subscribe(
       (response) => {      
         caches.open('all-data').then(cache => {
           cache.match('data').then((cachedResponse) => {
@@ -212,6 +225,7 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
       //   console.error('Error fetching doughnut chart data:', error);
       // } 
     );
+  });
   }
   
   isEqual(obj1: any, obj2: any): boolean {
@@ -253,9 +267,9 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
       cache.match('data').then(cachedResponse => {
         if (cachedResponse) {
           cachedResponse.json().then(data => {
-            
+      
             const dateRange = this.selectedDateRange;
-          
+
             if (dateRange && dateRange.length === 2) {
               const startDate = new Date(dateRange[0]);
               const endDate = new Date(dateRange[1]);
@@ -266,18 +280,21 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
                   const callLine = data.map((item: any) => item.call);
                  
                   this.processedCallLine = this.processLineDataCount(callLine[0]);
+                  
                 }
                 if (source === 'email') {
                   const emailLine = data.map((item: any) => item.email);
                   this.processedEmailLine = this.processLineDataCount(emailLine[0]);
                 }
                 if (source === 'social') {
+                  
                   const socialLine = data.map((item: any) => item.social);
                   this.processedSocialLine = this.processLineDataCount(socialLine[0]);
+                  
                 }
               });
 
-              if (diffDays > 60) {
+              if (diffDays > 90) {
                 this.combinedLine = this.combineSentimentMonthData(this.processedCallLine, this.processedEmailLine, this.processedSocialLine, sources);
               } else {
                 this.combinedLine = this.combineSentimentDayData(this.processedCallLine, this.processedEmailLine, this.processedSocialLine, sources);
@@ -294,8 +311,10 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
                   this.processedEmailLine = this.processLineDataCount(emailLine[0]);
                 }
                 if (source === 'social') {
+                  
                   const socialLine = data.map((item: any) => item.social);
                   this.processedSocialLine = this.processLineDataCount(socialLine[0]);
+                  
                 }
               });
 
@@ -338,7 +357,7 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
                 }
               });
 
-              if (diffDays > 60) {
+              if (diffDays > 90) {
                 this.combinedLine = this.combineSentimentMonthData(this.processedCallLine, this.processedEmailLine, this.processedSocialLine, sources);
               } else {
                 this.combinedLine = this.combineSentimentDayData(this.processedCallLine, this.processedEmailLine, this.processedSocialLine, sources);
@@ -394,10 +413,12 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
                 if (source === 'call') {
                   const callLine = data.map((item: any) => item.call);
                   this.processedCallLine = this.processLineDataScore(callLine[0]);
+                  
                 }
                 if (source === 'email') {
                   const emailLine = data.map((item: any) => item.email);
                   this.processedEmailLine = this.processLineDataScore(emailLine[0]);
+                  
                 }
                 if (source === 'social') {
                   const socialLine = data.map((item: any) => item.social);
@@ -405,7 +426,7 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
                 }
               });
 
-              if (diffDays > 60) {
+              if (diffDays > 90) {
                 this.combinedLine = this.combineSentimentMonthData(this.processedCallLine, this.processedEmailLine, this.processedSocialLine, sources);
               } else {
                 this.combinedLine = this.combineSentimentDayData(this.processedCallLine, this.processedEmailLine, this.processedSocialLine, sources);
@@ -449,15 +470,15 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
             sentimentMap[entry.time] = { positive: 0, negative: 0, neutral: 0, count: 0 ,positiveCount: 0,negativeCount: 0 ,neutralCount: 0,score:0};
           }
   
-          if (sentiment.Positive) {
+          if (sentiment && sentiment.Positive) {
             sentimentMap[entry.time].score += sentiment.Positive;
             sentimentMap[entry.time].positiveCount += 1;
           }
-          if (sentiment.Negative) {
+          if (sentiment && sentiment.Negative) {
             sentimentMap[entry.time].score += sentiment.Negative;
             sentimentMap[entry.time].negativeCount += 1;
           }
-          if (sentiment.Neutral) {
+          if (sentiment && sentiment.Neutral) {
             sentimentMap[entry.time].score += sentiment.Neutral;
             sentimentMap[entry.time].neutralCount += 1;
           }
@@ -478,9 +499,10 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
   }
 
   processLineDataCount(lineData: any[]): any[] {
-    const sentimentMap: { [key: string]: { positive: number, negative: number, neutral: number, positiveCount: number,negativeCount: number ,neutralCount: number,count:number} } = {};
-  
+    const sentimentMap: { [key: string]: { positive: number, negative: number, neutral: number, positiveCount: number, negativeCount: number, neutralCount: number, count: number } } = {};
+    
     lineData.forEach((item: any) => {
+      
       if (this.isDateInRange(item.Date)) {
         const date = item.Date;
   
@@ -488,26 +510,35 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           const sentiment = entry.Sentiment;
           
           if (!sentimentMap[date]) {
-            sentimentMap[date] = { positive: 0, negative: 0, neutral: 0, count: 0 ,positiveCount: 0,negativeCount: 0 ,neutralCount: 0};
+            sentimentMap[date] = {
+              positive: 0,
+              negative: 0,
+              neutral: 0,
+              positiveCount: 0,
+              negativeCount: 0,
+              neutralCount: 0,
+              count: 0
+            };
           }
   
-          if (sentiment.Positive) {
+          // Check if sentiment is defined before accessing its properties
+          if (sentiment && sentiment.Positive !== undefined) {
             sentimentMap[date].positive += sentiment.Positive;
             sentimentMap[date].positiveCount += 1;
           }
-          if (sentiment.Negative) {
+          if (sentiment && sentiment.Negative !== undefined) {
             sentimentMap[date].negative += sentiment.Negative;
             sentimentMap[date].negativeCount += 1;
           }
-          if (sentiment.Neutral) {
+          if (sentiment && sentiment.Neutral !== undefined) {
             sentimentMap[date].neutral += sentiment.Neutral;
             sentimentMap[date].neutralCount += 1;
           }
+          
           sentimentMap[date].count += 1;
         });
       }
     });
-
 
   
     return Object.keys(sentimentMap).map(date => {
@@ -515,11 +546,12 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
       return {
         Date: date,
         positive: avgSentiments.positiveCount !== 0 ? Math.round((avgSentiments.positive / avgSentiments.positiveCount) * 100) / 100 : 0,
-    negative: avgSentiments.negativeCount !== 0 ? Math.round((avgSentiments.negative / avgSentiments.negativeCount) * 100) / 100 : 0,
-    neutral: avgSentiments.neutralCount !== 0 ? Math.round((avgSentiments.neutral / avgSentiments.neutralCount) * 100) / 100 : 0,
+        negative: avgSentiments.negativeCount !== 0 ? Math.round((avgSentiments.negative / avgSentiments.negativeCount) * 100) / 100 : 0,
+        neutral: avgSentiments.neutralCount !== 0 ? Math.round((avgSentiments.neutral / avgSentiments.neutralCount) * 100) / 100 : 0,
       };
     });
   }
+  
 
 
   isDateInRange(dateStr: string): boolean {

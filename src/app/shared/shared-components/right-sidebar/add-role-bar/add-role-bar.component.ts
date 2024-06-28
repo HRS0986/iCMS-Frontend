@@ -26,6 +26,8 @@ export class AddRoleBarComponent implements OnInit {
   users!: {user_name:string}[];
   selectedUsers!: {user_name:string}[];
 
+  user_permissions: string[] = [];
+
 
   constructor(
     private authService: AuthenticationService,
@@ -61,6 +63,10 @@ export class AddRoleBarComponent implements OnInit {
     ];
     this.roleUpdateService.roleToUpdate.subscribe((roleData: any) => {
       this.populateForm(roleData);
+    });
+
+    this.authService.permissions$.subscribe((permissions: string[]) => {
+      this.user_permissions = permissions;
     });
 
   }
@@ -113,6 +119,7 @@ export class AddRoleBarComponent implements OnInit {
         // window.location.reload();
         this.messageService.add({severity:'success', summary: 'Success', detail: 'Role Updated Successfully'});
         this.roleRefreshService.roleAdded.next();
+        this.isRoleUpdate = false;
       });
     });
   }
@@ -120,27 +127,29 @@ export class AddRoleBarComponent implements OnInit {
   resetData() {
 
     this.permissions = [
+      {name: 'Add User', value: false},
       {name: 'View Users', value: false},
-      {name: 'Edit Users', value: false},
-      {name: 'Delete Users', value: false},
+      {name: 'View User', value: false},
+      {name: 'Edit User', value: false},
+      {name: 'Delete User', value: false},
+      {name: 'Enable User', value: false},
+      {name: 'Disable User', value: false},
+      {name: 'Add Role', value: false},
       {name: 'View Roles', value: false},
-      {name: 'Edit Roles', value: false},
-      {name: 'Delete Roles', value: false},
-      {name: 'View Permissions', value: false},
-      {name: 'Edit Permissions', value: false},
-      {name: 'Delete Permissions', value: false},
-      {name: 'View Products', value: false},
-      {name: 'Edit Products', value: false},
-      {name: 'Delete Products', value: false},
-      {name: 'View Reports', value: false},
-      {name: 'View Dashboard', value: false},
-      {name: 'View Settings', value: false},
-      {name: 'Edit Settings', value: false},
-      {name: 'Delete Settings', value: false},
+      {name: 'View Role', value: false},
+      {name: 'Edit Role', value: false},
+      {name: 'Delete Role', value: false},
+      {name: 'Edit Config', value: false},
+      {name: 'View Config', value: false},
     ];
     this.roleName = '';
     this.selectedUsers = [];
     this.sidebarVisible = true;
+    this.isRoleUpdate = false;
 
+  }
+
+  hasPermission(permission: string): boolean {
+    return this.user_permissions.includes(permission);
   }
 }
