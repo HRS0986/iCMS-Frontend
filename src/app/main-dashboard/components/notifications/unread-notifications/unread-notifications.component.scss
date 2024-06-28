@@ -3,16 +3,16 @@
     align-items: center;
     justify-content: space-between;
   }
-  
+
   .notification-container p-messages {
     flex-grow: 1;
     margin-right: 1rem;
   }
-  
+
   .notification-container p-button {
     white-space: nowrap;
   }
-  
+
   /* Custom CSS for the action bar */
 .action-bar {
   display: flex;
@@ -30,5 +30,16 @@
   display: flex;
   align-items: center;
   gap: 10px; /* Adjust the gap between calendar and icon as needed */
+}
+
+:host ::ng-deep{
+  .unreadnotifications{
+    div {
+      margin: 5px;
+      div{
+        height:150px
+      }
+    }
+  }
 }
 
