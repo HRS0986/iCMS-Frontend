@@ -50,7 +50,6 @@ export class DoughnutChartComponent implements OnInit {
           position: 'bottom',
           labels: {
             usePointStyle: true,
-
             color: textColor
           },
         }
