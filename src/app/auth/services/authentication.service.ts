@@ -141,10 +141,7 @@ export class AuthenticationService {
   }
 }
 
-  isAuthenticated(): boolean {
-    const currentUser = this.userPool.getCurrentUser();
-    return currentUser != null;
-  }
+
 
 
 
