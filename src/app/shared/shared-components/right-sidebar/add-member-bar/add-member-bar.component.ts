@@ -26,6 +26,8 @@ export class AddMemberBarComponent implements OnInit{
     selectedRoles!: { group_name: string, number_of_users: number }[];
     currentRoles!:string[];
 
+    permissions: string[] = [];
+
     constructor(
       private authService: AuthenticationService,
       private roleService: RoleSettingsService,
@@ -39,6 +41,10 @@ export class AddMemberBarComponent implements OnInit{
     ngOnInit() {
       this.userUpdateService.userToUpdate.subscribe((userData: any) => {
         this.populateForm(userData);
+      });
+
+      this.authService.permissions$.subscribe((permissions: string[]) => {
+        this.permissions = permissions;
       });
     }
 
@@ -141,4 +147,9 @@ export class AddMemberBarComponent implements OnInit{
     this.selectedRoles = [];
     this.sidebarVisible = true;
   }
+
+  hasPermission(permission: string): boolean {
+    return this.permissions.includes(permission);
+  }
+
 }

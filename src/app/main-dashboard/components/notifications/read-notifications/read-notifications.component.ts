@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Message } from 'primeng/api';
 import { NotificationService } from '../../../services/notification.service';
 import { OnInit } from '@angular/core';
-import { timer } from 'rxjs';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -72,11 +71,11 @@ export class ReadNotificationsComponent implements OnInit {
     if (this.rangeDates && this.rangeDates.length > 0) {
       const startDate = new Date(this.rangeDates[0]);
       let endDate = new Date(this.rangeDates[0]);
-  
+
       if (this.rangeDates[1]) {
         endDate = new Date(this.rangeDates[1]);
       }
-  
+
       this.filteredNotifications = this.readnotifications.filter(notification => {
         console.log(notification.summary);
         const notificationDate = new Date(notification.summary || '');

@@ -29,6 +29,8 @@ export class RoleManagementComponent implements OnInit{
   viewRolePopUpVisible: boolean = false;
   userGroupData:any;
 
+  permissions: string[] = [];
+
 
   actions!: MenuItem[];
 
@@ -55,6 +57,8 @@ export class RoleManagementComponent implements OnInit{
     this.roleRefreshService.roleAdded.subscribe(() => {
       this.refreshRoles();
     });
+
+
 
     //actions delete, update, view
     this.actions = [
@@ -96,6 +100,10 @@ export class RoleManagementComponent implements OnInit{
         }
       },
     ];
+    this.authService.permissions$.subscribe((permissions: any) => {
+      this.permissions = permissions;
+      this.updateActions();
+    });
 
   }
 
@@ -186,6 +194,54 @@ export class RoleManagementComponent implements OnInit{
     });
 
   }
+  updateActions() {
+    const roleSelected = !!this.selectedRoles;
+    this.actions = [
+      {
+        label: "View",
+        icon: "pi pi-eye",
+        command: () => {
+          console.log("Viewing role");
+          this.getRoleDetails()
+
+          if(this.selectedRoles){
+            this.viewRole();
+          }else {
+            this.messageService.add({severity: 'error', summary: 'Error', detail: 'No role selected'});
+          }
+        },
+        disabled: !roleSelected || !this.permissions.includes('View Role')
+      },
+      {
+        label: "Update",
+        icon: "pi pi-pencil",
+        command: () => {
+          console.log("Updating role");
+          if(this.selectedRoles) {
+            this.updateRole();
+          }else{
+            this.messageService.add({severity: 'error', summary: 'Error', detail: 'No role selected'});
+          }
+        },
+        disabled: !roleSelected || !this.permissions.includes('Edit Role')
+      },
+      {
+        label: "Delete",
+        icon: "pi pi-trash",
+        command: () => {
+          console.log("Deleting role");
+          if(this.selectedRoles) {
+            this.deleteRole();
+          }else{
+            this.messageService.add({severity: 'error', summary: 'Error', detail: 'No role selected'});
+          }
+        },
+        disabled: !roleSelected || !this.permissions.includes('Delete Role')
+      },
+      // ... other actions
+    ];
+  }
+
 
 
   // roles = [

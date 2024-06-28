@@ -26,6 +26,8 @@ export class AddRoleBarComponent implements OnInit {
   users!: {user_name:string}[];
   selectedUsers!: {user_name:string}[];
 
+  user_permissions: string[] = [];
+
 
   constructor(
     private authService: AuthenticationService,
@@ -61,6 +63,10 @@ export class AddRoleBarComponent implements OnInit {
     ];
     this.roleUpdateService.roleToUpdate.subscribe((roleData: any) => {
       this.populateForm(roleData);
+    });
+
+    this.authService.permissions$.subscribe((permissions: string[]) => {
+      this.user_permissions = permissions;
     });
 
   }
@@ -141,5 +147,9 @@ export class AddRoleBarComponent implements OnInit {
     this.sidebarVisible = true;
     this.isRoleUpdate = false;
 
+  }
+
+  hasPermission(permission: string): boolean {
+    return this.user_permissions.includes(permission);
   }
 }

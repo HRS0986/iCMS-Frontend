@@ -20,7 +20,7 @@ export class UserProfileComponent {
   ngOnInit() {
     this.tabs = [
       { title: "Edit Profile", content: "Edit Profile" },
-      { title: "Notifications", content: "Notification Settings"},
+      // { title: "Notifications", content: "Notification Settings"},
       { title: "Security", content: "Security Settings"}
     ];
   }

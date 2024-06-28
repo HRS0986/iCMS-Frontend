@@ -66,4 +66,4 @@
 
 </p-sidebar>
 <p-toast />
-<p-button class="pe-3 addMember"  icon="pi pi-user-plus" (click)="resetData()" ></p-button>
+<p-button class="pe-3 addMember"  icon="pi pi-user-plus" (click)="resetData()" [disabled]="!hasPermission('Add User')" ></p-button>
