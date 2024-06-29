@@ -12,7 +12,7 @@ export class NotificationService {
   private messagesSubject$ = new Subject<any>();
   public messages$ = this.messagesSubject$.asObservable();
 
-  private baseUrl = 'http://13.201.19.67:8001/Notifications';
+  private baseUrl = 'http://3.108.227.179:8001/Notifications';
 
   constructor(private http: HttpClient) {
     this.connect();

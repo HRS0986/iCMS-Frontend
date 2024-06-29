@@ -18,12 +18,12 @@ export class ChartsService {
   private messagesSubject$ = new Subject<any>();
   public messages$ = this.messagesSubject$.asObservable();
 
-  private baseUrl = 'http://13.233.43.207:8002/charts';
+  private baseUrl = 'http://13.201.125.196:8002/charts';
 
   username:any;
 
 
-  constructor(private http: HttpClient,private cookieService:CookieService, private authService:AuthendicationService) {
+  constructor(private http: HttpClient) {
     this.connect();
   }
 
