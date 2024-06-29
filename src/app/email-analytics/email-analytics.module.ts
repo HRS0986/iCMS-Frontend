@@ -90,6 +90,7 @@ import { MessagesModule } from 'primeng/messages';
 import { ThreadDataviewComponent } from './components/thread-dataview/thread-dataview.component';
 import { ThreadCardListTypeComponent } from './components/thread-card-list-type/thread-card-list-type.component';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { TestComponent } from './components/test/test.component';
 
 
 @NgModule({
@@ -138,6 +139,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
     FilteringComponent,
     ThreadDataviewComponent,
     ThreadCardListTypeComponent,
+    TestComponent,
   ],
   imports: [
     CommonModule,
