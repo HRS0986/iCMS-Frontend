@@ -127,6 +127,7 @@ export class GridComponent implements OnInit {
       message => {
 
         if (message.response === 'data') {
+          this.chartDataGet();
           this.dashboard.forEach((widget:any) => {
             if (widget.chartType === 'Pie Chart' && widget.sources.includes(message.name)) {
               widget.changes = true;
@@ -404,18 +405,12 @@ widgetsUser(){
           this.widgetGrid = data.map((item: any) => item.grid);
           this.ID = data.map((item: any) => item.id);
           this.status = data.map((item: any) => item.status);
-          console.log(data);
-          // this.widgetData = this.processWidgetData(this.widgetTitle, this.widgetChart, this.widgetSoucrce);
           const response = this.processGridData(this.widgetTitle, this.widgetChart, this.widgetSoucrce, this.widgetGrid,this.ID,this.topic,this.yAxis,this.xAxis,this.status);
           this.dashboard= response[0].filter((item:any) => item['status'] !== 'hide');
-          console.log(this.dashboard);
           this.gridList = response[0].filter((item:any) => item['status'] !== 'show');
           this.ChartSources=response[1];
         });
       }
-      // } else {
-      //   console.log('Data not found in cache');
-      // }
     });
   });
 }
