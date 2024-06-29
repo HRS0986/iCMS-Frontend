@@ -4,7 +4,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Setup Development Environment
 
-
 1. Install Node.js v20.11.0
 2. Install Angular 17 (not 16) - `npm install -g @angular/cli`
 3. Clone this repository - `git clone git@github.com:HRS0986/iCMS-Frontent.git`

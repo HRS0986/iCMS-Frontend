@@ -1,25 +1,22 @@
 <app-page-header pageTitle="Social Media Analytics Dashboard" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" />
 
 <div class="flex flex-col">
-  <div class="flex gap-6 flex-wrap">
+  <div class="flex gap-4 flex-wrap">
 
     <doughnut-chart title="Overall Sentiment" [percentages]="data_doughnut" />
     <gauge-chart />
 
-    <line-chart-sm title="Time Analysis"/>
-  </div>
-  <div class="flex gap-7 flex-wrap">
-  </div>
-
-   <div class="flex gap-7 flex-wrap ">
-
-   <div class="topics">
-    <word-cloud-topics [words]="myData1" title="Topic Trends"/>
-   </div>
-
-   <div class="keywords">
+    <word-cloud-topics [words]="myData1" title="Product Trends"/>
+  
     <word-cloud-keywords [words]="myData2" title="Keyword Trends" />
-   </div>  
+     
+  </div>
+
+   <div class="flex gap-3 flex-wrap ">
+
+    <line-chart-facebook title="Insights from Facebook"/>
+
+    <line-chart-instagram title="Insights from Instagram"/>
 
   </div>
 

@@ -14,12 +14,12 @@ export class SettingsApiService {
 
   constructor(private http: HttpClient) {}
 
-  getKeywordAlerts(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/keyword_alerts`);
+  getTopicAlerts(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/topic_alerts`);
   }
 
   getCampaigns(): Observable<any> {
-    return this.http.get<{ [key: string]: Campaign[] }>(`${this.apiUrl}/get_campaign_details`)
+    return this.http.get<any>(`${this.apiUrl}/campaigns`);
   }
 
   getSentimentShift(): Observable<any> {

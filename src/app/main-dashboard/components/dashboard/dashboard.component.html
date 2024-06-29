@@ -6,3 +6,51 @@
   [showAddMemberButton]="false"
   [showDatePicker]="true"
 />
+
+<!--<app-doughnut-chart title="Sentiments Summary" [percentages]="[100, 50, 75]"/>-->
+<!--<app-line-area-chart title="Sentiment Over Time"/>-->
+
+
+
+
+<!-- <div class="flex flex-col" >
+  <div class="flex gap-4 flex-wrap">
+
+    <app-doughnut-chart *ngIf="chartValues === 'doughnut-chart'" title="Sentiments Summary"/>
+    <app-doughnut-chart  [title]="chartTitle[0]" [percentages]="percentages"/>
+
+    <app-line-area-chart   [title]="chartTitle[1]"/>
+
+    <app-gauge-chart/>
+    <app-line-area-chart title="Sentiment Over Time"/>
+
+
+    <app-horizontal-bar-chart/>
+    <app-wordcloud [words]="myData" title="Test WordCloud Title" />
+  </div>
+</div> -->
+
+
+<div class="flex flex-col">
+  <div class="flex gap-4 flex-wrap" *ngFor="let Data of widgetData; let i = index">
+    <ng-container *ngIf="Data.chartType === 'pie-chart'">
+      <app-doughnut-chart [title]="Data.title" [source]="Data.sources"></app-doughnut-chart>
+    </ng-container>
+    <ng-container *ngIf="Data.chartType === 'line-chart'">
+      <app-line-area-chart [title]="Data.title" [sources]="Data.sources"></app-line-area-chart>
+    </ng-container>
+    <ng-container *ngIf="Data.chartType === 'gauge-chart'">
+    <app-gauge-chart/>
+    </ng-container>
+    <ng-container *ngIf="Data.chartType === 'horizontal-bar-chart'">
+      <app-horizontal-bar-chart/>
+    </ng-container>
+    <ng-container *ngIf="Data.chartType === 'word-cloud'">
+      <app-word-cloud [title]="Data.title"  [sources]="Data.sources"></app-word-cloud>
+    </ng-container>
+  </div>
+</div>
+<!-- <app-gauge-chart/> -->
+    <!-- <app-horizontal-bar-chart/> -->
+
+    <app-grid></app-grid>

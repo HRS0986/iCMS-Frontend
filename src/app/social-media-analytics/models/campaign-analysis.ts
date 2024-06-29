@@ -4,16 +4,13 @@ export interface Content {
 }
 
 export interface Campaign {
-  id?: string;
-  sm_id?: string;
+  _id?: string;
+  platform?: string;
+  description?: string;
   title?: string;
   company?: string;
-  min_val?: number;
-  max_val?: number;
-  overall_sentiment?: string;
+  s_score?: number;
   color?:string;
-  min?: number;
-  max?: number;
 }
 
 export interface CampaignData {

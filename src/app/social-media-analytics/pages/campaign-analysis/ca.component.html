@@ -14,15 +14,15 @@
           [content]="caPageItem1"
         ></tab-item>
         <tab-item
-          [tabItem]="tabInstergram"
-          [templateContentRef]="tempInstergram"
+          [tabItem]="tabInstagram"
+          [templateContentRef]="tempInstagram"
           [content]="caPageItem2"
         ></tab-item>
-        <tab-item
+        <!-- <tab-item
           [tabItem]="tabTwitter"
           [templateContentRef]="tempTwitter"
           [content]="caPageItem3"
-        ></tab-item>
+        ></tab-item> -->
       </tabs>
 
       <ng-template #tempFacebook let-content="content">
@@ -68,7 +68,7 @@
         </p-panel>
       </ng-template>
 
-      <ng-template #tempInstergram let-content="content">
+      <ng-template #tempInstagram let-content="content">
         <h3>{{ content.title }}</h3>
         <p-panel>
           <div class="flex justify-between w-full py-2 mb-2">

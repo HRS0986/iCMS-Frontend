@@ -25,8 +25,5 @@ export class settingsComponent {
   content4: Content = {title: 'Created Campaigns'};
 
   topBarCaption = "Export Data";
-
-
-
  
 }

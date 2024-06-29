@@ -35,11 +35,12 @@ import { TabItemComponent } from './components/tab-item/tab-item.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { DoughnutChartComponent } from './components/charts/doughnut-chart/doughnut-chart.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
-import { LineChartSmComponent } from './components/charts/line-chart-sm/line-chart-sm.component';
+import { LineChartFacebookComponent } from './components/charts/line-chart-facebook/line-chart-facebook.component'
 import { GaugeChartComponent } from './components/charts/gauge-chart/gauge-chart.component';
 import { WordCloudSmComponent } from './components/word-cloud-topics/word-cloud-topics.component';
 import { WordCloudSm2Component } from './components/word-cloud-keywords/word-cloud-keywords.component';
 import { CaCardsComponent } from './components/ca-cards/ca-cards.component';
+import { LineChartInstagramComponent } from './components/charts/line-chart-instagram/line-chart-instagram.component';
 import { ModalExportPIComponent } from './components/Modals/modal-export-pi/modal-export-pi.component';
 import { ModalAddNewCampaignComponent } from './components/Modals/modal-add-new-campaign/modal-add-new-campaign.component';
 import { ModalSetAlertComponent } from './components/Modals/modal-set-alert/modal-set-alert.component';
@@ -64,10 +65,11 @@ import { ModalSetThresholdComponent } from './components/Modals/modal-set-thresh
     SettingsNotificationsComponent,
     SettingsThresholdsComponent,
     GaugeChartComponent,
-    LineChartSmComponent,
+    LineChartFacebookComponent,
     WordCloudSmComponent,
     WordCloudSm2Component,
     CaCardsComponent,
+    LineChartInstagramComponent
     
   
     
