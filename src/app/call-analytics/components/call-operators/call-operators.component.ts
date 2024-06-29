@@ -5,8 +5,6 @@ import { CallOperatorDetails, OperatorListItem } from "../../types";
 import { CallOperatorService } from "../../services/call-operator.service";
 import UserMessages from "../../../shared/user-messages";
 import { CallAnalyticsConfig } from "../../config";
-import userMessages from "../../../shared/user-messages";
-import { WebSocketService } from "../../services/web-socket.service";
 
 @Component({
   selector: 'app-call-operators',
@@ -47,7 +45,7 @@ export class CallOperatorsComponent implements OnInit {
   constructor(
     private callOperatorService: CallOperatorService,
     private messageService: MessageService
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -122,10 +120,14 @@ export class CallOperatorsComponent implements OnInit {
     this.selectedOperator = operator;
 
     this.callOperatorService.getOperatorDetails(operator.operator_id).then(response => {
-        this.isNoData = response.data.length == 0;
+      this.isNoData = response.data.length == 0 || response.data[0] == null || response.data[0] == undefined;
+      if (!this.isNoData) {
         this.operator = response.data[0] as CallOperatorDetails;
-        this.isOperatorDataLoading = false;
+        console.log(response.data);
+        this.data.datasets[0].data = [this.operator.positive_calls, this.operator.negative_calls, this.operator.neutral_calls];
         console.log(response.data)
+      }
+        this.isOperatorDataLoading = false;
     }).catch(err => {
       this.isOperatorDataLoading = false;
       this.isOperatorDataLoadingError = true;
