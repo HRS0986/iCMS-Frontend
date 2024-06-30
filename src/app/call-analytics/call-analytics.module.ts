@@ -10,7 +10,7 @@ import { ChartModule } from 'primeng/chart';
 import { LineAreaChartComponent } from './components/line-area-chart/line-area-chart.component';
 import { GaugeChartComponent } from './components/gauge-chart/gauge-chart.component';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { HorizontalBarChartComponent } from './components/horizontal-bar-chart/horizontal-bar-chart.component';
+import { BarChartComponent } from './components/horizontal-bar-chart/bar-chart.component';
 import { RecentCallsCardComponent } from './components/recent-calls-card/recent-calls-card.component';
 import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from 'primeng/dataview';
@@ -61,7 +61,7 @@ import { OperatorCardItemComponent } from './components/operator-card-item/opera
     DoughnutChartComponent,
     LineAreaChartComponent,
     GaugeChartComponent,
-    HorizontalBarChartComponent,
+    BarChartComponent,
     RecentCallsCardComponent,
     CallRecordingsComponent,
     CallSummaryChartComponent,

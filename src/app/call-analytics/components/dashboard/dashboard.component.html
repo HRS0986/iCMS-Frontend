@@ -3,14 +3,14 @@
   <div class="flex gap-5 flex-wrap">
     <div class="stat-cards">
       <app-stat-card [isLoading]="isLoadingStatistics" title="{{callStatistics.total_calls}}" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
-      <app-stat-card [isLoading]="isLoadingStatistics" title="{{callStatistics.avg_call_time_in_sec}}" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
-      <app-stat-card [isLoading]="isLoadingStatistics" title="{{Math.ceil(callStatistics.total_duration_in_sec / 60)}}" subTitle="Total Minute" imgPath="./call/blue-call.png"/>
+      <app-stat-card [isLoading]="isLoadingStatistics" title="{{Math.round(callStatistics.avg_call_time_in_sec / 60)}} Min" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
+      <app-stat-card [isLoading]="isLoadingStatistics" title="{{Math.round(callStatistics.total_duration_in_sec / 60)}}" subTitle="Total Minute" imgPath="./call/blue-call.png"/>
     </div>
     <app-line-area-chart title="Sentiment Over Time"/>
     <app-doughnut-chart title="Sentiment Distribution" [percentages]="[callSentiments.negative, callSentiments.positive, callSentiments.neutral]"/>
   </div>
   <div class="flex gap-6 flex-wrap">
-    <app-horizontal-bar-chart style="width: 49%;"/>
+    <app-bar-chart style="width: 49%;"/>
     <app-stacked-bar-chart style="width: 49%;"/>
   </div>
   <div class="flex gap-7 flex-wrap">

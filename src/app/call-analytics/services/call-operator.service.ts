@@ -38,4 +38,8 @@ export class CallOperatorService {
     return firstValueFrom(this.http.get<ApiResponse>(this.API_ROOT + "/operator-id"));
   }
 
+  public getAllCallOperatorSentiments(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(this.API_ROOT + "/average-operator-sentiment"));
+  }
+
 }
