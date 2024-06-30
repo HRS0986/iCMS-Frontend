@@ -1,5 +1,4 @@
 import { Component, Input, OnInit,Injector,EventEmitter, OnChanges, SimpleChanges,Output } from '@angular/core';
-declare var $: any;
 import { HttpClient } from '@angular/common/http';
 import { timer } from 'rxjs';
 import { DateRangeService } from '../../../services/shared-date-range/date-range.service';
