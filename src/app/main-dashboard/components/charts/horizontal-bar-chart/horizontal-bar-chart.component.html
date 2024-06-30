@@ -12,16 +12,16 @@
   </div>
   <p-chart type="bar" [data]="data" [options]="options"></p-chart>
 
-  <div *ngIf="categories.length > 1">
-  <div *ngFor="let category of categories" class="field-checkbox flex align-items-center">
-    <p-checkbox
-        [(ngModel)]="selectedCategories"
-        [label]="category"
-        name="group"
-        [value]="category"
-        (ngModelChange)="onSourceChange(category)"/>
-  </div>
-</div>
+<!--  <div *ngIf="categories.length > 1">-->
+<!--  <div *ngFor="let category of categories" class="field-checkbox flex align-items-center">-->
+<!--    <p-checkbox-->
+<!--        [(ngModel)]="selectedCategories"-->
+<!--        [label]="category"-->
+<!--        name="group"-->
+<!--        [value]="category"-->
+<!--        (ngModelChange)="onSourceChange(category)"/>-->
+<!--  </div>-->
+<!--</div>-->
 
 
 </p-panel>
