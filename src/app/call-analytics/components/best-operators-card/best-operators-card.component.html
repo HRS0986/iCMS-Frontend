@@ -1,6 +1,6 @@
 <p-panel class="mb-4">
   <p class="font-medium text-xl text-center">Best Operators</p>
   @for (item of operatorRankings; track item; let i =  $index) {
-    <app-operator-card-item [name]="item.name" [avgHandleTime]="item.avg_duration" [id]="item._id" [totalCalls]="item.total" [rank]="i"/>
+    <app-operator-card-item [name]="item.name" [avgHandleTime]="Math.round(item.avg_duration/60)" [id]="item._id" [totalCalls]="item.total" [rank]="i"/>
   }
 </p-panel>

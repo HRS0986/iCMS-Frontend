@@ -31,6 +31,8 @@ export class CallOperatorsComponent implements OnInit {
   isDetailsModalVisible: boolean = false;
   callOperators: OperatorListItem[] = [];
   operator!: CallOperatorDetails;
+  sentiments: any[] = [];
+  statusColors!: { [key: string]: string };
 
   userMessages = UserMessages
 
@@ -52,6 +54,11 @@ export class CallOperatorsComponent implements OnInit {
     this.reloadDataSource();
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
+    this.statusColors = {
+      "Positive": documentStyle.getPropertyValue("--positive-color"),
+      "Negative": documentStyle.getPropertyValue("--negative-color"),
+      "Neutral": documentStyle.getPropertyValue("--neutral-color")
+    }
 
     this.data = {
       labels: CallAnalyticsConfig.SentimentCategories,
@@ -59,8 +66,8 @@ export class CallOperatorsComponent implements OnInit {
         {
           data: [300, 50, 100],
           backgroundColor: [
-            documentStyle.getPropertyValue('--negative-color'),
             documentStyle.getPropertyValue('--positive-color'),
+            documentStyle.getPropertyValue('--negative-color'),
             documentStyle.getPropertyValue('--neutral-color'),
           ],
           hoverBackgroundColor: [
@@ -208,6 +215,22 @@ export class CallOperatorsComponent implements OnInit {
     this.isModelVisible = true;
   }
 
+  getAverageSentiment(operatorId: number): string {
+    let sentimentsData = this.sentiments.find(item => item._id == operatorId);
+    if (sentimentsData) {
+      if (sentimentsData.positive_calls > sentimentsData.negative_calls && sentimentsData.positive_calls > sentimentsData.neutral_calls) {
+        return "Positive";
+      }
+      else if (sentimentsData.negative_calls > sentimentsData.positive_calls && sentimentsData.negative_calls > sentimentsData.neutral_calls) {
+        return "Negative";
+      }
+      else if (sentimentsData.neutral_calls > sentimentsData.positive_calls && sentimentsData.neutral_calls > sentimentsData.negative_calls) {
+        return "Neutral";
+      }
+      return "Mixed";
+    } return "Not handled any call yet";
+  }
+
   showDialogConfirmation(callOperator: OperatorListItem) {
     this.selectedOperator = callOperator;
     this.isConfirmModalVisible = true;
@@ -215,6 +238,16 @@ export class CallOperatorsComponent implements OnInit {
 
   reloadDataSource() {
     this.isLoading = true;
+    this.callOperatorService.getAllCallOperatorSentiments().then(response => {
+      if (response.status) {
+        this.sentiments = response.data;
+      } else {
+        console.log(response.error_message);
+      }
+    }).catch(err => {
+      console.log(err)}).finally(() => {
+    });
+
     this.callOperatorService.getAllOperators().subscribe(result => {
       if (result.status) {
         this.callOperators = result.data;

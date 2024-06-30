@@ -21,4 +21,6 @@ export class BestOperatorsCardComponent implements OnInit {
       console.log(response.data)
     }).catch(err => console.log(err));
   }
+
+    protected readonly Math = Math;
 }

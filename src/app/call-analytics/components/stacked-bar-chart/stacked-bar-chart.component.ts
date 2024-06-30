@@ -66,19 +66,19 @@ export class StackedBarChartComponent implements OnInit {
           {
             type: 'bar',
             label: 'Positive',
-            backgroundColor: this.documentStyle.getPropertyValue('--positive-color'),
+            backgroundColor: this.documentStyle.getPropertyValue('--positive-color') + this.documentStyle.getPropertyValue('--alpha-value'),
             data: data_over_time.map(dt => dt.positive)
           },
           {
             type: 'bar',
             label: 'Neutral',
-            backgroundColor: this.documentStyle.getPropertyValue('--neutral-color'),
+            backgroundColor: this.documentStyle.getPropertyValue('--neutral-color') + this.documentStyle.getPropertyValue('--alpha-value'),
             data: data_over_time.map(dt => dt.neutral)
           },
           {
             type: 'bar',
             label: 'Negative',
-            backgroundColor: this.documentStyle.getPropertyValue('--negative-color'),
+            backgroundColor: this.documentStyle.getPropertyValue('--negative-color') + this.documentStyle.getPropertyValue('--alpha-value'),
             data: data_over_time.map(dt => dt.negative)
           }
         ]
