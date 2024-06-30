@@ -73,7 +73,6 @@
 <gridster [options]="options" class="chartGrid" *ngIf="dashboard && dashboard.length > 0">
   <gridster-item  [item]="item" *ngFor="let item of dashboard; let i = index" class="container-border">
 
-
       <ng-container *ngIf="item['chartType'] === 'Pie Chart'">
         <app-doughnut-chart
           [title]="item['title']"

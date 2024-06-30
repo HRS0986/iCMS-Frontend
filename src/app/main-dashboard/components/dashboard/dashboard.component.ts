@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit,OnDestroy{
 
   username:any;
 
+  skeletonActivation:boolean=false;
+
   DataCacheChange:boolean= false;
   widgetCacheChange:boolean=false;
 
@@ -80,18 +82,31 @@ export class DashboardComponent implements OnInit,OnDestroy{
 
 
   ngOnInit(): void {
+    this.skeletonActivation = true; // Initially set to true
+  
+    // Set a timeout to set skeletonActivation to false after 2 seconds
+    setTimeout(() => {
+      this.skeletonActivation = false;
+    }, 500);
+  
     this.widgetsUserData();
     this.chartDataGet();
-
+  
     this.socketSubscription = this.chartService.messages$.subscribe(
       message => {
-        if (message.response === 'widget') {  
+        if (message.response === 'widget') {
+          this.skeletonActivation = true;
           this.widgetsUserData();
+          
+          // Keep skeleton active for 2 seconds after receiving the message
+          setTimeout(() => {
+            this.skeletonActivation = false;
+          }, 500);
         }
       }
     );
-
   }
+  
 
   
   ngOnDestroy() {
@@ -118,6 +133,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
                   });
                   cache.put('data', dataResponse);
                   this.DataCacheChange = true;
+                  this.skeletonActivation=false;
                 }
               });
             } else {
@@ -126,6 +142,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
                 headers: { 'Content-Type': 'application/json' }
               });
               cache.put('data', dataResponse);
+              this.skeletonActivation=false;
             }
           });
         });
@@ -143,14 +160,19 @@ export class DashboardComponent implements OnInit,OnDestroy{
             console.error('Error deleting cache entries:', error);
           });
         });
+        this.skeletonActivation=true;
       }
-      // (error) => {
-      //   console.error('Error fetching doughnut chart data:', error);
-      // } 
-    }
-    
+    },
+    (error) => {
+      this.skeletonActivation=true;
+    } 
     );
-  });
+
+  },
+  (error) => {
+    this.skeletonActivation=true;
+  } 
+);
   }
 
   widgetsUserData(): void {
@@ -178,6 +200,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
                 });
                 await cache.put('widgets-data', dataResponse);
                 this.gridComponent.changes=true;
+                this.skeletonActivation=true;
               }
             } 
             catch (error) {
@@ -197,15 +220,18 @@ export class DashboardComponent implements OnInit,OnDestroy{
                   console.error('Error deleting cache entries:', error);
                 });
               });
+              this.skeletonActivation=true;
             }
-          }
-          
-        ,
+          },
         (error) => {
-          // console.error('Error fetching widgets user data:', error);
+          this.skeletonActivation=true;
         }
       );
-  });
+  },
+  (error) => {
+    this.skeletonActivation=true;
+  }
+);
 }
 
   

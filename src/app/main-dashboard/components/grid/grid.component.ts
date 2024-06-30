@@ -41,9 +41,7 @@ interface Safe extends GridsterConfig {
   resizable: Resizable;
   pushDirections: PushDirections;
 }
-interface Safe extends GridsterConfig {
-  resizable: Resizable;
-}
+
 
 @Component({
   selector: 'app-grid',
@@ -380,6 +378,7 @@ grid(){
     //janith
     setGridSize: true,
     margin:20,
+    itemChangeCallback: this.itemChange.bind(this),
   };
 
 this.data = {
@@ -504,6 +503,7 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
     }
   }
 
+  
 resize(event: Event, item: GridsterItem): void {
   // Calculate the new ratio in real-time
   const newRatio = item.cols / item.rows;

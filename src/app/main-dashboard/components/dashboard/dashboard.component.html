@@ -10,6 +10,39 @@
 
 />
 
-<div class="main-container">
+<div class="main-container" *ngIf="skeletonActivation==false">
   <app-grid class="auto-height"></app-grid>
+</div>
+
+
+<div class="container" *ngIf="skeletonActivation==true">
+  <div class="skeleton-item">
+    <p-skeleton styleClass="mb-2" width="15rem"></p-skeleton>
+    <p-skeleton width="25rem" height="15rem"></p-skeleton>
+  </div>
+  <div class="skeleton-item-padding">
+    <p-skeleton styleClass="mb-2" width="10rem"></p-skeleton>
+    <p-skeleton width="15rem" height="15rem"></p-skeleton>
+  </div>
+  <div class="skeleton-item-padding">
+    <p-skeleton styleClass="mb-2" width="10rem"></p-skeleton>
+    <p-skeleton width="20rem" height="15rem"></p-skeleton>
+  </div>
+</div>
+
+<div class="container" *ngIf="skeletonActivation==true">
+  <div class="skeleton-item">
+    <p-skeleton styleClass="mb-2" width="10rem"></p-skeleton>
+    <p-skeleton width="15rem" height="15rem"></p-skeleton>
+  </div>
+  <div class="skeleton-item-padding">
+
+    <p-skeleton styleClass="mb-2" width="15rem"></p-skeleton>
+    <p-skeleton width="25rem" height="15rem"></p-skeleton>
+  </div>
+  <div class="skeleton-item-padding">
+
+    <p-skeleton styleClass="mb-2" width="15rem"></p-skeleton>
+    <p-skeleton width="20rem" height="15rem"></p-skeleton>
+  </div>
 </div>

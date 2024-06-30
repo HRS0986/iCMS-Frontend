@@ -164,12 +164,12 @@ export class AddchartComponent {
 
   saveWidget() {
     const gridConfigurations: any = {
-      'Line Chart': { cols: 6, rows: 4, x: 0, y: 0 },
-      'Bar Chart': { cols: 5, rows: 3, x: 1, y: 1 },
-      'Horizontal Bar Chart': { cols: 7, rows: 3, x: 2, y: 2 },
-      'Pie Chart': { cols: 4, rows: 4, x: 3, y: 3 },
-      'Word Cloud': { cols: 5, rows: 3, x: 0, y: 4 },
-      'Table': { cols: 8, rows: 5, x: 4, y: 0 }
+      'Line Chart': { cols: 3, rows: 2, x: 0, y: 0 },
+      'Bar Chart': { cols: 3, rows: 2, x: 1, y: 1 },
+      'Horizontal Bar Chart': { cols: 3, rows: 2, x: 2, y: 2 },
+      'Pie Chart': { cols: 2, rows: 2, x: 3, y: 3 },
+      'Word Cloud': { cols: 3, rows: 3, x: 0, y: 4 },
+      'Table': { cols: 3, rows: 3, x: 4, y: 0 }
     };
   
     // Validate required fields

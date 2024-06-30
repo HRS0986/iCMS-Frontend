@@ -30,7 +30,7 @@
 
 
 :host ::ng-deep{
-  p-panel{
+  .p-panel{
     height:100%;
 
   }
@@ -39,6 +39,10 @@
   }
   .p-panel-content{
     height:100%;
+  }
+  .p-panel-header{
+    padding:0;
+
   }
   .p-toggleable-content{
     height:100%
