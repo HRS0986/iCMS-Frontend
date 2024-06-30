@@ -42,6 +42,7 @@ export class StackedBarChartComponent implements OnInit {
         }
       },
       y: {
+        stepSize:1,
         stacked: true,
         ticks: {
           color: this.textColorSecondary

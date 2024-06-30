@@ -71,9 +71,9 @@ export class CallOperatorsComponent implements OnInit {
             documentStyle.getPropertyValue('--neutral-color'),
           ],
           hoverBackgroundColor: [
-            documentStyle.getPropertyValue('--red-400'),
-            documentStyle.getPropertyValue('--green-400'),
-            documentStyle.getPropertyValue('--yellow-400')
+            documentStyle.getPropertyValue('--positive-hover-color'),
+            documentStyle.getPropertyValue('--negative-hover-color'),
+            documentStyle.getPropertyValue('--neutral-hover-color')
           ],
         }
       ]

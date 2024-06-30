@@ -24,6 +24,11 @@ export class BarChartComponent implements OnInit {
         tooltip: { mode: 'index', intersect: false },
         legend: { display: false },
       },
+      scales: {
+        y: {
+          stepSize: 1
+        }
+      }
     };
     this.analyticsService.getTopicsDistribution().then(response => {
       if (response.status) {
