@@ -1,5 +1,5 @@
 import {Component, Input, OnInit,Injector,ViewChild} from '@angular/core';
-import {GridsterConfig, GridsterItem, GridsterItemComponentInterface} from 'angular-gridster2';
+import {GridsterConfig, GridsterItem} from 'angular-gridster2';
 import { DisplayGrid, Draggable, PushDirections, Resizable, GridType} from 'angular-gridster2';
 import { ChartData, ChartOptions } from 'chart.js';
 import {LineAreaChartComponent} from "../charts/line-area-chart/line-area-chart.component";
@@ -93,6 +93,8 @@ export class GridComponent implements OnInit {
 
   ChartSources:any;
 
+  menuItems: any[] = [];
+
   widgetData:any;
 
   @Input() userChartInfo: {
@@ -113,6 +115,17 @@ export class GridComponent implements OnInit {
     ,private authService:AuthenticationService
     ) {}
   ngOnInit(): void {
+    this.menuItems = [
+        {
+          label: 'Settings',
+          command: () => console.log('Settings')
+        },
+        {
+          label: 'Another Action',
+          command: () => console.log('Another Action')
+        },
+        // add more menu items here
+      ];
     this.gridStart = 0;
     this.widgetsUser();
 
@@ -316,8 +329,8 @@ grid(){
     // outerMarginBottom: null,
 
     // min/max cols/rows in grid
-    minCols: 6,
-    maxCols: 6,
+    minCols: 7,
+    maxCols: 7,
 
     minRows: 6,
     maxRows: 80,
@@ -326,8 +339,8 @@ grid(){
     maxItemCols: 6,
     maxItemRows: 6,
 
-    minItemCols: 2,
-    minItemRows: 1,
+    minItemCols: 3,
+    minItemRows: 2,
 
     defaultItemCols: 1,
     defaultItemRows: 1,
@@ -352,7 +365,7 @@ grid(){
         ne: false,
         sw: false,
         nw: false,
-      }
+      },
     },
     swap: true,
     pushItems: true,
@@ -371,9 +384,8 @@ grid(){
     disableScrollHorizontal:true,
 
     //janith
-    itemResizeCallback: this.itemResize.bind(this), // Add this line
-    itemChangeCallback: this.itemChange.bind(this),
     setGridSize: true,
+    margin:20,
   };
 
 this.data = {
@@ -394,35 +406,39 @@ this.chartOptions = {
 };
 }
 
-widgetsUser(){
-  caches.open('widgets').then(cache => {
-    cache.match('widgets-data').then(cachedResponse => {
-      if (cachedResponse) {
-        cachedResponse.json().then((data: any[]) => { // Ensure data is typed as array
-          this.widgetTitle = data.map((item: any) => item.title);
-          this.widgetChart = data.map((item: any) => item.chartType);
-          this.widgetSoucrce = data.map((item: any) => item.sources);
-          this.yAxis = data.map((item: any) => item.yAxis);
-          this.xAxis = data.map((item: any) => item.xAxis);
-          this.topic = data.map((item: any) => item.topics);
-          this.widgetGrid = data.map((item: any) => item.grid);
-          this.ID = data.map((item: any) => item.id);
-          this.status = data.map((item: any) => item.status);
-          console.log(data);
-          // this.widgetData = this.processWidgetData(this.widgetTitle, this.widgetChart, this.widgetSoucrce);
-          const response = this.processGridData(this.widgetTitle, this.widgetChart, this.widgetSoucrce, this.widgetGrid,this.ID,this.topic,this.yAxis,this.xAxis,this.status);
-          this.dashboard= response[0].filter((item:any) => item['status'] !== 'hide');
-          console.log(this.dashboard);
-          this.gridList = response[0].filter((item:any) => item['status'] !== 'show');
-          this.ChartSources=response[1];
-        });
-      }
-      // } else {
-      //   console.log('Data not found in cache');
-      // }
+  widgetsUser(){
+    caches.open('widgets').then(cache => {
+      cache.match('widgets-data').then(cachedResponse => {
+        if (cachedResponse) {
+          cachedResponse.json().then((data: any[]) => { // Ensure data is typed as array
+            this.widgetTitle = data.map((item: any) => item.title);
+            this.widgetChart = data.map((item: any) => item.chartType);
+            this.widgetSoucrce = data.map((item: any) => item.sources);
+            this.yAxis = data.map((item: any) => item.yAxis);
+            this.xAxis = data.map((item: any) => item.xAxis);
+            this.topic = data.map((item: any) => item.topics);
+            this.widgetGrid = data.map((item: any) => item.grid);
+            this.ID = data.map((item: any) => item.id);
+            this.status = data.map((item: any) => item.status);
+            console.log(data);
+            // this.widgetData = this.processWidgetData(this.widgetTitle, this.widgetChart, this.widgetSoucrce);
+            const response = this.processGridData(this.widgetTitle, this.widgetChart, this.widgetSoucrce, this.widgetGrid,this.ID,this.topic,this.yAxis,this.xAxis,this.status);
+            this.dashboard= response[0].filter((item:any) => item['status'] !== 'hide');
+            console.log(this.dashboard);
+            this.gridList = response[0].filter((item:any) => item['status'] !== 'show');
+            this.ChartSources=response[1];
+          });
+        }
+        // } else {
+        //   console.log('Data not found in cache');
+        // }
+      });
     });
-  });
-}
+  }
+
+  onresize(event: any): void {
+    console.log('Element was resized', event);
+  }
 
 
 
@@ -445,7 +461,6 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
       y: grid.y,
       x: grid.x,
       chartType: chartType,
-      initialRatio: Math.round(grid.cols / grid.rows),
       sources: source,
       title,
       changes:false,
@@ -468,6 +483,7 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
   // this.ChartSources=changedList;
 
   return [datasetList, changedList ];
+
 }
 
 
@@ -492,84 +508,11 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
         throw new Error(`Unknown chart type: ${chartType}`);
     }
   }
-
-resize(event: Event, item: GridsterItem): void {
-  // Calculate the new ratio in real-time
-  const newRatio = item.cols / item.rows;
-  // If the new ratio is different from the initial ratio, adjust the cols or rows
-  if (newRatio !== item['initialRatio']) {
-    // Here we adjust the rows, but you can also adjust the cols if you prefer
-    item.rows = item.cols / item['initialRatio'];
-  }
+  openSettings(item: any) {
+  // Open the settings dialog for the clicked grid item
+  // ...
 }
 
-// static eventStart(
-//   item: GridsterItem,
-//   itemComponent: GridsterItemComponentInterface,
-//   event: MouseEvent
-// ): void {
-//   console.info('eventStart', item, itemComponent, event);
-//   // Store the initial ratio of cols/rows
-//   item['initialRatio'] = item.cols / item.rows;
-// }
-
-// static eventStop(
-//   item: GridsterItem,
-//   itemComponent: GridsterItemComponentInterface,
-//   event: MouseEvent
-// ): void {
-//   console.info('eventStop', item, itemComponent, event);
-//   // Calculate the new ratio after resizing
-//   const newRatio = item.cols / item.rows;
-//   // If the new ratio is different from the initial ratio, adjust the cols or rows
-//   if (newRatio !== item['initialRatio']) {
-//     // Here we adjust the rows, but you can also adjust the cols if you prefer
-//     item.rows = item.cols / item['initialRatio'];
-//   }
-// }
-
-itemResize(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
-  // Calculate the new ratio in real-time
-  const newRatio = Math.round(item.cols / item.rows);
-  // console.log(item);
-  // console.log('itemResized', newRatio);
-  // console.log('initialRatio', item['initialRatio'])
-  // If the new ratio is different from the initial ratio, adjust the cols or rows
-  if (newRatio !== item['initialRatio']) {
-    // Here we adjust the rows, but you can also adjust the cols if you prefer
-    item.rows = Math.round(item.cols / item['initialRatio']);
-  }
-}
-
-itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
-  // This method will be called when the item is moved or resized
-
-  if (item && this.gridStart==1){
-    const change = {
-      id: item["id"],   // Assuming item.key is the unique identifier
-      cols: item.cols,
-      rows: item.rows,
-      x: item.x,
-      y: item.y
-      // Add other properties as needed
-    };
-
-    const existingChangeIndex = this.changesQueue.findIndex(c => c.id === change.id);
-    if (existingChangeIndex !== -1) {
-      this.changesQueue[existingChangeIndex] = change;
-    } else {
-      this.changesQueue.push(change);
-    }
-
-    // Debounce or delay sending changes to backend for efficiency
-    clearTimeout(this.timeoutId); // Clear previous timeout if any
-    this.timeoutId = setTimeout(() => this.saveLayout(this.changesQueue), 1000); // Delay sending changes for 1 second
-
-
-  }
-
-
-}
 
 
 

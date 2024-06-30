@@ -27,3 +27,34 @@
 .menu-icon {
   cursor: pointer;
 }
+
+
+:host ::ng-deep{
+  p-panel{
+    height:100%;
+
+  }
+  .p-component{
+    height:100%;
+  }
+  .p-panel-content{
+    height:100%;
+  }
+  .p-toggleable-content{
+    height:100%
+  }
+  .chart-header-container {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+  .p-menubar{
+    border:none;
+    background: inherit;
+  }
+  angledownicon{
+    display:none;
+  }
+}
