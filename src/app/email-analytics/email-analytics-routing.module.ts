@@ -42,7 +42,7 @@ const routes: Routes = [
     canActivate: [conditionGuard,AuthGuardService]
   },
 
-  { path: "authorization-component", 
+  { path: "permission", 
     component: AuthorizationMessageComponent },
 
   {

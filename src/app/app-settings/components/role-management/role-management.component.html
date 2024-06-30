@@ -10,6 +10,8 @@
         [value]="roles"
         [tableStyle]="{'min-width': '50rem'}"
         [rows]="10"
+        (onRowSelect)="updateActions()"
+        (onRowUnselect)="updateActions()"
         [paginator]="true"
         [globalFilterFields]="['group_name']"
         [(selection)] = "selectedRoles"

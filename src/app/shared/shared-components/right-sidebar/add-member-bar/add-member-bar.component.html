@@ -59,11 +59,11 @@
 
     <div class="save-button mt-5">
       <div class="save-button mt-5">
-        <p-button label="Save" class="saveButton" (click)="isUpdate ? saveUpdateUser() : addUser()"></p-button>
+        <p-button label="Save" class="saveButton" (click)="isUpdate ? saveUpdateUser() : addUser();sidebarVisible=false"></p-button>
       </div>
     </div>
   </ng-template>
 
 </p-sidebar>
 <p-toast />
-<p-button class="pe-3 addMember"  icon="pi pi-user-plus" (click)="resetData()" ></p-button>
+<p-button class="pe-3 addMember"  icon="pi pi-user-plus" (click)="resetData()" [disabled]="!hasPermission('Add User')" ></p-button>

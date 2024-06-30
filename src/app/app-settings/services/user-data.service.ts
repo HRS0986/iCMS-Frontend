@@ -56,4 +56,15 @@ export class UserDataService{
     // };
     return this.http.put<any>(this.apiUrl+'/disableUser', username, {headers});
   }
+
+  enableUser(token: any, username: string) {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    // let body = {
+    //   username
+    // };
+    return this.http.put<any>(this.apiUrl+'/enableUser', username, {headers});
+
+  }
 }

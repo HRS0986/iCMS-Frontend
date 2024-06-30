@@ -7,12 +7,14 @@
 />
 
 
-<div>
+<ng-container >
   <p-table
     #dt1
     [value]="users"
     selectionMode="single"
     [(selection)]="selectedUsers"
+    (onRowSelect)="updateActions()"
+    (onRowUnselect)="updateActions()"
     dataKey="username"
     [tableStyle]="{'min-width': '50rem'}"
     [rows]="10"
@@ -20,6 +22,7 @@
     stateStorage="session"
     stateKey="statedemo-session"
     [globalFilterFields]="['username', 'email', 'groups']"
+
   >
 
     <ng-template pTemplate="caption">
@@ -51,9 +54,6 @@
         <th>
           <span class="p-column-title">Email</span>
         </th>
-        <!-- <th>
-          <span class="p-column-title">Status</span>
-        </th> -->
         <th>
           <span class="p-column-title">Roles</span>
         </th>
@@ -79,21 +79,30 @@
           <span class=" vertical-align-middle">{{user.email}}</span>
 
         <td>
-          <p-tag class="pe-1" *ngFor="let role of user.groups" [value]="role" [style.color]="getRoleColor(role)"></p-tag>
+          <p-tag class="pe-1" *ngFor="let role of user.groups" [value]="role" ></p-tag>
         </td>
 
         <td>
-<!--          show red dot if user disables otherwise green-->
-          <span class=" vertical-align-middle" [ngClass]="{'dot-red': user.status === 'DISABLED', 'dot-green': user.status === 'ENABLED'}"></span>
+          <div class="status-dot-container">
+            <span [class.green-dot]="user.status" [class.red-dot]="!user.status"></span>
+          </div>
         </td>
 
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="4">No customers found.</td>
+<!--        <td colspan="5">No customers found.</td>-->
+        <td colspan="5">
+          <p-progressBar *ngIf="isLoading" mode="indeterminate" [style]="{ height: '6px' }" />
+          <span *ngIf="!isLoading"> No customers found. </span>
+        </td>
+
+
       </tr>
     </ng-template>
+<!--    loading-->
+
   </p-table>
 
   <p-dialog
@@ -119,7 +128,7 @@
         <div class="flex mt-2">
           <span class="font-bold">Roles:</span>
           <div class="flex flex-wrap ml-2">
-            <p-tag class="pe-1" *ngFor="let role of userRoles" [value]="role" [style.color]="getRoleColor(role)"></p-tag>
+            <p-tag class="pe-1" *ngFor="let role of userRoles" [value]="role"></p-tag>
           </div>
         </div>
       </div>
@@ -133,7 +142,7 @@
   </p-dialog>
 
 
-</div>
+</ng-container>
 
 
 <p-toast />

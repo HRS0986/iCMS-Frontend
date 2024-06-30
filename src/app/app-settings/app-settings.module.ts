@@ -22,6 +22,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {ToastModule} from "primeng/toast";
 import {ButtonModule} from "primeng/button";
 import {ChipModule} from "primeng/chip";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 
 @NgModule({
@@ -33,28 +34,29 @@ import {ChipModule} from "primeng/chip";
     AddRolePopupComponent,
 
   ],
-  imports: [
-    CommonModule,
-    AppSettingsRoutingModule,
-    TableModule,
-    MultiSelectModule,
-    FormsModule,
-    SliderModule,
-    TagModule,
-    FileUploadModule,
-    DropdownModule,
-    ChipsModule,
-    SharedModule,
-    SidebarModule,
-    TabViewModule,
-    ReactiveFormsModule,
-    SplitButtonModule,
-    DialogModule,
-    ConfirmDialogModule,
-    ToastModule,
-    ButtonModule,
-    ChipModule
+    imports: [
+        CommonModule,
+        AppSettingsRoutingModule,
+        TableModule,
+        MultiSelectModule,
+        FormsModule,
+        SliderModule,
+        TagModule,
+        FileUploadModule,
+        DropdownModule,
+        ChipsModule,
+        SharedModule,
+        SidebarModule,
+        TabViewModule,
+        ReactiveFormsModule,
+        SplitButtonModule,
+        DialogModule,
+        ConfirmDialogModule,
+        ToastModule,
+        ButtonModule,
+        ChipModule,
+        ProgressSpinnerModule
 
-  ]
+    ]
 })
 export class AppSettingsModule { }

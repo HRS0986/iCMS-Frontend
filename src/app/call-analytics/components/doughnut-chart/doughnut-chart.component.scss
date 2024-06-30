@@ -1,3 +1,7 @@
 :host ::ng-deep p-chart > div {
   margin-bottom: 14px;
 }
+
+:host ::ng-deep .p-toggleable-content {
+  height: 380px;
+}

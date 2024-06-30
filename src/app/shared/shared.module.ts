@@ -33,7 +33,6 @@ import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {ToastModule} from "primeng/toast";
 import { ViewUserComponent } from './shared-components/right-sidebar/view-user/view-user.component';
 
-import { LineChartSampleComponent } from './shared-components/right-sidebar/widgets-bar/line-chart-sample/line-chart-sample.component';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DialogModule } from 'primeng/dialog';
 
@@ -51,7 +50,7 @@ import { DialogModule } from 'primeng/dialog';
     PageNotFoundComponent,
     AddRoleBarComponent,
     ViewUserComponent,
-    LineChartSampleComponent,
+
   ],
   exports: [
     PageHeaderComponent,

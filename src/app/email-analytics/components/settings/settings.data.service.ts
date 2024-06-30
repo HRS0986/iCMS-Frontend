@@ -13,6 +13,7 @@ export class DataService {
 
 
   baseUrl: string = `${URLS.baseUrl}/settings`;
+  
 
 
   //-------------------------------------------get dataservices  -------------------------------------------------------------
@@ -151,10 +152,10 @@ export class DataService {
   
   }
   
-  postEmailEdit(formData: PostEditingEmail): Observable<any[]> {
+  postEmailEdit(formData: PostEditingEmail): Observable<EmailINtegrationPostResponseMessage> {
 
     const url = `${this.baseUrl}/receive_email_edit_data`;
-    return this.http.post<any[]>(url, formData);  
+    return this.http.post<EmailINtegrationPostResponseMessage>(url, formData);  
   
   }
 

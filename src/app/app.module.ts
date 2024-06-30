@@ -57,7 +57,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     MainDashboardModule,
     OverlayPanelModule
   ],
-  
+
   providers: [MessageService],
   bootstrap: [AppComponent],
 })

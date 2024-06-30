@@ -23,7 +23,7 @@ export class CallOperatorService {
   }
 
   public addOperator(operator: OperatorListItem): Promise<ApiResponse> {
-    return firstValueFrom(this.http.post<ApiResponse>(this.API_ROOT + "/operator", operator));
+    return firstValueFrom(this.http.post<ApiResponse>(this.API_ROOT + "/operators", operator));
   }
 
   public deleteOperator(operatorId: string): Promise<ApiResponse> {
@@ -31,7 +31,7 @@ export class CallOperatorService {
   }
 
   public updateOperator(operator: OperatorListItem): Promise<ApiResponse> {
-    return firstValueFrom(this.http.put<ApiResponse>(this.API_ROOT + "/operator", operator));
+    return firstValueFrom(this.http.put<ApiResponse>(this.API_ROOT + "/operators", operator));
   }
 
   public getNextOperatorId(): Promise<ApiResponse> {

@@ -2,6 +2,9 @@
     bottom: 9px;
     right: 5px;
 }
+.no-scroll {
+    overflow-x: hidden;
+  }
 
 :host ::ng-deep{
 .short-input.p-element{

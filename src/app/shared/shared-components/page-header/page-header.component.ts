@@ -20,6 +20,8 @@ export class PageHeaderComponent implements OnInit {
   @Input() showAddWidgetButton: boolean = false;
   @Input() showAddRoleButton: boolean = false;
 
+  @Input() mainDashboardDate:boolean=false;
+  
   @Input() minDate: Date = new Date();
   @Input() maxDate: Date = new Date();
 
@@ -94,7 +96,7 @@ export class PageHeaderComponent implements OnInit {
             this.dateRangeService.changeDateRange(this.rangeDates);
           });
         } else {
-          console.log('Data not found in cache');
+          // console.log('Data not found in cache');
         }
       });
     });

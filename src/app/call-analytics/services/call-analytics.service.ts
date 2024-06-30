@@ -30,8 +30,8 @@ export class CallAnalyticsService {
   }
 
 
-  public getOverallCallSentimentScore() {
-
+  public getOperatorRatings(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/operator-ratings`))
   }
 
   public getSentimentTimeDetails(): Promise<ApiResponse> {
