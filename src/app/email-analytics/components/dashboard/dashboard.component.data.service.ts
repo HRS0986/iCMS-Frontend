@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GaugeChartResponse, SentimentsByTimeResponse, SentimentsByTopicResponse, SentimentsDistributionByTimeResponse, get_current_overall_sentiments_response, stat_card_single_response, word_cloud_single_response } from '../../interfaces/dashboard';
-
+import { URLS } from '../../services/app.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
   
-  private baseUrl: string = 'http://127.0.0.1:8000/email/dashboard';
+  private baseUrl: string = `${URLS.baseUrl}/dashboard`;
 
   getCurrentOverallSentiments(intervalIndays: number): Observable<get_current_overall_sentiments_response> {
     const url = `${this.baseUrl}/get_current_overall_sentiments?intervalIndays=${intervalIndays}`;

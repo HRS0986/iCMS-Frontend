@@ -1,8 +1,8 @@
 export const URLS = {
     // baseUrl: 'http://localhost:8000/email',
     // baseUrlv2: 'http://localhost:8000/email/v2',
-    baseUrl: 'http://54.202.21.67:8080/email',
-    baseUrlv2: 'http://54.202.21.67:8080/email/v2',
+    baseUrl: 'http://44.234.117.141:8080/email',
+    baseUrlv2: 'http://44.234.117.141:8080/email/v2',
 }
 
 export const SETTINGS = {
