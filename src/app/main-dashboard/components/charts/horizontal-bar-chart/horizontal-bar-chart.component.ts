@@ -60,10 +60,6 @@ private authService:AuthenticationService
   ngOnInit() {
     this.categories=this.source;
     this.selectedCategories=this.source;
-    // if(this.selectedCategories){
-    //   console.log(1);
-    //   this.barChartExtract(this.selectedCategories);
-    // }
     
     timer(0,1000).subscribe(() => {
       if(this.changes){
@@ -83,6 +79,12 @@ private authService:AuthenticationService
       } else if(range && range.length === 2 && range[0]){
         this.selectedDateRange = undefined;
         this.Date = this.formatDate(range[0]);
+        if(this.selectedCategories){
+
+          this.barChartExtract(this.selectedCategories);
+        }
+      }
+      else{
         if(this.selectedCategories){
 
           this.barChartExtract(this.selectedCategories);
@@ -118,41 +120,6 @@ private authService:AuthenticationService
       });
     }
   }
-
-  // BarChartDataGet(): void {
-  //   this.chartService.chartData().subscribe(
-  //     (response) => {       
-  //       caches.open('all-data').then(cache => {
-  //         cache.match('data').then((cachedResponse) => {
-  //           if (cachedResponse) {
-  //             cachedResponse.json().then((cachedData: any) => {
-  //               // Compare the response with the cached data
-  //               if (!this.isEqual(response, cachedData)) {
-  //                 // Update only the changed data in the cache
-  //                 // const updatedData = { ...cachedData, ...response };
-  //                 const dataResponse = new Response(JSON.stringify(response), {
-  //                   headers: { 'Content-Type': 'application/json' }
-  //                 });
-  //                 cache.put('data', dataResponse);
-  //                 // this.DataCacheChange = true;
-  //               }
-  //             });
-  //           } else {
-  //             // Cache the response if no cached data exists
-  //             const dataResponse = new Response(JSON.stringify(response), {
-  //               headers: { 'Content-Type': 'application/json' }
-  //             });
-  //             cache.put('data', dataResponse);
-  //           }
-  //         });
-  //       });
-  //       this.changes=true;
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching doughnut chart data:', error);
-  //     } 
-  //   );
-  // }
 
   
   chartDataGet(): void {

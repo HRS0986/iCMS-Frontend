@@ -75,9 +75,9 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
   ngOnInit() {
     this.categories=this.source;
     this.selectedCategories=this.source;
-    if(this.selectedCategories){
-      this.doughnutExtract(this.selectedCategories);
-    }
+    // if(this.selectedCategories){
+    //   this.doughnutExtract(this.selectedCategories);
+    // }
 
     timer(0,1000).subscribe(() => {
       if(this.changes){
@@ -112,7 +112,11 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
         if(this.selectedCategories){
           this.doughnutExtract(this.selectedCategories);
         }
-
+      }
+      else{
+        if(this.selectedCategories){
+          this.doughnutExtract(this.selectedCategories);
+        }
       }
     });
   }

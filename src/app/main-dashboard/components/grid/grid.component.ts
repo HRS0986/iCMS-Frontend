@@ -13,6 +13,7 @@ import { timer } from 'rxjs';
 import {MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
+
 interface Product {
   id: number;
   title: string;
@@ -125,7 +126,6 @@ export class GridComponent implements OnInit {
 
     this.socketSubscription = this.ChartService.messages$.subscribe(
       message => {
-
         if (message.response === 'data') {
           this.chartDataGet();
           this.dashboard.forEach((widget:any) => {
@@ -142,14 +142,12 @@ export class GridComponent implements OnInit {
             }
             if (widget.chartType === 'Word Cloud' && widget.sources.includes(message.name)) {
               widget.changes = true;
-            }
-            
+            }   
           });
 
         }
       }
     );
-    // console.log(this.userChartInfo);
     this.grid();
     this.gridStart=1;
 }
@@ -225,9 +223,6 @@ gridDeleteConfirmed(id:any,title:string) {
           this.gridList.splice(this.gridList.indexOf(id), 1);
           this.showMessage("Grid Deleted");
         },
-        error => {
-          // console.error('Error saving grid layout:', error);
-        }
       );
     });
       
@@ -236,9 +231,7 @@ gridDeleteConfirmed(id:any,title:string) {
       // Logic for rejection (optional)
     }
   });
-  // Logic to handle deletion confirmation
-  
-  // Optionally perform any action or update data in the parent component
+
 }
 
 
@@ -257,19 +250,17 @@ chartDataGet(): void {
         cache.match('data').then((cachedResponse) => {
           if (cachedResponse) {
             cachedResponse.json().then((cachedData: any) => {
-              // Compare the response with the cached data
+  
               if (!this.isEqual(response, cachedData)) {
-                // Update only the changed data in the cache
-                // const updatedData = { ...cachedData, ...response };
+
                 const dataResponse = new Response(JSON.stringify(response), {
                   headers: { 'Content-Type': 'application/json' }
                 });
                 cache.put('data', dataResponse);
-                // this.DataCacheChange = true;
               }
             });
           } else {
-            // Cache the response if no cached data exists
+
             const dataResponse = new Response(JSON.stringify(response), {
               headers: { 'Content-Type': 'application/json' }
             });
@@ -278,12 +269,8 @@ chartDataGet(): void {
         });
       });
     },
-    // (error) => {
-    //   console.error('Error fetching doughnut chart data:', error);
-    // } 
   );
-
-});
+  });
 }
 
 isEqual(obj1: any, obj2: any): boolean {
@@ -306,6 +293,7 @@ onChanges(event: boolean, index: number): void {
     this.dashboard[index]['changes'] = false;
   }
 }
+
 
 
 grid(){
@@ -396,6 +384,7 @@ widgetsUser(){
     cache.match('widgets-data').then(cachedResponse => {
       if (cachedResponse) {
         cachedResponse.json().then((data: any[]) => { // Ensure data is typed as array
+          console.log(data);
           this.widgetTitle = data.map((item: any) => item.title);
           this.widgetChart = data.map((item: any) => item.chartType);
           this.widgetSoucrce = data.map((item: any) => item.sources);
@@ -535,6 +524,7 @@ itemResize(item: GridsterItem, itemComponent: GridsterItemComponentInterface): v
 itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
   // This method will be called when the item is moved or resized
 
+  console.log(item);
   if (item && this.gridStart==1){
     const change = {
       id: item["id"],   // Assuming item.key is the unique identifier
@@ -553,15 +543,39 @@ itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): v
     }
 
     // Debounce or delay sending changes to backend for efficiency
-    clearTimeout(this.timeoutId); // Clear previous timeout if any
-    this.timeoutId = setTimeout(() => this.saveLayout(this.changesQueue), 1000); // Delay sending changes for 1 second
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      this.saveLayout(this.changesQueue);
+      this.updateCache(this.changesQueue);
+    }, 1000);
 
     
   }
-  
-
 }
 
+updateCache(changesQueue: { id: string, cols: number, rows: number, x: number, y: number }[]): void {
+  caches.open('widgets').then(cache => {
+    cache.match('widgets-data').then(cachedResponse => {
+      if (cachedResponse) {
+        cachedResponse.json().then((data: any[]) => {
+          changesQueue.forEach(change => {
+            const index = data.findIndex(item => item.id === change.id);
+            if (index !== -1) {
+              data[index].grid.cols = change.cols;
+              data[index].grid.rows = change.rows;
+              data[index].grid.x = change.x;
+              data[index].grid.y = change.y;
+            }
+          });
+
+          const updatedResponse = new Response(JSON.stringify(data));
+          cache.put('widgets-data', updatedResponse);
+          console.log(data);
+        });
+      }
+    });
+  });
+}
 
 
 }

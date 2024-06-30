@@ -17,7 +17,7 @@ export interface WordCloudItem {
   templateUrl: './word-cloud.component.html',
   styleUrls: ['./word-cloud.component.scss']
 })
-export class WordcloudComponent implements OnInit, OnChanges, AfterViewInit {
+export class WordcloudComponent implements OnInit, OnChanges{
 
   @Input() closable:boolean = true;
   
@@ -51,9 +51,6 @@ export class WordcloudComponent implements OnInit, OnChanges, AfterViewInit {
     this.selectedCategories = [...this.sources];  // Ensure a fresh copy is used
     this.categories = [...this.sources];  // Ensure a fresh copy is used
 
-    if (this.selectedCategories) {
-      this.wordCloudExtract(this.selectedCategories);
-    }
 
     timer(0, 1000).subscribe(() => {
       if (this.changes) {
@@ -76,6 +73,11 @@ export class WordcloudComponent implements OnInit, OnChanges, AfterViewInit {
           this.wordCloudExtract(this.selectedCategories);
         }
       }
+      else{
+        if (this.selectedCategories) {
+          this.wordCloudExtract(this.selectedCategories);
+        }
+      }
     });
   }
 
@@ -84,9 +86,7 @@ export class WordcloudComponent implements OnInit, OnChanges, AfterViewInit {
     this.deleteConfirmed.emit();
 }
 
-  ngAfterViewInit() {
-    // this.showWords(); // Initialize the word cloud after the view is fully initialized
-  }
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['changes'] && changes['changes'].currentValue === true) {

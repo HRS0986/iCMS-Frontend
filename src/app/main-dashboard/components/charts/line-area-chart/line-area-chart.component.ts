@@ -66,20 +66,8 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
     }
 
     this.categories=this.sources;
-        this.selectedCategories=this.sources;
-        if(this.selectedCategories){
-          if(this.chartCategory=='Count'){
-            this.lineExtractCount(this.selectedCategories);
-          }
-          else if(this.chartCategory=='Score'){
-              this.lineExtractSocre(this.selectedCategories);
-          }
-          else if(this.chartCategory=='Separate'){
-            this.lineExtractSeparate(this.selectedCategories);
-        }
-          
-        }
-    
+    this.selectedCategories=this.sources;
+
         timer(0,1000).subscribe(() => {
           if(this.changes){
             if(this.chartCategory=='Count'){
@@ -96,16 +84,6 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           }
         });
         
-        // this.socketSubscription = this.chartService.messages$.subscribe(
-        //   message => {
-        //     if (message.response === 'data') {
-        //       if(this.sources){
-        //         this.lineExtract(this.sources);
-        //       }
-        //     }
-        //   }
-        // );
-    
         this.dateRangeService.currentDateRange.subscribe(range => {
           if (range && range.length === 2 && range[0] && range[1]) {
             this.selectedDateRange = range.map(date => this.formatDate(date));
@@ -135,6 +113,20 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
               else if(this.chartCategory=='Separate'){
                 this.lineExtractSeparate(this.selectedCategories);
             }
+            }
+          }
+          else{
+            if(this.selectedCategories){
+              if(this.chartCategory=='Count'){
+                this.lineExtractCount(this.selectedCategories);
+              }
+              else if(this.chartCategory=='Score'){
+                  this.lineExtractSocre(this.selectedCategories);
+              }
+              else if(this.chartCategory=='Separate'){
+                this.lineExtractSeparate(this.selectedCategories);
+            }
+              
             }
           }
         });

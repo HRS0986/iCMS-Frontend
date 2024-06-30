@@ -86,7 +86,6 @@ export class DashboardComponent implements OnInit,OnDestroy{
     this.socketSubscription = this.chartService.messages$.subscribe(
       message => {
         if (message.response === 'widget') {  
-          this.gridComponent.changes=true;
           this.widgetsUserData();
         }
       }
@@ -155,7 +154,6 @@ export class DashboardComponent implements OnInit,OnDestroy{
   }
 
   widgetsUserData(): void {
-    console.log("chnaged widgets");
     this.authService.getIdToken().subscribe((token) =>{
       this.chartService.widgetsUser(token).subscribe(
         async (response) => {
@@ -179,6 +177,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
                   headers: { 'Content-Type': 'application/json' }
                 });
                 await cache.put('widgets-data', dataResponse);
+                this.gridComponent.changes=true;
               }
             } 
             catch (error) {
