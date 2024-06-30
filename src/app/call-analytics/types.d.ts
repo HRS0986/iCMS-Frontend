@@ -67,6 +67,7 @@ export interface CallSettingsDetails {
 export interface CallOperatorDetails {
   total_calls: number;
   avg_handle_time: number;
+  calls_in_last_day: number;
   positive_calls: number;
   negative_calls: number;
   neutral_calls: number;
