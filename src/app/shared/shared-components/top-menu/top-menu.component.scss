@@ -3,3 +3,18 @@
   left:0;
   border-bottom: 1px solid #E2E8F0;
 }
+:host ::ng-deep .p-button.p-button-lg {
+  font-size: 1.25rem;
+  padding: 0.5rem 0.8rem;
+  margin-right: 10px;
+}
+
+:host ::ng-deep.p-button:focus {
+  box-shadow: inset 0 0 0 2px #2c2c2c, 0 0 0 4px #2c2c2c, 0 1px 2px 0 rgb(0, 0, 0);
+}
+
+:host ::ng-deep .p-button.p-button-text {
+  background-color: #3a3636;
+  color: #3B82F6;
+  border-color: transparent;
+}
