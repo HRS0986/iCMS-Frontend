@@ -2,13 +2,13 @@
     <table>
       <tr>
 
-        <td class="shrink">{{ emailAddress }}</td>
-        <td class="shrink" rowspan="2">{{ nickName }}</td>
-        <td class="shrink align-right padding-right" rowspan="2">
+        <td class="email">{{ emailAddress }}</td>
+        <td class="nickname" rowspan="2">{{ nickName }}</td>
+        <td class="buttons align-right padding-right" rowspan="2">
           <button id='btnEdit' (click)="onEdit()"><i class="pi pi-pencil" style="color: rgb(240, 239, 245)"></i> &nbsp;Edit</button>
         </td>
-        <td class="shrink align-right padding-right" rowspan="2">
-          <button id='btnDel'(click)="onDelete()"><i class="pi pi-trash" style="color: rgb(240, 239, 245)"></i>   &nbsp; Delete </button>
+        <td class="buttons align-right padding-right" rowspan="2">
+          <button id='btnDel'(click)="onDelete()"><i class="pi pi-trash" style="color: rgb(240, 239, 245)"></i> &nbsp; Delete </button>
         </td>
       </tr>
 
