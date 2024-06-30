@@ -3,6 +3,7 @@ import { DateRangeService } from '../../../services/shared-date-range/date-range
 import { ChartsService } from '../../../services/charts.service';
 import { timer } from 'rxjs';
 import { AuthenticationService } from '../../../../auth/services/authentication.service';
+import {MenuItem, MenuItemCommandEvent} from "primeng/api";
 
 @Component({
   selector: 'app-horizontal-bar-chart',
@@ -51,6 +52,8 @@ export class HorizontalBarChartComponent implements OnInit,OnChanges{
   selectedDateRange: string[] | undefined;
   Date:any;
 
+  items: MenuItem[] = [];
+
   chartCategory:string='topic';
 
   constructor(private dateRangeService: DateRangeService,private chartService: ChartsService,
@@ -58,13 +61,38 @@ private authService:AuthenticationService
   ){}
 
   ngOnInit() {
+
+      this.items= [
+            {
+
+                icon: 'pi pi-ellipsis-v',
+                items: [
+                    {
+                        label: 'Delete',
+                        icon: 'pi pi-times',
+                        command(event: MenuItemCommandEvent) {
+                            console.log(event);
+
+                        }
+                    },
+                    {
+                        label: 'Edit',
+                        icon: 'pi pi-pencil',
+                        command(event: MenuItemCommandEvent) {
+                            console.log(event);
+                        }
+                    }
+                ]
+            }
+
+        ];
     this.categories=this.source;
     this.selectedCategories=this.source;
     // if(this.selectedCategories){
     //   console.log(1);
     //   this.barChartExtract(this.selectedCategories);
     // }
-    
+
     timer(0,1000).subscribe(() => {
       if(this.changes){
           this.barChartExtract(this.selectedCategories);
@@ -91,7 +119,7 @@ private authService:AuthenticationService
     });
 
     this.chart();
-    
+
   }
 
   confirmDeleted() {
@@ -121,7 +149,7 @@ private authService:AuthenticationService
 
   // BarChartDataGet(): void {
   //   this.chartService.chartData().subscribe(
-  //     (response) => {       
+  //     (response) => {
   //       caches.open('all-data').then(cache => {
   //         cache.match('data').then((cachedResponse) => {
   //           if (cachedResponse) {
@@ -150,15 +178,15 @@ private authService:AuthenticationService
   //     },
   //     (error) => {
   //       console.error('Error fetching doughnut chart data:', error);
-  //     } 
+  //     }
   //   );
   // }
 
-  
+
   chartDataGet(): void {
     this.authService.getIdToken().subscribe((token) =>{
     this.chartService.chartData(token).subscribe(
-      (response) => {       
+      (response) => {
         caches.open('all-data').then(cache => {
           cache.match('data').then((cachedResponse) => {
             if (cachedResponse) {
@@ -187,17 +215,17 @@ private authService:AuthenticationService
       },
       // (error) => {
       //   console.error('Error fetching doughnut chart data:', error);
-      // } 
+      // }
     );
   });
   }
-  
+
   isEqual(obj1: any, obj2: any): boolean {
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
-  
+
     if (keys1.length !== keys2.length) return false;
-  
+
     for (let key of keys1) {
       if (!keys2.includes(key)) return false;
       if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
@@ -228,23 +256,23 @@ private authService:AuthenticationService
     this.labels = [];
     this.allDataTpoic = {};
     this.allData={};
-  
+
     caches.open('all-data').then(cache => {
       cache.match('data').then(cachedResponse => {
         if (cachedResponse) {
           cachedResponse.json().then(data => {
             const documentStyle = getComputedStyle(document.documentElement);
             const allTopics: string[] = [];
-  
+
             sources.forEach(source => {
               let callTopics: any[] = [];
               let emailTopics: any[] = [];
-  
+
               if (source === 'call') {
                 callTopics = this.extractTopics(data, 'call');
                 allTopics.push(...callTopics);
               }
-  
+
               if (source === 'email') {
                 emailTopics = this.extractTopics(data, 'email');
                 allTopics.push(...emailTopics);
@@ -255,18 +283,18 @@ private authService:AuthenticationService
                 allTopics.push(...emailTopics);
               }
             });
-  
+
             // Create a set to get distinct topics
             this.topics = [...new Set(allTopics)];
             console.log(this.topics);
             sources.forEach(source => {
               let sourceData: any[] = [];
-  
+
               if (source === 'call') {
                 this.callCount = this.extractCounts(data, 'call');
                 sourceData = this.aggregateWordCloudData(this.callCount, this.topics);
               }
-  
+
               if (source === 'email') {
                 this.emailCount = this.extractCounts(data, 'email');
                 sourceData = this.aggregateWordCloudData(this.emailCount, this.topics);
@@ -275,16 +303,16 @@ private authService:AuthenticationService
                 this.socialCount = this.extractCounts(data, 'social');
                 sourceData = this.aggregateWordCloudData(this.socialCount, this.topics);
               }
-  
+
               if (sourceData) {
                 this.updateAllData(this.transformData(sourceData));
               }
             });
-  
+
             this.createDatasets(documentStyle);
-            
+
             this.labels = this.topics; // Update labels based on dynamic topics
-  
+
             this.chart();
           });
         }
@@ -333,7 +361,7 @@ updateAllData(sourceData: any): void {
       }
       this.allData[topic].counts += sourceData[topic].count;
     });
-  
+
 }
 
 
@@ -401,7 +429,7 @@ aggregateWordCloudData(allCount: any, topics: string[]): any {
         itemTopics.forEach((topic: string) => {
           if (topics.includes(topic)) {
             categoryMapCount[topic] += 1;
-            
+
           }
         });
       }
@@ -415,7 +443,7 @@ aggregateWordCloudData(allCount: any, topics: string[]): any {
     }));
 
     return countsData;
-  
+
 }
 
 
@@ -424,7 +452,7 @@ aggregateWordCloudData(allCount: any, topics: string[]): any {
       {
         if (!this.selectedDateRange || this.selectedDateRange.length !== 2) {
           return false;
-        }    
+        }
         const date = new Date(dateStr);
         const startDate = new Date(this.selectedDateRange[0]);
         const endDate = new Date(this.selectedDateRange[1]);
@@ -440,7 +468,7 @@ aggregateWordCloudData(allCount: any, topics: string[]): any {
         return true;
       }
     return false;
-    
+
   }
 
   chart(){
@@ -480,6 +508,6 @@ aggregateWordCloudData(allCount: any, topics: string[]): any {
           }
         }
       },
-    };                                          
+    };
   }
 }
