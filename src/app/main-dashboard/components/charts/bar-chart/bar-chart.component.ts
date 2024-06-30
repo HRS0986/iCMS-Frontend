@@ -3,6 +3,7 @@ import { DateRangeService } from '../../../services/shared-date-range/date-range
 import { ChartsService } from '../../../services/charts.service';
 import { timer } from 'rxjs';
 import { AuthenticationService } from '../../../../auth/services/authentication.service';
+import {MenuItemCommandEvent} from "primeng/api";
 
 @Component({
   selector: 'app-bar-chart',
@@ -34,12 +35,37 @@ export class BarChartComponent implements OnInit,OnChanges{
   selectedDateRange: string[] | undefined;
   Date:any;
 
+  items!: any[];
+
   constructor(private dateRangeService: DateRangeService,private chartService: ChartsService,
     private authService:AuthenticationService
   ){}
 
   ngOnInit() {
+    this.items= [
+            {
 
+                icon: 'pi pi-ellipsis-v',
+                items: [
+                    {
+                        label: 'Delete',
+                        icon: 'pi pi-times',
+                        command(event: MenuItemCommandEvent) {
+                            console.log(event);
+
+                        }
+                    },
+                    {
+                        label: 'Edit',
+                        icon: 'pi pi-pencil',
+                        command(event: MenuItemCommandEvent) {
+                            console.log(event);
+                        }
+                    }
+                ]
+            }
+
+        ];
     this.selectedCategories=this.source;
     if(this.selectedCategories){
       this.barChartExtract(this.selectedCategories);

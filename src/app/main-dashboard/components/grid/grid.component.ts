@@ -1,5 +1,5 @@
 import {Component, Input, OnInit,Injector,ViewChild} from '@angular/core';
-import {GridsterConfig, GridsterItem, GridsterItemComponentInterface} from 'angular-gridster2';
+import {GridsterConfig, GridsterItem} from 'angular-gridster2';
 import { DisplayGrid, Draggable, PushDirections, Resizable, GridType} from 'angular-gridster2';
 import { ChartData, ChartOptions } from 'chart.js';
 import {LineAreaChartComponent} from "../charts/line-area-chart/line-area-chart.component";
@@ -94,6 +94,8 @@ export class GridComponent implements OnInit {
 
   ChartSources:any;
 
+  menuItems: any[] = [];
+
   widgetData:any;
 
   @Input() userChartInfo: {
@@ -114,6 +116,17 @@ export class GridComponent implements OnInit {
     ,private authService:AuthenticationService
     ) {}
   ngOnInit(): void {
+    this.menuItems = [
+        {
+          label: 'Settings',
+          command: () => console.log('Settings')
+        },
+        {
+          label: 'Another Action',
+          command: () => console.log('Another Action')
+        },
+        // add more menu items here
+      ];
     this.gridStart = 0;
     this.widgetsUser();
 
@@ -306,8 +319,8 @@ grid(){
     // outerMarginBottom: null,
 
     // min/max cols/rows in grid
-    minCols: 6,
-    maxCols: 6,
+    minCols: 7,
+    maxCols: 7,
 
     minRows: 6,
     maxRows: 80,
@@ -317,7 +330,7 @@ grid(){
     maxItemRows: 6,
 
     minItemCols: 2,
-    minItemRows: 1,
+    minItemRows: 2,
 
     defaultItemCols: 1,
     defaultItemRows: 1,
@@ -342,7 +355,7 @@ grid(){
         ne: false,
         sw: false,
         nw: false,
-      }
+      },
     },
     swap: true,
     pushItems: true,
@@ -361,9 +374,8 @@ grid(){
     disableScrollHorizontal:true,
 
     //janith
-    itemResizeCallback: this.itemResize.bind(this), // Add this line
-    itemChangeCallback: this.itemChange.bind(this),
     setGridSize: true,
+    margin:20,
   };
 
 this.data = {
@@ -389,7 +401,6 @@ widgetsUser(){
     cache.match('widgets-data').then(cachedResponse => {
       if (cachedResponse) {
         cachedResponse.json().then((data: any[]) => { // Ensure data is typed as array
-          console.log(data);
           this.widgetTitle = data.map((item: any) => item.title);
           this.widgetChart = data.map((item: any) => item.chartType);
           this.widgetSoucrce = data.map((item: any) => item.sources);
@@ -399,15 +410,26 @@ widgetsUser(){
           this.widgetGrid = data.map((item: any) => item.grid);
           this.ID = data.map((item: any) => item.id);
           this.status = data.map((item: any) => item.status);
+          console.log(data);
+          // this.widgetData = this.processWidgetData(this.widgetTitle, this.widgetChart, this.widgetSoucrce);
           const response = this.processGridData(this.widgetTitle, this.widgetChart, this.widgetSoucrce, this.widgetGrid,this.ID,this.topic,this.yAxis,this.xAxis,this.status);
           this.dashboard= response[0].filter((item:any) => item['status'] !== 'hide');
+          console.log(this.dashboard);
           this.gridList = response[0].filter((item:any) => item['status'] !== 'show');
           this.ChartSources=response[1];
         });
       }
+      // } else {
+      //   console.log('Data not found in cache');
+      // }
     });
   });
 }
+
+  onresize(event: any): void {
+    console.log('Element was resized', event);
+  }
+
 
 
 
@@ -430,7 +452,6 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
       y: grid.y,
       x: grid.x,
       chartType: chartType,
-      initialRatio: Math.round(grid.cols / grid.rows),
       sources: source,
       title,
       changes:false,
@@ -453,6 +474,7 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
   // this.ChartSources=changedList;
 
   return [datasetList, changedList ];
+
 }
 
 
@@ -581,6 +603,12 @@ updateCache(changesQueue: { id: string, cols: number, rows: number, x: number, y
     });
   });
 }
+  openSettings(item: any) {
+  // Open the settings dialog for the clicked grid item
+  // ...
+}
+
+
 
 
 }

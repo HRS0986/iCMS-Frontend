@@ -1,7 +1,7 @@
-<div class="w-full h-[65px] items-center bg-white flex justify-between px-10 top-menu">
+<div class="w-full h-[65px] items-center bg-white flex justify-between px-10 top-menu" style="background-color: var(--header-backgound);">
   <div>
-    <p class="font-bold text-xl">
-      iCMS Dashboard
+    <p class="font-bold text-xl text-white">
+      iCSMS Dashboard
     </p>
   </div>
   <div>
@@ -12,10 +12,10 @@
 <!--      <i class="pi pi-user" style="font-size: 1.5rem; color: black;"></i>-->
 <!--    </p-button>-->
     <p-button [rounded]="true" [text]="true" size="large" badge="{{ notificationCount > 0 ? notificationCount : '' }}" badgeClass="p-badge-danger" routerLink="main-dashboard/notifications">
-      <i class="pi pi-bell" style="font-size: 1.5rem; color: black;"></i>
+      <i class="pi pi-bell text-white text-2xl"></i>
     </p-button>
     <p-button [rounded]="true" [text]="true" size="large" routerLink="main-dashboard/profile">
-      <i class="pi pi-user" style="font-size: 1.5rem; color: black;"></i>
+      <i class="pi pi-user text-white text-2xl"></i>
     </p-button>
 
 

@@ -5,6 +5,7 @@ import { ChartsService } from '../../../services/charts.service';
 import { Subscription } from 'rxjs';
 import { timer } from 'rxjs';
 import { AuthenticationService } from '../../../../auth/services/authentication.service';
+import {MenuItem, MenuItemCommandEvent} from "primeng/api";
 
 export interface WordCloudItem {
   word: string;
@@ -20,7 +21,7 @@ export interface WordCloudItem {
 export class WordcloudComponent implements OnInit, OnChanges{
 
   @Input() closable:boolean = true;
-  
+
   @Output() deleteConfirmed: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() title!: string;
@@ -43,11 +44,41 @@ export class WordcloudComponent implements OnInit, OnChanges{
   emailWord: string[] = [];
   socialWord: string[] = [];
 
+  items:MenuItem[] = []
+
+
+
+
   constructor(private dateRangeService: DateRangeService, private chartService: ChartsService,
     private authService:AuthenticationService
   ) {}
 
   ngOnInit() {
+
+      this.items= [
+            {
+
+                icon: 'pi pi-ellipsis-v',
+                items: [
+                    {
+                        label: 'Delete',
+                        icon: 'pi pi-times',
+                        command(event: MenuItemCommandEvent) {
+                            console.log(event);
+
+                        }
+                    },
+                    {
+                        label: 'Edit',
+                        icon: 'pi pi-pencil',
+                        command(event: MenuItemCommandEvent) {
+                            console.log(event);
+                        }
+                    }
+                ]
+            }
+
+        ];
     this.selectedCategories = [...this.sources];  // Ensure a fresh copy is used
     this.categories = [...this.sources];  // Ensure a fresh copy is used
 
@@ -84,7 +115,7 @@ export class WordcloudComponent implements OnInit, OnChanges{
   confirmDeleted() {
     console.log('confirm button');
     this.deleteConfirmed.emit();
-}
+ }
 
 
 
@@ -135,9 +166,7 @@ export class WordcloudComponent implements OnInit, OnChanges{
         });
         this.changes = true;
       },
-      // (error) => {
-      //   console.error('Error fetching doughnut chart data:', error);
-      // }
+
     );
   });
   }
@@ -202,7 +231,7 @@ export class WordcloudComponent implements OnInit, OnChanges{
                       ).filter((element: any) => element != null)
                   );
                 }
-                
+
               }
               if (source === 'email') {
                 if(this.yAxis=='topics')
@@ -212,7 +241,7 @@ export class WordcloudComponent implements OnInit, OnChanges{
                     .flatMap((emailItem: any) =>
                       emailItem.data.flatMap((dataItem: any) => dataItem.topic)).filter((element: any) => element != null)
                 );
-               
+
               }
               else if(this.yAxis=='keywords'){
                 emailWord = data.flatMap((item: any) =>
