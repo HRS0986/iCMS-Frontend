@@ -1,0 +1,31 @@
+<div
+  class="w-full h-full flex flex-col md:flex-row place-content-evenly p-4"
+  (click)="popup()"
+>
+  <div class="w-3/4 flex flex-col justify-center">
+    <p-chart type="line" [data]="data" [options]="options" height="200px" />
+  </div>
+  <div class="w-1/4 flex flex-col place-content-evenly">
+    <div>
+        <div class="text-center text-lg">6</div>
+        <div class="text-center text-sm font-normal text-gray-600">Overdue</div>
+    </div>
+    <div>
+        <div class="text-center text-lg">30 min</div>
+        <div class="text-center text-sm font-normal text-gray-600">Avg FRT</div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  header="Overall Insights"
+  [(visible)]="dialogVisible"
+  [style]="{ width: '70vw' }"
+  [modal]="true"
+  [closable]="true"
+  [maximizable]="true"
+  [draggable]="false"
+  [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
+>
+  Testing
+</p-dialog>

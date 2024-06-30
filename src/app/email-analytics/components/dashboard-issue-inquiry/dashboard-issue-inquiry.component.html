@@ -1,0 +1,53 @@
+<div class="w-full h-full flex flex-col py-8 md:py-2 md:flex-row gap-x-6 gap-y-10" (click)="popup()">
+  <div class="w-full md:w-1/2 flex flex-col md:items-end justify-center">
+    <div>
+      <div class="text-center text-xl pb-4">Issues</div>
+      <div class="flex flex-row justify-center">
+        <div class="px-2 border-r border-solid border-r-slate-700 border-0">
+          <div class="text-right text-lg">10</div>
+          <div class="text-right text-sm font-normal text-gray-600 -mt-2">
+            opened
+          </div>
+        </div>
+        <div class="px-2 border-l border-solid border-l-slate-700 border-0">
+          <div class="text-left text-lg">10</div>
+          <div class="text-left text-sm font-normal text-gray-600 -mt-2">
+            closed
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full md:w-1/2 flex flex-col md:items-start justify-center">
+    <div>
+      <div class="text-center text-xl pb-4">Inquiries</div>
+      <div class="flex flex-row justify-center">
+        <div class="px-2 border-r border-solid border-r-slate-700 border-0">
+          <div class="text-right text-lg">10</div>
+          <div class="text-right text-sm font-normal text-gray-600 -mt-2">
+            opened
+          </div>
+        </div>
+        <div class="px-2 border-l border-solid border-l-slate-700 border-0">
+          <div class="text-left text-lg">10</div>
+          <div class="text-left text-sm font-normal text-gray-600 -mt-2">
+            closed
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  header="Overall Insights"
+  [(visible)]="dialogVisible"
+  [style]="{ width: '70vw' }"
+  [modal]="true"
+  [closable]="true"
+  [maximizable]="true"
+  [draggable]="false"
+  [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
+>
+  Testing
+</p-dialog>

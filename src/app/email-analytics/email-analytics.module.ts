@@ -90,7 +90,12 @@ import { MessagesModule } from 'primeng/messages';
 import { ThreadDataviewComponent } from './components/thread-dataview/thread-dataview.component';
 import { ThreadCardListTypeComponent } from './components/thread-card-list-type/thread-card-list-type.component';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { TestComponent } from './components/test/test.component';
+// import { TestComponent } from './components/test/test.component';
+import { DashboardOverallProgressComponent } from './components/dashboard-overall-progress/dashboard-overall-progress.component';
+import { DashboardAccountInsightsComponent } from './components/dashboard-account-insights/dashboard-account-insights.component';
+import { DashboardProductInsightsComponent } from './components/dashboard-product-insights/dashboard-product-insights.component';
+import { DashboardIssueInquiryComponent } from './components/dashboard-issue-inquiry/dashboard-issue-inquiry.component';
+import { DashboardTimeGraphComponent } from './components/dashboard-time-graph/dashboard-time-graph.component';
 
 
 @NgModule({
@@ -139,7 +144,12 @@ import { TestComponent } from './components/test/test.component';
     FilteringComponent,
     ThreadDataviewComponent,
     ThreadCardListTypeComponent,
-    TestComponent,
+    // TestComponent,
+    DashboardOverallProgressComponent,
+    DashboardAccountInsightsComponent,
+    DashboardProductInsightsComponent,
+    DashboardIssueInquiryComponent,
+    DashboardTimeGraphComponent,
   ],
   imports: [
     CommonModule,
