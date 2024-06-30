@@ -4,8 +4,11 @@
     <p class="chart-title">{{ title }}</p>
 <!--      <p *ngIf="selectedDateRange && selectedDateRange.length === 2 && selectedDateRange[0] && selectedDateRange[1]">{{ selectedDateRange[0]}} - {{ selectedDateRange[1]}}</p>-->
 <!--      <p *ngIf="Date">{{ Date}}</p>-->
-      <div class="card">
+      <!-- <div class="card">
         <p-menubar [model]="itemActions" />
+      </div> -->
+      <div class="card">
+            <p-menubar [model]="item" />
       </div>
 <!--    <div class="menu-container">-->
 <!--      <i class="pi pi-times" style="color: rgb(56, 56, 56)" (click)="confirmDeleted()" *ngIf="closable"></i>-->
@@ -33,7 +36,7 @@
 </p-panel>
 
 
-<div>
+<!-- <div>
 <p-skeleton styleClass="mb-2" width="5rem" />
 <p-skeleton width="20rem" height="10rem" />
 <p-skeleton styleClass="mb-3" width="5rem" />
@@ -43,4 +46,4 @@
 <p-skeleton styleClass="mb-2" width="5rem" />
 <p-skeleton width="20rem" height="10rem" />
 <p-skeleton styleClass="mb-3" width="5rem" />
-</div>
+</div> -->

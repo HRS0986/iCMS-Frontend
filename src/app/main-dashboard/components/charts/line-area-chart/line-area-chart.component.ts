@@ -14,7 +14,8 @@ import {MenuItem, MenuItemCommandEvent} from "primeng/api";
 })
 export class LineAreaChartComponent implements OnInit,OnChanges {
 
-  @Output() deleteConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() deletedConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() hideConfirmed: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() title!: string;
   @Output() changesEvent = new EventEmitter<boolean>();
@@ -70,30 +71,37 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
     else if(this.yAxis==='sources'){
       this.chartCategory='Separate';
     }
-      this.items= [
-            {
-
-                icon: 'pi pi-ellipsis-v',
-                items: [
-                    {
-                        label: 'Delete',
-                        icon: 'pi pi-times',
-                        command(event: MenuItemCommandEvent) {
-                            console.log(event);
-
-                        }
-                    },
-                    {
-                        label: 'Edit',
-                        icon: 'pi pi-pencil',
-                        command(event: MenuItemCommandEvent) {
-                            console.log(event);
-                        }
-                    }
-                ]
+    this.items= [
+      {
+        icon: 'pi pi-ellipsis-v',
+        items: [
+          {
+            label: 'Delete',
+            icon: 'pi pi-times',
+            command: () => {
+              this['onDelete']();
             }
+          },
+          {
+            label: 'Edit',
+            icon: 'pi pi-pencil',
+            command: () => {
+              this['onEdit']();
+            }
+          },
+          {
+            label: 'Hide',
+            icon: 'pi pi-eye-slash',
+            command: () => {
+              this['confirmDeleted']();
+            }
+          }
 
-        ];
+          
+        ]
+      }
+
+  ];
 
     this.categories=this.sources;
     this.selectedCategories=this.sources;
@@ -163,10 +171,20 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
 
   }
 
-  confirmDeleted() {
-    console.log('confirm button');
-    this.deleteConfirmed.emit();
-}
+  
+  onDelete(){
+    console.log('delete');
+    this.deletedConfirmed.emit();
+  }
+
+  onEdit(){
+    console.log('Edit');
+  }
+
+ confirmDeleted() {
+        console.log('confirm button');
+        this.hideConfirmed.emit();
+  }
 
   onSourceChange(category:any){
     if(this.chartCategory=='Score')

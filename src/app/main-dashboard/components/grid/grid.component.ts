@@ -13,6 +13,7 @@ import { timer } from 'rxjs';
 import {MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
+import { GridsterItemComponentInterface } from 'angular-gridster2';
 
 interface Product {
   id: number;

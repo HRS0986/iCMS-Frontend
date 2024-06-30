@@ -14,9 +14,12 @@ import {MenuItem, MenuItemCommandEvent} from "primeng/api";
 
 export class VerticalBerChartComponent implements OnInit,OnChanges{
 
-  @Output() deleteConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() deletedConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() hideConfirmed: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() closable:boolean = true;
+
+  @Input() id!:string;
 
   data:any;
   @Input() persentages: any[]=[];
@@ -59,37 +62,48 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
   chartCategory:string='topic';
 
   constructor(private dateRangeService: DateRangeService,private chartService: ChartsService,
-    private authService:AuthenticationService
-  ){}
+    private authService:AuthenticationService,
+    
+  )
+  {
+    
+  }
 
   items:MenuItem[] = [];
 
   ngOnInit() {
 
     this.items= [
-            {
-
-                icon: 'pi pi-ellipsis-v',
-                items: [
-                    {
-                        label: 'Delete',
-                        icon: 'pi pi-times',
-                        command(event: MenuItemCommandEvent) {
-                            console.log(event);
-
-                        }
-                    },
-                    {
-                        label: 'Edit',
-                        icon: 'pi pi-pencil',
-                        command(event: MenuItemCommandEvent) {
-                            console.log(event);
-                        }
-                    }
-                ]
+      {
+        icon: 'pi pi-ellipsis-v',
+        items: [
+          {
+            label: 'Delete',
+            icon: 'pi pi-times',
+            command: () => {
+              this['onDelete']();
             }
+          },
+          {
+            label: 'Edit',
+            icon: 'pi pi-pencil',
+            command: () => {
+              this['onEdit']();
+            }
+          },
+          {
+            label: 'Hide',
+            icon: 'pi pi-eye-slash',
+            command: () => {
+              this['confirmDeleted']();
+            }
+          }
 
-        ];
+          
+        ]
+      }
+
+  ];
     this.categories=this.source;
     this.selectedCategories=this.source;
     
@@ -128,9 +142,19 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
 
   }
 
+
+  onDelete(){
+    console.log('delete');
+    this.deletedConfirmed.emit();
+  }
+
+  onEdit(){
+    console.log('Edit');
+  }
+
  confirmDeleted() {
         console.log('confirm button');
-        this.deleteConfirmed.emit();
+        this.hideConfirmed.emit();
   }
 
 
