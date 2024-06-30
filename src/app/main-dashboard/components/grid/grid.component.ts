@@ -232,11 +232,14 @@ gridDeleteConfirmed(id:any,title:string) {
     icon: 'pi pi-exclamation-triangle',
     accept: () => {
       this.authService.getIdToken().subscribe((token) =>{
-      this.ChartService.gridDeleted(id.id,token).subscribe(
+      this.ChartService.gridDeleted(id,token).subscribe(
         response => {
-          this.dashboard.splice(this.dashboard.indexOf(id), 1);
-          this.gridList.splice(this.gridList.indexOf(id), 1);
-          this.showMessage("Grid Deleted");
+          if(response!=false){
+            this.dashboard.splice(this.dashboard.indexOf(id), 1);
+            this.gridList.splice(this.gridList.indexOf(id), 1);
+            this.showMessage("Grid Deleted");
+          }
+
         },
       );
     });
