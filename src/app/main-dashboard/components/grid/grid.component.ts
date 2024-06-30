@@ -1,6 +1,6 @@
 import {Component, Input, OnInit,Injector,ViewChild} from '@angular/core';
 import {GridsterConfig, GridsterItem, GridsterItemComponentInterface} from 'angular-gridster2';
-import { DisplayGrid, Draggable, PushDirections, Resizable} from 'angular-gridster2';
+import { DisplayGrid, Draggable, PushDirections, Resizable, GridType} from 'angular-gridster2';
 import { ChartData, ChartOptions } from 'chart.js';
 import {LineAreaChartComponent} from "../charts/line-area-chart/line-area-chart.component";
 import {GaugeChartComponent} from "../charts/gauge-chart/gauge-chart.component";
@@ -51,7 +51,7 @@ interface Safe extends GridsterConfig {
 })
 
 export class GridComponent implements OnInit {
-  
+
   chartIcons: { [key: string]: string } = {
     'Bar Chart': 'pi pi-chart-bar', // Replace with your actual paths
     'Line Chart': 'pi pi-chart-line',
@@ -104,7 +104,7 @@ export class GridComponent implements OnInit {
 
 
   @Input() changes: boolean=false;
-  
+
   private socketSubscription: Subscription | undefined;
 
   constructor(private injector: Injector,
@@ -116,7 +116,7 @@ export class GridComponent implements OnInit {
   ngOnInit(): void {
     this.gridStart = 0;
     this.widgetsUser();
-    
+
     timer(0,1000).subscribe(() => {
         if(this.changes){
           this.widgetsUser();
@@ -138,11 +138,12 @@ export class GridComponent implements OnInit {
             }
             if (widget.chartType === 'Line Chart' && widget.sources.includes(message.name)) {
               widget.changes = true;
- 
+
             }
             if (widget.chartType === 'Word Cloud' && widget.sources.includes(message.name)) {
               widget.changes = true;
-            }   
+            }
+
           });
 
         }
@@ -189,7 +190,7 @@ saveStatus(item:any,status:string){
     );
   });
   }
-  
+
   saveLayout(change:any): void {
     this.authService.getIdToken().subscribe((token) =>{
     this.ChartService.saveGridLayout(token,change).subscribe(
@@ -225,7 +226,7 @@ gridDeleteConfirmed(id:any,title:string) {
         },
       );
     });
-      
+
     },
     reject: () => {
       // Logic for rejection (optional)
@@ -245,7 +246,7 @@ showMessage(detail: string) {
 chartDataGet(): void {
   this.authService.getIdToken().subscribe((token) =>{
   this.ChartService.chartData(token).subscribe(
-    (response) => {      
+    (response) => {
       caches.open('all-data').then(cache => {
         cache.match('data').then((cachedResponse) => {
           if (cachedResponse) {
@@ -289,32 +290,35 @@ isEqual(obj1: any, obj2: any): boolean {
 }
 
 onChanges(event: boolean, index: number): void {
-  if (event === false) {
-    this.dashboard[index]['changes'] = false;
-  }
+
 }
 
 
 
 grid(){
   this.options = {
-    gridType: "scrollVertical",
+    gridType: GridType.ScrollVertical,
     compactType: "compactUp",
     // margin: 10,
     // outerMargin: true,
     // outerMarginTop: null,
     // outerMarginRight: null,
     // outerMarginBottom: null,
+
+    // min/max cols/rows in grid
     minCols: 6,
-    maxCols: 7,
+    maxCols: 6,
+
     minRows: 6,
     maxRows: 80,
-    maxItemCols: 7,
-    minItemCols: 1,
-    maxItemRows: 10,
+
+    // min/max item cols/rows
+    maxItemCols: 6,
+    maxItemRows: 6,
+
+    minItemCols: 2,
     minItemRows: 1,
-    maxItemArea: 25,
-    minItemArea: 8,
+
     defaultItemCols: 1,
     defaultItemRows: 1,
     fixedColWidth: 20,
@@ -348,7 +352,7 @@ grid(){
     // enableBoundaryControl:true,
     pushDirections: {north: true, east: true, south: true, west: true},
     pushResizeItems: false,
-    displayGrid: DisplayGrid.None,
+    displayGrid: DisplayGrid.OnDragAndResize,
     disableAutoPositionOnConflict:false,
     // disableWindowResize:false,
     disableWarnings: true,
@@ -359,6 +363,7 @@ grid(){
     //janith
     itemResizeCallback: this.itemResize.bind(this), // Add this line
     itemChangeCallback: this.itemChange.bind(this),
+    setGridSize: true,
   };
 
 this.data = {
@@ -437,7 +442,7 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
     };
 
     datasetList.push(dataset);
-    
+
     // Populate the changedList object
     if (!changedList[title]) {
       changedList[title] = [];
@@ -467,7 +472,7 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
         return DoughnutChartComponent;
       case 'word-cloud':
         return WordcloudComponent;
-        
+
       default:
         throw new Error(`Unknown chart type: ${chartType}`);
     }
@@ -534,7 +539,7 @@ itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): v
       y: item.y
       // Add other properties as needed
     };
-    
+
     const existingChangeIndex = this.changesQueue.findIndex(c => c.id === change.id);
     if (existingChangeIndex !== -1) {
       this.changesQueue[existingChangeIndex] = change;

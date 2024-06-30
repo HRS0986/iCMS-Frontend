@@ -19,9 +19,10 @@ export class PageHeaderComponent implements OnInit {
   @Input() showAddMemberButton: boolean = false;
   @Input() showAddWidgetButton: boolean = false;
   @Input() showAddRoleButton: boolean = false;
+  @Input() showRightSideBarButtons: boolean = false;
 
   @Input() mainDashboardDate:boolean=false;
-  
+
   @Input() minDate: Date = new Date();
   @Input() maxDate: Date = new Date();
 
@@ -54,7 +55,7 @@ export class PageHeaderComponent implements OnInit {
     const today = new Date();
     const pastDate = new Date(today);
     pastDate.setDate(today.getDate() - 7);
-  
+
     return [pastDate, today];
   };
 

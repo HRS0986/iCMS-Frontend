@@ -3,6 +3,7 @@
     class="w-full h-fit"
     [breadcrumbItems]="breadcrumbItems"
     [showAddRoleButton]="true"
+    [showRightSideBarButtons] = "true"
 />
 <div>
     <p-table
@@ -36,7 +37,6 @@
                 label="Action"
                 class="pr-auto action-button pr-2"
                 [model]="actions"
-                (onClick)="console.log('info')"
               />
             </div>
         </ng-template>

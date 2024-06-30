@@ -47,7 +47,7 @@ import { MenuModule } from 'primeng/menu';
 import { CardModule } from 'primeng/card';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';
-
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [
@@ -103,6 +103,7 @@ import { TableModule } from 'primeng/table';
     CardModule,
     OverlayPanelModule,
     TableModule,
+    SkeletonModule
 
   ],
   exports: [
