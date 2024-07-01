@@ -96,7 +96,7 @@ import { DashboardAccountInsightsComponent } from './components/dashboard-accoun
 import { DashboardProductInsightsComponent } from './components/dashboard-product-insights/dashboard-product-insights.component';
 import { DashboardIssueInquiryComponent } from './components/dashboard-issue-inquiry/dashboard-issue-inquiry.component';
 import { DashboardTimeGraphComponent } from './components/dashboard-time-graph/dashboard-time-graph.component';
-
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @NgModule({
   declarations: [
@@ -189,7 +189,8 @@ import { DashboardTimeGraphComponent } from './components/dashboard-time-graph/d
     ProgressBarModule,
     AutoCompleteModule,
     MessagesModule,
-    ToggleButtonModule
+    ToggleButtonModule,
+    SelectButtonModule,
   ],
   providers: [MessageService],
 })

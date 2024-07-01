@@ -3,6 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Filter } from '../interfaces/filters';
+import { CommonColors } from '../interfaces/utility';
 import { Issue } from '../interfaces/issues';
 import { Inquiry } from '../interfaces/inquiries';
 import { Suggestion } from '../interfaces/suggestions';
@@ -124,5 +125,20 @@ export class UtilityService {
       return `${hours} ${hoursString} ${minutes} ${minutesString}`;
     } 
     return `${minutes} ${minutesString}`;
+  }
+
+
+  /**
+   * Retrieves the common colors used in the application.
+   * @returns An object containing the common colors.
+   */
+  getColors(): CommonColors {
+    const docStyle: CSSStyleDeclaration = getComputedStyle(document.documentElement);
+    const colors = {
+      positive: docStyle.getPropertyValue('--positive-color'),
+      negative: docStyle.getPropertyValue('--negative-color'),
+      neutral: docStyle.getPropertyValue('--neutral-color'),
+    };
+    return colors;
   }
 }
