@@ -98,3 +98,32 @@
 
 
 }
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+.main-container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+.chart-display {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1000px;
+}
+
+.sideBar {
+  width: 30%;
+}

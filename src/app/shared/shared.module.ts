@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageHeaderComponent } from "./shared-components/page-header/page-header.component";
 import { SidenavComponent } from "./shared-components/sidenav/sidenav.component";
@@ -7,7 +7,7 @@ import { PanelModule } from "primeng/panel";
 import { BreadcrumbModule } from "primeng/breadcrumb";
 import { DividerModule } from "primeng/divider";
 import { CalendarModule } from "primeng/calendar";
-import { FormsModule } from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { TopMenuComponent } from './shared-components/top-menu/top-menu.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SidebarModule } from "primeng/sidebar";
@@ -24,8 +24,17 @@ import { ImageModule } from "primeng/image";
 import { DropdownModule } from "primeng/dropdown";
 import { SelectButtonModule } from "primeng/selectbutton";
 import { MultiSelectModule } from "primeng/multiselect";
-import { PageNotFoundComponent } from './shared-components/page-not-found/page-not-found.component'
+import { PageNotFoundComponent } from './shared-components/page-not-found/page-not-found.component';
+import { AddRoleBarComponent } from './shared-components/right-sidebar/add-role-bar/add-role-bar.component'
+import {InputSwitchModule} from "primeng/inputswitch";
+import {CheckboxModule} from "primeng/checkbox";
+import {InputGroupModule} from "primeng/inputgroup";
+import {InputGroupAddonModule} from "primeng/inputgroupaddon";
+import {ToastModule} from "primeng/toast";
+import { ViewUserComponent } from './shared-components/right-sidebar/view-user/view-user.component';
 
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -39,12 +48,15 @@ import { PageNotFoundComponent } from './shared-components/page-not-found/page-n
     AddMemberBarComponent,
     AddchartComponent,
     PageNotFoundComponent,
+    AddRoleBarComponent,
+    ViewUserComponent,
+
   ],
   exports: [
     PageHeaderComponent,
     SidenavComponent,
     TopMenuComponent,
-    WordcloudComponent
+    WordcloudComponent,
   ],
   imports: [
     CommonModule,
@@ -64,7 +76,15 @@ import { PageNotFoundComponent } from './shared-components/page-not-found/page-n
     DropdownModule,
     SelectButtonModule,
     MultiSelectModule,
-  ]
+    ReactiveFormsModule,
+    InputSwitchModule,
+    CheckboxModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    ToastModule,
+    OverlayPanelModule,
+    DialogModule
+  ],
 
 })
 export class SharedModule {

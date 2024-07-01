@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { Message } from 'primeng/api';
 import {NotificationService} from "../../../services/notification.service"
-import { timer } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-unread-notifications',
@@ -10,20 +10,80 @@ import { timer } from 'rxjs';
 })
 export class UnreadNotificationsComponent implements OnInit {
 
+  showDatePicker: boolean = true;
+  sidebarVisible: boolean = true;
+  rangeDates: Date[] | undefined;
+
+  message:string="Are you confirm to Ingnore";
+
+  visible:boolean =false;
+  showData:any[]=[];
+
+  filteredNotifications: Message[] = [];
+
   notifications: Message[] = [];
   readNotifications: Message[]= [];
   notificationCount: number = 0;
   emptyUnread:boolean=true;
   refreshTime:number = 1000;
 
+  
+  private socketSubscription: Subscription | undefined;
+
   constructor(private notificationService: NotificationService)
   {}
 
   ngOnInit(): void {
-    timer(0, this.refreshTime).subscribe(() => {
-      this.fetchNotifications();
-      this.updateOldNotificationsAsUnread();
-    });
+    this.fetchNotifications();
+
+    this.socketSubscription = this.notificationService.messages$.subscribe(
+      message => {
+        console.log(message);
+        this.fetchNotifications();
+      }
+    );
+
+  }
+
+  addMessages(){
+    this.fetchNotifications();
+  }
+
+  clearMessages(){
+    const existingNotificationDicts = this.notifications.map(notification => ({ id: notification.id }));
+    this.notifications = [];
+    this.readNotifications= [];
+    this.filteredNotifications=[];
+    this.notificationService.updateUnreadNotifications(existingNotificationDicts).subscribe(
+      (response) => {
+        
+      },
+  );
+  }
+
+  ignoreMessages(notificationID:any){
+    const index = this.notifications.findIndex(n => n.id === notificationID);
+    if (index !== -1) {
+      this.notifications.splice(index, 1);
+      this.filteredNotifications=this.notifications;
+      this.notificationCount = this.notifications.length;
+    }
+
+    this.notificationService.updateUnreadNotifications([{ id: notificationID }]).subscribe(
+      (response) => {
+      },
+  );
+
+  }
+
+  viewNotification(notification:any){
+    this.visible=true;
+    this.showData=[notification['summary'],notification['data'],notification['detail']];
+  }
+  
+  dateReset(){
+    this.rangeDates=[];
+    this.onDateRangeChange();
   }
 
   fetchNotifications() {
@@ -45,23 +105,25 @@ export class UnreadNotificationsComponent implements OnInit {
               // If the notification doesn't exist, add it to the list
               const newMessage: Message = {
                 severity: "info",
-                summary: newNotification.email,
+                summary: newNotification.created_at,
                 detail: newNotification.alert,
                 id: newNotification.id ,// Assuming id is a unique identifier for notifications,
-                data:newNotification.created_at
+                data:newNotification.email,
+                
               };
               this.notifications.push(newMessage);
             }
           }
 
           this.readNotifications = this.notifications;
-
+          this.filteredNotifications = this.notifications;
           this.notificationCount = this.notifications.length;
           this.emptyUnread=true
 
         }
         else if (this.emptyUnread) {
           this.notifications = [{severity: "info", summary: "No Notifications", detail: "Empty" }];
+          this.filteredNotifications = this.notifications;
           this. emptyUnread = false
         }
 
@@ -70,29 +132,24 @@ export class UnreadNotificationsComponent implements OnInit {
   }
 
 
-  updateOldNotificationsAsUnread() {
-    // Iterate over each read notification array
-    for (const readNotificationArray of this.readNotifications) {
-        // Accessing the first item in the array
-        const readNotification = readNotificationArray;
-
-        // Check if the notification exists in the current list of notifications
-        const existingNotificationIndex = this.notifications.findIndex(notification => notification.id === readNotification.id);
-        console.log(this.readNotifications);
-        if (existingNotificationIndex === -1) {
-          this.refreshTime = 1000;
-            // If the notification doesn't exist, mark it as unread
-            this.notificationService.updateUnreadNotifications({"id": readNotification.id}).subscribe(
-                (response) => {
-                    
-                },
-
-            );
-        }
-        else{
-          this.refreshTime = 1200;
-        }
+  onDateRangeChange() {
+    if (this.rangeDates && this.rangeDates.length > 0) {
+      const startDate = new Date(this.rangeDates[0]);
+      let endDate = new Date(this.rangeDates[0]);
+  
+      if (this.rangeDates[1]) {
+        endDate = new Date(this.rangeDates[1]);
+      }
+  
+      this.filteredNotifications = this.notifications.filter(notification => {
+        console.log(notification.summary);
+        const notificationDate = new Date(notification.summary || '');
+        // Include the end date in the range
+        return notificationDate >= startDate && notificationDate <= endDate;
+      });
+    } else {
+      this.filteredNotifications = this.notifications;
     }
-}
-
+  }
+ 
 }

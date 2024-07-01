@@ -1,0 +1,180 @@
+<p-panel class="flex flex-col mb-4" [toggleable]="true" toggler="header" [collapsed]="true">
+  <ng-template pTemplate="header">
+    <div class="flex align-items-center gap-2">
+      <span class="font-bold"> Filters </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="my-container flex flex-wrap md:grid md:grid-cols-2 justify-stretch gap-4">
+      <div class="min-w-40 min-h-10 grow">
+        <div class="mb-2">Search</div>
+        <div class="w-full ">
+          <input
+            type="text"
+            pInputText
+            class="w-full"
+            placeholder="search anything"
+            [(ngModel)]="filterCriteria.searchText"
+          />
+        </div>
+      </div>
+      <div class="min-w-40 min-h-10 grow">
+        <div class="mb-2">Date Opened</div>
+        <div class="w-full relative">
+          <p-calendar
+            [(ngModel)]="filterCriteria.selectedDate"  
+            selectionMode="range"
+            [readonlyInput]="true"
+            [showIcon]="true"
+            [showButtonBar]="true"
+            styleClass="w-full"
+            aria-placeholder="overall"
+            (onShow)="calculateDates()"
+            [maxDate] = "currentDate"
+            [minDate] = "lastDate"
+            dateFormat="dd-M-yy"
+            rangeSeparator=" to "
+          ></p-calendar>
+        </div>
+      </div>
+      <div class="min-w-40 min-h-10 grow">
+        <div class="mb-2">Customer Email</div>
+        <div class="w-full">
+          <span class="p-fluid">
+            <p-autoComplete
+              [(ngModel)]="filterCriteria.selectedSenders"
+              [suggestions]="itemsSender"
+              (completeMethod)="searchSender($event)"
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="34"
+              [dropdown]="true"
+              [multiple]="true"
+              class=" flex-wrap"
+            />
+          </span>
+        </div>
+      </div>
+
+      <div class="min-w-40 min-h-10 grow">
+        <div class="mb-2">Company Email</div>
+        <div class="w-full ">
+          <span class="p-fluid">
+            <p-autoComplete
+              [(ngModel)]="filterCriteria.selectedReceivers"
+              [suggestions]="itemsReceiver"
+              (completeMethod)="searchReceiver($event)"
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="34"
+              [dropdown]="true"
+              [multiple]="true"
+              emptySelectionMessage="(empty)"
+            />
+          </span>
+        </div>
+      </div>
+
+      <div class="min-w-40 min-h-10 grow">
+        <div class="relative">
+          <div class="mb-2">Tags</div>
+          <div class="absolute right-0 top-0 flex">
+            <p-checkbox 
+            [(ngModel)]="filterCriteria.reqAllTags"
+            label="Require all tags" 
+            [binary]="true" 
+            labelStyleClass="text-xs"
+            />
+          </div>
+        </div>
+        <div class="w-full ">
+          <span class="p-fluid">
+            <p-autoComplete
+              [(ngModel)]="filterCriteria.selectedTags"
+              [suggestions]="itemsTags"
+              (completeMethod)="searchTags($event)"
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="34"
+              [dropdown]="true"
+              [multiple]="true"
+            />
+          </span>
+        </div>
+      </div>
+
+      <div class="min-w-40 min-h-10 grow">
+        <div class="mb-2">Status</div>
+        <div class="w-full ">
+          <span class="p-fluid">
+            <p-autoComplete
+              [(ngModel)]="filterCriteria.selectedStatus"
+              [suggestions]="itemsStatus"
+              (completeMethod)="searchStatus($event)"
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="34"
+              [dropdown]="true"
+              [multiple]="true"
+            />
+          </span>
+        </div>
+      </div>
+
+      <div class="min-w-40 min-h-10 grow hidden">
+        <div class="mb-2">Other properties</div>
+        <div class="w-full ">
+          <input type="text" 
+          pInputText class="w-full" 
+          placeholder="anything" 
+          [(ngModel)]="otherText"
+          />
+        </div>
+      </div>
+      <div class="hidden min-w-40 min-h-10 grow flex items-center justify-center flex-wrap gap-2">
+        <p-tag 
+          (click)="clickImportant()"
+          value="Critical"
+          [rounded]="true"
+          [severity]="filterCriteria.importantOnly ? 'success' : 'info'"
+          styleClass="cursor-pointer"
+        />
+        <p-tag 
+          (click)="clickNew()"
+          value="New"
+          [rounded]="true"
+          [severity]="filterCriteria.newOnly ? 'success' : 'info'"
+          styleClass="cursor-pointer"
+        />
+      </div>
+
+      <div class="grow col-span-2 min-w-40 min-h-10 flex flex-wrap gap-2 justify-end">
+        <div class="grow">
+          <p-button
+            label="Cancel"
+            [outlined]="false"
+            [rounded]="true"
+            severity="danger"
+            (click)="cancelFilters()"
+            size="small"
+          />
+        </div>
+        <div class="flex gap-2">
+          <p-button
+            label="Clear"
+            [outlined]="true"
+            [rounded]="true"
+            severity="secondary"
+            (click)="clearFilters()"
+            size="small"
+          />
+          <p-button
+            label="Apply"
+            [outlined]="false"
+            [rounded]="true"
+            severity="primary"
+            (click)="applyFilters()"
+            size="small"
+          />
+
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-panel>

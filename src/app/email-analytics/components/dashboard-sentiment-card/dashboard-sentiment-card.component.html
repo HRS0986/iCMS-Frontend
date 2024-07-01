@@ -1,0 +1,35 @@
+<!-- <p-panel class="flex flex-col text-center justify-center w-[300px]">
+  <p class="font-medium text-xl">Sentiment Score</p>
+  <p class="font-bold text-3xl mt-0 mb-0">7.5</p>
+  <div echarts [options]="option"></div>
+</p-panel> -->
+
+<div
+  class="flex flex-col gap-x-3 justify-center items-center overflow-hidden border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150 w-auto absolute inset-0 p-2"
+  (click)="load()"
+  tooltip="New issues in the last 24 hours"
+>
+  <!-- div 1 -->
+  <div class="flex place-content-center h-[30%] w-full">
+    <span class="font-medium text-lg lg:text-2xl 2xl:text-3xl">
+      Overall Sentiment</span
+    >
+  </div>
+  <!-- <div class="place-self-center -mt-20 w-32 h-32 md:w-52 md:h-52" echarts [options]="options"></div> -->
+  <div class="place-self-center -mt-10 w-32 h-32 md:w-52 md:h-52" echarts [options]="options"></div>
+</div>
+
+
+<p-dialog
+  header="Sentiment Overview"
+  [(visible)]="dialogVisible"
+  [style]="{ width: '70vw' }"
+  [modal]="true"
+  [closable]="true"
+  [maximizable]="true"
+  [draggable]="false"
+  [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
+>
+  <app-dashboard></app-dashboard>
+
+</p-dialog>

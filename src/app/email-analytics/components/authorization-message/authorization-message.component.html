@@ -1,0 +1,42 @@
+<app-page-header
+  pageTitle="Email Analytics Dashboard"
+  class="w-full h-fit"
+  [breadcrumbItems]="breadcrumbItems"
+  [showDatePicker]="false"
+/>
+
+
+
+
+<div class="card flex justify-content-center" [style]="{ width: '360px' }">
+  <p-card header="Reauthorization Required" 
+  subheader="for email account" >
+      <ng-template pTemplate="header">
+       
+          <img alt="Card" src="../../../../assets/email/authorization-required.jpg" />
+      </ng-template>
+      <p >
+        Authroization token for the email address <b style="color: red;">{{ needToAuthorizeAddress }}</b> has expired.</p>
+      <p>
+        The email account requires you to reauthorize the permissions for this application to access your emails. <p>
+      <p>  Click the button below to authorize.   </p>
+   
+      <ng-template pTemplate="footer">
+          <div class="flex gap-3 mt-1">
+           
+              <p-button label="Authorize" (click)="redirectToURI()" class="w-full" styleClass="w-full" />
+          </div>
+      </ng-template>
+  </p-card>
+</div>
+
+
+
+
+
+<!-- <p class="font-medium text-xl">
+Authroization token for the email address {{ needToAuthorizeAddress }} has expired.
+email account requires you to reauthorize the permissions for this application to access your emails. 
+Click the button below to authorize.
+</p>
+<button (click)="redirectToURI()">Redirect</button> -->

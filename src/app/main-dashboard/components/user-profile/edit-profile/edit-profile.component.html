@@ -1,21 +1,22 @@
 <div class="editProfile">
-  <div class="profileImage">
-    <p-image
-      src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg"
-      alt="Image"
-      height="150"
-      width="150"
-    ></p-image>
+  <div class="profile-container">
+<div class="profile-container">
+  <div class="profile-image-wrapper">
+    <img [src]="getProfileImageUrl()" alt="Profile Image" class="profile-image" (click)="openFileUpload()">
+    <button pButton icon="pi pi-pencil" class="update-icon" (click)="openFileUpload()"></button>
   </div>
+  <input #fileInput type="file" (change)="onFileSelected($event)" style="display: none;" />
+</div>
   <div class="profileDetails">
       <div>
         <div class="inputLabel">
           <label for="username">Username</label>
         </div>
         <div>
-          <input type="text" id="username" pInputText [(ngModel)]="username"/>
+          <input type="text" disabled id="username" pInputText [(ngModel)]="username"/>
         </div>
       </div>
+
 
     <div>
       <div class="inputLabel">
@@ -33,12 +34,15 @@
         <input type="text" id="phone" pInputText [(ngModel)]="phone"/>
       </div>
     </div>
-    <div class="saveButton">
-      <p-button label="Save" size="small" (onClick)="changeUserDetails()"></p-button>
+    <div class="saveButton" (click)="uploadFile()">
+      <p-button label="Save" size="small" ></p-button>
     </div>
+
 
   </div>
 
+  </div>
+  <p-toast></p-toast>
 </div>
 
 

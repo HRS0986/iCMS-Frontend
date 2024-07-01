@@ -1,54 +1,6 @@
-<p-panel class="w-[100px] mb-4">
-  <p class="font-medium text-xl text-center">Best Operators</p>
-  <div class="my-9 flex items-center w-full">
-    <p-avatar label="1" styleClass="mr-4" size="large" [style]="{ 'background-color': 'gold', color: '#ffffff' }" shape="circle"></p-avatar>
-    <div class="flex justify-between w-full">
-      <div>
-        <p class="font-bold text-xl my-0">John Doe</p>
-        <p class="text-sm text-gray-500 font-medium my-0">Operator Id: 3</p>
-      </div>
-      <div class="text-center">
-        <p class="font-medium text-lg my-0">Total Calls</p>
-        <p class="text-sm text-gray-500 font-medium my-0">34</p>
-      </div>
-      <div class="text-center">
-        <p class="font-medium text-lg my-0">Avg Handle Time</p>
-        <p class="text-sm text-gray-500 font-medium my-0">5 min</p>
-      </div>
-    </div>
-  </div>
-  <div class="my-9 flex items-center w-full">
-    <p-avatar label="2" styleClass="mr-4" size="large" [style]="{ 'background-color': 'silver', color: '#ffffff' }" shape="circle"></p-avatar>
-    <div class="flex justify-between w-full">
-      <div>
-        <p class="font-bold text-xl my-0">John Doe</p>
-        <p class="text-sm text-gray-500 font-medium my-0">Operator Id: 3</p>
-      </div>
-      <div class="text-center">
-        <p class="font-medium text-lg my-0">Total Calls</p>
-        <p class="text-sm text-gray-500 font-medium my-0">34</p>
-      </div>
-      <div class="text-center">
-        <p class="font-medium text-lg my-0">Avg Handle Time</p>
-        <p class="text-sm text-gray-500 font-medium my-0">5 min</p>
-      </div>
-    </div>
-  </div>
-  <div class="my-9 flex items-center w-full">
-    <p-avatar label="3" styleClass="mr-4" size="large" [style]="{ 'background-color': 'brown', color: '#ffffff' }" shape="circle"></p-avatar>
-    <div class="flex justify-between w-full">
-      <div>
-        <p class="font-bold text-xl my-0">John Doe</p>
-        <p class="text-sm text-gray-500 font-medium my-0">Operator Id: 3</p>
-      </div>
-      <div class="text-center">
-        <p class="font-medium text-lg my-0">Total Calls</p>
-        <p class="text-sm text-gray-500 font-medium my-0">34</p>
-      </div>
-      <div class="text-center">
-        <p class="font-medium text-lg my-0">Avg Handle Time</p>
-        <p class="text-sm text-gray-500 font-medium my-0">5 min</p>
-      </div>
-    </div>
-  </div>
+<p-panel class="mb-4">
+  <p class="font-medium text-xl text-center">{{ title }}</p>
+  @for (item of operatorRankings; track item; let i =  $index) {
+    <app-operator-card-item [name]="item.name" [avgHandleTime]="Math.round(item.avg_duration/60)" [id]="item._id" [totalCalls]="item.total" [rank]="i"/>
+  }
 </p-panel>

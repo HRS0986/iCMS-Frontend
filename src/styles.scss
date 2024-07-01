@@ -8,6 +8,32 @@
   --negative-color:  #FF6E76;
   --positive-color: #5dd28d;
   --neutral-color: #e7cb59;
+  --negative-hover-color:  #f87171;
+  --positive-hover-color: #4ade80;
+  --neutral-hover-color: #facc15;
+  --header-backgound: #2c2c2c;
+  --primary-color: #3B82F6;
+  --red-color: #EF4444;
+  --alpha-value: 99;
+
+  //the following are only for the email-analytics---------------
+  --issue-color: rgba(18, 86, 222, 0.9);
+  --inquiry-color: rgba(222, 18, 195, 0.9);
+  --inefficient-color: rgba(241, 144, 25, 0.9);
+  --less-efficient-color: rgba(241, 219, 25, 0.9);
+  --moderately-efficient-color: rgba(37, 228, 23, 0.9);
+  --highly-efficient-color: rgba(17, 193, 14, 0.9);
+  --ongoing-color:rgba(42, 77, 85, 0.9);
+  --closed-color:rgba(13, 172, 117, 0.9);
+
+  --inefficient-clicked-color: rgba(190, 114, 22, 0.9);
+  --less-efficient-clicked-color: rgba(180, 164, 20, 0.9);
+  --moderately-efficient-clicked-color: rgba(29, 172, 19, 0.9);
+  --highly-efficient-clicked-color: rgba(11, 121, 9, 0.9);
+  --ongoing-clicked-color:rgba(64, 113, 124, 0.9);
+  --closed-color:rgba(18, 222, 151, 0.9);
+
+  //--------------------------------------------------------------
 }
 
 mwl-gauge {

@@ -1,0 +1,39 @@
+<div
+  class="bg-gray-50 rounded my-5 border border-solid border-gray-200 transition"
+>
+  <div class="px-4 py-4 grid grid-cols-1 gap-y-3 gap-x-3 lg:grid-cols-6">
+    <!-- status -->
+    <div class="order-0 -mx-1 lg:col-span-3">
+
+    </div>
+    <!-- summary -->
+    <div class="order-2 font-medium py-2 text-justify lg:col-span-6">
+      {{ suggestionData.suggestion }}
+    </div>
+    <!-- client -->
+    <div class="order-2 lg:col-span-2">
+      <span class="flex items-start overflow-hidden">
+        <i class="pi pi-send text-sm font-thin pr-2"></i>
+        Client: {{ suggestionData.company }}</span
+      >
+    </div>
+    <!-- opened -->
+    <div class="order-2 lg:col-span-2">
+      <span class="flex items-start overflow-hidden">
+        <i class="pi pi-flag text-sm font-thin pr-2"></i>
+        Suggested: {{ displayedSuggestedDate }}</span
+      >
+    </div>
+
+    <!-- tags -->
+    <div class="order-2 -mr-1 lg:order-1 lg:col-span-3 lg:justify-self-end">
+      <p-tag
+        class="p-1"
+        styleClass="text-sm"
+        severity="primary"
+        *ngFor="let tag of suggestionData.tags"
+        value="{{ tag }}"
+      />
+    </div>
+  </div>
+</div>

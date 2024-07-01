@@ -1,0 +1,53 @@
+<app-page-header
+  pageTitle="Email Inquiries"
+  class="w-full h-fit"
+  [breadcrumbItems]="breadcrumbItems"
+  [showButton]="false"
+/>
+
+<app-filtering (filterEmitter)="onFilterChange($event)" type="inquiry"></app-filtering>
+
+<p-panel>
+  <p-dataView
+    [value]="inquiryData"
+    layout="list"
+    [paginator]="true"
+    [rows]="rowsPerPage"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 15, 20]"
+    [totalRecords]="totalRecords"
+    [lazy]="true"
+    (onLazyLoad)="loadInquiries($event)"
+    (onPageChange)="onPageChange($event)"
+    [sortField]="sortField"
+    [sortOrder]="sortOrder"
+    #dataView
+  >
+    <ng-template pTemplate="list" let-inquiries>
+      <div class="px-5 py-1">
+        <div *ngFor="let inquiry of inquiries">
+          <ng-container *ngIf="loading">
+            <p-skeleton width="100%" height="100px" />
+            <p-divider></p-divider>
+          </ng-container>
+          <ng-container *ngIf="!loading && !errorMessage">
+            <app-inquiry-card-list-type
+              [inquiryData]="inquiry"
+            ></app-inquiry-card-list-type>
+          </ng-container>
+        </div>
+        <p-dialog
+          header="Error Occured"
+          [modal]="true"
+          [style]="{ width: '50vw' }"
+          [draggable]="false"
+          [resizable]="false"
+          [(visible)]="dialogVisible"
+        >
+          <div>{{ errorMessage }}</div>
+        </p-dialog>
+      </div>
+    </ng-template>
+  </p-dataView>
+</p-panel>

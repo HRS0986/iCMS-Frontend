@@ -4,16 +4,17 @@
 
         <!--Calendar-->
         <div>
-            <p>Date Range:</p>
+            <p class="left-align-label">Date Range:</p>
             <div class="card flex justify-content-center">
               <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true"
                           [showButtonBar]="true" (ngModelChange)="cleanDate()"></p-calendar>
+
             </div>
         </div>
 
         <!--Dropdown-->
         <div>
-            <p>Topic:</p>
+            <p class="left-align-label">Topic:</p>
             <div class="card flex justify-content-center">
                 <p-multiSelect [options]="topic" [(ngModel)]="selectedTopic" optionLabel="name"
                     placeholder="Select Topics" display="chip">
@@ -21,26 +22,30 @@
             </div>
         </div>
 
+
+        <!-- <p-dropdown [options]="topic" [(ngModel)]="selectedTopic" optionLabel="name" [showClear]="true"
+                    placeholder="Topic"></p-dropdown> -->
+
         <!--Keyword-->
         <div>
-            <p>Keyword:</p>
+            <p class="left-align-label">Keyword:</p>
             <div class="card flex justify-content-center">
                 <input pInputText type="text" id="keyword" [(ngModel)]="keyword" placeholder="Keyword" />
             </div>
-            <p>Enter keywords separated by a comma</p>
+            <p class="left-align-label" style="font-size: 13px;">Enter keywords separated by a comma</p>
         </div>
 
         <!--Sentiment Category-->
         <div>
-            <p>Sentiment Category:</p>
+            <p class="left-align-label">Sentiment Category:</p>
             <div class="card flex justify-content-center">
-                <p-dropdown [options]="sentiCatg" [(ngModel)]="selectedSentiCatg" optionLabel="name" [showClear]="true"
-                    placeholder="Sentiment Category"></p-dropdown>
+                <p-multiSelect [options]="sentiCatg" [(ngModel)]="selectedSentiCatg" optionLabel="name"
+                placeholder="Sentiment Category" display="chip">
+            </p-multiSelect>
             </div>
         </div>
     </div>
-    <br>
-    <br>
+    <br><br>
 
     <!--Slider-->
     <div class="w-100 flex justify-between">
@@ -53,12 +58,12 @@
             <p>{{duration}} mins</p>
         </div>
         <div class="card flex justify-center gap-3">
-            <p-button label="Apply Filters" (click)="applyFeatures()"></p-button>
+            <p-button label="Apply Filter" (click)="applyFeatures()"></p-button>
             <p-button label="Clear Filters" [outlined]="true" severity="clsFilter" (click)="clearFields()"></p-button>
         </div>
     </div>
     <br><br>
     <p-divider></p-divider>
     <app-call-filtering-result [callRecordings]="callFiltering" [filteredDuration]="duration"  [filteredEndDate]="end_date" [filteredKeywords]="keywords"
-                             [filteredSentimentCategory]="sentimentCatg" [filteredStartDate]="start_date" [filteredTopics]="topics" [visible]="visibility"></app-call-filtering-result>
+                             [filteredSentimentCategory]="sentimentCatg" [filteredStartDate]="start_date" [filteredTopics]="topics" [visible]="visibility" [resultMessage]="noResultsMessage"></app-call-filtering-result>
 </p-panel>

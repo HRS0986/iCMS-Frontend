@@ -2,4 +2,26 @@
   .p-element td:first-child{
     padding-left:30px
   }
+  .action-button button{
+    background-color: black;
+    border: 1px solid #ffffff;
+  }
+  .action-button button:first-child{
+    border-left: 1px solid #000000;
+  //  make button disabled
+    &:disabled{
+      background-color: #f1f1f1;
+      border: 1px solid #f1f1f1;
+    }
+
+
+  }
+  .numberOfUsers{
+    padding-left: 70px;
+  }
+
+  .confirm{
+    background-color: #f1f1f1;
+  }
+
 }

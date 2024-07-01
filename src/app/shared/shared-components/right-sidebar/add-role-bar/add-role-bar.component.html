@@ -1,0 +1,66 @@
+<p-sidebar position="right" [(visible)]="sidebarVisible">
+
+  <ng-template pTemplate="header" class="justify-content-center">
+    <span class="title"><h3>New Role</h3></span>
+
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <p-divider></p-divider>
+
+
+<!--    form here -->
+
+    <div class="chart-type mt-2">
+      <span>Role Name</span>
+    </div>
+    <div class="pt-5">
+        <span>
+          <input pInputText id="role_name" type="text" class="p-inputtext-sm title-input" [(ngModel)]="roleName" [disabled]="isRoleUpdate" />
+        </span>
+    </div>
+
+    <div class="pt-5">
+<!--       for permission in  permissions create checkboxses-->
+      <span class="pb-5">Permissions</span>
+      <div class="permissions-container">
+        <div *ngFor="let permission of permissions" class="permission-item pt-2">
+          <p-checkbox [value]="permission" inputId="permission" [binary]="true" [(ngModel)]="permission.value"></p-checkbox>
+          <label> {{permission.name}}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-type mt-2 pt-5">
+      <span>Users</span>
+    </div>
+
+    <div class="card flex justify-content-center pt-5">
+    <p-multiSelect
+        (onClick)="getUsers()"
+        [options]="users"
+        [(ngModel)]="selectedUsers"
+        placeholder="Select Users"
+        optionLabel="user_name"
+        display="chip"
+        [showClear]="true"
+        />
+    </div>
+
+
+
+    <div class="save-button mt-5">
+      <p-button label="Save" class="saveButton" (click)="isRoleUpdate ? saveUpdateRole() : saveRole()"></p-button>
+    </div>
+
+
+
+
+
+
+  </ng-template>
+
+</p-sidebar>
+<p-toast />
+
+<p-button  class="pe-3 addRole" icon="pi pi-pencil" (click)="resetData()" [disabled]="!hasPermission('Add Role')"></p-button>

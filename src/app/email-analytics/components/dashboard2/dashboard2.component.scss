@@ -1,0 +1,51 @@
+hr{
+ // colors for overall efficiency,effectiveness donought charts
+    color: rgba(241, 144, 25, 0.9);
+    color: rgba(241, 219, 25, 0.9);
+    color: rgba(37, 228, 23, 0.9);
+    color: rgba(17, 193, 14, 0.9);
+
+
+    color: rgba(190, 114, 22, 0.9);
+    color: rgba(180, 164, 20, 0.9);
+    color: rgba(29, 172, 19, 0.9);
+    color: rgba(11, 121, 9, 0.9);
+
+//   colors for progress donought chart
+    color: rgba(42, 77, 85, 0.9);
+    color: rgba(13, 172, 117, 0.9);
+    
+    color: rgba(64, 113, 124, 0.9);
+    color: rgba(18, 222, 151, 0.9);
+
+// colors for efficiency category distribution, issues and inquiry.
+    //issues
+    color: rgba(18, 86, 222, 0.9);
+
+    //inquiries
+    color: rgba(222, 18, 195, 0.9);
+
+    //overdue issues by email
+    color: rgba(25, 18, 222, 0.9);
+ 
+}
+
+:host {
+    --issue-color: rgba(18, 86, 222, 0.9);
+    --inquiry-color: rgba(222, 18, 195, 0.9);
+    --inefficient-color: rgba(241, 144, 25, 0.9);
+    --less-efficient-color: rgba(241, 219, 25, 0.9); 
+    --moderately-efficient-color: rgba(37, 228, 23, 0.9); 
+    --highly-efficient-color: rgba(17, 193, 14, 0.9); 
+    --ongoing-color:rgba(42, 77, 85, 0.9);
+    --closed-color:rgba(13, 172, 117, 0.9);
+
+    --inefficient-clicked-color: rgba(190, 114, 22, 0.9);
+    --less-efficient-clicked-color: rgba(180, 164, 20, 0.9); 
+    --moderately-efficient-clicked-color: rgba(29, 172, 19, 0.9); 
+    --highly-efficient-clicked-color: rgba(11, 121, 9, 0.9); 
+    --ongoing-clicked-color:rgba(64, 113, 124, 0.9);
+    --closed-color:rgba(18, 222, 151, 0.9);
+
+    
+}

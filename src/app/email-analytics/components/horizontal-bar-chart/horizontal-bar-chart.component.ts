@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class HorizontalBarChartComponent {
   
+  @Input() title!: string;
   @Input() sbtChartLabels: string[] = [];
   @Input() sbtChartColors: any[] = [];
   @Input() sbtChartValues: any[] = [];

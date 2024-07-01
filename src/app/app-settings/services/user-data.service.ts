@@ -1,75 +1,70 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {apiEndpoint} from "../config";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserDataService {
-  getData() {
-    return [
-      {
-        id: 1000,
-        name: 'James Butt',
-        email: 'ffasdf@fdg.com',
-        roles: ['admin', 'editor'],
-        // status: 'online'
-      },
-      {
-        id: 1001,
-        name: 'Josephine Darakjy',
-        email: 'sgj@sdfg.com',
-        roles: ['admin'],
-        // status: 'offline'
-      },
-      {
-        id: 1002,
-        name: 'Art Venere',
-        email: 'jdhfgoiuh@hujdhsfg.com',
-        roles: ['editor'],
-        // status: 'online'
-      },
-      {
-        id: 1003,
-        name: 'Lenna Paprocki',
-        email: 'asidfha@hadfhg.com',
-        roles: ['admin'],
-        // status: 'offline'
-      },
-      {
-        id: 1004,
-        name: 'Donette Foller',
-        email: 'asdjfioas@klja.com',
-        roles: ['editor'],
-        // status: 'online'
-      },
+export class UserDataService{
+
+  apiUrl = `${apiEndpoint}`;
 
 
-    ];
-  }
+  users: {username: string, email: string, profileImage: string}[] = [];
 
   constructor(private http: HttpClient) {}
 
-  getCustomersMini() {
-    return Promise.resolve(this.getData().slice(0, 5));
+
+  getUsers(token: string) {
+    // console.log(token);
+    let headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+    return this.http.get<any>(this.apiUrl+'/getAllUsers', {headers});
+
   }
 
-  getCustomersSmall() {
-    return Promise.resolve(this.getData().slice(0, 10));
+  getUsersNames(token: string) {
+    // console.log(token);
+    let headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+    return this.http.get<any>(this.apiUrl+'/getAllUsersNames', {headers});
   }
 
-  getCustomersMedium() {
-    return Promise.resolve(this.getData().slice(0, 50));
+  deleteUser(token: string, username: string) {
+    let headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+    return this.http.delete<any>(this.apiUrl+'/deleteUser/'+username, {headers});
+
+  }
+  getUser(token: string, username: string): any {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    let params : HttpParams = new HttpParams().set('username', username);
+    return this.http.get<any>(this.apiUrl+'/getUserDetails', {headers, params});
   }
 
-  getCustomersLarge() {
-    return Promise.resolve(this.getData().slice(0, 200));
+  disableUser(token: string, username: string) {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    // let body = {
+    //   username
+    // };
+    return this.http.put<any>(this.apiUrl+'/disableUser', username, {headers});
   }
 
-  getCustomersXLarge() {
-    return Promise.resolve(this.getData());
-  }
+  enableUser(token: any, username: string) {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    // let body = {
+    //   username
+    // };
+    return this.http.put<any>(this.apiUrl+'/enableUser', username, {headers});
 
-  getCustomers(params?: any) {
-    return this.http.get<any>('https://www.primefaces.org/data/customers', { params: params }).toPromise();
   }
-};
+}

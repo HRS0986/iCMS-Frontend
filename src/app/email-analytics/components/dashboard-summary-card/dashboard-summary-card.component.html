@@ -1,0 +1,97 @@
+<div
+  class="flex flex-col gap-3 justify-center items-center overflow-hidden border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150 w-auto absolute inset-0 p-2"
+  (click)="load()"
+  tooltip="New issues in the last 24 hours"
+>
+  <!-- div 1 -->
+  <div class="flex place-content-center">
+    <span class="font-medium text-2xl lg:text-3xl 2xl:text-5xl">
+      Overall Insights</span
+    >
+  </div>
+  <!-- div 2 -->
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 gap-y-5 items-center justify-center w-full 2xl:items-start"
+  >
+    <!-- div 2.1 -->
+    <div class="w-full">
+      <div class="flex flex-row gap-x-5 justify-center items-center">
+        <div>
+          <i class="pi pi-envelope text-xl" style="color: #000"></i>
+        </div>
+        <!-- <div>Emails</div> -->
+        <div class="w-[70%] text-right">
+          <span class="text-sm">{{ display_emails_remaining }} / {{ display_total_emails }}</span>
+          <p-progressBar [value]="emails_done_percentage" styleClass="h-2" [showValue]="false" />
+          <!-- <p-progressBar color="#2B8417" [value]="value" styleClass="h-2 bg-amber-400/[1]" [showValue]="false" /> -->
+          <!-- colors 2E6418 #2B8417 -->
+        </div>
+      </div>
+    </div>
+    <!-- div 2.2 -->
+    <div class="w-full">
+      <div class="flex flex-row gap-x-5 justify-center items-center">
+        <div>
+          <i class="pi pi-flag text-xl" style="color: #000"></i>
+        </div>
+        <!-- <div>Issues</div> -->
+        <div class="w-[70%] text-right">
+          <span class="text-sm">{{displayed_issues_remaining}} / {{display_total_issues}}</span>
+          <p-progressBar [value]="issues_done_percentage" styleClass="h-2" [showValue]="false" />
+        </div>
+      </div>
+    </div>
+    <!-- div 2.3 -->
+    <div class="w-full">
+      <div class="flex flex-row gap-x-5 justify-center items-center">
+        <div>
+          <i class="pi pi-question text-xl" style="color: #000"></i>
+        </div>
+        <!-- <div>Inquiries</div> -->
+        <div class="w-[70%] text-right">
+          <span class="text-sm">{{displayed_inquiries_remaining}} / {{display_total_inquiries}}</span>
+          <p-progressBar [value]="inquiries_done_percentage" styleClass="h-2" [showValue]="false" />
+        </div>
+      </div>
+    </div>
+    <!-- div 2.4 -->
+    <div class="w-full">
+      <div class="flex flex-row gap-x-5 justify-center items-center">
+        <div>
+          <i class="pi pi-bolt text-xl" style="color: #000"></i>
+        </div>
+        <!-- <div>Suggestions</div> -->
+        <div class="w-[70%] text-right">
+          <span class="text-sm">{{displayed_suggestions_remaining}} / {{display_total_suggestions}}</span>
+          <p-progressBar [value]="suggestions_done_percentage" styleClass="h-2" [showValue]="false" />
+        </div>
+      </div>
+    </div>
+    <!-- div 2.5 -->
+    <div class="w-full md:col-span-2">
+      <div class="flex flex-row gap-x-5 justify-center items-center">
+        <!-- div 2.5.1.1 -->
+        <div class="w-[50%] flex flex-row justify-center items-center gap-x-2">
+          <i class="pi pi-clock text-xl" style="color: #000"></i>
+          <span>{{ avg_response_time_displayed }}</span>
+        </div>
+        <!-- div 2.5.1.2 -->
+        <div class="w-[50%] flex flex-row justify-center items-center gap-x-2">
+          <i class="pi pi-reddit text-xl" style="color: #000"></i>
+          <span>Very positive</span>
+        </div>
+      </div>
+    </div>
+    <!-- div 2.6 -->
+    <!-- <div
+      class="w-full h-10 flex flex-row place-content-evenly items-center bg-gray-400"
+    >
+      <div>
+        <i class="pi pi-reddit text-xl" style="color: #000"></i>
+      </div>
+      <div class="w-[70%] bg-green-400">graph goes here</div>
+    </div> -->
+    <!-- end of div x.x -->
+  </div>
+</div>
+

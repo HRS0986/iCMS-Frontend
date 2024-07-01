@@ -1,0 +1,16 @@
+<div
+  class="flex flex-col gap-3 justify-center items-center overflow-hidden border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150 w-auto absolute inset-0 p-2"
+  onclick="alert('You clicked me!')"
+  tooltip="New issues in the last 24 hours"
+>
+  <!-- div 1 -->
+  <div class="flex place-content-center h-[30%] w-full">
+    <span class="font-medium text-2xl lg:text-3xl 2xl:text-5xl">
+      Response Time</span
+    >
+  </div>
+  <!-- div 2 -->
+  <div class="w-full h-[50%] inset-0">
+    <p-chart type="line" [data]="data" [options]="options" />
+  </div>
+</div>

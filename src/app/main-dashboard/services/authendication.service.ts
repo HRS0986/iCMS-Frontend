@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,7 +13,12 @@ export class AuthendicationService {
 
   login(login: any): Observable<any> {
     // Replace 'apiEndpoint' with your actual API endpoint
-    return this.http.post('http://127.0.0.1:8001/authendication/login', login);
+    return this.http.post('http://127.0.0.1:8000/login', login);
+  }
+
+  userEmail(token: string): Observable<any> {
+    console.log(token);
+    return this.http.post('http://127.0.0.1:8002/charts/user_email', {'token':token});
   }
 
   signUp(signUp:any): Observable<any> {
@@ -41,7 +46,7 @@ export class AuthendicationService {
   }
 
   userDetails(token: string): Observable<any> {
-    
+
     // Replace 'apiEndpoint' with your actual API endpoint
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -59,9 +64,9 @@ export class AuthendicationService {
     });
     return this.http.post<any>(`${this.baseUrl}/appsettting/users`,newUser, { headers });
     // Replace 'apiEndpoint' with your actual API endpoint
-  
+
   }
 
-  
+
 
 }

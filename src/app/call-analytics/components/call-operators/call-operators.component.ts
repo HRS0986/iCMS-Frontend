@@ -5,7 +5,6 @@ import { CallOperatorDetails, OperatorListItem } from "../../types";
 import { CallOperatorService } from "../../services/call-operator.service";
 import UserMessages from "../../../shared/user-messages";
 import { CallAnalyticsConfig } from "../../config";
-import userMessages from "../../../shared/user-messages";
 
 @Component({
   selector: 'app-call-operators',
@@ -18,6 +17,7 @@ export class CallOperatorsComponent implements OnInit {
     {label: "Call Analytics"},
     {label: "Call Operators"}
   ];
+
   isModelVisible: boolean = false;
   isLoading: boolean = true;
   isNoData: boolean = false;
@@ -31,6 +31,8 @@ export class CallOperatorsComponent implements OnInit {
   isDetailsModalVisible: boolean = false;
   callOperators: OperatorListItem[] = [];
   operator!: CallOperatorDetails;
+  sentiments: any[] = [];
+  statusColors!: { [key: string]: string };
 
   userMessages = UserMessages
 
@@ -38,16 +40,25 @@ export class CallOperatorsComponent implements OnInit {
     name: new FormControl<string>("", Validators.required),
     operatorId: new FormControl<number>(0),
   });
+
   data: any;
   options: any;
 
-  constructor(private callOperatorService: CallOperatorService, private messageService: MessageService) {
+  constructor(
+    private callOperatorService: CallOperatorService,
+    private messageService: MessageService
+  ) {
   }
 
   ngOnInit() {
     this.reloadDataSource();
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
+    this.statusColors = {
+      "Positive": documentStyle.getPropertyValue("--positive-color"),
+      "Negative": documentStyle.getPropertyValue("--negative-color"),
+      "Neutral": documentStyle.getPropertyValue("--neutral-color")
+    }
 
     this.data = {
       labels: CallAnalyticsConfig.SentimentCategories,
@@ -55,14 +66,14 @@ export class CallOperatorsComponent implements OnInit {
         {
           data: [300, 50, 100],
           backgroundColor: [
-            documentStyle.getPropertyValue('--negative-color'),
             documentStyle.getPropertyValue('--positive-color'),
+            documentStyle.getPropertyValue('--negative-color'),
             documentStyle.getPropertyValue('--neutral-color'),
           ],
           hoverBackgroundColor: [
-            documentStyle.getPropertyValue('--red-400'),
-            documentStyle.getPropertyValue('--green-400'),
-            documentStyle.getPropertyValue('--yellow-400')
+            documentStyle.getPropertyValue('--positive-hover-color'),
+            documentStyle.getPropertyValue('--negative-hover-color'),
+            documentStyle.getPropertyValue('--neutral-hover-color')
           ],
         }
       ]
@@ -116,10 +127,14 @@ export class CallOperatorsComponent implements OnInit {
     this.selectedOperator = operator;
 
     this.callOperatorService.getOperatorDetails(operator.operator_id).then(response => {
-        this.isNoData = response.data.length == 0;
+      this.isNoData = response.data.length == 0 || response.data[0] == null || response.data[0] == undefined;
+      if (!this.isNoData) {
         this.operator = response.data[0] as CallOperatorDetails;
-        this.isOperatorDataLoading = false;
+        console.log(response.data);
+        this.data.datasets[0].data = [this.operator.positive_calls, this.operator.negative_calls, this.operator.neutral_calls];
         console.log(response.data)
+      }
+        this.isOperatorDataLoading = false;
     }).catch(err => {
       this.isOperatorDataLoading = false;
       this.isOperatorDataLoadingError = true;
@@ -200,6 +215,22 @@ export class CallOperatorsComponent implements OnInit {
     this.isModelVisible = true;
   }
 
+  getAverageSentiment(operatorId: number): string {
+    let sentimentsData = this.sentiments.find(item => item._id == operatorId);
+    if (sentimentsData) {
+      if (sentimentsData.positive_calls > sentimentsData.negative_calls && sentimentsData.positive_calls > sentimentsData.neutral_calls) {
+        return "Positive";
+      }
+      else if (sentimentsData.negative_calls > sentimentsData.positive_calls && sentimentsData.negative_calls > sentimentsData.neutral_calls) {
+        return "Negative";
+      }
+      else if (sentimentsData.neutral_calls > sentimentsData.positive_calls && sentimentsData.neutral_calls > sentimentsData.negative_calls) {
+        return "Neutral";
+      }
+      return "Mixed";
+    } return "Not handled any call yet";
+  }
+
   showDialogConfirmation(callOperator: OperatorListItem) {
     this.selectedOperator = callOperator;
     this.isConfirmModalVisible = true;
@@ -207,6 +238,16 @@ export class CallOperatorsComponent implements OnInit {
 
   reloadDataSource() {
     this.isLoading = true;
+    this.callOperatorService.getAllCallOperatorSentiments().then(response => {
+      if (response.status) {
+        this.sentiments = response.data;
+      } else {
+        console.log(response.error_message);
+      }
+    }).catch(err => {
+      console.log(err)}).finally(() => {
+    });
+
     this.callOperatorService.getAllOperators().subscribe(result => {
       if (result.status) {
         this.callOperators = result.data;
@@ -221,4 +262,5 @@ export class CallOperatorsComponent implements OnInit {
       this.messageService.add({severity: "error", summary: "Error", detail: UserMessages.FETCH_ERROR, life: 5000});
     });
   }
+
 }

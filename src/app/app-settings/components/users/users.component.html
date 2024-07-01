@@ -4,41 +4,51 @@
   [breadcrumbItems]="breadcrumbItems"
   [showAddMemberButton]="true"
   (click)="addMember()"
+  [showRightSideBarButtons] = "true"
 />
 
 
-<div>
+<ng-container >
   <p-table
     #dt1
     [value]="users"
     selectionMode="single"
     [(selection)]="selectedUsers"
-    dataKey="id"
+    (onRowSelect)="updateActions()"
+    (onRowUnselect)="updateActions()"
+    dataKey="username"
     [tableStyle]="{'min-width': '50rem'}"
     [rows]="10"
     [paginator]="true"
     stateStorage="session"
     stateKey="statedemo-session"
-
-
-    [globalFilterFields]="['id', 'name', 'status', 'roles']"
+    [globalFilterFields]="['username', 'email', 'groups']"
 
   >
 
     <ng-template pTemplate="caption">
       <div class="flex">
-        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
-        <span class="p-input-icon-left ml-auto">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword" />
-            </span>
+
+        <span class="p-input-icon-left mr-auto">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" [(ngModel)]="searchValue" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword" />
+        </span>
+
+
+        <p-splitButton
+          #splitButton
+          label="Action"
+          class="pr-auto action-button pr-2"
+          [model]="actions"
+        />
       </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th>
+        <!-- <th>
           <span class="p-column-title">Id</span>
-        </th>
+        </th> -->
+        <th style="width: 2rem"></th>
         <th>
           <span class="p-column-title">Name</span>
         </th>
@@ -46,38 +56,121 @@
           <span class="p-column-title">Email</span>
         </th>
         <th>
-          <span class="p-column-title">Status</span>
+          <span class="p-column-title">Roles</span>
         </th>
         <th>
-          <span class="p-column-title">Roles</span>
+          <span class="p-column-title">status</span>
         </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-user>
-      <tr [pSelectableRow]="user">
-        <td>
+      <tr  class="userDataRow">
+        <!-- <td>
           <span class="p-column-title">Id</span>
           {{user.id}}
+        </td> -->
+         <td>
+           <p-tableRadioButton [value]="user" />
         </td>
 
         <td>
-          <span class="ml-1 vertical-align-middle">{{user.name}}</span>
+          <span class=" vertical-align-middle">{{user.username}}</span>
         </td>
         <td>
-          <span class="ml-1 vertical-align-middle">{{user.email}}</span>
+          <span class=" vertical-align-middle">{{user.email}}</span>
+
         <td>
-          <p-tag [value]="user.status" [severity]="getSeverity(user.status)"></p-tag>
+          <p-tag class="pe-1" *ngFor="let role of user.groups" [value]="role" ></p-tag>
         </td>
+
         <td>
-          <p-tag class="pe-1" *ngFor="let role of user.roles" [value]="role" [style.color]="getRoleColor(role)"></p-tag>
+          <div class="status-dot-container">
+            <span [class.green-dot]="user.status" [class.red-dot]="!user.status"></span>
+          </div>
         </td>
 
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="4">No customers found.</td>
+<!--        <td colspan="5">No customers found.</td>-->
+        <td colspan="5">
+          <p-progressBar *ngIf="isLoading" mode="indeterminate" [style]="{ height: '6px' }" />
+          <span *ngIf="!isLoading"> No customers found. </span>
+        </td>
+
+
       </tr>
     </ng-template>
+<!--    loading-->
+
   </p-table>
-</div>
+
+  <p-dialog
+    [(visible)]="viewUserPopUpVisible"
+    [modal]="true"
+    [style]="{width: '50vw'}"
+    [baseZIndex]="10000"
+  >
+
+    <div class="flex flex-col items-center">
+      <div class="flex flex-col items-center">
+        <img [src]="getProfileImageUrl()" alt="user" class="profile-image" />
+        <h2 class="text-xl mt-2">{{userData?.Username}}</h2>
+      </div>
+      <div class="flex flex-col mt-4">
+    <ng-container *ngFor="let userAttribute of userData?.UserAttributes">
+      <div class="flex mt-2" *ngIf="userAttribute.Name !== 'custom:profile_image'">
+        <span class="font-bold">{{userAttribute.Name}}:</span>
+        <span class="ml-2">{{userAttribute.Value}}</span>
+      </div>
+    </ng-container>
+
+        <div class="flex mt-2">
+          <span class="font-bold">Roles:</span>
+          <div class="flex flex-wrap ml-2">
+            <p-tag class="pe-1" *ngFor="let role of userRoles" [value]="role"></p-tag>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+  </p-dialog>
+
+
+</ng-container>
+
+
+<p-toast />
+<p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message >
+        <div class="align-items-center p-5 surface-overlay border-round confirm">
+<!--            <div class="border-circle bg-primary flex align-item-center  h-6rem w-6rem">-->
+<!--                <i class="pi pi-question text-5xl"></i>-->
+<!--            </div>-->
+            <span class="font-bold text-2xl block">
+                {{ message.header }}
+            </span>
+            <p class="mb-0">{{ message.message }}</p>
+            <div class="flex align-items-center gap-2 mt-4">
+                <button
+                    pButton
+                    label="Delete"
+                    (click)="cd.accept()"
+                    class="w-5rem">
+                </button>
+                <button
+                    pButton
+                    label="Cancel"
+                    (click)="cd.reject()"
+                    class="p-button-outlined w-5rem ">
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>

@@ -15,36 +15,41 @@
                       <!--Sentiment Shifts configuration form-->
 
                         <form [formGroup] = "sentimentShiftsForm" (ngSubmit)="onSubmitSentimentShifts()">
-
+                       
                             <div class="mt-3 mb-10"> <b>Sentiment Shifts configuration</b></div>
-                            <p>Select the email accounts that needs to be checked for sentiment shifts</p>
+
+                            <div class="flex items-center">
+                              <p class="mr-20">Enable Sentiment Thresholds Notifications</p>
+                              <p-inputSwitch formControlName="ssThresholdNotiEnabled"></p-inputSwitch>
+                            </div>
+                            <p>Select the email accounts that needs to be checked for overall sentiment shifts</p>
                             <p-multiSelect class="mb-20" [options]="currentReadingEmailAccountsForNotificationPage" formControlName="emailAccsToCheckSS" optionLabel="address" placeholder="Select Email Accounts"></p-multiSelect>
                             
 
                             <div class="w-full flex justify-center items-baseline mb-10 " style="margin-top: 5%;">
-                                <span style="color: red;">-10</span>
+                                <span style="color: red;">-1</span>
                                 <img src="./assets/call/rating.png" alt="Image" style="width: 30%;">
-                                <span style="color: rgba(20, 24, 235, 0.877);">+10</span>
+                                <span style="color: rgba(20, 24, 235, 0.877);">+1</span>
                             </div>
 
-                            <div class="flex gap-2 space-between">
-                                <div class="flex align-items-center gap-1 text-sm">
+                            <div class="flex gap-10 space-between"  style="width: 120%; justify-content: space-between;">
+                                <div class="flex align-items-center gap-5 text-sm justify-start">
                                   <p-checkbox name="lowerNotify" formControlName="lowerNotify" 
                                   value="notify" inputId="ny" [binary]="true" [disabled]="sentimentShiftsForm.get('emailAccsToCheckSS')?.value === null || (sentimentShiftsForm.get('emailAccsToCheckSS')?.value?.length ?? 0) === 0"
-                                  label="Notify me when the sentiment score is below : "></p-checkbox>
+                                  label="Notify me when the overall sentiment score is below : "></p-checkbox>
                                   
                                 
                                     <p-inputNumber  class="short-input" 
-                                    formControlName="lowerSS" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="-10"
-                                        [max]="10">
+                                    formControlName="lowerSS"  [showButtons]="true" inputId="minmax-buttons" [min]="-1.0"
+                                        [max]="1.0" [minFractionDigits]="1" [maxFractionDigits]="2" [step]="0.1" [style]="{width: '105px'}">
                                     </p-inputNumber>
                                 </div>
 
-                                <div class="flex align-items-center gap-1 text-sm">
+                                <div class="flex align-items-center gap-5 text-sm justify-end">
                                     <p-checkbox name="upperNotify" value="notify" formControlName="upperNotify" [binary]="true" [disabled]="sentimentShiftsForm.get('emailAccsToCheckSS')?.value === null || (sentimentShiftsForm.get('emailAccsToCheckSS')?.value?.length ?? 0) === 0"
-                                        label="Notify me when the sentiment score is above : "></p-checkbox>
-                                    <p-inputNumber  class="short-input" formControlName="upperSS" mode="decimal" [showButtons]="true"
-                                        inputId="minmax-buttons" [min]="-10" [max]="10"
+                                        label="Notify me when the overall sentiment score is above : "></p-checkbox>
+                                    <p-inputNumber  class="short-input wider-input" formControlName="upperSS" mode="decimal" [showButtons]="true"
+                                        inputId="minmax-buttons" [min]="-1" [max]="1" [minFractionDigits]="1" [maxFractionDigits]="2" [step]="0.1" [style]="{width: '105px'}"
                                         ></p-inputNumber>
                                 </div>                                
 
@@ -60,10 +65,26 @@
 
                             
                            
-                            <!--Criticality form-->
-                            <form [formGroup] = "criticalityForm" (ngSubmit)="onSubmitCriticality()">
-                            <div class="mt-3 mb-10"> <b>Criticality notification configuration</b></div>
-                            <p>Select the email accounts that needs to be checked for critical emails</p>
+                            <!--Overdue Issues form-->
+                            <form [formGroup] = "overdueIssuesForm" (ngSubmit)="onSubmitOverdueIssues()">
+                            <div class="mt-3 mb-10"> <b>Overdue issues notification configuration</b></div>
+                            <p>Select the email accounts that needs to be checked for ongoing issues which has taken more than two weeks to resolve</p>
+                            <p-multiSelect [options]="currentReadingEmailAccountsForNotificationPage" formControlName="emailAccsToCheckOverdueIssues" optionLabel="address" ></p-multiSelect>
+
+                              
+                              <!--Overdue Issues form submit button-->
+                              <div class="flex justify-end mt-20">
+                                <button pButton pRipple label="Update" class="p-button-success" type="submit"></button>
+                              </div>
+                              
+                              <hr>
+
+                          </form>
+
+                          <!--Criticality form-->
+                          <form [formGroup] = "criticalityForm" (ngSubmit)="onSubmitCriticality()">
+                            <div class="mt-3 mb-10"> <b>Critical Emails notification configuration</b></div>
+                            <p>Select the email accounts that needs to be checked for emails with a high criticality level</p>
                             <p-multiSelect [options]="currentReadingEmailAccountsForNotificationPage" formControlName="emailAccsToCheckCriticality" optionLabel="address" ></p-multiSelect>
 
                               
@@ -73,6 +94,7 @@
                               </div>
                               
                               <hr>
+
                           </form>
                             
 
@@ -119,11 +141,11 @@
                                 <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleConfirmationNotiSending" header="Confirmation" [modal]="true" [(visible)]="visibleConfirmationNotiSending" [style]="{width: '30vw', height: 'auto'}">
 
                                   <p  style="text-align: justify;">
-                                    Are you sure you want to Delete this Call Recording?
+                                    Are you sure you want to remove this email account from being a recepient of the system notifications?
                                   </p>
                               
                                   <!-- Move this div to the bottom -->
-                                  <div class="text-right" >
+                                  <div class="flex justify-end gap-2">
                                     <p-button label="No" (click)="visibleConfirmationNotiSending = false" ></p-button>
                                     <p-button label="Yes" (click)="ConfirmNotiSendingDelete()"  styleClass="p-button-danger"></p-button>
                                   </div>
@@ -131,16 +153,18 @@
                             
                      
                         </form>
+                        <p-toast></p-toast>
                     </div>
+                   
                     
                 </p-tabPanel>
                 
                 <!--Topic configuration tab-->
 
-                <p-tabPanel header="Topic configuration">
-                  <div class="min-h-full">
+                <!-- <p-tabPanel header="Topic configuration">
+                  <div class="min-h-full">  -->
                       <!--Topic configuration form-->
-                      <form [formGroup]="topicConfiguration" (ngSubmit)="onSubmitTopicConfiguration()">
+                      <!-- <form [formGroup]="topicConfiguration" (ngSubmit)="onSubmitTopicConfiguration()">
                          
                           <div class="mb-5 mt-8">
                               
@@ -155,7 +179,7 @@
                           </div>
                       </form>
 
-                      <hr class="mt-10 mb-10">
+                        <hr class="mt-10 mb-10">
                       
                       <div class="mt-3 mb-4"> <b>Currently checking topics</b></div>
                       <div *ngFor="let topic of currentCheckingTopics">
@@ -169,12 +193,18 @@
                       </div>
 
                   </div>
-              </p-tabPanel>
+              </p-tabPanel> -->
+              
               
               <!--Email integration tab-->
-                <p-tabPanel header="Email Integration">
+                <p-tabPanel header="Email Integration" *ngIf="isShowingAdminFeatures">
                     <div class="min-h-full">
                       <!--Email integration form-->
+                      <p-messages 
+                      [(value)]="newIntergratingEmailIDMessages" 
+                      [enableService]="false" 
+                      [closable]="false" />
+
                         <form [formGroup]="emailInetgration" (ngSubmit)="onSubmitEmailIntegration()">
                             <div class="mt-3"> <b>New Email Account Integration</b></div>
                             <div class="mb-5 mt-8">
@@ -186,6 +216,9 @@
 
                                         <div *ngIf="emailInetgration.controls['newEmailAccount'].errors?.['email']">enter valid emails</div>
                                         <div *ngIf="emailInetgration.controls['newEmailAccount'].errors?.['required']">email address is required</div>
+                                        <div *ngIf="emailInetgration.controls['newEmailAccount'].errors?.['forbiddenEmail']"> This email address is alreading being read. </div>
+                                          
+                             
                                   
                                     </small>
                                 <p class="mt-10">Enter nick name for email address</p>
@@ -195,6 +228,7 @@
                                             class="block p-error">
 
                                                        <div *ngIf="emailInetgration.controls['newEmailNickname'].errors?.['required']">email nickname is required</div>
+                                                       <div *ngIf="emailInetgration.controls['newEmailNickname'].errors?.['forbiddenEmail']"> This nickname already exists.</div>
                                                  
                                             </small>
                                 <p class="mt-10">Enter client secret</p>
@@ -213,26 +247,95 @@
                             </div>
                         </form>
 
+
+                        <p-dialog [draggable]="false" [resizable]="false" *ngIf="isVisibleClientSecretValidation" header="Email Integration Failure" [modal]="true" [(visible)]="isVisibleClientSecretValidation" [style]="{width: '30vw', height: 'auto'}">
+
+                          <p  style="text-align: justify;">
+                            The client secret you entered is not valid. 
+                            Please enter the correct client secret to complete the integration process .
+                            
+                          </p>
+                      
+                          <!-- Move this div to the bottom -->
+                          <div class=" flex justify-end gap-2">
+                            <p-button label="Ok" (click)="isVisibleClientSecretValidation = false" ></p-button>
+                          </div>
+                        </p-dialog> 
+
                         <hr class="mt-10 mb-10">
                         
                         <div class="mt-3 mb-4"> <b>Currently reading email accounts</b></div>
+
                         <div *ngFor="let account of currentReadingEmailAccountsForIntegrationPage">
                           <app-email-acc-card
                             [emailAddress]="account.address"
                             [nickName]="account.nickname"
+                            (editReadingAccount)="showEmailAccEditPopUp(account.address)"
                             (deleteReadingAccount)="showDialogConfirmationEmailIntegration(account.address)">
                             
                           </app-email-acc-card>
                         </div>
                         <p-toast></p-toast>
-                        <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleConfirmationEmailIntegration" header="Confirmation" [modal]="true" [(visible)]="visibleConfirmationEmailIntegration" [style]="{width: '30vw', height: 'auto'}">
+
+
+
+                        <!-- Edit pop up dialog -->
+                        <p-dialog header="Edit Email Account" [modal]="true" [(visible)]="editEmailAccVisible" [style]="{ width: '60rem' }">
+                          <span class="p-text-secondary block mb-5">Update information about your reading email account</span>
+
+                          <form [formGroup]="emailEdit" (ngSubmit)="onSubmitEmailEdit()">
+                      
+                            <div class="mb-5 mt-8">
+                                <p >Enter new email address</p>
+                                <input type="text" style="width: 60%;" pInputText formControlName="newEmailAccount" />
+                                  <!--validation-->
+                                    <small *ngIf="emailEdit.controls['newEmailAccount'].invalid && emailEdit.controls['newEmailAccount'].dirty || emailEdit.controls['newEmailAccount'].touched"
+                                    class="block p-error">
+
+                                        <div *ngIf="emailEdit.controls['newEmailAccount'].errors?.['email']">enter valid emails</div>
+                                        <div *ngIf="emailEdit.controls['newEmailAccount'].errors?.['required']">email address is required</div>
+                                        <div *ngIf="emailEdit.controls['newEmailAccount'].errors?.['forbiddenEmail']"> This email address is alreading being read. </div>
+                                          
+                             
+                                  
+                                    </small>
+                                <p class="mt-10">Enter nick name for email address</p>
+                                <input type="text" style="width: 60%;" pInputText formControlName="newEmailNickname" />
+                                       <!--validation-->
+                                            <small *ngIf="emailEdit.controls['newEmailNickname'].invalid && emailEdit.controls['newEmailNickname'].dirty || emailEdit.controls['newEmailNickname'].touched"
+                                            class="block p-error">
+
+                                                       <div *ngIf="emailEdit.controls['newEmailNickname'].errors?.['required']">email nickname is required</div>
+                                                       <div *ngIf="emailEdit.controls['newEmailNickname'].errors?.['forbiddenEmail']"> This nickname already exists.</div>
+                                                 
+                                            </small>
+                                <p class="mt-10">Enter client secret</p>
+                                <textarea rows="20" cols="100" pInputTextarea formControlName="newClientSecret"></textarea>
+                                       <!--validation-->
+                                       <small *ngIf="emailEdit.controls['newClientSecret'].invalid && emailEdit.controls['newClientSecret'].dirty || emailEdit.controls['newClientSecret'].touched"
+                                       class="block p-error">
+                                       
+                                                  <div *ngIf="emailEdit.controls['newClientSecret'].errors?.['required']">email client secret is required</div>
+                                            
+                                       </small>                                
+                            </div>
+  
+                            <div class=" flex justify-center gap-2">
+                              <p-button label="Cancel" severity="secondary" (click)="editEmailAccVisible = false" />
+                              <button pButton pRipple label="Save" class="p-button-success" type="submit" [disabled]="(emailEdit.controls['newEmailAccount'].dirty && emailEdit.controls['newEmailAccount'].invalid) ||(emailEdit.controls['newEmailNickname'].dirty && emailEdit.controls['newEmailNickname'].invalid) || (emailEdit.controls['newClientSecret'].dirty && emailEdit.controls['newClientSecret'].invalid) "></button>
+                            </div>
+                        </form>
+                      </p-dialog>
+
+                       <!-- Delete pop up dialog -->
+                      <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleConfirmationEmailIntegration" header="Confirmation" [modal]="true" [(visible)]="visibleConfirmationEmailIntegration" [style]="{width: '30vw', height: 'auto'}">
 
                           <p  style="text-align: justify;">
-                            Are you sure you want to Delete this Call Recording?
+                            Are you sure you want to Delete this Email Account?
                           </p>
                       
                           <!-- Move this div to the bottom -->
-                          <div class="text-right" >
+                          <div class=" flex justify-end gap-2">
                             <p-button label="No" (click)="visibleConfirmationEmailIntegration = false" ></p-button>
                             <p-button label="Yes" (click)="ConfirmReadingEmailDelete()"  styleClass="p-button-danger"></p-button>
                           </div>
@@ -240,7 +343,72 @@
 
                     </div>
                 </p-tabPanel>
+                 
+                <!--System configurations tab-->
+                <p-tabPanel header="System Configurations" *ngIf="isShowingAdminFeatures">
 
+                  <div class="min-h-full">
+                    <!--System configurations form-->
+                      <form [formGroup]="systemConfigurations" (ngSubmit)="onSubmitSystemConfigurations()">
+                        
+                        <div class="flex items-center">
+                          <p class="mr-20">
+                            Choose the number of days needs to be passed for an issue to be considered as an overdue issue:
+                          </p>
+                          <p-inputNumber  class="short-input" 
+                          formControlName="overdueInterval"  [showButtons]="true" inputId="minmax-buttons" [min]="1"
+                              [max]="25"  [step]="1" [style]="{width: '105px'}">
+                          </p-inputNumber>
+
+                        </div>
+
+                         
+                        
+                        <!--adding products part-->
+                        <!-- <div>
+                          <div class="w-full p-fluid" style="margin-bottom: 5%;">
+                            <p>Add the prodcuts/services/brands offered by your company</p>
+                            <p-chips formControlName="newProductInputs"></p-chips> 
+                          </div>
+
+                          <p>Current considering Products or Services of your company</p>
+                          <div *ngFor="let product of currentConsideringProducts">
+                            <app-noti-sending-email-acc-card
+                            [emailAddress]="product.name"
+                            (deleteNotiSendingAccount)="showDialogConfirmationProductDeleting(product.name)"
+                                />
+                              </div>
+                              <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleProductDeleting" header="Confirmation" [modal]="true" [(visible)]="visibleProductDeleting" [style]="{width: '30vw', height: 'auto'}">
+
+                                <p  style="text-align: justify;">
+                                  Are you sure you want to remove this product from consideration when calculating analytics?
+                                </p>-->
+                            
+                                <!-- Move this div to the bottom -->
+                                <!-- <div class="text-right" >
+                                  <p-button label="No" (click)="visibleProductDeleting = false" ></p-button>
+                                  <p-button label="Yes" (click)="ConfirmProductDelete()"  styleClass="p-button-danger"></p-button>
+                                </div>
+                              </p-dialog>      
+                              
+                            </div> --> 
+
+
+                       
+                        
+
+                    
+
+                            <!--update button-->
+                            <div class="flex justify-end mt-10">
+                              <button pButton pRipple label="Update" class="p-button-success" [disabled]="systemConfigurations.invalid" type="submit"></button>
+                          </div>
+                      
+                      </form>
+                    </div>
+                    <p-toast></p-toast>
+                </p-tabPanel>
+            
           
             </p-tabView>
         </p-panel>

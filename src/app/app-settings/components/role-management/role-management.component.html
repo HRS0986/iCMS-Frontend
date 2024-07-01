@@ -2,30 +2,28 @@
     pageTitle="Role Management"
     class="w-full h-fit"
     [breadcrumbItems]="breadcrumbItems"
+    [showAddRoleButton]="true"
+    [showRightSideBarButtons] = "true"
 />
 <div>
     <p-table
         #dt1
         [value]="roles"
-        selectionMode="single"
-        dataKey="id"
         [tableStyle]="{'min-width': '50rem'}"
         [rows]="10"
+        (onRowSelect)="updateActions()"
+        (onRowUnselect)="updateActions()"
         [paginator]="true"
-        stateStorage="session"
-        stateKey="statedemo-session"
-        [globalFilterFields]="['id', 'name', 'status', 'roles']"
+        [globalFilterFields]="['group_name']"
+        [(selection)] = "selectedRoles"
+        dataKey="group_name"
+
     >
         <ng-template pTemplate="caption">
             <div class="flex">
-                <button
-                    pButton
-                    label="Clear"
-                    class="p-button-outlined"
-                    icon="pi pi-filter-slash"
-                    (click)="clear(dt1)"
-                ></button>
-                <span class="p-input-icon-left ml-auto">
+
+
+                <span class="p-input-icon-left mr-auto">
                     <i class="pi pi-search"></i>
                     <input
                         pInputText
@@ -34,31 +32,44 @@
                         placeholder="Search keyword"
                     />
                 </span>
+
+              <p-splitButton
+                label="Action"
+                class="pr-auto action-button pr-2"
+                [model]="actions"
+              />
             </div>
         </ng-template>
         <ng-template pTemplate="header">
+
             <tr>
+<!--                <th style="width: 8rem; padding-left:2rem"><p-tableHeaderCheckbox /></th>-->
+                <th style="width: 4rem"></th>
+
                 <th>
                     <span class="p-column-title">Role Name</span>
                 </th>
                 <th>
-                    <span class="p-column-title">Action</span>
+                    <span class="p-column-title">Number of users</span>
                 </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-role>
-            <tr [pSelectableRow]="role">
-                <td >
-                    <span class="p-column-title ">Id</span>
-                    {{role.name}}
+            <tr>
+                <td>
+                        <p-tableRadioButton [value]="role" />
+                </td>
+<!--                <td>-->
+<!--                        <p-tableCheckbox [value]="role" />-->
+<!--                </td>-->
+                <td>
+                  {{ role.group_name }}
+                </td>
+                <td class="numberOfUsers">
+                    {{ role.number_of_users }}
                 </td>
 
-                <td>
-                    <span class="ml-1 vertical-align-middle">
-                      <p-button icon="pi pi-pencil" [rounded]="true" [text]="true"></p-button>
-                    </span
-                    >
-                </td>
+
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
@@ -68,3 +79,77 @@
         </ng-template>
     </p-table>
 </div>
+
+<!-- other code... -->
+
+<p-dialog
+  [(visible)]="viewRolePopUpVisible"
+  [modal]="true"
+  [style]="{width: '50vw'}"
+  [baseZIndex]="10000"
+  *ngIf="selectedRoles"
+>
+  <div class="flex flex-col items-center">
+    <h2 class="text-xl mt-2">{{selectedRoles.group_name}}</h2>
+
+    <div *ngIf="userGroupData?.Group">
+      <div class="flex mt-2">
+        <span class="font-bold">Number of users:</span>
+        <span class="ml-2">{{selectedRoles.number_of_users}}</span>
+      </div>
+      <div class="flex mt-2">
+        <span class="font-bold">Group Name:</span>
+        <span class="ml-2">{{userGroupData.Group.GroupName}}</span>
+      </div>
+      <div class="flex mt-2">
+        <span class="font-bold">Last Modified Date:</span>
+        <span class="ml-2">{{userGroupData.Group.LastModifiedDate}}</span>
+      </div>
+      <div class="flex mt-2">
+        <span class="font-bold">Creation Date:</span>
+        <span class="ml-2">{{userGroupData.Group.CreationDate}}</span>
+      </div>
+          <div class="flex mt-2">
+        <span class="font-bold">Permissions:</span>
+        <div class="flex flex-wrap ml-2">
+          <ng-container class="pe-1" *ngFor="let permission of userGroupData.Group.Permissions" >
+            <ng-container *ngIf="permission['Value']=='true'" >
+              <p-chip class="gap-0.5" [label]="permission['Name']" [style.color]="'#4CAF50'"></p-chip>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+
+
+
+<p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message >
+        <div class="align-items-center p-5 surface-overlay border-round confirm">
+            <span class="font-bold text-2xl block">
+                {{ message.header }}
+            </span>
+            <p class="mb-0">{{ message.message }}</p>
+            <div class="flex align-items-center gap-2 mt-4">
+                <button
+                    pButton
+                    label="Delete"
+                    (click)="cd.accept()"
+                    class="w-5rem">
+                </button>
+                <button
+                    pButton
+                    label="Cancel"
+                    (click)="cd.reject()"
+                    class="p-button-outlined w-5rem ">
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>
+
+
+<!-- other code... -->
