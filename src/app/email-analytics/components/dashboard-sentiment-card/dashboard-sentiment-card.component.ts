@@ -6,19 +6,23 @@ import { EChartsOption } from 'echarts';
   templateUrl: './dashboard-sentiment-card.component.html',
   styleUrl: './dashboard-sentiment-card.component.scss'
 })
-export class DashboardSentimentCardComponent {
+export class DashboardSentimentCardComponent implements OnInit {
   loading = false;
   dialogVisible = false;
 
   value: number = 0.5;
 
+  ngOnInit() {
+    
+  }
   getColor(value: number) {
     if (value < -0.3) {
       return '#FF4500'; // Red
     } else if (value < 0.3) {
       return '#FFA500'; // Yellow-Orange
     } else {
-      return '#32CD32'; // Green
+      // return '#32CD32'; // Green
+      return '#5dd28d';
     }
   }
 

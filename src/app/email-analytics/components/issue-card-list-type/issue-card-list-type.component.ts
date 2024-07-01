@@ -1,8 +1,11 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Issue, IssuePopupData } from '../../interfaces/issues';
+import { ThreadConversationSummary } from '../../interfaces/threads';
 import { format } from 'date-fns';
+import { forkJoin } from 'rxjs';
 
 import { IssueService } from '../../services/issue.service';
+import { ThreadService } from '../../services/thread.service';
 import { UtilityService } from '../../services/utility.service';
 
 
@@ -22,7 +25,12 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
     text: '',
     isShortened: false
   }
-
+  overallConvoSummary: ThreadConversationSummary = {
+    summary: '',
+  };
+  stateOptions: any[] = [{ label: 'Summarized Conversation', value: 'sum'}, { label: 'Chat View', value: 'chat' }];
+  selectedState: string = 'sum';
+  
   ngOnInit() {
     this.updateDisplayedDates();
   }
@@ -68,9 +76,11 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
   constructor(
     private issueService: IssueService,
     private utility: UtilityService,
+    private threadService: ThreadService,
   ) { }
 
   loading: boolean = false;
+
   dialogVisible: boolean = false;
   additionalData: IssuePopupData = {
     emails: [],
@@ -100,19 +110,22 @@ export class IssueCardListTypeComponent implements OnInit, OnChanges {
     // this is to load the additional data from BE
     this.loading = true;
     this.dialogVisible = true;
-    this.issueService.getIssueAdditionalData(this.issueData.id).subscribe({
+
+    forkJoin({
+      issueData: this.issueService.getIssueAdditionalData(this.issueData.id),
+      convoSummary: this.threadService.getConversationSummary(this.issueData.id)
+    }).subscribe({
       next: data => {
-        this.additionalData = data;
-        // console.log(this.additionalData);
+        this.additionalData = data.issueData;
+        this.overallConvoSummary = data.convoSummary;
         this.closed = this.additionalData.status === 'closed';
         this.newState = this.additionalData.status === 'new';
-        // console.log(data);
         this.headerObj = this.utility.shortenString(this.additionalData.subject, 40);
         this.updateAdditionalDates();
         this.loading = false;
       },
       error: error => {
-        this.errorMessage = error;
+        this.errorMessage += error;
         this.loading = false;
       }
     });

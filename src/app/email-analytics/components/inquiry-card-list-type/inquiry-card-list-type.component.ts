@@ -3,6 +3,9 @@ import { Inquiry, InquiryPopupData } from '../../interfaces/inquiries';
 import { InquiryService } from '../../services/inquiry.service';
 import { format } from 'date-fns';
 import { UtilityService } from '../../services/utility.service';
+import { ThreadService } from '../../services/thread.service';
+import { ThreadConversationSummary } from '../../interfaces/threads';
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-inquiry-card-list-type',
   templateUrl: './inquiry-card-list-type.component.html',
@@ -20,7 +23,12 @@ export class InquiryCardListTypeComponent {
     text: '',
     isShortened: false
   }
-
+  overallConvoSummary: ThreadConversationSummary = {
+    summary: '',
+  };
+  stateOptions: any[] = [{ label: 'Summarized Conversation', value: 'sum'}, { label: 'Chat View', value: 'chat' }];
+  selectedState: string = 'sum';
+  
   ngOnInit() {
     this.updateDisplayedDates();
   }
@@ -65,6 +73,7 @@ export class InquiryCardListTypeComponent {
   constructor(
     private inquiryService: InquiryService,
     private utility: UtilityService,
+    private threadService: ThreadService,
   ) { }
 
   loading: boolean = false;
@@ -96,15 +105,19 @@ export class InquiryCardListTypeComponent {
   load() {
     this.loading = true;
     this.dialogVisible = true;
-    this.inquiryService.getInquiryAdditionalData(this.inquiryData.id).subscribe({
-      next: (data: InquiryPopupData) => {
-        this.additionalData = data;
+
+    forkJoin({
+      convoSummary: this.threadService.getConversationSummary(this.inquiryData.id),
+      inquiryData: this.inquiryService.getInquiryAdditionalData(this.inquiryData.id)
+    }).subscribe({
+      next: (data: any) => {
+        this.overallConvoSummary = data.convoSummary;
+        this.additionalData = data.inquiryData;
         this.closed = this.additionalData.status === 'closed';
         this.newState = this.additionalData.status === 'new';
         this.headerObj = this.utility.shortenString(this.additionalData.subject, 40);
         this.updateAdditionalDates();
         this.loading = false;
-        console.log("loading:", this.loading);
       },
       error: (error: any) => {
         this.errorMessage = error;
