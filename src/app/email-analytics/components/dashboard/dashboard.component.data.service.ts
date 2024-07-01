@@ -13,45 +13,45 @@ export class DataService {
   
   private baseUrl: string = `${URLS.baseUrl}/dashboard`;
 
-  getCurrentOverallSentiments(intervalIndays: number): Observable<get_current_overall_sentiments_response> {
-    const url = `${this.baseUrl}/get_current_overall_sentiments?intervalIndays=${intervalIndays}`;
+  getCurrentOverallSentiments(intervalInDaysStart: number, intervalInDaysEnd: number): Observable<get_current_overall_sentiments_response> {
+    const url = `${this.baseUrl}/get_current_overall_sentiments?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
     return this.http.get<get_current_overall_sentiments_response>(url);
   }
 
-  getDataForTopicsCloud(intervalIndays: number): Observable<any[]> {
-    const url = `${this.baseUrl}/get_data_for_topic_cloud?intervalIndays=${intervalIndays}`;
+  getDataForTopicsCloud(intervalInDaysStart: number, intervalInDaysEnd: number): Observable<any[]> {
+    const url = `${this.baseUrl}/get_data_for_topic_cloud?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
     return this.http.get<any[]>(url);
   }
 
-  getDataForWordCloud(intervalIndays: number): Observable<word_cloud_single_response[]> {
-    const url = `${this.baseUrl}/get_data_for_word_cloud?intervalIndays=${intervalIndays}`;
+  getDataForWordCloud(intervalInDaysStart: number, intervalInDaysEnd: number): Observable<word_cloud_single_response[]> {
+    const url = `${this.baseUrl}/get_data_for_word_cloud?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
     return this.http.get<word_cloud_single_response[]>(url);
   }
 
-  getDataForStatCards(intervalIndays: number): Observable<stat_card_single_response[]> {
-    const url = `${this.baseUrl}/get_data_for_stat_cards?intervalIndays=${intervalIndays}`;
+  getDataForStatCards(intervalInDaysStart: number, intervalInDaysEnd: number): Observable<stat_card_single_response[]> {
+    const url = `${this.baseUrl}/get_data_for_stat_cards?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
     return this.http.get<stat_card_single_response[]>(url);
   }
 
-  getDataForSentimentsByTopic(intervalIndays: number): Observable<SentimentsByTopicResponse> {
-    const url = `${this.baseUrl}/get_data_for_sentiments_by_topic?intervalIndays=${intervalIndays}`;
+  getDataForSentimentsByTopic(intervalInDaysStart: number, intervalInDaysEnd: number): Observable<SentimentsByTopicResponse> {
+    const url = `${this.baseUrl}/get_data_for_sentiments_by_topic?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
     return this.http.get<SentimentsByTopicResponse>(url);
   }
 
   
-  getDataForSentimentsByTime(intervalIndays: number): Observable<SentimentsByTimeResponse> {
-    const url = `${this.baseUrl}/get_data_for_sentiments_by_time?intervalIndays=${intervalIndays}`;
+  getDataForSentimentsByTime(intervalInDaysStart: number, intervalInDaysEnd: number): Observable<SentimentsByTimeResponse> {
+    const url = `${this.baseUrl}/get_data_for_sentiments_by_time?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
     return this.http.get<SentimentsByTimeResponse>(url);
   }
 
-  getDataForSentimentsDistribtuionOfTopics(intervalIndays: number): Observable<SentimentsDistributionByTimeResponse> {
-    const url = `${this.baseUrl}/get_data_for_sentiments_distribution_of_topics?intervalIndays=${intervalIndays}`;
+  getDataForSentimentsDistribtuionOfTopics(intervalInDaysStart: number, intervalInDaysEnd: number): Observable<SentimentsDistributionByTimeResponse> {
+    const url = `${this.baseUrl}/get_data_for_sentiments_distribution_of_topics?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
     return this.http.get<SentimentsDistributionByTimeResponse>(url);
   }
 
 
-getDataForGaugeChart(intervalIndays: number): Observable<GaugeChartResponse> {
-  const url = `${this.baseUrl}/get_data_value_for_gauge_chart?intervalIndays=${intervalIndays}`;
+getDataForGaugeChart(intervalInDaysStart: number, intervalInDaysEnd: number): Observable<GaugeChartResponse> {
+  const url = `${this.baseUrl}/get_data_value_for_gauge_chart?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
   return this.http.get<GaugeChartResponse>(url);
 }
 

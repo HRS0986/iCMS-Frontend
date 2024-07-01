@@ -5,7 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './settings.data.service';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
-import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, EmailINtegrationPostResponseMessage, GetEditingEmailResponse, GetNewIntergratingEmailID, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
+import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, EmailINtegrationPostResponseMessage, GetEditingEmailResponse, GetNewIntergratingEmailID, IssInqType, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, IssueInqTypeData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
 import { forbiddenEmailValidator } from '../../validators/custom-validators';
 import { ChangeDetectorRef } from '@angular/core';
 import { ToastModule } from 'primeng/toast';
@@ -59,11 +59,18 @@ export class SettingsComponent implements OnInit{
 
   currentReadingEmailAccountsForIntegrationPage = [{address:'dummy@gmail.com', nickname:'dummynickname'}];
   
-  
-  currentCheckingTopics = [
-    { name: 'Vega'},
-    { name: 'travelBox'}
+  possibleIssueTypes: IssInqType[] = [{name:'Order Issues'},{name:'Billing and Payment Problems'}, {name:'Account Issues'},
+    {name:'Product or Service Complaints'}, {name:'Technical Issues'},{name:'Warranty and Repair Issues'},
+    {name:'Subscription Problems'}, {name:'Return and Exchange Problems'}, {name:'Public Relations Issues'}
   ]
+
+  possibleInquiryTypes: IssInqType[] = [{name:'Product Information'},{name:'Pricing and Discounts'}, {name:'Shipping and Delivery'},
+    {name:'Warranty and Guarantees'}, {name:'Account Information'},{name:'Technical Support'},
+    {name:'Policies and Procedures'}, {name:'Payment Methods'}, {name:'Employment Opportunities'}, {name:'Legal or Compliance'}
+  ]
+  currentCheckingIssueTypes: IssInqType[] = []
+  currentCheckingInquiryTypes: IssInqType[] = []
+
   
   isVisibleClientSecretValidation: boolean = false
   ClientSecretValidationMessage:string = ""
@@ -112,15 +119,18 @@ export class SettingsComponent implements OnInit{
 
   systemConfigurations = this.fb.group({
     overdueInterval: 14
-    // newProductInputs: new FormControl<string[] | null>(null)
+  
 
 
   });
     
-
-  topicConfiguration = this.fb.group({
-    newTopics:[[]]
+  issueninqyiryTypesConfigurations =this.fb.group({
+    issueTypesToCheck:new FormControl<IssInqType[] | null>(this.currentCheckingIssueTypes),
+    inquiryTypesToCheck:new FormControl<IssInqType[] | null>(this.currentCheckingInquiryTypes)
   });
+
+
+
 
 
   // constructor
@@ -283,6 +293,35 @@ export class SettingsComponent implements OnInit{
   
       
       }
+
+      onSubmitIssueTypes(): void {
+  
+        const issue_types_to_check = this.issueninqyiryTypesConfigurations.value.issueTypesToCheck;
+        const inquiry_types_to_check = this.issueninqyiryTypesConfigurations.value.inquiryTypesToCheck;
+        console.log("issue types to check",issue_types_to_check, "inquiry_types_to_check", inquiry_types_to_check)
+        let formData: IssueInqTypeData = {
+          issue_types_to_check: issue_types_to_check ? issue_types_to_check.map((item: any) => item.name) : [],
+          inquiry_types_to_check: inquiry_types_to_check?inquiry_types_to_check.map((item: any) => item.name) : []
+        }
+ 
+     
+        this.dataService.postIssInqTypeData(formData).subscribe(response => {
+          console.log('Trigger Data sent successfully:', response);
+          
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Issue and inquiry types updated succesfuly!' });
+    
+          this.getIssInqTypeData()
+          
+  
+        }, error => {
+          console.error('Error sending data:', error);
+          this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured when updating issue and inquiry types' });
+        });
+    
+    
+    
+      }
+
   
   onSubmitEmailEdit(): void {
     //console.log(this.emailEdit.value);
@@ -555,10 +594,6 @@ ngOnInit() {
       notiSendingEmails: this.formGroup.get('values')?.value
   });
 
-    this.topicConfiguration.patchValue({
-      newTopics:this.formGroup.get('valuesTopics')?.value
-
-    });
     
    
   // Check if emailAccsToCheckSS control exists before subscribing to its value changes
@@ -632,6 +667,9 @@ ngOnInit() {
 
   // getting system config data for the company
   this.getSystemConfigDataForCompany()
+
+  // getting checking issue types and inquiry types for the company 
+  this.getIssInqTypeData()
   
   // getting the email ID for the newly integrating email account
   this.getNewIntergratingEmailID()
@@ -789,6 +827,27 @@ getSystemConfigDataForCompany(): void {
 );
 }
 
+getIssInqTypeData(): void {
+  this.dataService.getIssueInqTypeData().subscribe((data: IssueInqTypeData) => {
+    console.log('Issue inquiry Type Configurations data ',data)
+    const issue_types_to_check: IssInqType[] = data.issue_types_to_check.map((item) => {
+      return { name: item };
+    });
+    const inquiry_types_to_check: IssInqType[] = data.inquiry_types_to_check.map((item) => {
+      return { name: item };
+    });
+
+    this.issueninqyiryTypesConfigurations.patchValue({
+        issueTypesToCheck: issue_types_to_check,
+        inquiryTypesToCheck: inquiry_types_to_check
+    });
+  },
+  error => {
+    console.error('Error fetching system config data', error);
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while fetching Issue and inquiry type data.' });
+  }
+);
+}
 
 
 

@@ -17,7 +17,7 @@ export class DoughnutChartComponent implements OnInit {
     const textColor = documentStyle.getPropertyValue('--text-color');
 
     this.data = {
-      labels: ['Negative', 'Positive', 'Neutral'],
+      labels: ['Negative percentage', 'Positive percentege', 'Neutral percentage'],
       datasets: [
         {
           data: this.chartData || [100, 30, 10],
