@@ -13,7 +13,6 @@ export class WordcloudComponent implements OnInit {
   @Input("words") wordList!: WordCloudItem[];
 
   ngOnInit() {
-    console.log(this.wordList);
     $("#wordCloud").jQWCloud({
       words: this.wordList,
       maxFont: 50,

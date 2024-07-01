@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CallAnalyticsConfig } from "../../config";
 
 @Component({
-  selector: 'app-doughnut-chart',
+  selector: 'doughnut-chart',
   templateUrl: './doughnut-chart.component.html',
   styleUrl: './doughnut-chart.component.scss'
 })

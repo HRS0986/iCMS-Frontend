@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BestOperatorItem } from "../../types";
 
 @Component({
-  selector: 'app-best-operators-card',
+  selector: 'best-operators-card',
   templateUrl: './best-operators-card.component.html',
   styleUrl: './best-operators-card.component.scss'
 })

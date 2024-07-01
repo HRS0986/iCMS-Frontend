@@ -1,4 +1,5 @@
-<app-page-header pageTitle="Call Analytics Dashboard" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" [showDatePicker]="true"/>
+<app-page-header pageTitle="Call Analytics Dashboard" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" [showDatePicker]="true" [callDashboardDate]="true"
+                 (callDateRangeChanged)="reloadData($event[0], $event[1])" />
 <div class="flex flex-col">
   <div class="flex gap-5 flex-wrap">
     @if (callStatistics !== undefined) {
@@ -9,30 +10,28 @@
       </div>
     }
     @if (sentimentOverTime !== undefined) {
-      <app-line-area-chart [dataset]="sentimentOverTime" title="Sentiment Over Time"/>
+      <line-area-chart [dataset]="sentimentOverTime" title="Sentiment Over Time"/>
     }
     @if (callSentiments !== undefined) {
-      <app-doughnut-chart title="Sentiment Distribution" [percentages]="[callSentiments.negative, callSentiments.positive, callSentiments.neutral]"/>
+      <doughnut-chart title="Sentiment Distribution" [percentages]="[callSentiments.negative, callSentiments.positive, callSentiments.neutral]"/>
     }
   </div>
   <div class="flex gap-6 flex-wrap">
     @if (topicDistribution !== undefined) {
-      <app-bar-chart style="width: 49%;" title="Calls Distribution By Topics" [dataset]="topicDistribution"/>
+      <bar-chart style="width: 49%;" title="Calls Distribution By Topics" [dataset]="topicDistribution"/>
     }
     @if (operatorCallsOverTime !== undefined) {
-      <app-stacked-bar-chart style="width: 49%;" title="Call Distribution By Operators" [dataset]="operatorCallsOverTime"/>
+      <stacked-bar-chart style="width: 49%;" title="Call Distribution By Operators" [dataset]="operatorCallsOverTime"/>
     }
   </div>
   <div class="flex gap-7 flex-wrap">
     @if (operatorRankings !== undefined) {
-      <app-best-operators-card style="width: 54%;" title="Best Operators" [operatorRankings]="operatorRankings"/>
+      <best-operators-card style="width: 54%;" title="Best Operators" [operatorRankings]="operatorRankings"/>
     }
     @if (keywords !== undefined && keywords.length > 0) {
       <app-wordcloud [words]="keywords" title="Keywords Highlights" />
     }
 
   </div>
-<!--  <div class="flex gap-7 flex-wrap">-->
-<!--    <app-stacked-bar-chart />-->
-<!--  </div>-->
 </div>
+

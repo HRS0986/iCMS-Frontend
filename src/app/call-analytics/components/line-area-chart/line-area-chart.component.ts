@@ -3,7 +3,7 @@ import { SentimentOverTimeDataSet } from "../../types";
 
 
 @Component({
-  selector: 'app-line-area-chart',
+  selector: 'line-area-chart',
   templateUrl: './line-area-chart.component.html',
   styleUrl: './line-area-chart.component.scss'
 })
@@ -46,7 +46,6 @@ export class LineAreaChartComponent implements OnInit {
     analyticsData.sort((a: any, b: any) => {
       return new Date(a.date).getTime() - new Date(b.date).getTime();
     });
-    console.log(analyticsData)
 
     const xLabels = analyticsData.map((data: any) => data.date);
     const positiveData = analyticsData.map((data: any) => data.positive);

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { OperatorAnalyticsOverTimeRecord } from "../../types";
 
 @Component({
-  selector: 'app-stacked-bar-chart',
+  selector: 'stacked-bar-chart',
   templateUrl: './stacked-bar-chart.component.html',
   styleUrl: './stacked-bar-chart.component.scss'
 })

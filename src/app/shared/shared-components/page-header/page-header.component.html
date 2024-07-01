@@ -3,9 +3,9 @@
     <h2 class="font-bold mb-2">{{ pageTitle }}</h2>
     <p-breadcrumb class="max-w-full" [model]="breadcrumbItems" [home]="home"></p-breadcrumb>
   </div>
-<!--  <div class="flex items-right w-fit" *ngIf="showDatePicker">-->
-<!--    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="z-10"></p-calendar>-->
-<!--  </div>-->
+  <!--  <div class="flex items-right w-fit" *ngIf="showDatePicker">-->
+  <!--    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="z-10"></p-calendar>-->
+  <!--  </div>-->
 
   <div class="w-fit" *ngIf="showButton">
     <p-button [outlined]="false" (click)="onClickActionButton()">{{ buttonText }}</p-button>
@@ -30,14 +30,24 @@
       class="z-10"
       (ngModelChange)="onRangeDateChange($event)"
       [minDate]="minDate"
-      [maxDate]="maxDate" *ngIf="!mainDashboardDate">
+      [maxDate]="maxDate" *ngIf="!mainDashboardDate && !callDashboardDate;">
     </p-calendar>
 
+    <p-calendar
+      [(ngModel)]="callDateRange"
+      selectionMode="range"
+      [readonlyInput]="true"
+      [showIcon]="true"
+      [showButtonBar]="true"
+      (ngModelChange)="onRangeSelect($event)"
+      *ngIf="callDashboardDate">
+    </p-calendar>
   </div>
 
 
   <ng-container class="w-fit" *ngIf="showRightSideBarButtons">
-    <app-right-sidebar [showAddMemberButton]="showAddMemberButton" [showAddWidgetButton]="showAddWidgetButton" [showAddRoleButton]="showAddRoleButton"></app-right-sidebar>
+    <app-right-sidebar [showAddMemberButton]="showAddMemberButton" [showAddWidgetButton]="showAddWidgetButton"
+                       [showAddRoleButton]="showAddRoleButton"></app-right-sidebar>
   </ng-container>
 
   <!-- <ng-container ngIf="showAddMemberButton">
@@ -47,7 +57,6 @@
   <ng-container ngIf="showAddRoleButton">
     <app-right-sidebar [showAddRoleButton]="showAddRoleButton"></app-right-sidebar>
   </ng-container> -->
-
 
 
 </div>
