@@ -86,3 +86,12 @@ export interface DeleteReadingEmail{
   removing_email: string;
 }
 
+
+export interface IssInqType {
+  name: string;   
+}
+
+export interface IssueInqTypeData{
+  issue_types_to_check: string[];
+  inquiry_types_to_check: string[];
+}

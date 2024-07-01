@@ -26,7 +26,8 @@ export class Dashboard2Component implements OnInit{
     {label: "Dashboard"}
   ];
 
-  intervalInDays: number = 29;
+  intervalInDaysStart: number = 29;
+  intervalInDaysEnd: number = 0;
 
   // calenders
 
@@ -275,16 +276,24 @@ onRangeDatesChanged(rangeDates: Date[]) {
   this.rangeDates = rangeDates;
   
   console.log('Selected Range Dates:', this.rangeDates);
-  const endDate = rangeDates[1]
-  const startDate = rangeDates[0]
+  const endDate = rangeDates[1];
+  const startDate = rangeDates[0];
+  const today = new Date();
+
+  // Ensure dates are in the same time zone for correct comparison
+  const startDateMidnight = new Date(startDate.setHours(0, 0, 0, 0));
+  const endDateMidnight = new Date(endDate.setHours(0, 0, 0, 0));
+  const todayMidnight = new Date(today.setHours(0, 0, 0, 0));
 
   // Calculate the difference in milliseconds
-  const differenceMs = endDate.getTime() - startDate.getTime();
+  const differenceStartMs = todayMidnight.getTime() - startDateMidnight.getTime();
+  const differenceEndMs = todayMidnight.getTime() - endDateMidnight.getTime();
 
-  // Convert milliseconds to days
-  this.intervalInDays = differenceMs / (1000 * 3600 * 24);
+  // Calculate the difference in days
+  this.intervalInDaysStart = Math.floor(differenceStartMs / (1000 * 60 * 60 * 24))
+  this.intervalInDaysEnd = Math.floor(differenceEndMs / (1000 * 60 * 60 * 24))
 
-  console.log('Difference in days:', this.intervalInDays);
+  console.log('Difference in days start:', this.intervalInDaysStart, 'Difference in days end:', this.intervalInDaysEnd);
   
   this.getDataForStatCards()
   this.getDataForOverallEfficiencyandEffectivenessDntChart()
@@ -305,7 +314,7 @@ onRangeDatesChanged(rangeDates: Date[]) {
 
 getDataForStatCards(){
   
-  this.dataService.getDataForStatCards(this.intervalInDays).subscribe((data: OngoingAndClosedStatsResponse) => {
+  this.dataService.getDataForStatCards(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OngoingAndClosedStatsResponse) => {
   console.log(data)
   this.statsData[0].title = data.count_total_ongoing_issues
   this.statsData[1].title = data.count_total_closed_issues
@@ -330,7 +339,7 @@ getDataForStatCards(){
 getDataForOverallEfficiencyandEffectivenessDntChart(){
 
 
-  this.dataService.getCurrentOverallEfficiencyandEffectiveness(this.intervalInDays).subscribe((data: OverallyEfficiencyEffectivenessPecentagesResponse) => {
+  this.dataService.getCurrentOverallEfficiencyandEffectiveness(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OverallyEfficiencyEffectivenessPecentagesResponse) => {
     console.log("data for overall efficiency and effectiveness", data)
     this.dntChartDataOverallEfficiency = [0,0,40,60]
     this.dntChartOverallEfficiencyLabels= data.efficiency_categories.reverse()
@@ -348,7 +357,7 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
    
   let effi_issue_data: number[] = [] 
   let effec_issue_date: number[] = []
-  this.dataService.getDataForEffiandEffecIssues(this.intervalInDays).subscribe((data: IssuesByEfficiencyEffectivenessResponse) => {
+  this.dataService.getDataForEffiandEffecIssues(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: IssuesByEfficiencyEffectivenessResponse) => {
     console.log("data for efficency and effectiveness of ISSUES DISTRIBUTION", data)
 
     effi_issue_data = data.efficiency_frequencies
@@ -357,7 +366,7 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
        
    });
 
-   this.dataService.getDataForEffiandEffecInquiries(this.intervalInDays).subscribe((data: InquiriesByEfficiencyEffectivenessResponse) => {
+   this.dataService.getDataForEffiandEffecInquiries(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: InquiriesByEfficiencyEffectivenessResponse) => {
     console.log("data for efficiency and effectiveness of INQUIRIES DISTRIBUTION", data)
     
     this.effi_dstri_vert_bar_labels = data.efficiency_categories
@@ -378,7 +387,7 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
 getDataForIssueandInquiryTypes(){
   
  
-  this.dataService.getDataForIssueandInquiryTypes(this.intervalInDays).subscribe((data: IssueInquiryFreqByTypeResponse) => {
+  this.dataService.getDataForIssueandInquiryTypes(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: IssueInquiryFreqByTypeResponse) => {
     console.log("data for issue and inquiry types",data)
 
     this.issue_types_distri_labels = data.issue_type_labels
@@ -411,7 +420,7 @@ getDataForIssueandInquiryTypes(){
 
 getDataForIssuenadInquiryByProducts(){
 
-  this.dataService.getDataForProductsByIssueandInquiry(this.intervalInDays).subscribe((data: IssueInquiryFreqByProdcuts) => {
+  this.dataService.getDataForProductsByIssueandInquiry(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: IssueInquiryFreqByProdcuts) => {
     console.log("data for Isseus and Inquiries by PRODUCTSSSSSS",data)
     
     // ]
@@ -450,7 +459,7 @@ getDataForIssuenadInquiryByProducts(){
 getDataForEfficiencyByEmaiAcss(){
 
   
-  this.dataService.getDataForEfficiencyByEmailAcc(this.intervalInDays).subscribe((data: EmailAccEfficiencyResponse) => {
+  this.dataService.getDataForEfficiencyByEmailAcc(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: EmailAccEfficiencyResponse) => {
     console.log("EFFICiency by emaila acc data", data)
     
     this.email_acc_effi_labels = data.all_reading_email_accs
@@ -492,7 +501,7 @@ getDataForEfficiencyByEmaiAcss(){
 getBestPerformingEmail(){
 
 
-  this.dataService.getBestPerformingEmail(this.intervalInDays).subscribe((data: BestPerformingEmailAccResponse) => {
+  this.dataService.getBestPerformingEmail(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: BestPerformingEmailAccResponse) => {
     console.log("best performing email account", data)
  
     this.bestEmail = data.best_performing_email_acc
@@ -506,7 +515,7 @@ getBestPerformingEmail(){
 getOverdueIssuesdata(){
   
 
-  this.dataService.getOverdueIssuesdata(this.intervalInDays).subscribe((data: OverdueIssuesResponse) => {
+  this.dataService.getOverdueIssuesdata(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OverdueIssuesResponse) => {
     console.log("overdue issues related DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa", data)
  
     this.overallOverdueIssuesHeader = `${data.sum_overdue_issues} OVERDUE ISSUES recorded`
