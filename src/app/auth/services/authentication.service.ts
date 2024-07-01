@@ -1,8 +1,8 @@
 // authentication.service.ts
 import { Injectable } from '@angular/core';
-import { CognitoUser, AuthenticationDetails, CognitoUserSession, CognitoUserPool } from 'amazon-cognito-identity-js';
+import { CognitoUser, AuthenticationDetails, CognitoUserSession, CognitoUserPool} from 'amazon-cognito-identity-js';
 import { environment } from "../../../environment/environment";
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, switchMap } from 'rxjs';
 import { Router } from "@angular/router";
 import { MessageService } from "primeng/api";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -16,6 +16,8 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<CognitoUser | null>;
   cognitoUser: CognitoUser | null = null;
   sessionUserAttributes!: any;
+
+  userIp: string = '';
 
   private permissionsSubject = new BehaviorSubject<string[]>([]);
   permissions$ = this.permissionsSubject.asObservable();
@@ -31,6 +33,9 @@ export class AuthenticationService {
     });
     this.currentUserSubject = new BehaviorSubject<CognitoUser | null>(this.userPool.getCurrentUser());
 
+    // this.userIp = this.getUserIp();
+    console.log(this.userIp);
+
     this.loadPermissions(); // Load permissions on initialization
   }
 
@@ -38,31 +43,50 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  signIn(username: string, password: string): Observable<any> {
-    const authenticationDetails = new AuthenticationDetails({ Username: username, Password: password });
-    const cognitoUser = new CognitoUser({ Username: username, Pool: this.userPool });
 
-    return new Observable(observer => {
-      cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: (session: any) => {
-          this.loadPermissions();
-          observer.next(session);
-          observer.complete();
-        },
-        onFailure: (err: any) => {
-          observer.error(err);
-          this.router.navigate(['/auth/signin']).then(() => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
+
+  signIn(username: string, password: string): Observable<any> {
+
+    return this.http.get<{ ip: string }>('https://api64.ipify.org?format=json').pipe(
+      switchMap(data => {
+        const Ip = data.ip;
+        console.log(Ip);
+        const authenticationDetails = new AuthenticationDetails({
+          Username: username,
+          Password: password,
+          ClientMetadata: {
+            ip: Ip
+          }
+        });
+        const cognitoUser = new CognitoUser({
+          Username: username,
+          Pool: this.userPool,
+        });
+
+        return new Observable(observer => {
+          cognitoUser.authenticateUser(authenticationDetails, {
+            onSuccess: (session: any) => {
+              this.loadPermissions();
+              observer.next(session);
+              observer.complete();
+            },
+            onFailure: (err: any) => {
+              observer.error(err);
+              this.router.navigate(['/auth/signin']).then(() => {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
+              });
+            },
+            newPasswordRequired: (userAttributes: any) => {
+              this.cognitoUser = cognitoUser;
+              this.sessionUserAttributes = userAttributes;
+              this.messageService.add({ severity: 'info', summary: 'New Password Required', detail: 'Please enter a new password.' });
+            }
           });
-        },
-        newPasswordRequired: (userAttributes: any) => {
-          this.cognitoUser = cognitoUser;
-          this.sessionUserAttributes = userAttributes;
-          this.messageService.add({ severity: 'info', summary: 'New Password Required', detail: 'Please enter a new password.' });
-        }
-      });
-    });
+        });
+      })
+    );
   }
+
 
   loadPermissions() {
     this.getIdToken().subscribe(
@@ -139,6 +163,13 @@ export class AuthenticationService {
     //save permissions to local storage with related to user
     localStorage.setItem(user?.getUsername() + '-permissions', JSON.stringify(data));
   }
+
+
+
+
+
+
+
 }
 
 
