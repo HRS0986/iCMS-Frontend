@@ -21,6 +21,8 @@ export class PageHeaderComponent implements OnInit {
   @Input() showAddRoleButton: boolean = false;
   @Input() showRightSideBarButtons: boolean = false;
 
+  @Input() mainDashboardNotification:boolean=false;
+
   @Input() mainDashboardDate:boolean=false;
 
   @Input() minDate: Date = new Date();
@@ -75,6 +77,13 @@ export class PageHeaderComponent implements OnInit {
     if (this.rangeDates) {
       this.dateRangeService.changeDateRange(this.rangeDates);
       this.oldDateSave(this.rangeDates);
+    }
+  }
+
+  onDateRangeChangeNotifications(): void {
+    if (this.rangeDates) {
+      this.dateRangeService.changeDateRange(this.rangeDates);
+      // this.oldDateSave(this.rangeDates);
     }
   }
 
