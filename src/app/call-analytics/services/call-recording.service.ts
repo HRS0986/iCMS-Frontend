@@ -40,6 +40,9 @@ export class CallRecordingService {
   public getCallsList(): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.API_ROOT}/get-calls-list`);
   }
+  public getPendingCallsList(): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.API_ROOT}/pendiing-calls-list`);
+  }
 
   public deleteCall(call_id: string): Observable<ApiResponse> {
     const url = `${this.API_ROOT}/delete-call/${call_id}`;

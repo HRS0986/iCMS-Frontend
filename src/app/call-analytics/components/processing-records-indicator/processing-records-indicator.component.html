@@ -1,0 +1,19 @@
+<p-toast></p-toast>
+<p-panel class="flex flex-col text-center justify-center mb-4">
+
+  <div [style.display]="pendingCallData && pendingCallData.length > 0 ? 'block' : 'none'">
+
+  <h3 class="mb-0 mt-0 text-start">Processing Records</h3><hr><br>
+
+  <div class="flex justify-between items-center px-3 mb-5" *ngFor="let call of pendingCallData">
+    <div class="flex justify-between" style="width:60%;">
+      <div class="flex items-center gap-8">
+        <img src="./assets/call/phone.png" width="25" height="25" style="opacity: 0.5;">
+        <div class="flex flex-col justify-start">
+          <p class="mb-0 mt-0 text-gray-400 text-start">{{ call }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</p-panel>

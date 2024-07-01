@@ -52,6 +52,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CallFilteringResultComponent } from './components/call-filtering-result/call-filtering-result.component';
 import { OperatorCardItemComponent } from './components/operator-card-item/operator-card-item.component';
+import { ProcessingRecordsIndicatorComponent } from './components/processing-records-indicator/processing-records-indicator.component';
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import { OperatorCardItemComponent } from './components/operator-card-item/opera
     CallFilteringResultComponent,
     BestOperatorsCardComponent,
     OperatorCardItemComponent,
+    ProcessingRecordsIndicatorComponent,
   ],
   imports: [
     CommonModule,
