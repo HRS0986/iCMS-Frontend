@@ -34,8 +34,8 @@ export class CallAnalyticsService {
     return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/operator-ratings`))
   }
 
-  public getSentimentTimeDetails(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/sentiment-time-details`));
+  public getSentimentOverTime(start: string,  end: string): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/sentiment-over-time?start=${start}&end=${end}`));
   }
 
   public getCallSummary(call_id: string): Promise<ApiResponse> {

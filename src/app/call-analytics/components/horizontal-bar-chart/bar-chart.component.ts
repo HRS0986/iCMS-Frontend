@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { CallAnalyticsService } from "../../services/call-analytics.service";
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-bar-chart',
@@ -7,12 +6,11 @@ import { CallAnalyticsService } from "../../services/call-analytics.service";
   styleUrl: './bar-chart.component.scss'
 })
 export class BarChartComponent implements OnInit {
+  @Input() title!: string;
+  @Input() dataset!: { [key: string]: number };
+
   data: any;
-
   options: any;
-
-  constructor(private analyticsService: CallAnalyticsService) {
-  }
 
   ngOnInit() {
     const documentStyle = getComputedStyle(document.documentElement);
@@ -21,8 +19,8 @@ export class BarChartComponent implements OnInit {
       maintainAspectRatio: false,
       aspectRatio: 0.8,
       plugins: {
-        tooltip: { mode: 'index', intersect: false },
-        legend: { display: false },
+        tooltip: {mode: 'index', intersect: false},
+        legend: {display: false},
       },
       scales: {
         y: {
@@ -30,22 +28,19 @@ export class BarChartComponent implements OnInit {
         }
       }
     };
-    this.analyticsService.getTopicsDistribution().then(response => {
-      if (response.status) {
-        const topicsData: { [key: string]: number } = response.data;
-        const topicsList = Object.keys(topicsData);
-        const topicsValues = Object.values(topicsData);
-        this.data = {
-          labels: topicsList,
-          datasets: [
-            {
-              backgroundColor: documentStyle.getPropertyValue('--primary-color') + documentStyle.getPropertyValue('--alpha-value'),
-              borderColor: documentStyle.getPropertyValue('--blue-500'),
-              data: topicsValues
-            }
-          ]
-        };
-      }
-    });
+
+    const topicsData = this.dataset;
+    const topicsList = Object.keys(topicsData);
+    const topicsValues = Object.values(topicsData);
+    this.data = {
+      labels: topicsList,
+      datasets: [
+        {
+          backgroundColor: documentStyle.getPropertyValue('--primary-color') + documentStyle.getPropertyValue('--alpha-value'),
+          borderColor: documentStyle.getPropertyValue('--blue-500'),
+          data: topicsValues
+        }
+      ]
+    };
   }
 }

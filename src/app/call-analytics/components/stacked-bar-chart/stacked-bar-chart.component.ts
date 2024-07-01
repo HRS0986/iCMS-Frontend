@@ -1,5 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { CallAnalyticsService } from "../../services/call-analytics.service";
+import { Component, Input, OnInit } from '@angular/core';
 import { OperatorAnalyticsOverTimeRecord } from "../../types";
 
 @Component({
@@ -8,7 +7,8 @@ import { OperatorAnalyticsOverTimeRecord } from "../../types";
   styleUrl: './stacked-bar-chart.component.scss'
 })
 export class StackedBarChartComponent implements OnInit {
-  @Output() updateLoading = new EventEmitter<string>();
+  @Input() title!: string;
+  @Input() dataset!: OperatorAnalyticsOverTimeRecord[];
 
   data: any;
   documentStyle = getComputedStyle(document.documentElement);
@@ -39,10 +39,10 @@ export class StackedBarChartComponent implements OnInit {
         grid: {
           color: this.surfaceBorder,
           drawBorder: false
-        }
+        },
       },
       y: {
-        stepSize:1,
+        stepSize: 1,
         stacked: true,
         ticks: {
           color: this.textColorSecondary
@@ -55,45 +55,30 @@ export class StackedBarChartComponent implements OnInit {
     }
   };
 
-  constructor(private callAnalyticsService: CallAnalyticsService) {
-  }
-
   ngOnInit() {
-    this.callAnalyticsService.getOperatorCallsOverTime().then(response =>{
-      let data_over_time = response.data as OperatorAnalyticsOverTimeRecord[];
-      this.data = {
-        labels: data_over_time.map(dt => dt.operator_name.slice(0, 5)),
-        datasets: [
-          {
-            type: 'bar',
-            label: 'Positive',
-            backgroundColor: this.documentStyle.getPropertyValue('--positive-color') + this.documentStyle.getPropertyValue('--alpha-value'),
-            data: data_over_time.map(dt => dt.positive)
-          },
-          {
-            type: 'bar',
-            label: 'Neutral',
-            backgroundColor: this.documentStyle.getPropertyValue('--neutral-color') + this.documentStyle.getPropertyValue('--alpha-value'),
-            data: data_over_time.map(dt => dt.neutral)
-          },
-          {
-            type: 'bar',
-            label: 'Negative',
-            backgroundColor: this.documentStyle.getPropertyValue('--negative-color') + this.documentStyle.getPropertyValue('--alpha-value'),
-            data: data_over_time.map(dt => dt.negative)
-          }
-        ]
-      };
-      console.log(data_over_time)
-
-      this.updateLoading.emit('operatorAnalytics');
-    }).catch(err => {
-      console.log(err);
-      this.updateLoading.emit('operatorAnalytics');
-      }
-    ).finally(() => {
-      console.log("ok")
-      this.updateLoading.emit('operatorAnalytics');
-    });
+    let data_over_time = this.dataset;
+    this.data = {
+      labels: data_over_time.map(dt => dt.operator_name.slice(0, 5)),
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Positive',
+          backgroundColor: this.documentStyle.getPropertyValue('--positive-color') + this.documentStyle.getPropertyValue('--alpha-value'),
+          data: data_over_time.map(dt => dt.positive)
+        },
+        {
+          type: 'bar',
+          label: 'Neutral',
+          backgroundColor: this.documentStyle.getPropertyValue('--neutral-color') + this.documentStyle.getPropertyValue('--alpha-value'),
+          data: data_over_time.map(dt => dt.neutral)
+        },
+        {
+          type: 'bar',
+          label: 'Negative',
+          backgroundColor: this.documentStyle.getPropertyValue('--negative-color') + this.documentStyle.getPropertyValue('--alpha-value'),
+          data: data_over_time.map(dt => dt.negative)
+        }
+      ]
+    };
   }
 }
