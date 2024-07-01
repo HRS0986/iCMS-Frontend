@@ -114,12 +114,14 @@
       </span>
     </div>
     <!-- tags -->
-    <div class="order-2 -mr-1 lg:order-1 lg:col-span-3 flex flex-row lg:justify-end flex-wrap">
+    <div
+      class="order-2 -mr-1 lg:order-1 lg:col-span-3 flex flex-row lg:justify-end flex-wrap"
+    >
       <p-tag
         class="p-1"
         styleClass="text-sm"
         severity="primary"
-        *ngFor="let tag of inquiryData.tags | slice:0:3"
+        *ngFor="let tag of inquiryData.tags | slice : 0 : 3"
         value="{{ tag }}"
       />
     </div>
@@ -276,7 +278,10 @@
       </div>
 
       <!-- chat view -->
-      <div class="conversation flex flex-col border border-solid border-slate-300 rounded-lg p-4" *ngIf="selectedState === 'chat'">
+      <div
+        class="conversation flex flex-col border border-solid border-slate-300 rounded-lg p-4"
+        *ngIf="selectedState === 'chat'"
+      >
         <div
           *ngFor="let email of additionalData.emails"
           class="py-2 px-2 max-w-full md:max-w-[80%]"
@@ -300,6 +305,8 @@
               'rounded-br-3xl': email.isClient,
               'bg-blue-400': !email.isClient,
               'rounded-bl-3xl': !email.isClient,
+              'text-white': !email.isClient,
+
             }"
           >
             {{ email.body }}
