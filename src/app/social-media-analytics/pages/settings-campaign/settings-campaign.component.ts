@@ -12,17 +12,12 @@ import { ModalAddNewCampaignComponent } from '../../components/Modals/modal-add-
 
 
 export class SettingsCampaignComponent implements OnInit {
-  list_facebook: Campaign[] = [];
-  list_instagram: Campaign[] = [];
-  list_twitter: Campaign[] = [];
 
   tabFacebook = { title: 'Facebook', img: 'assets/social-media/icons/facebook.png' };
   tabInstagram = { title: 'Instagram', img: 'assets/social-media/icons/instargram.png' };
-  tabTwitter = { title: 'Twitter', img: 'assets/social-media/icons/twitter.png' };
 
-  content1: CampaignData = { subtitle: 'Facebook', data: [] };
-  content2: CampaignData = { subtitle: 'Instagram', data: [] };
-  content3: CampaignData = { subtitle: 'Twitter', data: [] };
+  contentFacebook: CampaignData = { subtitle: 'Facebook', data: [] };
+  contentInstagram: CampaignData = { subtitle: 'Instagram', data: [] };
 
   constructor(private settingsApiService: SettingsApiService) { }
 
@@ -33,31 +28,23 @@ export class SettingsCampaignComponent implements OnInit {
   fetchCampaignsBySM(): void {
     this.settingsApiService.getCampaigns().subscribe(
       (response: Campaign[]) => {
-        this.list_facebook = [];
-        this.list_instagram = [];
-        this.list_twitter = [];
 
-        response.forEach(campaign => {
-          campaign.title = campaign.description?.split('\n')[0];
-
-          switch (campaign.platform) {
-            case 'SM01':
-              this.list_facebook.push(campaign);
-              break;
-            case 'SM02':
-              this.list_instagram.push(campaign);
-              break;
-            case 'SM03':
-              this.list_twitter.push(campaign);
-              break;
-            default:
-              console.warn(`Unknown platform: ${campaign.platform}`);
+        const FacebookData = response["SM01" as keyof typeof response] as Campaign[];
+        FacebookData.forEach((item: any) => {
+          if (item.description.length > 40) {
+            item.description = item.description.slice(0, 40) + '...';
           }
         });
+        this.contentFacebook.data = FacebookData;
 
-        this.content1.data = this.list_facebook;
-        this.content2.data = this.list_instagram;
-        this.content3.data = this.list_twitter;
+        const InstagramData = response["SM02" as keyof typeof response] as Campaign[];
+        InstagramData.forEach((item: any) => {
+          if (item.description.length > 40) {
+            item.description = item.description.slice(0, 40) + '...';
+          }
+        });
+        this.contentInstagram.data = InstagramData;
+
       },
       error => {
         console.error('Error fetching data:', error);

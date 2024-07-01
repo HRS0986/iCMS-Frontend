@@ -1,11 +1,10 @@
-.card {
-  width: 320px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  overflow: hidden;
-  position: relative;
-  text-align: center;
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px 20px;
+  grid-auto-flow: row;
+  justify-content: space-between;
+  align-items: stretch;
 }
 
 .image-container {
@@ -140,7 +139,6 @@
 }
 
 .card-item {
-  width: 100%;
   margin: 10px 0;
   border: 1px solid #e0e0e0;
   background-color: #ffffff;

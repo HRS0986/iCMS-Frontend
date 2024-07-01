@@ -1,40 +1,21 @@
-<app-page-header
-  pageTitle="Campaign Analysis"
-  class="w-full h-fit"
-  [breadcrumbItems]="breadcrumbItems"
-/>
+<app-page-header pageTitle="Campaign Analysis" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" />
 
 <div class="flex flex-col">
   <div>
     <p-panel>
       <tabs>
-        <tab-item
-          [tabItem]="tabFacebook"
-          [templateContentRef]="tempFacebook"
-          [content]="caPageItem1"
-        ></tab-item>
-        <tab-item
-          [tabItem]="tabInstagram"
-          [templateContentRef]="tempInstagram"
-          [content]="caPageItem2"
-        ></tab-item>
-        <!-- <tab-item
-          [tabItem]="tabTwitter"
-          [templateContentRef]="tempTwitter"
-          [content]="caPageItem3"
-        ></tab-item> -->
+        <tab-item [tabItem]="tabFacebook" [templateContentRef]="contentRef" [content]="caPageContent"></tab-item>
+        <tab-item [tabItem]="tabInstagram" [templateContentRef]="contentRef" [content]="caPageContent"></tab-item>
       </tabs>
 
-      <ng-template #tempFacebook let-content="content">
-        <div
-          style="
+      <ng-template #contentRef let-content="content">
+        <div style="
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-          "
-        >
-          <h3>{{ content.title }}</h3>
+          ">
+          <h3>{{ content.subtitle }}</h3>
           <div style="display: flex; flex-direction: row; align-items: center">
             <p class="text-top-right-bar semi-balted">{{ topBarCaption }}</p>
             <app-modal-add-new-campaign></app-modal-add-new-campaign>
@@ -45,86 +26,20 @@
           <div class="flex justify-between w-full py-2 mb-2">
             <div>
               <h4 class="p-0 m-0">
-                {{ topCampaigns.length }} top performing campaigns
+                {{ content.topCampaigns.length }} top performing campaigns
               </h4>
             </div>
             <div>
-              <button
-                class="p-button p-button-sm p-button-secondary"
-                (click)="toggleAdditionalCards()"
-              >
+              <button class="p-button p-button-sm p-button-secondary" (click)="toggleAdditionalCards()">
                 See More
               </button>
             </div>
           </div>
-          <app-ca-cards
-            [campaigns]="topCampaigns"
-            [showAdditionalCards]="true"
-          ></app-ca-cards>
-          <app-ca-cards
-            [campaigns]="additionalCampaigns1"
-            [showAdditionalCards]="showAdditionalCards"
-          ></app-ca-cards>
+          <app-ca-cards [campaigns]="content.topCampaigns" [showAdditionalCards]="true" [loading]="loading"></app-ca-cards>
+          <app-ca-cards [campaigns]="content.additionalCampaigns" [showAdditionalCards]="showAdditionalCards" [loading]="loading"></app-ca-cards>
         </p-panel>
       </ng-template>
 
-      <ng-template #tempInstagram let-content="content">
-        <h3>{{ content.title }}</h3>
-        <p-panel>
-          <div class="flex justify-between w-full py-2 mb-2">
-            <div>
-              <h4 class="p-0 m-0">
-                {{ topCampaigns.length }} top performing campaigns
-              </h4>
-            </div>
-            <div>
-              <button
-                class="p-button p-button-sm p-button-secondary"
-                (click)="toggleAdditionalCards()"
-              >
-                See More
-              </button>
-            </div>
-          </div>
-          <app-ca-cards
-            [campaigns]="topCampaigns"
-            [showAdditionalCards]="true"
-          ></app-ca-cards>
-          <app-ca-cards
-            [campaigns]="additionalCampaigns1"
-            [showAdditionalCards]="showAdditionalCards"
-          ></app-ca-cards>
-        </p-panel>
-      </ng-template>
-
-      <ng-template #tempTwitter let-content="content">
-        <h3>{{ content.title }}</h3>
-        <p-panel>
-          <div class="flex justify-between w-full py-2 mb-2">
-            <div>
-              <h4 class="p-0 m-0">
-                {{ topCampaigns.length }} top performing campaigns
-              </h4>
-            </div>
-            <div>
-              <button
-                class="p-button p-button-sm p-button-secondary"
-                (click)="toggleAdditionalCards()"
-              >
-                See More
-              </button>
-            </div>
-          </div>
-          <app-ca-cards
-            [campaigns]="topCampaigns"
-            [showAdditionalCards]="true"
-          ></app-ca-cards>
-          <app-ca-cards
-            [campaigns]="additionalCampaigns1"
-            [showAdditionalCards]="showAdditionalCards"
-          ></app-ca-cards>
-        </p-panel>
-      </ng-template>
     </p-panel>
   </div>
 </div>

@@ -1,84 +1,64 @@
-<app-page-header
-  pageTitle="Platform Insights"
-  class="w-full h-fit"
-  [breadcrumbItems]="breadcrumbItems"
-/>
+<app-page-header pageTitle="Platform Insights" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" />
 
 <div class="flex flex-col">
   <div>
     <p-panel>
       <tabs>
-        <tab-item
-          [tabItem]="tabFacebook"
-          [templateContentRef]="tempFacebook"
-          [templateRightRef]="topBarRight"
-          [content]="piPageItem1"
-        ></tab-item>
-        <tab-item
-          [tabItem]="tabInstergram"
-          [templateContentRef]="tempFacebook"
-          [templateRightRef]="topBarRight"
-          [content]="piPageItem2"
-        ></tab-item>
-        <!-- <tab-item
-          [tabItem]="tabTwitter"
-          [templateContentRef]="tempFacebook"
-          [templateRightRef]="topBarRight"
-          [content]="piPageItem3"
-        ></tab-item> -->
+        <tab-item [tabItem]="tabFacebook" [templateContentRef]="contentRef" [templateRightRef]="topBarRight"
+          [content]="piPageItem1"></tab-item>
+        <tab-item [tabItem]="tabInstergram" [templateContentRef]="contentRef" [templateRightRef]="topBarRight"
+          [content]="piPageItem2"></tab-item>
       </tabs>
 
       <ng-template #topBarRight let-content="content">
         <p class="text-top-right-bar">{{ topBarCaption }} :</p>
-        <img
-          src="assets/social-media/svg/view.svg"
-          alt="View Icon"
-          class="right-bar-icon"
-        />
+        <img src="assets/social-media/svg/view.svg" alt="View Icon" class="right-bar-icon" />
         <app-modal-set-alert></app-modal-set-alert>
       </ng-template>
 
-      <ng-template #tempFacebook let-content="content">
+      <ng-template #contentRef let-content="content">
         <div class="chart-container">
           <div class="chart">
             <p class="text-title1">Brand Related Keyword thrends</p>
             <div class="chart-kt">
-              <p-chart
-                type="bar"
-                [data]="DataKeywordThrends"
-                [options]="OptionsKeywordThrends"
-              ></p-chart>
+              <ng-container *ngIf="loadingKeywordTrends">
+                <p-skeleton height="450px" />
+              </ng-container>
+              <ng-container *ngIf="!loadingKeywordTrends">
+                <p-chart type="bar" [data]="DataKeywordThrends" [options]="OptionsKeywordThrends"></p-chart>
+              </ng-container>
             </div>
           </div>
           <div class="card-container">
-            <div class="small-card" style="background-color: #f6d9e3">
-              <p class="text-title2">Total Reactions</p>
-              <p-chart
-                type="line"
-                [data]="DataReactions"
-                [options]="OptionsSideCards"
-              ></p-chart>
-              <div>
-                <span class="text-total">{{ content.totalReactions }}</span>
-                <span class="text-improvements"
-                  >{{ content.reactionsImprovement }}% this week</span
-                >
+
+            <ng-container *ngIf="loadingReactions">
+              <p-skeleton height="250px" />
+            </ng-container>
+            <ng-container *ngIf="!loadingReactions">
+              <div class="small-card" style="background-color: #f6d9e3">
+                <p class="text-title2">Total Reactions</p>
+                <p-chart type="line" [data]="DataReactions" [options]="OptionsSideCards"></p-chart>
+                <div>
+                  <span class="text-total">{{ content.totalReactions }}</span>
+                  <span class="text-improvements">{{ content.reactionsImprovement }}% this week</span>
+                </div>
               </div>
-            </div>
-            <div class="small-card" style="background-color: #cbf0f4">
-              <p class="text-title2">Total Comments</p>
-              <p-chart
-                type="line"
-                [data]="DataComments"
-                [options]="OptionsSideCards"
-              ></p-chart>
-              <div>
-                <span class="text-total">{{ content.totalComments }}</span>
-                <span class="text-improvements"
-                  >{{ content.commentsImprovement }}% this week</span
-                >
+            </ng-container>
+
+            <ng-container *ngIf="loadingComments">
+              <p-skeleton height="250px" />
+            </ng-container>
+            <ng-container *ngIf="!loadingComments">
+              <div class="small-card" style="background-color: #cbf0f4">
+                <p class="text-title2">Total Comments</p>
+                <p-chart type="line" [data]="DataComments" [options]="OptionsSideCards"></p-chart>
+                <div>
+                  <span class="text-total">{{ content.totalComments }}</span>
+                  <span class="text-improvements">{{ content.commentsImprovement }}% this week</span>
+                </div>
               </div>
-            </div>
+            </ng-container>
+
           </div>
         </div>
 
@@ -101,25 +81,21 @@
         </div>
 
         <div class="card">
-          <p-table
-            [value]="items"
-            [tableStyle]="{ 'min-width': '50rem' }"
-            class="table-style"
-          >
+          <p-table [value]="items" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
             <ng-template pTemplate="header">
               <tr>
-                <th style="width: 5%">
+                <!-- <th style="width: 5%">
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
+                </th> -->
                 <th pSortableColumn="name" style="width: 58%">
-                  AUTHORS
+                  COMMENT
                   <p-sortIcon field="name"></p-sortIcon>
                 </th>
                 <th pSortableColumn="company" style="width: 12%">
                   DATE
                   <p-sortIcon field="company"></p-sortIcon>
                 </th>
-                <th pSortableColumn="sentiment_score" style="width: 15%">
+                <th pSortableColumn="sentiment_score" style="width: 20%">
                   SENTIMENT
                   <p-sortIcon field="sentiment_score"></p-sortIcon>
                 </th>
@@ -128,66 +104,52 @@
             </ng-template>
             <ng-template pTemplate="body" let-item>
               <tr>
-                <td>
+                <!-- <td>
                   <p-tableCheckbox></p-tableCheckbox>
-                </td>
-                <td>
-                  <div
-                    class="flex align-items-start justify-content-center gap-2"
-                  >
-                    <!-- <img class="tab-icon" [src]="item.img" alt="Icon"> -->
-                    <div
-                      class="flex-column align-items-start justify-content-center"
-                    >
-                      <span class="text-name">{{ item.description }}</span>
-                      <!-- <span class="text-discription">{{ item.description }}</span> -->
+                </td> -->
+                <ng-container *ngIf="loadingHighlightedComments">
+                  <td><p-skeleton /></td>
+                  <td><p-skeleton /></td>
+                  <td><p-skeleton /></td>
+                  <td><p-skeleton /></td>
+                </ng-container>
+                <ng-container *ngIf="!loadingHighlightedComments">
+                  <td>
+                    <div class="flex align-items-start justify-content-center gap-2">
+                      <!-- <img class="tab-icon" [src]="item.img" alt="Icon"> -->
+                      <div class="flex-column align-items-start justify-content-center">
+                        <span class="text-name">{{ item.description }}</span>
+                        <!-- <span class="text-discription">{{ item.description }}</span> -->
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  <div
-                    class="flex-column align-items-start justify-content-center"
-                  >
-                    <!-- <span class="text-name">{{ item.date }}</span> -->
-                    <span class="text-discription">{{ item.date }}</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="text-discription">{{ item.s_score }} %</span>
-                  <progress-bar
-                    [value]="0"
-                    [bufferValue]="item.s_score"
-                    [color]="item.color"
-                  ></progress-bar>
-                </td>
-                <td>
-                  <div
-                    class="flex align-items-center justify-content-center gap-2"
-                  >
-                    <button
+                  </td>
+                  <td>
+                    <div class="flex-column align-items-start justify-content-center">
+                      <!-- <span class="text-name">{{ item.date }}</span> -->
+                      <span class="text-discription">{{ item.date }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="text-discription">{{ item.s_score }} %</span>
+                    <progress-bar [value]="0" [bufferValue]="item.s_score" [color]="item.color"></progress-bar>
+                  </td>
+                  <td>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                      <!-- <button
                       pButton
                       pRipple
                       type="button"
                       icon="pi pi-pencil"
                       (click)="onRowEdit(item)"
                       class="p-button-text p-button-Primary"
-                    ></button>
-                    <a
-                      *ngIf="item.comment_url"
-                      [href]="item.comment_url"
-                      target="_blank"
-                    >
-                      <button
-                        pButton
-                        pRipple
-                        type="button"
-                        icon="pi pi-window-maximize"
-                        (click)="onRowOpen(item)"
-                        class="p-button-text p-button-help"
-                      ></button>
-                    </a>
-                  </div>
-                </td>
+                    ></button> -->
+                      <a *ngIf="item.comment_url" [href]="item.comment_url" target="_blank">
+                        <button pButton pRipple type="button" icon="pi pi-window-maximize"
+                          class="p-button-text p-button-help"></button>
+                      </a>
+                    </div>
+                  </td>
+                </ng-container>
               </tr>
             </ng-template>
           </p-table>
@@ -196,22 +158,18 @@
         <div>
           <p class="text-title1">Sentiment Over Time</p>
         </div>
+
         <div class="chart-kt">
-          <p-chart
-            type="line"
-            [data]="DataSentimentOverTime"
-            [options]="OptionsSentimentOverTime"
-          ></p-chart>
+          <ng-container *ngIf="loadingSentiment">
+            <p-skeleton height="530px" />
+          </ng-container>
+          <ng-container *ngIf="!loadingSentiment">
+            <p-chart type="line" [data]="DataSentimentOverTime" [options]="OptionsSentimentOverTime"></p-chart>
+          </ng-container>
         </div>
+
       </ng-template>
 
-      <ng-template #tempInstergram let-content="content">
-        <h3>{{ content.title }}</h3>
-      </ng-template>
-
-      <ng-template #tempTwitter let-content="content">
-        <h3>{{ content.title }}</h3>
-      </ng-template>
     </p-panel>
   </div>
 </div>

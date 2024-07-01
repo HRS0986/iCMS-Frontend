@@ -1,86 +1,81 @@
 <div class="flex flex-col">
   <div>
     <p-panel>
-      <div
-        class="block"
-        style="
+
+      <div class="block" style="
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-        "
-      >
-        <p class="text-faded">No Custom thresholds</p>
+        ">
+        <p class="text-faded">
+          <ng-container *ngIf="thresholds.length > 0; else noThresholds">
+            {{ thresholds.length }} Custom thresholds
+          </ng-container>
+          <ng-template #noThresholds>No Custom thresholds</ng-template>
+        </p>
         <div style="display: flex; flex-direction: row; align-items: center">
           <p class="text-top-right-bar">{{ topBarCaption }} :</p>
           <app-modal-set-threshold></app-modal-set-threshold>
         </div>
       </div>
 
-      <!-- <div class="card">
-        <p-table
-          [value]="thresholds"
-          [tableStyle]="{ 'min-width': '50rem' }"
-          class="table-style"
-        >
-          <ng-template pTemplate="header">
-            <tr>
-              <th style="width: 5%">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-              </th>
-              <th pSortableColumn="platform" style="width: 30%">
-                PLATFORM
-                <p-sortIcon field="platform"></p-sortIcon>
-              </th>
-              <th pSortableColumn="alert_type" style="width: 20%">
-                ALERT TYPE
-                <p-sortIcon field="alert_type"></p-sortIcon>
-              </th>
-              <th pSortableColumn="overallSentiment" style="width: 30%">
-                OVERALL SENTIMENT
-                <p-sortIcon field="overallSentiment"></p-sortIcon>
-              </th>
-              <th style="width: 15%">ACTION</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-item>
-            <tr>
-              <td>
-                <p-tableCheckbox></p-tableCheckbox>
-              </td>
-              <td>{{ item.platform }}</td>
-              <td>{{ item.alert_type }}</td>
-              <td>
-                <span>{{ item.overallSentiment }}</span>
-                <progress-bar
-                  [value]="item.min_val"
-                  [bufferValue]="item.max_val"
-                  [color]="item.color"
-                ></progress-bar>
-              </td>
-              <td>
-                <div
-                  class="flex align-items-center justify-content-center gap-2"
-                >
-                  <button
-                    pButton
-                    pRipple
-                    type="button"
-                    icon="pi pi-pencil"
-                    class="p-button-text p-button-Primary"
-                  ></button>
-                  <button
-                    pButton
-                    pRipple
-                    type="button"
-                    icon="pi pi-trash"
-                    class="p-button-text p-button-danger"
-                  ></button>
-                </div>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div> -->
+      <ng-container *ngIf="thresholds.length > 0">
+        <div class="card">
+          <p-table [value]="thresholds" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
+            <ng-template pTemplate="header">
+              <tr>
+                <!-- <th style="width: 5%">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th> -->
+                <th pSortableColumn="platform" style="width: 30%">
+                  PLATFORM
+                  <p-sortIcon field="platform"></p-sortIcon>
+                </th>
+                <th pSortableColumn="alert_type" style="width: 20%">
+                  ALERT TYPE
+                  <p-sortIcon field="alert_type"></p-sortIcon>
+                </th>
+                <th pSortableColumn="overallSentiment" style="width: 40%">
+                  SENTIMENT THRESHOLD
+                  <p-sortIcon field="overallSentiment"></p-sortIcon>
+                </th>
+                <th style="width: 10%">ACTION</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <!-- <td>
+                  <p-tableCheckbox></p-tableCheckbox>
+                </td> -->
+                <ng-container *ngIf="loading">
+                  <td><p-skeleton /></td>
+                  <td><p-skeleton /></td>
+                  <td><p-skeleton /></td>
+                  <td><p-skeleton /></td>
+                </ng-container>
+                <ng-container *ngIf="!loading">
+                  <td>{{ item.platform }}</td>
+                  <td>{{ item.alert_type }}</td>
+                  <td>
+                    <span>From {{ item.min_val }} to {{ item.max_val }}</span>
+                    <progress-bar [value]="(item.min_val + 10) * 5" [bufferValue]="(item.max_val + 10) * 5"
+                      [color]="'#e5ff00'"></progress-bar>
+                  </td>
+                  <td>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                      <button pButton pRipple type="button" icon="pi pi-pencil"
+                        class="p-button-text p-button-Primary"></button>
+                      <button pButton pRipple type="button" icon="pi pi-trash"
+                        class="p-button-text p-button-danger"></button>
+                    </div>
+                  </td>
+                </ng-container>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </ng-container>
+
     </p-panel>
   </div>
 </div>

@@ -1,62 +1,72 @@
-<div class="flex justify-evenly w-full gap-4" *ngIf="showAdditionalCards">
-  <div class="card-item" *ngFor="let campaign of campaigns; let i = index">
-    <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.imageUrl + ')'}">
-    </div>
-    <div class="text-container">
-      <div class="campaign-name-overlay">{{ campaign.name }}</div>
-      <div class="stats">
-        <div class="stat">
-          <div class="flex justify-around w-full mb-4">
-            <img class="tab-icon" [src]="'assets/social-media/svg/likes.svg'" alt="Icon">
-            <span class="count">{{ campaign.likesCount }}</span>
-          </div>
-          <span class="change">
-            <span *ngIf="campaign.likesChange > 0; else negative" class="positive">
-              +{{ campaign.likesChange }}
-            </span>
-            <ng-template #negative>
-              <span class="negative">
-                {{ campaign.likesChange }}
+<div class="cards" *ngIf="showAdditionalCards">
+  <ng-container *ngIf="loading">
+    <p-skeleton height="520px" />
+    <p-skeleton height="520px" />
+    <p-skeleton height="520px" />
+  </ng-container>
+  <ng-container *ngIf="!loading">
+    <div class="card-item" *ngFor="let campaign of campaigns; let i = index">
+      <div class="image-container campaign-image" [ngStyle]="{'background-image': 'url(' + campaign.img_url + ')'}">
+      </div>
+      <div class="text-container">
+        <div class="campaign-name-overlay">{{ campaign.description }}</div>
+        <div class="stats">
+          <div class="stat">
+            <div class="flex justify-around w-full mb-4">
+              <img class="tab-icon" [src]="'assets/social-media/svg/likes.svg'" alt="Icon">
+              <span class="count">{{ campaign.total_likes }}</span>
+            </div>
+            <span class="change">
+              <span *ngIf="campaign.likesChange > 0; else negative" class="positive">
+                +{{ campaign.like_increment }}
               </span>
-            </ng-template>
-            this week
-          </span>
-        </div>
-        <div class="stat">
-          <div class="flex justify-around w-full mb-4">
-            <img class="tab-icon" [src]="'assets/social-media/svg/comment.svg'" alt="Icon">
-            <span class="count">{{ campaign.commentsCount }}</span>
-          </div>
-          <span class="change">
-            <span *ngIf="campaign.likesChange > 0; else negative" class="positive">
-              +{{ campaign.commentsChange }}
+              <ng-template #negative>
+                <span class="negative">
+                  {{ campaign.like_increment }}
+                </span>
+              </ng-template>
+              this week
             </span>
-            <ng-template #negative>
-              <span class="negative">
-                {{ campaign.commentsChange }}
+          </div>
+          <div class="stat">
+            <div class="flex justify-around w-full mb-4">
+              <img class="tab-icon" [src]="'assets/social-media/svg/comment.svg'" alt="Icon">
+              <span class="count">{{ campaign.total_comments }}</span>
+            </div>
+            <span class="change">
+              <span *ngIf="campaign.likesChange > 0; else negative" class="positive">
+                +{{ campaign.comment_increment }}
               </span>
-            </ng-template>
-            this week
-          </span>
-        </div>
-      </div>
-      <div class="campaign-info">
-        <div class="row1">
-          <span class="campaign-name">{{ campaign.campaignName }}</span>
-          <span class="pi pi-facebook"></span>
-        </div>
-        <div class="row2">
-          <div class="sentiment-info">
-            <span class="overall-sentiment-text">Overall Sentiments:</span>
+              <ng-template #negative>
+                <span class="negative">
+                  {{ campaign.comment_increment }}
+                </span>
+              </ng-template>
+              this week
+            </span>
           </div>
         </div>
-        <div class="row3">
-          <p-chart type="line" [data]="DataSentiments[i]" [options]="OptionsSideCards"></p-chart>
+        <div class="campaign-info">
+          <div class="row1">
+            <span class="campaign-name">{{ campaign.company }}</span>
+            <span *ngIf="campaign.social_media === 'SM02'; else facebookIcon" class="pi pi-instagram"></span>
+            <ng-template #facebookIcon>
+              <span *ngIf="campaign.social_media === 'SM01'" class="pi pi-facebook"></span>
+            </ng-template>
+          </div>
+          <div class="row2">
+            <div class="sentiment-info">
+              <span class="overall-sentiment-text">Overall Sentiments:</span>
+            </div>
+          </div>
+          <div class="row3">
+            <p-chart type="line" [data]="DataSentiments[i]" [options]="OptionsSideCards"></p-chart>
+          </div>
         </div>
-      </div>
-      <div class="button-container">
-        <p-button label="View Campaign" [outlined]="true" (click)="viewCampaign(campaign)"></p-button>
+        <div class="button-container">
+          <p-button label="View Campaign" [outlined]="true" (click)="viewCampaign(campaign)"></p-button>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </div>

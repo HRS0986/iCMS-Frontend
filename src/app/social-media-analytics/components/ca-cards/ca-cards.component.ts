@@ -10,9 +10,10 @@ export class CaCardsComponent implements OnInit {
   DataSentiments: any[] = [];
   @Input() campaigns: any[] = [];
   @Input() showAdditionalCards: boolean = false;
+  @Input() loading: boolean = true;
 
   viewCampaign(card: any) {
-    window.open(card.postUrl, '_blank');
+    window.open(card.post_url, '_blank');
   }
 
   ngOnInit() {
@@ -55,7 +56,7 @@ export class CaCardsComponent implements OnInit {
         datasets: [
           {
             label: 'Sentiments',
-            data: this.campaigns[i].dataSentimentValues,
+            data: this.campaigns[i].s_score_arr,
             fill: false,
             borderColor: this.campaigns[i].color,
             borderWidth: 1.5,

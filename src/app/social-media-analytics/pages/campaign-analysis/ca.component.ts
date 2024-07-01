@@ -1,65 +1,67 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuItem } from "primeng/api";
-import { Content } from '../../models/main-types';
 import { CampaignAnalysisApiService } from '../../services/campaign-analysis-api.service';
+import { TabStateService } from '../../services/tab-state.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ca',
   templateUrl: './ca.component.html',
   styleUrls: ['./ca.component.scss']
 })
-export class CAComponent implements OnInit {
+export class CAComponent implements OnInit, OnDestroy {
+  loading: boolean = true;
+
   breadcrumbItems: MenuItem[] = [
     { label: "Social Media Analytics" },
     { label: "Campaign Analysis" }
   ];
 
+  private subscription: Subscription = new Subscription();
+
   tabFacebook = { title: 'Facebook', img: 'assets/social-media/icons/facebook.png' };
   tabInstagram = { title: 'Instagram', img: 'assets/social-media/icons/instargram.png' };
-  tabTwitter = { title: 'Twitter', img: 'assets/social-media/icons/twitter.png' };
 
-  caPageItem1: Content = { title: 'Top Performing Campaigns on Facebook' };
-  caPageItem2: Content = { title: 'Top Performing Campaigns on Instagram' };
-  caPageItem3: Content = { title: 'Top Performing Campaigns on Twitter' };
+  caPageContent = { subtitle: 'Top Performing Campaigns', topCampaigns: [], additionalCampaigns: [] };
 
   topBarCaption = "Add New:";
   showAdditionalCards: boolean = false;
-  topCampaigns: any[] = [];
-
-  additionalCampaigns1: any[] = [];
 
   items: MenuItem[] | undefined;
   activeItem: MenuItem | undefined;
 
-  constructor(private campaignAnalysisApiService: CampaignAnalysisApiService) { }
+  constructor(
+    private campaignAnalysisApiService: CampaignAnalysisApiService,
+    private tabStateService: TabStateService
+  ) { }
 
   ngOnInit(): void {
-    this.fetchCampaignData();
-  }
+    this.subscription = this.tabStateService.activeTab$.subscribe((tabName: string) => {
+      let platform = "SM01";
+      if (tabName === "Instagram") {
+        platform = "SM02";
+      }
+      this.loading = true;
 
-  fetchCampaignData(): void {
-    this.campaignAnalysisApiService.getCAData("2024-05-01", "2024-07-30").subscribe(response => {
-      this.processCampaignData(response["SM01"]);
+      this.campaignAnalysisApiService.getCAData(platform).subscribe(response => {
+        const campaignsContent = response;
+        campaignsContent.forEach((item: any) => {
+          if (item.description.length > 40) {
+            item.description = item.description.slice(0, 40) + '...';
+          }
+          item.dataSentimentLabels = Array.from({ length: item.s_score_arr.length }, (_, i) => `${i + 1}`);
+        });
+        this.caPageContent.topCampaigns = campaignsContent;
+        this.loading = false;
+      });
     });
   }
 
-  processCampaignData(campaignData: any[]): void {
-    this.topCampaigns = campaignData.map(campaign => ({
-      name: campaign.description.split('\n')[0],
-      campaignName: campaign.company,
-      color: campaign.color,
-      likesCount: campaign.total_likes,
-      likesChange: campaign.like_increment,
-      commentsCount: campaign.total_comments,
-      commentsChange: campaign.comment_increment,
-      dataSentimentLabels: Array.from({ length: campaign.s_score_arr.length }, (_, i) => `${i + 1}`),
-      dataSentimentValues: campaign.s_score_arr,
-      imageUrl: campaign.img_url,
-      postUrl: campaign.post_url,
-    }));
-    console.log('Top Campaigns:', this.topCampaigns);
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
-
 
   toggleAdditionalCards(): void {
     this.showAdditionalCards = !this.showAdditionalCards;

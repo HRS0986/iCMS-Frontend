@@ -8,13 +8,10 @@ export interface SettingAlertsData {
 }
 
 export interface AlertItem {
-  keyword?: string;
-  sm_id?: string;
+  product?: string;
   alerttype?: string;
-  threshold?: string;
   min_val?: number;
   max_val?: number;
-  author?: string;
 }
 
 export interface SettingContent{
@@ -33,10 +30,9 @@ export interface AlertItem {
 }
 
 export interface Thresholds {
-  platform: string;
   alert_type: string;
-  overallSentiment: string | number; // Change the type to string | number
-  color: string;
   min_val: number;
   max_val: number;
+  sm_id: string;
+  id: string;
 }

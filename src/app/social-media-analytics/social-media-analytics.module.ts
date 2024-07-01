@@ -21,6 +21,7 @@ import { ChipsModule } from 'primeng/chips';
 import { TabViewModule } from 'primeng/tabview';
 import { CardModule } from 'primeng/card';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { SkeletonModule } from 'primeng/skeleton';
 
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
 import { CAComponent } from "./pages/campaign-analysis/ca.component";
@@ -75,6 +76,7 @@ import { ModalSetThresholdComponent } from './components/Modals/modal-set-thresh
     
   ],
   imports: [
+    SkeletonModule,
     PanelModule,
     CommonModule,
     SharedModule,
