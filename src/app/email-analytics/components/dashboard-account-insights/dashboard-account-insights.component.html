@@ -1,27 +1,42 @@
 <div class="w-full" (click)="popup()">
-    <p-table
+  <div class="flex flex-col justify-evenly items-center">
+    <div class="text-sm py-2 font-semibold text-slate-600 w-full text-center">
+      Account Insights
+    </div>
+    <div class="w-full">
+      <p-table
         [value]="displayedAccounts"
-        [tableStyle]="{'min-width': '20rem'}"
-        styleClass="p-datatable-sm"
-        tablesStyleClass="leading-normal"
-    >
+        [tableStyle]="{ 'min-width': '20rem' }"
+        styleClass="p-datatable-sm text-sm"
+        tablesStyleClass="leading-normal w-full"
+      >
         <ng-template pTemplate="header">
-            <tr>
-                <th>#</th>
-                <th>Account</th>
-                <th pFrozenColumn alignFrozen="right" class="text-right"><i class="pi pi-inbox"></i></th>
-                <th pFrozenColumn alignFrozen="right" class="text-right"><i class="pi pi-thumbs-up"></i></th>
-            </tr>
+          <tr>
+            <th>#</th>
+            <th>Account</th>
+            <th pFrozenColumn alignFrozen="right" class="text-right">
+              <i class="pi pi-inbox text-base"></i>
+            </th>
+            <th pFrozenColumn alignFrozen="right" class="text-right">
+              <i class="pi pi-thumbs-up text-base"></i>
+            </th>
+          </tr>
         </ng-template>
         <ng-template pTemplate="body" let-account>
-            <tr>
-                <td>{{ account.no }}</td>
-                <td>{{ account.name }}</td>
-                <td pFrozenColumn alignFrozen="right" class="text-right">{{ account.count }}</td>
-                <td pFrozenColumn alignFrozen="right" class="text-right">{{ account.sentiment }}</td>
-            </tr>
+          <tr>
+            <td>{{ account.no }}</td>
+            <td>{{ account.name }}</td>
+            <td pFrozenColumn alignFrozen="right" class="text-right">
+              {{ account.count }}
+            </td>
+            <td pFrozenColumn alignFrozen="right" class="text-right">
+              {{ account.sentiment }}
+            </td>
+          </tr>
         </ng-template>
-    </p-table>
+      </p-table>
+    </div>
+  </div>
 </div>
 
 <p-dialog

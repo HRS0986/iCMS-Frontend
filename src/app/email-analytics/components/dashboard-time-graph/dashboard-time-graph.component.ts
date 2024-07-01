@@ -61,7 +61,10 @@ export class DashboardTimeGraphComponent {
               title: {
                 display: true,
                 color: textColor,
-                text: 'First Response Time',	
+                text: 'First Response Time',
+                font: {
+                    size: 14,
+                },	
               }
           },
           scales: {

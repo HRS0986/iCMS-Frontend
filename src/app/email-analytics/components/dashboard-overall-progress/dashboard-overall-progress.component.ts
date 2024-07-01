@@ -96,6 +96,9 @@ export class DashboardOverallProgressComponent {
         title: {
           display: true,
           color: textColor,
+          font: {
+              size: 14,
+          }
         }
       },
     };

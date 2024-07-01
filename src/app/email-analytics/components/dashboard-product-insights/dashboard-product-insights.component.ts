@@ -52,6 +52,9 @@ export class DashboardProductInsightsComponent {
                 display: true,
                 color: textColor,
                 text: 'Product Insights',
+                font: {
+                    size: 14,
+                }
               }
           },
           scales: {
