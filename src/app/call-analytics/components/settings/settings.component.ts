@@ -16,7 +16,7 @@ export class SettingsComponent implements OnInit {
   callSettingsDetails!: CallSettingsDetails;
 
   breadcrumbItems: MenuItem[] = [
-    { label: 'Call Analytics' },
+    { label: 'Call Analytics', routerLink: '/call/dashboard' },
     { label: 'Settings' },
   ];
 
