@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { CallAnalyticsConfig } from "../../config";
 import { UIChart } from "primeng/chart";
 
@@ -7,7 +7,7 @@ import { UIChart } from "primeng/chart";
   templateUrl: './doughnut-chart.component.html',
   styleUrl: './doughnut-chart.component.scss'
 })
-export class DoughnutChartComponent implements OnInit {
+export class DoughnutChartComponent implements OnInit, OnChanges {
   @Input() title!: string;
   @Input() percentages!: number[];
   @ViewChild('dChart') dChart!: UIChart;
@@ -15,29 +15,12 @@ export class DoughnutChartComponent implements OnInit {
   options: any;
   documentStyle = getComputedStyle(document.documentElement);
 
-  constructor() {
+  constructor(private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     const textColor = this.documentStyle.getPropertyValue('--text-color');
-    this.data = {
-      labels: CallAnalyticsConfig.SentimentCategories,
-      datasets: [
-        {
-          data: this.percentages,
-          backgroundColor: [
-            this.documentStyle.getPropertyValue('--negative-color'),
-            this.documentStyle.getPropertyValue('--positive-color'),
-            this.documentStyle.getPropertyValue('--neutral-color'),
-          ],
-          hoverBackgroundColor: [
-            this.documentStyle.getPropertyValue('--negative-hover-color'),
-            this.documentStyle.getPropertyValue('--positive-hover-color'),
-            this.documentStyle.getPropertyValue('--neutral-hover-color')
-          ]
-        }
-      ]
-    };
+    this.initializeChart(this.percentages);
 
     this.options = {
       cutout: '50%',
@@ -59,25 +42,36 @@ export class DoughnutChartComponent implements OnInit {
     };
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['percentages'] && !changes['percentages'].firstChange) {
+      this.refreshChart(this.percentages);
+    }
+  }
+
   refreshChart(dataset: number[]) {
-    // this.data = {
-    //   labels: CallAnalyticsConfig.SentimentCategories,
-    //   datasets: [
-    //     {
-    //       data: dataset,
-    //       backgroundColor: [
-    //         this.documentStyle.getPropertyValue('--negative-color'),
-    //         this.documentStyle.getPropertyValue('--positive-color'),
-    //         this.documentStyle.getPropertyValue('--neutral-color'),
-    //       ],
-    //       hoverBackgroundColor: [
-    //         this.documentStyle.getPropertyValue('--negative-hover-color'),
-    //         this.documentStyle.getPropertyValue('--positive-hover-color'),
-    //         this.documentStyle.getPropertyValue('--neutral-hover-color')
-    //       ]
-    //     }
-    //   ]
-    // };
-    this.dChart.refresh();
+    this.initializeChart(dataset);
+    this.cd.detectChanges(); // Trigger change detection
+    this.dChart.reinit(); // Ensure the chart is reinitialized
+  }
+
+  initializeChart(percentages: number[]) {
+    this.data = {
+      labels: CallAnalyticsConfig.SentimentCategories,
+      datasets: [
+        {
+          data: percentages,
+          backgroundColor: [
+            this.documentStyle.getPropertyValue('--negative-color'),
+            this.documentStyle.getPropertyValue('--positive-color'),
+            this.documentStyle.getPropertyValue('--neutral-color'),
+          ],
+          hoverBackgroundColor: [
+            this.documentStyle.getPropertyValue('--negative-hover-color'),
+            this.documentStyle.getPropertyValue('--positive-hover-color'),
+            this.documentStyle.getPropertyValue('--neutral-hover-color')
+          ]
+        }
+      ]
+    };
   }
 }

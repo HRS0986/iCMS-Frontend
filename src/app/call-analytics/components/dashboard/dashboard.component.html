@@ -29,9 +29,8 @@
       <best-operators-card style="width: 54%;" title="Best Operators" [operatorRankings]="operatorRankings"/>
     }
     @if (keywords !== undefined && keywords.length > 0) {
-      <app-wordcloud [words]="keywords" title="Keywords Highlights" />
+      <app-wordcloud #keywordCloud [words]="keywords" title="Keywords Highlights" />
     }
-
   </div>
 </div>
 

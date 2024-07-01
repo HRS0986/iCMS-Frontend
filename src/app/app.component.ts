@@ -24,7 +24,7 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.webSocketService.sendMessage("Hello from the client!");
+    // this.webSocketService.sendMessage("Hello from the client!");
   }
 
 }

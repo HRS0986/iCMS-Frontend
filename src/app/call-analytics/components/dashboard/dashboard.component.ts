@@ -13,6 +13,7 @@ import { DoughnutChartComponent } from "../doughnut-chart/doughnut-chart.compone
 import { LineAreaChartComponent } from "../line-area-chart/line-area-chart.component";
 import { BarChartComponent } from "../horizontal-bar-chart/bar-chart.component";
 import { StackedBarChartComponent } from "../stacked-bar-chart/stacked-bar-chart.component";
+import { WordcloudComponent } from "../../../shared/shared-components/wordcloud/wordcloud.component";
 
 
 @Component({
@@ -25,6 +26,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('lChartComp') lChart!: LineAreaChartComponent;
   @ViewChild('bChartComp') bChart!: BarChartComponent;
   @ViewChild('sChartComp') sChart!: StackedBarChartComponent;
+  @ViewChild('keywordCloud') keywordCloud!: WordcloudComponent;
 
   breadcrumbItems: MenuItem[] = [
     {label: "Call Analytics"},
@@ -68,6 +70,7 @@ export class DashboardComponent implements OnInit {
 
     this.callAnalyticsService.getSentimentPercentages(start, end).then(response => {
       this.callSentiments = response.data
+      console.log(this.callSentiments)
       if (this.dChart) this.dChart.refreshChart(response.data);
     }).catch(err => {
       console.log(err);
@@ -107,6 +110,7 @@ export class DashboardComponent implements OnInit {
 
     this.callAnalyticsService.getAllKeywords(start, end).then(response => {
       this.keywords = Object.entries(response.data).map(([word, weight]) => ({word: word, weight: Number(weight)}));
+      if (this.keywordCloud) this.keywordCloud.refreshChart(this.keywords);
     }).catch(err => {
       console.log(err);
     }).finally(() => {

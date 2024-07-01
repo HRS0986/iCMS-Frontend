@@ -13,9 +13,9 @@ export class BarChartComponent implements OnInit {
 
   data: any;
   options: any;
+  documentStyle = getComputedStyle(document.documentElement);
 
   ngOnInit() {
-    const documentStyle = getComputedStyle(document.documentElement);
     this.options = {
       indexAxis: 'x',
       maintainAspectRatio: false,
@@ -31,23 +31,27 @@ export class BarChartComponent implements OnInit {
       }
     };
 
-    const topicsData = this.dataset;
+    this.initializeChart(this.dataset);
+  }
+
+  refreshChart(dataset: { [key: string]: number }) {
+    this.initializeChart(dataset);
+    this.bChart.refresh();
+  }
+
+  initializeChart(dataset: { [key: string]: number }) {
+    const topicsData = dataset;
     const topicsList = Object.keys(topicsData);
     const topicsValues = Object.values(topicsData);
     this.data = {
       labels: topicsList,
       datasets: [
         {
-          backgroundColor: documentStyle.getPropertyValue('--primary-color') + documentStyle.getPropertyValue('--alpha-value'),
-          borderColor: documentStyle.getPropertyValue('--blue-500'),
+          backgroundColor: this.documentStyle.getPropertyValue('--primary-color') + this.documentStyle.getPropertyValue('--alpha-value'),
+          borderColor: this.documentStyle.getPropertyValue('--blue-500'),
           data: topicsValues
         }
       ]
     };
-  }
-
-  refreshChart(dataset: { [key: string]: number }) {
-    this.dataset = dataset;
-    this.bChart.refresh();
   }
 }
