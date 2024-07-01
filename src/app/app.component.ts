@@ -9,28 +9,22 @@ import { WebSocketService } from "./shared/shared-services/web-socket.service";
 })
 export class AppComponent implements OnInit{
   title = 'iCMS-Frontend';
-  currentUrl = ""
+  currentUrl = "";
   isAuthLayout = false;
 
   constructor(private router: Router, private webSocketService: WebSocketService) {
+    this.webSocketService.connect("ws://localhost:8000/ws/notify");
     this.router.events
       .subscribe((event) => {
         if (event instanceof NavigationEnd) {
           this.currentUrl = event.url
           this.isAuthLayout = this.currentUrl.includes("auth");
         }
-      })
+      });
   }
 
   ngOnInit() {
-    const callWebSocket = this.webSocketService.connect("ws://localhost:8000/ws/notify");
-    callWebSocket.onmessage = (event) => {
-      console.log("[Call Analytics] ", event.data);
-    }
-
-    callWebSocket.onopen = () => {
-      console.log("[Call Analytics] Connected to the server");
-    }
+    this.webSocketService.sendMessage("Hello from the client!");
   }
 
 }

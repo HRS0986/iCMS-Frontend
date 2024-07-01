@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CallAnalyticsConfig } from "../../config";
+import { UIChart } from "primeng/chart";
 
 @Component({
   selector: 'doughnut-chart',
@@ -9,29 +10,30 @@ import { CallAnalyticsConfig } from "../../config";
 export class DoughnutChartComponent implements OnInit {
   @Input() title!: string;
   @Input() percentages!: number[];
+  @ViewChild('dChart') dChart!: UIChart;
   data: any;
   options: any;
+  documentStyle = getComputedStyle(document.documentElement);
 
   constructor() {
   }
 
   ngOnInit() {
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColor = this.documentStyle.getPropertyValue('--text-color');
     this.data = {
       labels: CallAnalyticsConfig.SentimentCategories,
       datasets: [
         {
           data: this.percentages,
           backgroundColor: [
-            documentStyle.getPropertyValue('--negative-color'),
-            documentStyle.getPropertyValue('--positive-color'),
-            documentStyle.getPropertyValue('--neutral-color'),
+            this.documentStyle.getPropertyValue('--negative-color'),
+            this.documentStyle.getPropertyValue('--positive-color'),
+            this.documentStyle.getPropertyValue('--neutral-color'),
           ],
           hoverBackgroundColor: [
-            documentStyle.getPropertyValue('--negative-hover-color'),
-            documentStyle.getPropertyValue('--positive-hover-color'),
-            documentStyle.getPropertyValue('--neutral-hover-color')
+            this.documentStyle.getPropertyValue('--negative-hover-color'),
+            this.documentStyle.getPropertyValue('--positive-hover-color'),
+            this.documentStyle.getPropertyValue('--neutral-hover-color')
           ]
         }
       ]
@@ -55,6 +57,27 @@ export class DoughnutChartComponent implements OnInit {
         }
       }
     };
+  }
 
+  refreshChart(dataset: number[]) {
+    // this.data = {
+    //   labels: CallAnalyticsConfig.SentimentCategories,
+    //   datasets: [
+    //     {
+    //       data: dataset,
+    //       backgroundColor: [
+    //         this.documentStyle.getPropertyValue('--negative-color'),
+    //         this.documentStyle.getPropertyValue('--positive-color'),
+    //         this.documentStyle.getPropertyValue('--neutral-color'),
+    //       ],
+    //       hoverBackgroundColor: [
+    //         this.documentStyle.getPropertyValue('--negative-hover-color'),
+    //         this.documentStyle.getPropertyValue('--positive-hover-color'),
+    //         this.documentStyle.getPropertyValue('--neutral-hover-color')
+    //       ]
+    //     }
+    //   ]
+    // };
+    this.dChart.refresh();
   }
 }

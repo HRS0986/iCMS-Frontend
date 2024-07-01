@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { OperatorAnalyticsOverTimeRecord } from "../../types";
+import { UIChart } from "primeng/chart";
 
 @Component({
   selector: 'stacked-bar-chart',
@@ -9,6 +10,7 @@ import { OperatorAnalyticsOverTimeRecord } from "../../types";
 export class StackedBarChartComponent implements OnInit {
   @Input() title!: string;
   @Input() dataset!: OperatorAnalyticsOverTimeRecord[];
+  @ViewChild('sChart') sChart!: UIChart;
 
   data: any;
   documentStyle = getComputedStyle(document.documentElement);
@@ -80,5 +82,33 @@ export class StackedBarChartComponent implements OnInit {
         }
       ]
     };
+  }
+
+  refreshChart(dataset: OperatorAnalyticsOverTimeRecord[]) {
+    this.dataset = dataset;
+    this.data = {
+      labels: dataset.map(dt => dt.operator_name.slice(0, 5)),
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Positive',
+          backgroundColor: this.documentStyle.getPropertyValue('--positive-color') + this.documentStyle.getPropertyValue('--alpha-value'),
+          data: dataset.map(dt => dt.positive)
+        },
+        {
+          type: 'bar',
+          label: 'Neutral',
+          backgroundColor: this.documentStyle.getPropertyValue('--neutral-color') + this.documentStyle.getPropertyValue('--alpha-value'),
+          data: dataset.map(dt => dt.neutral)
+        },
+        {
+          type: 'bar',
+          label: 'Negative',
+          backgroundColor: this.documentStyle.getPropertyValue('--negative-color') + this.documentStyle.getPropertyValue('--alpha-value'),
+          data: dataset.map(dt => dt.negative)
+        }
+      ]
+    };
+    this.sChart.refresh();
   }
 }

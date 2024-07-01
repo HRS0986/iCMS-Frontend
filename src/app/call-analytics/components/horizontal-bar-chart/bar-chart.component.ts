@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { UIChart } from "primeng/chart";
 
 @Component({
   selector: 'bar-chart',
@@ -8,6 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class BarChartComponent implements OnInit {
   @Input() title!: string;
   @Input() dataset!: { [key: string]: number };
+  @ViewChild('bChart') bChart!: UIChart;
 
   data: any;
   options: any;
@@ -42,5 +44,10 @@ export class BarChartComponent implements OnInit {
         }
       ]
     };
+  }
+
+  refreshChart(dataset: { [key: string]: number }) {
+    this.dataset = dataset;
+    this.bChart.refresh();
   }
 }
