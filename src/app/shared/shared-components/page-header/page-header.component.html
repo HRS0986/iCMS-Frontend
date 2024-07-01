@@ -23,6 +23,16 @@
     </p-calendar>
 
     <p-calendar
+    [(ngModel)]="rangeDates"
+    selectionMode="range"
+    [readonlyInput]="true"
+    [showIcon]="true"
+    class="z-10"
+    (ngModelChange)="onDateRangeChangeNotifications()"
+     *ngIf="mainDashboardNotification">
+  </p-calendar>
+
+    <p-calendar
       [(ngModel)]="rangeDates"
       selectionMode="range"
       [readonlyInput]="true"
@@ -30,7 +40,7 @@
       class="z-10"
       (ngModelChange)="onRangeDateChange($event)"
       [minDate]="minDate"
-      [maxDate]="maxDate" *ngIf="!mainDashboardDate && !callDashboardDate;">
+      [maxDate]="maxDate" *ngIf="!mainDashboardDate && !callDashboardDate &&!mainDashboardNotification">
     </p-calendar>
 
     <p-calendar
@@ -57,7 +67,6 @@
   <ng-container ngIf="showAddRoleButton">
     <app-right-sidebar [showAddRoleButton]="showAddRoleButton"></app-right-sidebar>
   </ng-container> -->
-
 
 </div>
 <p-divider></p-divider>

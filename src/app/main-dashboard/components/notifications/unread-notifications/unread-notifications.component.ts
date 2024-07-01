@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Message } from 'primeng/api';
 import {NotificationService} from "../../../services/notification.service"
 import { Subscription } from 'rxjs';
+import { DateRangeService } from '../../../services/shared-date-range/date-range.service';
 
 @Component({
   selector: 'app-unread-notifications',
@@ -30,7 +31,9 @@ export class UnreadNotificationsComponent implements OnInit {
 
   private socketSubscription: Subscription | undefined;
 
-  constructor(private notificationService: NotificationService)
+  constructor(private notificationService: NotificationService,
+    private dateRangeService:DateRangeService
+  )
   {}
 
   ngOnInit(): void {
@@ -43,6 +46,25 @@ export class UnreadNotificationsComponent implements OnInit {
       }
     );
 
+    
+  this.dateRangeService.currentDateRange.subscribe(range => {
+    if (range && range.length > 0) {
+      const startDate = new Date(range[0]);
+      let endDate = new Date(range[0]);
+
+      if (range[1]) {
+        endDate = new Date(range[1]);
+      }
+      this.filteredNotifications = this.notifications.filter(notification => {
+        console.log(notification.summary);
+        const notificationDate = new Date(notification.summary || '');
+        // Include the end date in the range
+        return notificationDate >= startDate && notificationDate <= endDate;
+      });
+    } else {
+      this.filteredNotifications = this.notifications;
+    }
+  });
   }
 
   addMessages(){
