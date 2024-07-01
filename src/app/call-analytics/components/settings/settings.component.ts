@@ -16,8 +16,8 @@ export class SettingsComponent implements OnInit {
   callSettingsDetails!: CallSettingsDetails;
 
   breadcrumbItems: MenuItem[] = [
-    {label: 'Call Analytics'},
-    {label: 'Settings'},
+    { label: 'Call Analytics', routerLink: '/call/dashboard' },
+    { label: 'Settings' },
   ];
 
   constructor(
@@ -51,15 +51,26 @@ export class SettingsComponent implements OnInit {
             bellowScore: this.callSettingsDetails['sentiment_lower_threshold'],
             aboveScore: this.callSettingsDetails['sentiment_upper_threshold'],
             aboveNotify: this.callSettingsDetails['is_upper_threshold_enabled'],
-            bellowNotify: this.callSettingsDetails['is_lower_threshold_enabled'],
-            enableEmailNotification: this.callSettingsDetails['is_email_alerts_enabled'],
-            enableKeywordsNotification: this.callSettingsDetails['is_keyword_alerts_enabled'],
-            enablePushNotification: this.callSettingsDetails['is_push_notifications_enabled'],
+            bellowNotify:
+              this.callSettingsDetails['is_lower_threshold_enabled'],
+            enableEmailNotification:
+              this.callSettingsDetails['is_email_alerts_enabled'],
+            enableKeywordsNotification:
+              this.callSettingsDetails['is_keyword_alerts_enabled'],
+            enablePushNotification:
+              this.callSettingsDetails['is_push_notifications_enabled'],
           });
-          const belowAlertsEnabled = this.notificationsSettingsForm.get('bellowNotify')?.value;
-          const aboveAlertsEnabled = this.notificationsSettingsForm.get('aboveNotify')?.value;
-          const isEmailNotificationEnabled = this.notificationsSettingsForm.get('enableEmailNotification')?.value;
-          const isKeywordNotificationsAllowed = this.notificationsSettingsForm.get('enableKeywordsNotification')?.value;
+          const belowAlertsEnabled =
+            this.notificationsSettingsForm.get('bellowNotify')?.value;
+          const aboveAlertsEnabled =
+            this.notificationsSettingsForm.get('aboveNotify')?.value;
+          const isEmailNotificationEnabled = this.notificationsSettingsForm.get(
+            'enableEmailNotification'
+          )?.value;
+          const isKeywordNotificationsAllowed =
+            this.notificationsSettingsForm.get(
+              'enableKeywordsNotification'
+            )?.value;
 
           if (!belowAlertsEnabled) {
             this.notificationsSettingsForm.get('bellowScore')?.disable();
@@ -85,17 +96,26 @@ export class SettingsComponent implements OnInit {
             this.notificationsSettingsForm.get('keywords')?.enable();
           }
         } else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: UserMessages.FETCH_ERROR });
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: UserMessages.FETCH_ERROR,
+          });
         }
       },
       () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: UserMessages.FETCH_ERROR });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: UserMessages.FETCH_ERROR,
+        });
       }
     );
   }
 
   onChangeBelowScore(event: CheckboxChangeEvent) {
-    const belowAlertsEnabled = event.checked.length !== 0;
+    console.log('Below Score Checkbox Changed:', event.checked);
+    const belowAlertsEnabled = event.checked;
     if (belowAlertsEnabled) {
       this.notificationsSettingsForm.get('bellowScore')?.enable();
     } else {
@@ -104,7 +124,8 @@ export class SettingsComponent implements OnInit {
   }
 
   onChangeAboveScore(event: CheckboxChangeEvent) {
-    const aboveAlertsEnabled = event.checked.length !== 0;
+    console.log('Above Score Checkbox Changed:', event.checked);
+    const aboveAlertsEnabled = event.checked;
     if (aboveAlertsEnabled) {
       this.notificationsSettingsForm.get('aboveScore')?.enable();
     } else {
@@ -114,28 +135,48 @@ export class SettingsComponent implements OnInit {
 
   onSubmit(): void {
     const formValue = this.notificationsSettingsForm.value;
-      this.callSettingsDetails.alert_keywords = formValue.keywords === undefined ? [] : formValue.keywords,
-      this.callSettingsDetails.alert_email_receptions = formValue.emails,
-      this.callSettingsDetails.sentiment_lower_threshold = formValue.bellowScore,
-      this.callSettingsDetails.sentiment_upper_threshold = formValue.aboveScore,
-      this.callSettingsDetails.is_upper_threshold_enabled = formValue.aboveNotify,
-      this.callSettingsDetails.is_lower_threshold_enabled = formValue.bellowNotify,
-      this.callSettingsDetails.is_email_alerts_enabled = formValue.enableEmailNotification,
-      this.callSettingsDetails.is_push_notifications_enabled = formValue.enablePushNotification,
-      this.callSettingsDetails.is_keyword_alerts_enabled = formValue.enableKeywordsNotification,
-      this.callSettingsDetails.topics = formValue.topics
+    (this.callSettingsDetails.alert_keywords =
+      formValue.keywords === undefined ? [] : formValue.keywords),
+      (this.callSettingsDetails.alert_email_receptions = formValue.emails),
+      (this.callSettingsDetails.sentiment_lower_threshold =
+        formValue.bellowScore || 0),
+      (this.callSettingsDetails.sentiment_upper_threshold =
+        formValue.aboveScore || 10),
+      (this.callSettingsDetails.is_upper_threshold_enabled =
+        formValue.aboveNotify),
+      (this.callSettingsDetails.is_lower_threshold_enabled =
+        formValue.bellowNotify),
+      (this.callSettingsDetails.is_email_alerts_enabled =
+        formValue.enableEmailNotification),
+      (this.callSettingsDetails.is_push_notifications_enabled =
+        formValue.enablePushNotification),
+      (this.callSettingsDetails.is_keyword_alerts_enabled =
+        formValue.enableKeywordsNotification),
+      (this.callSettingsDetails.topics = formValue.topics);
     console.log(this.callSettingsDetails);
     this.callSettingsService
       .updateNotificationSettings(this.callSettingsDetails)
       .then((response) => {
         if (response.status) {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: UserMessages.SAVED_SUCCESS });
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: UserMessages.SAVED_SUCCESS,
+          });
         } else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: UserMessages.SAVED_ERROR });
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: UserMessages.SAVED_ERROR,
+          });
         }
       })
       .catch((error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: UserMessages.SAVED_ERROR });
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: UserMessages.SAVED_ERROR,
+        });
         console.log(error);
       });
   }
