@@ -13,36 +13,36 @@ export class CallAnalyticsService {
   constructor(private http: HttpClient) {
   }
 
-  public getCallStatistics(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/call-statistics`));
+  public getCallStatistics(start: string,  end: string): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/call-statistics?start=${start}&end=${end}`));
   }
 
-  public getSentimentPercentages(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/sentiment-percentages`));
+  public getSentimentPercentages(start: string,  end: string): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/sentiment-percentages?start=${start}&end=${end}`));
   }
 
-  public getOperatorCallsOverTime(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/operator-calls-over-time`));
+  public getOperatorCallsOverTime(start: string,  end: string): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/operator-calls-over-time?start=${start}&end=${end}`));
   }
 
-  public getTopicsDistribution(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/topics-distribution`));
+  public getTopicsDistribution(start: string,  end: string): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/topics-distribution?start=${start}&end=${end}`));
   }
 
 
-  public getOperatorRatings(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/operator-ratings`))
+  public getOperatorRatings(start: string,  end: string): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/operator-ratings?start=${start}&end=${end}`))
   }
 
-  public getSentimentTimeDetails(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/sentiment-time-details`));
+  public getSentimentOverTime(start: string,  end: string): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/sentiment-over-time?start=${start}&end=${end}`));
   }
 
   public getCallSummary(call_id: string): Promise<ApiResponse> {
     return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/call-summary/${call_id}`));
   }
 
-  public getAllKeywords(): Promise<ApiResponse> {
-    return  firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/all-keywords`));
+  public getAllKeywords(start: string,  end: string): Promise<ApiResponse> {
+    return  firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/all-keywords?start=${start}&end=${end}`));
   }
 }

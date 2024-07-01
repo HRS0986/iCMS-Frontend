@@ -30,14 +30,24 @@
       class="z-10"
       (ngModelChange)="onRangeDateChange($event)"
       [minDate]="minDate"
-      [maxDate]="maxDate" *ngIf="!mainDashboardDate">
+      [maxDate]="maxDate" *ngIf="!mainDashboardDate && !callDashboardDate;">
     </p-calendar>
 
+    <p-calendar
+      [(ngModel)]="callDateRange"
+      selectionMode="range"
+      [readonlyInput]="true"
+      [showIcon]="true"
+      [showButtonBar]="true"
+      (ngModelChange)="onRangeSelect($event)"
+      *ngIf="callDashboardDate">
+    </p-calendar>
   </div>
 
 
   <ng-container class="w-fit" *ngIf="showRightSideBarButtons">
-    <app-right-sidebar [showAddMemberButton]="showAddMemberButton" [showAddWidgetButton]="showAddWidgetButton" [showAddRoleButton]="showAddRoleButton"></app-right-sidebar>
+    <app-right-sidebar [showAddMemberButton]="showAddMemberButton" [showAddWidgetButton]="showAddWidgetButton"
+                       [showAddRoleButton]="showAddRoleButton"></app-right-sidebar>
   </ng-container>
 
   <!-- <ng-container ngIf="showAddMemberButton">
@@ -47,6 +57,7 @@
   <ng-container ngIf="showAddRoleButton">
     <app-right-sidebar [showAddRoleButton]="showAddRoleButton"></app-right-sidebar>
   </ng-container> -->
+
 
 </div>
 <p-divider></p-divider>

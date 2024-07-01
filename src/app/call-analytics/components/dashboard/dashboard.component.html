@@ -1,24 +1,37 @@
-<app-page-header pageTitle="Call Analytics Dashboard" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems"/>
+<app-page-header pageTitle="Call Analytics Dashboard" class="w-full h-fit" [breadcrumbItems]="breadcrumbItems" [showDatePicker]="true" [callDashboardDate]="true"
+                 (callDateRangeChanged)="reloadData($event[0], $event[1])" />
 <div class="flex flex-col">
   <div class="flex gap-5 flex-wrap">
-    <div class="stat-cards">
-      <app-stat-card [isLoading]="isLoadingStatistics" title="{{callStatistics.total_calls}}" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
-      <app-stat-card [isLoading]="isLoadingStatistics" title="{{Math.round(callStatistics.avg_call_time_in_sec / 60)}} Min" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
-      <app-stat-card [isLoading]="isLoadingStatistics" title="{{Math.round(callStatistics.total_duration_in_sec / 60)}}" subTitle="Total Minute" imgPath="./call/blue-call.png"/>
-    </div>
-    <app-line-area-chart title="Sentiment Over Time"/>
-    <app-doughnut-chart title="Sentiment Distribution" [percentages]="[callSentiments.negative, callSentiments.positive, callSentiments.neutral]"/>
+    @if (callStatistics !== undefined) {
+      <div class="stat-cards">
+        <app-stat-card [isLoading]="isLoadingStatistics" title="{{callStatistics.total_calls}}" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
+        <app-stat-card [isLoading]="isLoadingStatistics" title="{{Math.round(callStatistics.avg_call_time_in_sec / 60)}} Min" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
+        <app-stat-card [isLoading]="isLoadingStatistics" title="{{Math.round(callStatistics.total_duration_in_sec / 60)}}" subTitle="Total Minute" imgPath="./call/blue-call.png"/>
+      </div>
+    }
+    @if (sentimentOverTime !== undefined) {
+      <line-area-chart [dataset]="sentimentOverTime" title="Sentiment Over Time"/>
+    }
+    @if (callSentiments !== undefined) {
+      <doughnut-chart title="Sentiment Distribution" [percentages]="[callSentiments.negative, callSentiments.positive, callSentiments.neutral]"/>
+    }
   </div>
   <div class="flex gap-6 flex-wrap">
-    <app-bar-chart style="width: 49%;"/>
-    <app-stacked-bar-chart style="width: 49%;"/>
+    @if (topicDistribution !== undefined) {
+      <bar-chart style="width: 49%;" title="Calls Distribution By Topics" [dataset]="topicDistribution"/>
+    }
+    @if (operatorCallsOverTime !== undefined) {
+      <stacked-bar-chart style="width: 49%;" title="Call Distribution By Operators" [dataset]="operatorCallsOverTime"/>
+    }
   </div>
   <div class="flex gap-7 flex-wrap">
-    <app-best-operators-card style="width: 54%;"/>
-    <app-wordcloud [words]="keywords" title="Keywords Highlights" />
+    @if (operatorRankings !== undefined) {
+      <best-operators-card style="width: 54%;" title="Best Operators" [operatorRankings]="operatorRankings"/>
+    }
+    @if (keywords !== undefined && keywords.length > 0) {
+      <app-wordcloud [words]="keywords" title="Keywords Highlights" />
+    }
 
   </div>
-<!--  <div class="flex gap-7 flex-wrap">-->
-<!--    <app-stacked-bar-chart />-->
-<!--  </div>-->
 </div>
+

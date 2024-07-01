@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from "@angular/router";
-import { WebSocketService } from "./call-analytics/services/web-socket.service";
+import { WebSocketService } from "./shared/shared-services/web-socket.service";
 
 @Component({
   selector: 'app-root',
@@ -23,7 +23,14 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.webSocketService.connect();
+    const callWebSocket = this.webSocketService.connect("ws://localhost:8000/ws/notify");
+    callWebSocket.onmessage = (event) => {
+      console.log("[Call Analytics] ", event.data);
+    }
+
+    callWebSocket.onopen = () => {
+      console.log("[Call Analytics] Connected to the server");
+    }
   }
 
 }
