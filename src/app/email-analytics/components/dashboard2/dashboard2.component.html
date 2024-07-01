@@ -8,6 +8,9 @@
       (rangeDatesChanged)="onRangeDatesChanged($event)"
       [minDate]="minDate"
       [maxDate]="maxDate"
+      [emailDashboardDate]="true"
+      [intervalInDaysStart]="intervalInDaysStart"
+      [intervalInDaysEnd]="intervalInDaysEnd"
     />
   </div>
 
@@ -21,7 +24,10 @@
     >
       <!-- <span class="text-5xl">1</span>
       <span class="text-3xl">summary</span> -->
-      <app-dashboard-summary-card></app-dashboard-summary-card>
+      <app-dashboard-summary-card 
+      [intervalInDaysStart]="intervalInDaysStart"
+      [intervalInDaysEnd]="intervalInDaysEnd">
+     </app-dashboard-summary-card>
       <!-- The most important overall KPI  -->
     </div>
     <div
@@ -29,14 +35,20 @@
     >
       <!-- <span class="text-5xl">5</span>
       <span class="text-3xl">sentiment score</span> -->
-      <app-dashboard-sentiment-card></app-dashboard-sentiment-card>
+      <app-dashboard-sentiment-card   
+      [intervalInDaysStart]="intervalInDaysStart"
+      [intervalInDaysEnd]="intervalInDaysEnd">
+    </app-dashboard-sentiment-card>
     </div>
     <div
       class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
     >
       <!-- <span class="text-5xl">2</span>
       <span class="text-3xl">issues</span> -->
-      <app-dashboard-issue-card></app-dashboard-issue-card>
+      <!-- <app-dashboard-issue-card   
+      [intervalInDaysStart]="intervalInDaysStart"
+      [intervalInDaysEnd]="intervalInDaysEnd">
+    </app-dashboard-issue-card> -->
     </div>
     <div
       class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"

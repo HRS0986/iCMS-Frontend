@@ -4,14 +4,10 @@
   (rangeDatesChanged)="onRangeDatesChanged($event)"
   [minDate]="minDate"
   [maxDate]="maxDate"
+  [emailDashboardDate]="true"
+  [intervalInDaysStart]="intervalInDaysStart"
+  [intervalInDaysEnd]="intervalInDaysEnd"
 />
-
-<!-- the calendars
-
-<p-calendar [(ngModel)]="fromDate" [minDate]="minDate" [maxDate]="maxDate" [readonlyInput]="true" 
-(ngModelChange)="onFromDateChange($event)" [showIcon]="true"  [ngStyle]="{ 'width.px': '100', 'height.px': '100' }"></p-calendar>
-<p-calendar [(ngModel)]="toDate" [minDate]="minDate" [maxDate]="maxDate" [readonlyInput]="true" 
-    (ngModelChange)="onToDateChange($event)" [showIcon]="true"></p-calendar> -->
 
 
 
@@ -25,20 +21,13 @@
       <app-wordcloud [words]="wordCloudData" title="Trending Products" *ngIf="!isLoadingWCC"/>
     </div>
     <div class="flex flex-row flex-wrap place-content-evenly w-full">
-      <app-line-area-chart title="Sentiments Over Time"  [labels]="labelsForSentimentsByTime" [positive_values]="positive_values_forSentimentsByTime" 
-      [neutral_values]="neutral_values_forSentimentsByTime" [negative_values]="negative_values_forSentimentsbyTime" *ngIf="!isLoadingSBTime"/>
-      <div class="flex flex-col place-content-evenly" >  
-        <div *ngFor="let item of statsData">
+      <app-line-area-chart title="Sentiments Over Time"  
+      [labels]="labelsForSentimentsByTime" 
+      [positive_values]="positive_values_forSentimentsByTime" 
+      [neutral_values]="neutral_values_forSentimentsByTime" 
+      [negative_values]="negative_values_forSentimentsbyTime" 
+      *ngIf="!isLoadingSBTime"/>
 
-          <app-stat-card *ngIf="!isLoadingStatCards"
-            [title]="item.title.toString()"
-            [subTitle]="item.sub_title"
-            [imgPath]="item.imgPath"
-            [header]="item.header"
-            [sentiment]="item.sentiment"
-          ></app-stat-card>
-        </div>
-      </div>
     </div>
 
     <!-- <app-stat-card title="540" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
@@ -73,13 +62,15 @@
  
   <div class="flex flex-wrap gap-6 place-content-evenly w-full">
     <app-horizontal-bar-chart title = "Average sentiment score By Products" [sbtChartLabels]="sbtChartLabels" [sbtChartColors]="sbtChartColors" [sbtChartValues]="sbtChartValues" *ngIf="!isLoadingSBT"/>
-    <!-- <div class="stat-cards"> -->
+
+  </div>
+
+      <!-- <div class="stat-cards"> -->
     <!-- <app-stat-card title="540" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
       <app-stat-card title="10 min" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>
       <app-stat-card title="5402" subTitle="Total Minute" imgPath="./call/blue-call.png"/> -->
     <!-- </div> -->
     <!-- <app-line-area-chart title="Sentiment Over Time"/> -->
-  </div>
   <div class="flex gap-6 flex-wrap">
     <!-- <app-gauge-chart/> -->
     <div class="stat-cards">

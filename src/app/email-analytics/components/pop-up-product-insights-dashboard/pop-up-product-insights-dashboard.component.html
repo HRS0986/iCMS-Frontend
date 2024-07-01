@@ -1,0 +1,83 @@
+<div class="my-container flex flex-col h-auto">
+    <div class="my-child-1 flex-none">
+      <app-page-header
+        pageTitle="Email Analytics Dashboard"
+        class="w-full h-fit"
+        [breadcrumbItems]="breadcrumbItems"
+        [showDatePicker]="true"
+        (rangeDatesChanged)="onRangeDatesChanged($event)"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        [emailDashboardDate]="true"
+        [intervalInDaysStart]="intervalInDaysStart"
+        [intervalInDaysEnd]="intervalInDaysEnd"
+      />
+    </div>
+  
+  </div>
+  
+  
+  <div class="flex flex-col">
+   
+    <div class="flex flex-wrap gap-6">
+      <app-best-worst-card
+        header="Best Peforming Product"
+        [card_content]="bestProduct"
+        [bgcolor]="bestProductColor"
+        *ngIf="!isLoadingBestProduct"
+      />
+  
+      <app-best-worst-card
+        header="Worst Peforming Product"
+        [card_content]="worstProduct"
+        [bgcolor]="worstProductColor"
+        *ngIf="!isLoadingWorstProduct"
+      />
+    </div>
+
+    <app-wordcloud [words]="wordCloudData" title="Trending Products" *ngIf="!isLoadingWCC"/>
+  
+    <div class="flex flex-wrap gap-6">
+      <app-dynamic-stacked-bar-chart
+        title="Issue and Inquiry Distribution of Products"
+        [labels]="prodcuts_distri_of_issues_and_inquiries_labels"
+        [datasets]="prodcuts_distri_of_issues_and_inquiries_datasets"
+        *ngIf="!isLoadingProductdistriOfIssuesnInquirires"
+      />
+    </div>
+
+    <div class="flex flex-wrap gap-6 place-content-evenly w-full">
+        <app-stacked-bar-chart 
+        title="Email count by sentiments and products"
+        [labels]="labels_forStackedBarChart" 
+        [negativeDataSet]="negativeDataSet_forStackedBarChart" 
+        [neutralDataSet]="neutralDataSet_forStackedBarChart" 
+        [positiveDataSet]="positiveDataSet_forStackedBarChart"
+        *ngIf="!isLoadingSDT" />
+    
+      </div>
+    
+      <div class="flex flex-wrap gap-6 place-content-evenly w-full">
+        <app-multi-horizontal-bar-chart title="Average sentiments distribution of Products"
+        [labels]="labels_forMultiHorizontal"
+        [avgPositiveValues]="positiveDataSet_forMulti_HorizontalBarChart"
+        [avgNeutralValues]="neutralDataSet_forMulti_HorizontalBarChart"
+        [avgNegativeValues]="negativeDataSet_forMulti_HorizontalBarChart"
+        *ngIf="!isLoadingSDT"/>
+      </div>
+      
+    
+      <div class="flex flex-wrap gap-6 place-content-evenly w-full">
+        <app-horizontal-bar-chart title = "Average sentiment score By Products" 
+        [sbtChartLabels]="sbtChartLabels" 
+        [sbtChartColors]="sbtChartColors" 
+        [sbtChartValues]="sbtChartValues" 
+        *ngIf="!isLoadingSBT"/>
+    
+      </div>
+  
+    
+ 
+
+  </div>
+  

@@ -40,3 +40,36 @@
     </span>
   </div>
 </div>
+
+<p-dialog
+  header="Sentiment Overview"
+  [(visible)]="dialogVisible"
+  [style]="{ width: '70vw' }"
+  [modal]="true"
+  [closable]="true"
+  [maximizable]="true"
+  [draggable]="false"
+  [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
+>
+  <!-- <app-performance-insights-dashboard
+  [intervalInDaysStart]="intervalInDaysStart"
+  [intervalInDaysEnd]="intervalInDaysEnd">
+  </app-performance-insights-dashboard>
+
+  <app-pop-up-email-account-insights-dashboard
+  [intervalInDaysStart]="intervalInDaysStart"
+  [intervalInDaysEnd]="intervalInDaysEnd">
+  </app-pop-up-email-account-insights-dashboard> -->
+
+  <app-pop-up-issues-and-inquiry-insights-dashboard
+  [intervalInDaysStart]="intervalInDaysStart"
+  [intervalInDaysEnd]="intervalInDaysEnd">
+  </app-pop-up-issues-and-inquiry-insights-dashboard>
+
+  <app-pop-up-product-insights-dashboard
+  [intervalInDaysStart]="intervalInDaysStart"
+  [intervalInDaysEnd]="intervalInDaysEnd">
+  </app-pop-up-product-insights-dashboard>
+
+</p-dialog>
+

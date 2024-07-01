@@ -1,36 +1,26 @@
-import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MenuItem } from "primeng/api";
-import { BestPerformingEmailAccResponse, EmailAccEfficiencyResponse, InquiriesByEfficiencyEffectivenessResponse, IssueInquiryFreqByProdcuts, IssueInquiryFreqByTypeResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverallyEfficiencyEffectivenessPecentagesResponse, OverdueIssuesResponse } from '../../interfaces/dashboard';
-import { DataService } from '../../services/dashboardMain.service';
+import { EmailAccEfficiencyResponse, InquiriesByEfficiencyEffectivenessResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverallyEfficiencyEffectivenessPecentagesResponse, OverdueIssuesResponse } from '../../interfaces/dashboard';
+import { MenuItem } from 'primeng/api';
+import { DataService } from '../../services/pop-up.performance-insights.service';
 import { Subscription } from 'rxjs';
 
-interface TrendingTopic {
-  text: string;
-  frequency: number;
-}
-
-interface TrendingWord {
-  word: string;
-  weight: number;
-  color: string
-}
 @Component({
-  selector: 'app-dashboard2',
-  templateUrl: './dashboard2.component.html',
-  styleUrl: './dashboard2.component.scss'
+  selector: 'app-performance-insights-dashboard',
+  templateUrl: './performance-insights-dashboard.component.html',
+  styleUrl: './performance-insights-dashboard.component.scss'
 })
-export class Dashboard2Component implements OnInit{
+export class PerformanceInsightsDashboardComponent {
+
   breadcrumbItems: MenuItem[] = [
     {label: "Email Analytics"},
-    {label: "Dashboard"}
+    {label: "Dashboard"},
+    {label:"Performance analytics"}
   ];
 
-  intervalInDaysStart: number = 29;
-  intervalInDaysEnd: number = 0;
-
-  // calenders
+  @Input() intervalInDaysStart!: number;
+  @Input() intervalInDaysEnd!: number;
 
   rangeDates: Date[] | undefined;
   
@@ -40,13 +30,6 @@ export class Dashboard2Component implements OnInit{
   minDate: Date = new Date();
   maxDate: Date = new Date();
   
-  // Topic cloud
-  keywords: TrendingTopic[] = [];
-  isLoadingTC: boolean = false;
-  
-  // overall sentiments donought chart inputs
-  chartData: number[] = [];
-  isLoadingDC: boolean = false;
 
   dntChartDataProgress: number[] = []
   dntChartProgressLabels: string[] = []
@@ -71,28 +54,6 @@ export class Dashboard2Component implements OnInit{
   effect_distri_vert_var_inquiries_data: number[] =[]
   isLoadingEffectDistri: boolean = true;
 
-  issue_types_distri_labels: string[]=[]
-  issue_types_distri_colors: any[]=[]
-  issue_types_distri_data: number[]=[]
-  isLoadingIssueTypes: boolean = true
-
-  inquiry_types_distri_labels: string[]=[]
-  inquiry_types_distri_colors: any[]=[]
-  inquiry_types_distri_data: number[]=[]
-  isLoadingInquiryTypes: boolean = true
-
-  prodcuts_distri_of_issues_and_inquiries_labels: string[]=[]
-  prodcuts_distri_of_issues_and_inquiries_datasets: any[]=[]
-  isLoadingProductdistriOfIssuesnInquirires: boolean = true
-
-  bestProduct!:string
-  worstProduct!:string
-
-  bestProductColor:string = 'var(--teal-400)'
-  worstProductColor:string = 'var(--red-400)'
-
-  isLoadingBestProduct:boolean = true
-  isLoadingWorstProduct:boolean = true
   
   bestEmail!: string
   bestEmailColor:string = 'var(--indigo-400)'
@@ -113,46 +74,16 @@ export class Dashboard2Component implements OnInit{
   overdueIssByEmailsData: number[]=[]
   isLoadingOverdueIssByEmailAcc: boolean = true
 
-
-
-
-  // wordcloudMostOccuringProblemTypes
-  wordCloudData: TrendingWord[] = []
-  isLoadingWCC: boolean = false;
+ 
 
   documentStyle = getComputedStyle(document.documentElement);
-  
-   // stat cards inputs
-   statsData = [
-    { title: 0, sub_title: 'total', header: 'Ongoing', subheader: 'issues', fontColor:this.documentStyle.getPropertyValue('--negative-color')},
-    { title: 0, sub_title: 'total', header: 'Closed', subheader: 'issues', fontColor:this.documentStyle.getPropertyValue('--positive-color')},
-    { title: 0, sub_title: 'total', header: 'Ongoing', subheader: 'inquiries', fontColor:this.documentStyle.getPropertyValue('--negative-color')},
-    { title: 0, sub_title: 'total', header: 'Closed', subheader: 'inquiries', fontColor:this.documentStyle.getPropertyValue('--positive-color')}
-    // Add more objects as needed
-  ];
-  isLoadingStatcards: boolean = false;
-  
-  private statCardsSubscription: Subscription | undefined;
+
+  private DataForStatCardsSubscription: Subscription | undefined;
+  private CurrentOverallEfficiencyandEffectivenessSubscription: Subscription | undefined;
   private DataForEffiandEffecIssuesSubscription: Subscription | undefined;
   private DataForEffiandEffecInquiriesSubscription: Subscription | undefined;
-  private CurrentOverallEfficiencyandEffectivenessSubscription: Subscription | undefined;
-  private DataForIssueandInquiryTypesSubscription: Subscription | undefined;
-  private DataForProductsByIssueandInquirySubscription: Subscription | undefined;
   private DataForEfficiencyByEmailAccSubscription: Subscription | undefined;
-  private BestPerformingEmailSubscription: Subscription | undefined;
   private OverdueIssuesdataSubscription: Subscription | undefined;
-
-
-  _isPerfInsightsOpened: boolean = false;
-  set isPerfInsightsOpened(value: boolean) {
-    this._isPerfInsightsOpened = value;
-    if (value) {
-      this.unsubscribeAll();
-    }
-  }
-  get isPerfInsightsOpened(): boolean {
-    return this._isPerfInsightsOpened;
-  }
  
   constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService) {}
 
@@ -172,35 +103,20 @@ export class Dashboard2Component implements OnInit{
       this.minDate.setMonth(prevMonth);
       this.minDate.setFullYear(prevYear);
       this.maxDate = today;
-
- 
-
-
+      
       this.getDataForStatCards()
       this.getDataForOverallEfficiencyandEffectivenessDntChart()
       this.getDataForEfficiencyDstriandEffectivenessDistri()
-      this.getDataForIssueandInquiryTypes()
-      this.getDataForIssuenadInquiryByProducts()
       this.getDataForEfficiencyByEmaiAcss()
       this.getOverdueIssuesdata()
 
       
   }
 
-   ngOnDestroy(): void {
-      this.statCardsSubscription?.unsubscribe();
-      this.DataForEffiandEffecIssuesSubscription?.unsubscribe();
-      this.DataForEffiandEffecInquiriesSubscription?.unsubscribe();
-      this.CurrentOverallEfficiencyandEffectivenessSubscription?.unsubscribe();
-      this.DataForIssueandInquiryTypesSubscription?.unsubscribe();
-      this.DataForProductsByIssueandInquirySubscription?.unsubscribe();
-      this.DataForEfficiencyByEmailAccSubscription?.unsubscribe();
-      this.BestPerformingEmailSubscription?.unsubscribe();
-      this.OverdueIssuesdataSubscription?.unsubscribe();
-    
+  ngOnDestroy(): void {
+    this.unsubscribeAll()
+  
   }
-
-
 
   
 onRangeDatesChanged(rangeDates: Date[]) {
@@ -231,34 +147,24 @@ onRangeDatesChanged(rangeDates: Date[]) {
   this.getDataForStatCards()
   this.getDataForOverallEfficiencyandEffectivenessDntChart()
   this.getDataForEfficiencyDstriandEffectivenessDistri()
-  this.getDataForIssueandInquiryTypes()
-  this.getDataForIssuenadInquiryByProducts()
   this.getDataForEfficiencyByEmaiAcss()
   this.getOverdueIssuesdata()
 
 }
 
 unsubscribeAll(){
-  this.statCardsSubscription?.unsubscribe();
+  this.DataForStatCardsSubscription?.unsubscribe();
   this.DataForEffiandEffecIssuesSubscription?.unsubscribe();
   this.DataForEffiandEffecInquiriesSubscription?.unsubscribe();
   this.CurrentOverallEfficiencyandEffectivenessSubscription?.unsubscribe();
-  this.DataForIssueandInquiryTypesSubscription?.unsubscribe();
-  this.DataForProductsByIssueandInquirySubscription?.unsubscribe();
   this.DataForEfficiencyByEmailAccSubscription?.unsubscribe();
-  this.BestPerformingEmailSubscription?.unsubscribe();
   this.OverdueIssuesdataSubscription?.unsubscribe();
 }
 
 getDataForStatCards(){
   
-  this.statCardsSubscription =  this.dataService.getDataForStatCards(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OngoingAndClosedStatsResponse) => {
+  this.DataForStatCardsSubscription = this.dataService.getDataForStatCards(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OngoingAndClosedStatsResponse) => {
   console.log(data)
-  this.statsData[0].title = data.count_total_ongoing_issues
-  this.statsData[1].title = data.count_total_closed_issues
-  this.statsData[2].title = data.count_total_ongoing_inquiries
-  this.statsData[3].title = data.count_total_closed_inquiries
-
   // get data for the progress donought chart
 
   this.dntChartDataProgress = [data.ongoing_percentage, data.closed_percentage]
@@ -269,10 +175,7 @@ getDataForStatCards(){
      
  });
 
- this.isLoadingStatcards = false
-
 }
-
 
 getDataForOverallEfficiencyandEffectivenessDntChart(){
 
@@ -322,77 +225,6 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
   
 }
 
-getDataForIssueandInquiryTypes(){
-  
- 
-  this.DataForIssueandInquiryTypesSubscription = this.dataService.getDataForIssueandInquiryTypes(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: IssueInquiryFreqByTypeResponse) => {
-    console.log("data for issue and inquiry types",data)
-
-    this.issue_types_distri_labels = data.issue_type_labels
-
-
-    this.issue_types_distri_labels.forEach((label, index) => {
-      this.issue_types_distri_colors.push( this.documentStyle.getPropertyValue('--issue-color'));
-    });
-    
-
-    this.issue_types_distri_data = data.issue_type_frequencies   
-
-    this.inquiry_types_distri_labels =  data.inquiry_type_labels
-
-    this.inquiry_types_distri_labels.forEach((label, index) => {
-      this.inquiry_types_distri_colors.push(this.documentStyle.getPropertyValue('--inquiry-color'));
-    });
-
-    this.inquiry_types_distri_data = data.inquiry_type_frequencies
-
-    this.isLoadingIssueTypes = false
-    this.isLoadingInquiryTypes =  false
-
-
-   });
-
-
-   
-}
-
-getDataForIssuenadInquiryByProducts(){
-
-  this.DataForProductsByIssueandInquirySubscription = this.dataService.getDataForProductsByIssueandInquiry(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: IssueInquiryFreqByProdcuts) => {
-    console.log("data for Isseus and Inquiries by PRODUCTSSSSSS",data)
-    
-    // ]
-
-      this.prodcuts_distri_of_issues_and_inquiries_labels = data.product_labels
-      this.prodcuts_distri_of_issues_and_inquiries_datasets = [
-        {
-          type: 'bar',
-          label: 'No of Issues',
-          backgroundColor: this.documentStyle.getPropertyValue('--issue-color'),
-          data: data.issue_freq
-      },
-      {
-          type: 'bar',
-          label: 'No of Inquiries',
-          backgroundColor: this.documentStyle.getPropertyValue('--inquiry-color'),
-          data: data.issue_freq
-      }
-
-      ]
-
-    this.bestProduct = data.best_product
-    this.worstProduct = data.worst_product
-
-    this.isLoadingBestProduct = false
-    this.isLoadingWorstProduct = false
-    this.isLoadingProductdistriOfIssuesnInquirires = false
-
-
-
-  });
-
-
-}
 
 getDataForEfficiencyByEmaiAcss(){
 
@@ -436,24 +268,11 @@ getDataForEfficiencyByEmaiAcss(){
 
 }
 
-getBestPerformingEmail(){
-
-
-  this.BestPerformingEmailSubscription = this.dataService.getBestPerformingEmail(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: BestPerformingEmailAccResponse) => {
-    console.log("best performing email account", data)
- 
-    this.bestEmail = data.best_performing_email_acc
-    this.isLoadingBestPerfEmail = false
-  
-       
-   });
-}
-
 
 getOverdueIssuesdata(){
   
 
-  this.OverdueIssuesdataSubscription = this.dataService.getOverdueIssuesdata(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OverdueIssuesResponse) => {
+  this.dataService.getOverdueIssuesdata(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OverdueIssuesResponse) => {
     console.log("overdue issues related DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa", data)
  
     this.overallOverdueIssuesHeader = `${data.sum_overdue_issues} OVERDUE ISSUES recorded`

@@ -21,6 +21,9 @@ export class PageHeaderComponent implements OnInit {
   @Input() showAddRoleButton: boolean = false;
 
   @Input() mainDashboardDate:boolean=false;
+  @Input() emailDashboardDate:boolean=false;
+  @Input() intervalInDaysStart:number=29;
+  @Input() intervalInDaysEnd:number=0;
   
   @Input() minDate: Date = new Date();
   @Input() maxDate: Date = new Date();
@@ -33,6 +36,7 @@ export class PageHeaderComponent implements OnInit {
   sidebarVisible: boolean = false;
 
   rangeDates: Date[] | undefined;
+  emailDates: Date[] | undefined;
   home: MenuItem | undefined;
 
   constructor(private router: Router,  private dateRangeService: DateRangeService) {} // Inject Router in the constructor
@@ -45,6 +49,7 @@ export class PageHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.rangeDates = this.getCurrentDateRange();
+    this.emailDates = this.getEmailCurrentDateRange();
     this.dateRangeService.changeDateRange(this.rangeDates);
     this.home = { icon: 'pi pi-home', routerLink: '/' };
     this.showOldDate();
@@ -54,6 +59,15 @@ export class PageHeaderComponent implements OnInit {
     const today = new Date();
     const pastDate = new Date(today);
     pastDate.setDate(today.getDate() - 7);
+  
+    return [pastDate, today];
+  };
+
+  getEmailCurrentDateRange = (): Date[] => {
+    const today = new Date();
+    const pastDate = new Date(today);
+    pastDate.setDate(today.getDate() - this.intervalInDaysStart);
+    today.setDate(today.getDate() - this.intervalInDaysEnd)
   
     return [pastDate, today];
   };

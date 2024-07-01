@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { EChartsOption } from 'echarts';
 
 @Component({
@@ -7,6 +7,10 @@ import { EChartsOption } from 'echarts';
   styleUrl: './dashboard-sentiment-card.component.scss'
 })
 export class DashboardSentimentCardComponent {
+
+  @Input() intervalInDaysStart!: number;
+  @Input() intervalInDaysEnd!: number;
+  
   loading = false;
   dialogVisible = false;
   value:number = 0.7

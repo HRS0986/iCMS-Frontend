@@ -30,7 +30,19 @@
       class="z-10"
       (ngModelChange)="onRangeDateChange($event)"
       [minDate]="minDate"
-      [maxDate]="maxDate" *ngIf="!mainDashboardDate">
+      [maxDate]="maxDate" *ngIf="!mainDashboardDate && !emailDashboardDate">
+    </p-calendar>
+
+    
+    <p-calendar
+      [(ngModel)]="emailDates"
+      selectionMode="range"
+      [readonlyInput]="true"
+      [showIcon]="true"
+      class="z-10"
+      (ngModelChange)="onRangeDateChange($event)"
+      [minDate]="minDate"
+      [maxDate]="maxDate" *ngIf="emailDashboardDate">
     </p-calendar>
 
   </div>

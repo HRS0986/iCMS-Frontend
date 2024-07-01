@@ -30,6 +30,9 @@
   [draggable]="false"
   [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
 >
-  <app-dashboard></app-dashboard>
+  <app-dashboard 
+  [intervalInDaysStart]="intervalInDaysStart"
+  [intervalInDaysEnd]="intervalInDaysEnd">
+  </app-dashboard>
 
 </p-dialog>

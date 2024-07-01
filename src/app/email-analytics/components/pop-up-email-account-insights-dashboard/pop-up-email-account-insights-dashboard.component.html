@@ -1,0 +1,60 @@
+
+<div class="my-container flex flex-col h-auto">
+    <div class="my-child-1 flex-none">
+      <app-page-header
+        pageTitle="Email Analytics Dashboard"
+        class="w-full h-fit"
+        [breadcrumbItems]="breadcrumbItems"
+        [showDatePicker]="true"
+        (rangeDatesChanged)="onRangeDatesChanged($event)"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        [emailDashboardDate]="true"
+        [intervalInDaysStart]="intervalInDaysStart"
+        [intervalInDaysEnd]="intervalInDaysEnd"
+      />
+    </div>
+  
+  </div>
+
+<div class="flex flex-col">
+
+    <div *ngFor="let item of statsData">
+
+        <app-stat-card *ngIf="!isLoadingStatCards"
+          [title]="item.title.toString()"
+          [subTitle]="item.sub_title"
+          [imgPath]="item.imgPath"
+          [header]="item.header"
+          [sentiment]="item.sentiment"
+        ></app-stat-card>
+      </div>
+
+    <div class="flex flex-wrap gap-6">
+        <app-best-worst-card
+          header="Best Peforming Email Account"
+          [card_content]="bestEmail"
+          [bgcolor]="bestEmailColor"
+          *ngIf="!isLoadingBestPerfEmail"
+        />
+      </div>
+
+    <div class="flex flex-wrap gap-6">
+        <app-dynamic-stacked-bar-chart
+            title="Efficiency distribution of email accounts"
+            [labels]="email_acc_effi_labels"
+            [datasets]="email_acc_effi_dataset"
+            *ngIf="!isLoadingEffiByEmailAcc"
+        />
+    </div>
+
+    <div class="flex flex-wrap gap-6">
+        <app-horizontal-bar-chart
+        title="Overdue issues distribution among email accounts"
+        [sbtChartLabels]="overdueIssByEmailsLabels"
+        [sbtChartColors]="overdueIssByEmailsColors"
+        [sbtChartValues]="overdueIssByEmailsData"
+        *ngIf="!isLoadingOverdueIssByEmailAcc"
+        />
+    </div>
+</div>

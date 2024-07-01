@@ -1,57 +1,36 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-line-area-chart',
   templateUrl: './line-area-chart.component.html',
-  styleUrl: './line-area-chart.component.scss'
+  styleUrls: ['./line-area-chart.component.scss']
 })
-export class LineAreaChartComponent implements OnInit {
+export class LineAreaChartComponent implements OnInit, OnChanges {
   @Input() title!: string;
   @Input() labels!: string[];
   @Input() positive_values!: any[];
   @Input() neutral_values!: any[];
   @Input() negative_values!: any[];
 
-
   data: any;
-
   options: any;
 
   ngOnInit() {
+    this.initializeChartOptions();
+    this.updateChartData();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['labels'] || changes['positive_values'] || changes['neutral_values'] || changes['negative_values']) {
+      this.updateChartData();
+    }
+  }
+
+  initializeChartOptions() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
-    this.data = {
-      labels: this.labels || ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'Positive',
-          data: this.positive_values || [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: documentStyle.getPropertyValue('--green-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(60,180,16,0.2)'
-        },
-        {
-          label: 'Negative',
-          data: this.negative_values || [28, 48, 40, 19, 86, 27, 90],
-          fill: false,
-          borderColor: documentStyle.getPropertyValue('--red-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(152,37,40,0.2)'
-        },
-        {
-          label: 'Neutral',
-          data: this.neutral_values || [12, 51, 62, 33, 21, 62, 45],
-          fill: false,
-          borderColor: documentStyle.getPropertyValue('--yellow-500'),
-          tension: 0.4,
-          backgroundColor: 'rgba(255,167,38,0.2)'
-        }
-      ]
-    };
 
     this.options = {
       maintainAspectRatio: false,
@@ -81,6 +60,39 @@ export class LineAreaChartComponent implements OnInit {
           }
         }
       }
+    };
+  }
+
+  updateChartData() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    this.data = {
+      labels: this.labels,
+      datasets: [
+        {
+          label: 'Positive',
+          data: this.positive_values,
+          fill: false,
+          borderColor: documentStyle.getPropertyValue('--green-500'),
+          tension: 0.4,
+          backgroundColor: 'rgba(60,180,16,0.2)'
+        },
+        {
+          label: 'Negative',
+          data: this.negative_values,
+          fill: false,
+          borderColor: documentStyle.getPropertyValue('--red-500'),
+          tension: 0.4,
+          backgroundColor: 'rgba(152,37,40,0.2)'
+        },
+        {
+          label: 'Neutral',
+          data: this.neutral_values,
+          fill: false,
+          borderColor: documentStyle.getPropertyValue('--yellow-500'),
+          tension: 0.4,
+          backgroundColor: 'rgba(255,167,38,0.2)'
+        }
+      ]
     };
   }
 }

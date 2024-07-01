@@ -1,34 +1,27 @@
-import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MenuItem } from "primeng/api";
-import { BestPerformingEmailAccResponse, EmailAccEfficiencyResponse, InquiriesByEfficiencyEffectivenessResponse, IssueInquiryFreqByProdcuts, IssueInquiryFreqByTypeResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverallyEfficiencyEffectivenessPecentagesResponse, OverdueIssuesResponse } from '../../interfaces/dashboard';
-import { DataService } from '../../services/dashboardMain.service';
+import { MenuItem } from 'primeng/api';
+import { InquiriesByEfficiencyEffectivenessResponse, IssueInquiryFreqByProdcuts, IssueInquiryFreqByTypeResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverdueIssuesResponse } from '../../interfaces/dashboard';
+import { DataService } from '../../services/pop-up-issues-and-inquiry-insights-dashboard.service';
 import { Subscription } from 'rxjs';
 
-interface TrendingTopic {
-  text: string;
-  frequency: number;
-}
-
-interface TrendingWord {
-  word: string;
-  weight: number;
-  color: string
-}
 @Component({
-  selector: 'app-dashboard2',
-  templateUrl: './dashboard2.component.html',
-  styleUrl: './dashboard2.component.scss'
+  selector: 'app-pop-up-issues-and-inquiry-insights-dashboard',
+  templateUrl: './pop-up-issues-and-inquiry-insights-dashboard.component.html',
+  styleUrl: './pop-up-issues-and-inquiry-insights-dashboard.component.scss'
 })
-export class Dashboard2Component implements OnInit{
+export class PopUpIssuesAndInquiryInsightsDashboardComponent {
+
+  @Input() intervalInDaysStart!: number;
+  @Input() intervalInDaysEnd!: number;
+
   breadcrumbItems: MenuItem[] = [
     {label: "Email Analytics"},
-    {label: "Dashboard"}
+    {label: "Dashboard"},
+    {label: "Issues and Inquiries insights"}
   ];
 
-  intervalInDaysStart: number = 29;
-  intervalInDaysEnd: number = 0;
 
   // calenders
 
@@ -39,28 +32,7 @@ export class Dashboard2Component implements OnInit{
 
   minDate: Date = new Date();
   maxDate: Date = new Date();
-  
-  // Topic cloud
-  keywords: TrendingTopic[] = [];
-  isLoadingTC: boolean = false;
-  
-  // overall sentiments donought chart inputs
-  chartData: number[] = [];
-  isLoadingDC: boolean = false;
-
-  dntChartDataProgress: number[] = []
-  dntChartProgressLabels: string[] = []
-  isLoadingDCProgress : boolean = true;
-
-  dntChartDataOverallEfficiency: number[] = []
-  dntChartOverallEfficiencyLabels: string[] = []
-  isLoadingDCOverallEfficiency : boolean = true;
-
-  dntChartDataOverallEffeftiveness: number[] = []
-  dntChartOverallEffectivenessLabels: string[] = []
-  isLoadingDCOverallEffectiveness: boolean = true;
-
-  
+    
   effi_dstri_vert_bar_labels: string[]=[]
   effi_distri_vert_var_issues_data: number[]=[]
   effi_distri_vert_var_inquiries_data: number[] =[]
@@ -85,74 +57,31 @@ export class Dashboard2Component implements OnInit{
   prodcuts_distri_of_issues_and_inquiries_datasets: any[]=[]
   isLoadingProductdistriOfIssuesnInquirires: boolean = true
 
-  bestProduct!:string
-  worstProduct!:string
-
-  bestProductColor:string = 'var(--teal-400)'
-  worstProductColor:string = 'var(--red-400)'
-
-  isLoadingBestProduct:boolean = true
-  isLoadingWorstProduct:boolean = true
-  
-  bestEmail!: string
-  bestEmailColor:string = 'var(--indigo-400)'
-  isLoadingBestPerfEmail:boolean = true
-
-
-  email_acc_effi_labels: string[]=[]
-  email_acc_effi_dataset: any[]=[]
-  isLoadingEffiByEmailAcc: boolean = true
 
   overallOverdueIssuesHeader!: string
   overallOverdueIssuesContent!: string
   noOfOverdueIssuesColor = 'var(--red-400)'
   isLoadingoverallOverdueIssuesCount: boolean = true
 
-  overdueIssByEmailsLabels: string[]=[]
-  overdueIssByEmailsColors: any[]=[]
-  overdueIssByEmailsData: number[]=[]
-  isLoadingOverdueIssByEmailAcc: boolean = true
 
 
 
-
-  // wordcloudMostOccuringProblemTypes
-  wordCloudData: TrendingWord[] = []
-  isLoadingWCC: boolean = false;
 
   documentStyle = getComputedStyle(document.documentElement);
-  
-   // stat cards inputs
-   statsData = [
-    { title: 0, sub_title: 'total', header: 'Ongoing', subheader: 'issues', fontColor:this.documentStyle.getPropertyValue('--negative-color')},
-    { title: 0, sub_title: 'total', header: 'Closed', subheader: 'issues', fontColor:this.documentStyle.getPropertyValue('--positive-color')},
-    { title: 0, sub_title: 'total', header: 'Ongoing', subheader: 'inquiries', fontColor:this.documentStyle.getPropertyValue('--negative-color')},
-    { title: 0, sub_title: 'total', header: 'Closed', subheader: 'inquiries', fontColor:this.documentStyle.getPropertyValue('--positive-color')}
-    // Add more objects as needed
-  ];
-  isLoadingStatcards: boolean = false;
-  
+
   private statCardsSubscription: Subscription | undefined;
   private DataForEffiandEffecIssuesSubscription: Subscription | undefined;
   private DataForEffiandEffecInquiriesSubscription: Subscription | undefined;
-  private CurrentOverallEfficiencyandEffectivenessSubscription: Subscription | undefined;
   private DataForIssueandInquiryTypesSubscription: Subscription | undefined;
   private DataForProductsByIssueandInquirySubscription: Subscription | undefined;
-  private DataForEfficiencyByEmailAccSubscription: Subscription | undefined;
-  private BestPerformingEmailSubscription: Subscription | undefined;
   private OverdueIssuesdataSubscription: Subscription | undefined;
-
-
-  _isPerfInsightsOpened: boolean = false;
-  set isPerfInsightsOpened(value: boolean) {
-    this._isPerfInsightsOpened = value;
-    if (value) {
-      this.unsubscribeAll();
-    }
-  }
-  get isPerfInsightsOpened(): boolean {
-    return this._isPerfInsightsOpened;
-  }
+  
+   // stat cards inputs
+  statsData = [    { title: 0, sub_title: 'total', header: 'Ongoing', subheader: 'issues', fontColor:this.documentStyle.getPropertyValue('--negative-color')},
+    { title: 0, sub_title: 'total', header: 'Closed', subheader: 'issues', fontColor:this.documentStyle.getPropertyValue('--positive-color')},
+    { title: 0, sub_title: 'total', header: 'Ongoing', subheader: 'inquiries', fontColor:this.documentStyle.getPropertyValue('--negative-color')},
+    { title: 0, sub_title: 'total', header: 'Closed', subheader: 'inquiries', fontColor:this.documentStyle.getPropertyValue('--positive-color')}];
+  isLoadingStatcards: boolean = false;
  
   constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService) {}
 
@@ -173,34 +102,19 @@ export class Dashboard2Component implements OnInit{
       this.minDate.setFullYear(prevYear);
       this.maxDate = today;
 
- 
-
-
       this.getDataForStatCards()
-      this.getDataForOverallEfficiencyandEffectivenessDntChart()
       this.getDataForEfficiencyDstriandEffectivenessDistri()
       this.getDataForIssueandInquiryTypes()
       this.getDataForIssuenadInquiryByProducts()
-      this.getDataForEfficiencyByEmaiAcss()
       this.getOverdueIssuesdata()
 
       
   }
 
-   ngOnDestroy(): void {
-      this.statCardsSubscription?.unsubscribe();
-      this.DataForEffiandEffecIssuesSubscription?.unsubscribe();
-      this.DataForEffiandEffecInquiriesSubscription?.unsubscribe();
-      this.CurrentOverallEfficiencyandEffectivenessSubscription?.unsubscribe();
-      this.DataForIssueandInquiryTypesSubscription?.unsubscribe();
-      this.DataForProductsByIssueandInquirySubscription?.unsubscribe();
-      this.DataForEfficiencyByEmailAccSubscription?.unsubscribe();
-      this.BestPerformingEmailSubscription?.unsubscribe();
-      this.OverdueIssuesdataSubscription?.unsubscribe();
-    
+  ngOnDestroy(): void {
+    this.unsubscribeAll()
+  
   }
-
-
 
   
 onRangeDatesChanged(rangeDates: Date[]) {
@@ -227,44 +141,35 @@ onRangeDatesChanged(rangeDates: Date[]) {
   console.log('Difference in days start:', this.intervalInDaysStart, 'Difference in days end:', this.intervalInDaysEnd);
   
   this.unsubscribeAll()
-
+  
   this.getDataForStatCards()
-  this.getDataForOverallEfficiencyandEffectivenessDntChart()
   this.getDataForEfficiencyDstriandEffectivenessDistri()
   this.getDataForIssueandInquiryTypes()
   this.getDataForIssuenadInquiryByProducts()
-  this.getDataForEfficiencyByEmaiAcss()
   this.getOverdueIssuesdata()
-
 }
+
+
 
 unsubscribeAll(){
   this.statCardsSubscription?.unsubscribe();
   this.DataForEffiandEffecIssuesSubscription?.unsubscribe();
   this.DataForEffiandEffecInquiriesSubscription?.unsubscribe();
-  this.CurrentOverallEfficiencyandEffectivenessSubscription?.unsubscribe();
   this.DataForIssueandInquiryTypesSubscription?.unsubscribe();
   this.DataForProductsByIssueandInquirySubscription?.unsubscribe();
-  this.DataForEfficiencyByEmailAccSubscription?.unsubscribe();
-  this.BestPerformingEmailSubscription?.unsubscribe();
   this.OverdueIssuesdataSubscription?.unsubscribe();
+
 }
+
 
 getDataForStatCards(){
   
-  this.statCardsSubscription =  this.dataService.getDataForStatCards(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OngoingAndClosedStatsResponse) => {
+  this.statCardsSubscription = this.dataService.getDataForStatCards(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OngoingAndClosedStatsResponse) => {
   console.log(data)
   this.statsData[0].title = data.count_total_ongoing_issues
   this.statsData[1].title = data.count_total_closed_issues
   this.statsData[2].title = data.count_total_ongoing_inquiries
   this.statsData[3].title = data.count_total_closed_inquiries
-
-  // get data for the progress donought chart
-
-  this.dntChartDataProgress = [data.ongoing_percentage, data.closed_percentage]
-  this.dntChartProgressLabels = ["ongoing percentage", "closed percentage"]
-
-  this.isLoadingDCProgress = false
 
      
  });
@@ -273,23 +178,6 @@ getDataForStatCards(){
 
 }
 
-
-getDataForOverallEfficiencyandEffectivenessDntChart(){
-
-
-  this.CurrentOverallEfficiencyandEffectivenessSubscription = this.dataService.getCurrentOverallEfficiencyandEffectiveness(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OverallyEfficiencyEffectivenessPecentagesResponse) => {
-    console.log("data for overall efficiency and effectiveness", data)
-    this.dntChartDataOverallEfficiency = [0,0,40,60]
-    this.dntChartOverallEfficiencyLabels= data.efficiency_categories.reverse()
-    this.dntChartDataOverallEffeftiveness= [0,0,30,70]
-    this.dntChartOverallEffectivenessLabels = data.effectiveness_categories.reverse()
-
-    this.isLoadingDCOverallEfficiency = false
-    this.isLoadingDCOverallEffectiveness = false
-
-       
-   });
-}
 
 getDataForEfficiencyDstriandEffectivenessDistri(){
    
@@ -380,11 +268,6 @@ getDataForIssuenadInquiryByProducts(){
 
       ]
 
-    this.bestProduct = data.best_product
-    this.worstProduct = data.worst_product
-
-    this.isLoadingBestProduct = false
-    this.isLoadingWorstProduct = false
     this.isLoadingProductdistriOfIssuesnInquirires = false
 
 
@@ -394,60 +277,7 @@ getDataForIssuenadInquiryByProducts(){
 
 }
 
-getDataForEfficiencyByEmaiAcss(){
 
-  
-  this.DataForEfficiencyByEmailAccSubscription = this.dataService.getDataForEfficiencyByEmailAcc(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: EmailAccEfficiencyResponse) => {
-    console.log("EFFICiency by emaila acc data", data)
-    
-    this.email_acc_effi_labels = data.all_reading_email_accs
-    this.email_acc_effi_dataset = [
-      {
-        type: 'bar',
-        label: 'Inefficient Percentage',
-        backgroundColor:  this.documentStyle.getPropertyValue('--inefficient-color'),
-        data: data.ineff_percentages
-    },
-    {
-        type: 'bar',
-        label: 'Less Efficient Percentage',
-        backgroundColor: this.documentStyle.getPropertyValue('--less-efficient-color'),
-        data: data.less_eff_percentages
-    },
-    {
-      type: 'bar',
-      label: 'Moderately Efficient Percentage',
-      backgroundColor:   this.documentStyle.getPropertyValue('--moderately-efficient-color'),
-      data: data.mod_eff_percentages
-  },
-  {
-      type: 'bar',
-      label: 'High Efficient Percentage',
-      backgroundColor: this.documentStyle.getPropertyValue('--highly-efficient-color'),
-      // backgroundColor: "rgba(17, 193, 14, 0.9)",
-      data: data.highly_eff_percentages
-  }
-
-    ]
-
-    this.isLoadingEffiByEmailAcc = false
-  });
-
-
-}
-
-getBestPerformingEmail(){
-
-
-  this.BestPerformingEmailSubscription = this.dataService.getBestPerformingEmail(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: BestPerformingEmailAccResponse) => {
-    console.log("best performing email account", data)
- 
-    this.bestEmail = data.best_performing_email_acc
-    this.isLoadingBestPerfEmail = false
-  
-       
-   });
-}
 
 
 getOverdueIssuesdata(){
@@ -460,13 +290,6 @@ getOverdueIssuesdata(){
     this.overallOverdueIssuesContent = `out of ${data.total_ongoing_issues} ongoing issues `
     this.isLoadingoverallOverdueIssuesCount = false
     
-    this.overdueIssByEmailsLabels = data.all_reading_email_accs
-    this.overdueIssByEmailsData = data.overdue_issues_count_per_each_email
-    this.overdueIssByEmailsColors = []
-    for (let i of this.overdueIssByEmailsLabels){
-      this.overdueIssByEmailsColors.push(this.documentStyle.getPropertyValue('--issue-color'))
-    }
-    this.isLoadingOverdueIssByEmailAcc = false
   
        
    });

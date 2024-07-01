@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-summary-card',
@@ -6,6 +6,9 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard-summary-card.component.scss'
 })
 export class DashboardSummaryCardComponent {
+
+  @Input() intervalInDaysStart!: number;
+  @Input() intervalInDaysEnd!: number;
 
   loading: boolean = false;
   dialogVisible: boolean = false;

@@ -1,0 +1,97 @@
+<div class="my-container flex flex-col h-auto">
+    <div class="my-child-1 flex-none">
+      <app-page-header
+        pageTitle="Email Analytics Dashboard"
+        class="w-full h-fit"
+        [breadcrumbItems]="breadcrumbItems"
+        [showDatePicker]="true"
+        (rangeDatesChanged)="onRangeDatesChanged($event)"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        [emailDashboardDate]="true"
+        [intervalInDaysStart]="intervalInDaysStart"
+        [intervalInDaysEnd]="intervalInDaysEnd"
+      />
+    </div>
+  
+  </div>
+
+  
+  <div class="flex flex-col">
+    <div class="flex flex-wrap gap-6">
+
+      <!-- Current Overall efficiency donought chart-->
+      <!-- <div class="stat-cards h-40"> -->
+        <app-effi-effec-donought-chart
+          title="Current Overall Efficiency"
+          [chartData]="dntChartDataOverallEfficiency"
+          [chartLabels]="dntChartOverallEfficiencyLabels"
+          *ngIf="!isLoadingDCOverallEfficiency"
+        />
+      <!-- </div> -->
+      <!-- Current Overall progress donought chart-->
+      <app-progress-donought-chart
+        title="Current Progress of both issues and inquiries"
+        [chartData]="dntChartDataProgress"
+        [chartLabels]="dntChartProgressLabels"
+        *ngIf="!isLoadingDCProgress"
+      ></app-progress-donought-chart>
+  
+      <!-- Current Overall efficiency donought chart-->
+      <app-effi-effec-donought-chart
+        title="Current Overall Effectiveness"
+        [chartData]="dntChartDataOverallEffeftiveness"
+        [chartLabels]="dntChartOverallEffectivenessLabels"
+        *ngIf="!isLoadingDCOverallEffectiveness"
+      />
+  
+      <div class="flex flex-wrap gap-6">
+        <app-best-worst-card
+          [header]="overallOverdueIssuesHeader"
+          [card_content]="overallOverdueIssuesContent"
+          [bgcolor]="noOfOverdueIssuesColor"
+          *ngIf="!isLoadingoverallOverdueIssuesCount"
+        />
+      </div>
+  
+      <div class="flex flex-wrap gap-6">
+        <app-multi-vertical-bar-chart
+          title="Efficiency Distribution"
+          [labels]="effi_dstri_vert_bar_labels"
+          [efficiency_dataset_for_issues]="effi_distri_vert_var_issues_data"
+          [efficiency_dataset_for_inquiries]="effi_distri_vert_var_inquiries_data"
+          *ngIf="!isLoadingEffiDistri"
+        />
+  
+        <app-multi-vertical-bar-chart
+          title="Effectiveness Distribution"
+          [labels]="effect_dstri_vert_bar_labels"
+          [efficiency_dataset_for_issues]="effect_distri_vert_var_issues_data"
+          [efficiency_dataset_for_inquiries]="
+            effect_distri_vert_var_inquiries_data
+          "
+          *ngIf="!isLoadingEffectDistri"
+        />
+      </div>
+    </div>
+  
+    <div class="flex flex-wrap gap-6">
+      <app-dynamic-stacked-bar-chart
+        title="Efficiency distribution of email accounts"
+        [labels]="email_acc_effi_labels"
+        [datasets]="email_acc_effi_dataset"
+        *ngIf="!isLoadingEffiByEmailAcc"
+      />
+    </div>
+  
+    <div class="flex flex-wrap gap-6">
+      <app-horizontal-bar-chart
+        title="Overdue issues distribution among email accounts"
+        [sbtChartLabels]="overdueIssByEmailsLabels"
+        [sbtChartColors]="overdueIssByEmailsColors"
+        [sbtChartValues]="overdueIssByEmailsData"
+        *ngIf="!isLoadingOverdueIssByEmailAcc"
+      />
+    </div>
+  </div>
+  
