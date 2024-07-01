@@ -1,31 +1,31 @@
 
 <!-- <div>
-       <p-messages [(value)]="readnotifications" [enableService]="true" [closable]="true">{{readnotifications[0].severity}}</p-messages>
+       <p-messages [(value)]="readnotifications" [enableService]="true" [closable]="true">{{read notifications[0].severity}}</p-messages>
 </div> -->
 
-              <!-- &lt;!&ndash; <div *ngFor="let notificationArray of Readnotifications"> (click)="showDialog(notificationArray[0])">
+              <!-- &lt;!&ndash; <div *ngFor="let notificationArray of Read notifications"> (click)="showDialog(notificationArray[0])">
                <p-messages [value]="notificationArray" [enableService]="false" [closable]="true" ></p-messages>
            </div> &ndash;&gt; -->
 <div>
   <div>
     <div class="action-bar d-flex justify-content-between align-items-center">
       <!-- Left side buttons -->
-      <div class="left-buttons">
-        <p-button
-          type="button"
-          pRipple
-          (click)="addMessages()"
-          label="Show all"
-          [outlined]="true"
-          styleClass="mr-2"/>
-        <p-button
-          type="button"
-          pRipple
-          (click)="clearMessages()"
-          label="Clear all"
-          [outlined]="true"
-          severity="danger"/>
-      </div>
+<!--      <div class="left-buttons">-->
+<!--&lt;!&ndash;        <p-button&ndash;&gt;-->
+<!--&lt;!&ndash;          type="button"&ndash;&gt;-->
+<!--&lt;!&ndash;          pRipple&ndash;&gt;-->
+<!--&lt;!&ndash;          (click)="addMessages()"&ndash;&gt;-->
+<!--&lt;!&ndash;          label="Show all"&ndash;&gt;-->
+<!--&lt;!&ndash;          [outlined]="true"&ndash;&gt;-->
+<!--&lt;!&ndash;          styleClass="mr-2"/>&ndash;&gt;-->
+<!--        <p-button-->
+<!--          type="button"-->
+<!--          pRipple-->
+<!--          (click)="clearMessages()"-->
+<!--          label="Clear all"-->
+<!--          [outlined]="true"-->
+<!--          severity="danger"/>-->
+<!--      </div>-->
 
       <!-- Right side calendar and icon -->
       <div class="right-controls d-flex align-items-center">
@@ -47,7 +47,7 @@
         [enableService]="false"
         [closable]="false"
         (click)="viewNotification(notification)"
-        class="readnotifications"
+        class="read notifications"
       ></p-messages>
     </div>
 

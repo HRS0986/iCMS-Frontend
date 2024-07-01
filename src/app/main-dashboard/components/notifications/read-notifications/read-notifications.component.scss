@@ -46,4 +46,11 @@
 
 }
 
+:host ::ng-deep .p-message.p-message-success {
+  background: #f9f9f9;
+  /* border: solid #1ea97c; */
+  border-width: 0 0 0 6px;
+  /* color: #1ea97c; */
+}
+
 
