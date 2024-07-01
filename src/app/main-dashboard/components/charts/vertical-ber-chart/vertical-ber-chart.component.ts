@@ -14,9 +14,12 @@ import {MenuItem, MenuItemCommandEvent} from "primeng/api";
 
 export class VerticalBerChartComponent implements OnInit,OnChanges{
 
-  @Output() deleteConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() deletedConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() hideConfirmed: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() closable:boolean = true;
+
+  @Input() id!:string;
 
   data:any;
   @Input() persentages: any[]=[];
@@ -59,44 +62,51 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
   chartCategory:string='topic';
 
   constructor(private dateRangeService: DateRangeService,private chartService: ChartsService,
-    private authService:AuthenticationService
-  ){}
+    private authService:AuthenticationService,
+    
+  )
+  {
+    
+  }
 
   items:MenuItem[] = [];
 
   ngOnInit() {
 
     this.items= [
-            {
-
-                icon: 'pi pi-ellipsis-v',
-                items: [
-                    {
-                        label: 'Delete',
-                        icon: 'pi pi-times',
-                        command(event: MenuItemCommandEvent) {
-                            console.log(event);
-
-                        }
-                    },
-                    {
-                        label: 'Edit',
-                        icon: 'pi pi-pencil',
-                        command(event: MenuItemCommandEvent) {
-                            console.log(event);
-                        }
-                    }
-                ]
+      {
+        icon: 'pi pi-ellipsis-v',
+        items: [
+          {
+            label: 'Delete',
+            icon: 'pi pi-times',
+            command: () => {
+              this['onDelete']();
             }
+          },
+          {
+            label: 'Edit',
+            icon: 'pi pi-pencil',
+            command: () => {
+              this['onEdit']();
+            }
+          },
+          {
+            label: 'Hide',
+            icon: 'pi pi-eye-slash',
+            command: () => {
+              this['confirmDeleted']();
+            }
+          }
 
-        ];
+          
+        ]
+      }
+
+  ];
     this.categories=this.source;
     this.selectedCategories=this.source;
-    // if(this.selectedCategories){
-    //   console.log(1);
-    //   this.barChartExtract(this.selectedCategories);
-    // }
-
+    
     timer(0,1000).subscribe(() => {
       if(this.changes){
           this.barChartExtract(this.selectedCategories);
@@ -120,15 +130,31 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
           this.barChartExtract(this.selectedCategories);
         }
       }
+      else{
+        if(this.selectedCategories){
+
+          this.barChartExtract(this.selectedCategories);
+        }
+      }
     });
 
     this.chart();
 
   }
 
+
+  onDelete(){
+    console.log('delete');
+    this.deletedConfirmed.emit();
+  }
+
+  onEdit(){
+    console.log('Edit');
+  }
+
  confirmDeleted() {
         console.log('confirm button');
-        this.deleteConfirmed.emit();
+        this.hideConfirmed.emit();
   }
 
 
@@ -151,41 +177,6 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
       });
     }
   }
-
-  // BarChartDataGet(): void {
-  //   this.chartService.chartData().subscribe(
-  //     (response) => {
-  //       caches.open('all-data').then(cache => {
-  //         cache.match('data').then((cachedResponse) => {
-  //           if (cachedResponse) {
-  //             cachedResponse.json().then((cachedData: any) => {
-  //               // Compare the response with the cached data
-  //               if (!this.isEqual(response, cachedData)) {
-  //                 // Update only the changed data in the cache
-  //                 // const updatedData = { ...cachedData, ...response };
-  //                 const dataResponse = new Response(JSON.stringify(response), {
-  //                   headers: { 'Content-Type': 'application/json' }
-  //                 });
-  //                 cache.put('data', dataResponse);
-  //                 // this.DataCacheChange = true;
-  //               }
-  //             });
-  //           } else {
-  //             // Cache the response if no cached data exists
-  //             const dataResponse = new Response(JSON.stringify(response), {
-  //               headers: { 'Content-Type': 'application/json' }
-  //             });
-  //             cache.put('data', dataResponse);
-  //           }
-  //         });
-  //       });
-  //       this.changes=true;
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching doughnut chart data:', error);
-  //     }
-  //   );
-  // }
 
 
   chartDataGet(): void {
@@ -307,7 +298,6 @@ export class VerticalBerChartComponent implements OnInit,OnChanges{
               } else if (sourceData && sourceData.length === 2) {
                 this.updateAllData(this.transformData(sourceData[0]), 'ongoing');
                 this.updateAllData(this.transformData(sourceData[1]), 'closed');
-
               }
             });
 

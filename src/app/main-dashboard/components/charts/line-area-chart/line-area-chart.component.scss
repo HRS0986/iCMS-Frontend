@@ -8,6 +8,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height:30px;
+    border-bottom: 2px solid #ccc;
 
   }
 
@@ -70,15 +72,19 @@
 
 
   //janith
-    p-panel{
+    .p-panel{
     height:100%;
-
+      
   }
   .p-component{
     height:100%;
   }
   .p-panel-content{
     height:100%;
+  }
+  .p-panel-header{
+    padding:0;
+
   }
   .p-toggleable-content{
     height:100%

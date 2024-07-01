@@ -20,8 +20,12 @@
   }
 
   //janith
-  p-panel{
+  .p-panel{
     height:100%;
+
+  }
+  .p-panel-header{
+    padding:0;
 
   }
   .p-component{
@@ -40,5 +44,13 @@
   }
   angledownicon{
     display:none;
+  }
+    .chart-header-container {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height:30px;
+
   }
 }

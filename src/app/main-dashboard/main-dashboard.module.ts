@@ -49,6 +49,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';
 import {PanelMenuModule} from "primeng/panelmenu";
 import {MenubarModule} from "primeng/menubar";
+import {SkeletonModule} from "primeng/skeleton";
+import {RippleModule} from "primeng/ripple";
 
 
 @NgModule({
@@ -107,6 +109,8 @@ import {MenubarModule} from "primeng/menubar";
     TableModule,
     PanelMenuModule,
     MenubarModule,
+    SkeletonModule,
+    RippleModule,
 
   ],
   exports: [

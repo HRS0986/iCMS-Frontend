@@ -11,4 +11,9 @@ export class DateRangeService {
   changeDateRange(range: Date[] | undefined): void {
     this.dateRangeSource.next(range);
   }
+
+  changeDateRangeNotification(range: Date[] | undefined): void {
+    this.dateRangeSource.next(range);
+  }
+  
 }

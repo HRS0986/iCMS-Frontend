@@ -33,7 +33,9 @@
           </div>
         </div>
         <div class="flex">
-          <p-button label="Sign In" (onClick)="signIn()" class="w-full"></p-button>
+          <p-button [label]="isLoading ? 'Signing In...' : 'Sign In'" (onClick)="signIn()" class="w-full" [disabled]="isLoading">
+            <i class="{{isLoading ? 'pi pi-spin pi-spinner' : ''}}"></i>
+          </p-button>
         </div>
       </form>
     </div>

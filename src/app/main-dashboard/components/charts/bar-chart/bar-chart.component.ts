@@ -53,6 +53,7 @@ export class BarChartComponent implements OnInit,OnChanges{
                         command(event: MenuItemCommandEvent) {
                             console.log(event);
 
+
                         }
                     },
                     {

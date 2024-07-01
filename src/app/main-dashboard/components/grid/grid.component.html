@@ -4,7 +4,6 @@
 <button pButton type="button" label="Charts" icon="pi pi-bars" (click)="showOverlay(op)" [ngStyle]="{'background-color': 'black', 'color': 'white'}"></button>
 
 
-
 <!-- Overlay Panel -->
 <p-overlayPanel #op [style]="{'width': '600px'}" [showCloseIcon]="false">
     <ng-template pTemplate="content">
@@ -15,7 +14,7 @@
                     <th>Chart Type</th>
                     <th>Sources</th>
                     <th>Add</th>
-                    <th>Delete</th>
+                    <!-- <th>Delete</th> -->
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-chart>
@@ -49,9 +48,9 @@
                     <td>
                       <i class="pi pi-plus" style="color: rgb(56, 56, 56)" (click)="addChart($event, chart)"></i>
                     </td>
-                    <td>
+                    <!-- <td>
                       <i class="pi pi-trash" style="color: rgb(56, 56, 56)" (click)="removeItem($event, chart)"></i>
-                    </td>
+                    </td> -->
                 </tr>
             </ng-template>
         </p-table>
@@ -69,9 +68,9 @@
 <p-confirmDialog></p-confirmDialog>
 <p-toast></p-toast>
 
+
 <gridster [options]="options" class="chartGrid" *ngIf="dashboard && dashboard.length > 0">
   <gridster-item  [item]="item" *ngFor="let item of dashboard; let i = index" class="container-border">
-
 
       <ng-container *ngIf="item['chartType'] === 'Pie Chart'">
         <app-doughnut-chart
@@ -80,7 +79,8 @@
           [changes]="item['changes']"
           [id]="item['id']"
           (changesEvent)="onChanges($event, i)"
-          (deleteConfirmed)="onDeleteConfirmed(item)">
+          (hideConfirmed)="onDeleteConfirmed(item)"
+          (deletedConfirmed)="gridDeleteConfirmed(item['id'],item['title'])">
         </app-doughnut-chart>
       </ng-container>
 
@@ -91,7 +91,8 @@
           [changes]="item['changes']"
           [yAxis]="item['yAxis']"
           (changesEvent)="onChanges($event, i)"
-          (deleteConfirmed)="onDeleteConfirmed(item)">
+          (hideConfirmed)="onDeleteConfirmed(item)"
+          (deletedConfirmed)="gridDeleteConfirmed(item['id'],item['title'])">
         </app-line-area-chart>
       </ng-container>
 
@@ -106,8 +107,10 @@
           [changes]="item['changes']"
           [yAxis]="item['yAxis']"
           [xAxis]="item['xAxis']"
+          [id]="item['id']"
           (changesEvent)="onChanges($event, i)"
-          (deleteConfirmed)="onDeleteConfirmed(item)">
+          (hideConfirmed)="onDeleteConfirmed(item)"
+          (deletedConfirmed)="gridDeleteConfirmed(item['id'],item['title'])">
         </app-horizontal-bar-chart>
       </ng-container>
 
@@ -118,7 +121,8 @@
           [changes]="item['changes']"
           [yAxis]="item['yAxis']"
           (changesEvent)="onChanges($event, i)"
-          (deleteConfirmed)="onDeleteConfirmed(item)">
+          (hideConfirmed)="onDeleteConfirmed(item)"
+          (deletedConfirmed)="gridDeleteConfirmed(item['id'],item['title'])">
         </app-word-cloud>
       </ng-container>
 
@@ -131,7 +135,8 @@
           [yAxis]="item['yAxis']"
           [xAxis]="item['xAxis']"
           (changesEvent)="onChanges($event, i)"
-          (deleteConfirmed)="onDeleteConfirmed(item)">
+          (hideConfirmed)="onDeleteConfirmed(item)"
+          (deletedConfirmed)="gridDeleteConfirmed(item['id'],item['title'])">
         </app-vertical-ber-chart>
       </ng-container>
 

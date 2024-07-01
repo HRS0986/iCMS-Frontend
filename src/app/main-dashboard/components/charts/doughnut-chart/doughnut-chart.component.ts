@@ -1,5 +1,5 @@
 import { Component, Input, OnInit,Injector,EventEmitter, OnChanges, SimpleChanges,Output } from '@angular/core';
-declare var $: any;
+// declare var $: any;
 import { HttpClient } from '@angular/common/http';
 import { timer } from 'rxjs';
 import { DateRangeService } from '../../../services/shared-date-range/date-range.service';
@@ -23,7 +23,9 @@ interface MeterItem {
   providers:[MessageService]
 })
 export class DoughnutChartComponent implements OnInit,OnChanges{
-  @Output() deleteConfirmed: EventEmitter<void> = new EventEmitter<void>();
+
+  @Output() deletedConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() hideConfirmed: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() closable:boolean = true;
   @Input() title!: string;
@@ -63,7 +65,7 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
 
   changeSource:any;
 
-  itemActions:MenuItem[] = []
+  item:MenuItem[] = [];
 
   private socketSubscription: Subscription | undefined;
 
@@ -76,15 +78,49 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
 
   ngOnInit() {
 
-    this.itemActions = [
-      {label: 'Delete', icon: 'pi pi-trash', command: (event) => console.log('Delete', event)},
-      {label: 'Edit', icon: 'pi pi-pencil', command: (event) => console.log('Edit', event)}
-    ]
+    this.item= [
+      {
+        icon: 'pi pi-ellipsis-v',
+        items: [
+          {
+            label: 'Delete',
+            icon: 'pi pi-times',
+            command: () => {
+              this['onDelete']();
+            }
+          },
+          {
+            label: 'Edit',
+            icon: 'pi pi-pencil',
+            command: () => {
+              this['onEdit']();
+            }
+          },
+          {
+            label: 'Hide',
+            icon: 'pi pi-eye-slash',
+            command: () => {
+              this['confirmDeleted']();
+            }
+          }
+
+          
+        ]
+      }
+
+  ];
+
+    // this.itemActions = [
+    //   {label: 'Delete', icon: 'pi pi-trash', command: (event) => console.log('Delete', event)},
+    //   {label: 'Edit', icon: 'pi pi-pencil', command: (event) => console.log('Edit', event)}
+    // ]
+
+
     this.categories=this.source;
     this.selectedCategories=this.source;
-    if(this.selectedCategories){
-      this.doughnutExtract(this.selectedCategories);
-    }
+    // if(this.selectedCategories){
+    //   this.doughnutExtract(this.selectedCategories);
+    // }
 
     timer(0,1000).subscribe(() => {
       if(this.changes){
@@ -119,7 +155,11 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
         if(this.selectedCategories){
           this.doughnutExtract(this.selectedCategories);
         }
-
+      }
+      else{
+        if(this.selectedCategories){
+          this.doughnutExtract(this.selectedCategories);
+        }
       }
     });
   }
@@ -139,12 +179,21 @@ export class DoughnutChartComponent implements OnInit,OnChanges{
       }
     });
   }
+ 
 
-  confirmDeleted() {
-    console.log('confirm button');
-    this.deleteConfirmed.emit();
-}
+  onDelete(){
+    console.log('delete');
+    this.deletedConfirmed.emit();
+  }
 
+  onEdit(){
+    console.log('Edit');
+  }
+
+ confirmDeleted() {
+        console.log('confirm button');
+        this.hideConfirmed.emit();
+  }
   onDateRangeChange() {
     if (this.rangeDates && this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
       this.selectedDateRange = this.rangeDates.map(date => this.formatDate(date));

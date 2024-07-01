@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { ChartsService } from '../../../../../main-dashboard/services/charts.service';
 import { CookieService } from 'ngx-cookie-service';
-// import { AuthendicationService } from '../../../../../main-dashboard/services/authendication.service';
 import { AuthenticationService } from '../../../../../auth/services/authentication.service';
+import { MessageService } from 'primeng/api';
+
 @Component({
   selector: 'app-addchart',
   templateUrl: './addchart.component.html',
@@ -59,7 +60,9 @@ export class AddchartComponent {
   ];
 
   barChartYAxisOptions = [
-    { label: 'Sentiment Count', value: 'sentiment-count' },
+    { label: 'with Sentiment Count', value: 'sentiment-count' },
+    // { label: 'Sources', value: 'sources' },
+    { label: 'with Source & Sentiment', value: 'sentiments' },
   ];
 
   pieYAxisOptions = [
@@ -133,7 +136,8 @@ export class AddchartComponent {
   constructor(
     private chartService: ChartsService,
     private cookieService: CookieService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private messageService:MessageService
   ) {
     this.sidebarVisible = false;
   }
@@ -148,6 +152,7 @@ export class AddchartComponent {
     this.selectedXAxis = null; // Reset x-axis selection when chart type changes
     this.selectedYAxis = null; // Reset y-axis selection when chart type changes
     this.selectedTopics = []; // Reset topics selection when chart type changes
+    this.selectedCities=[];
   }
 
   onXAxisChange(xAxis: string) {
@@ -161,50 +166,101 @@ export class AddchartComponent {
 
   saveWidget() {
     const gridConfigurations: any = {
-      'Line Chart': { cols: 6, rows: 4, x: 0, y: 0 },
-      'Bar Chart': { cols: 5, rows: 3, x: 1, y: 1 },
-      'Horizontal Bar Chart': { cols: 7, rows: 3, x: 2, y: 2 },
-      'Pie Chart': { cols: 4, rows: 4, x: 3, y: 3 },
-      'Word Cloud': { cols: 5, rows: 3, x: 0, y: 4 },
-      'Table': { cols: 8, rows: 5, x: 4, y: 0 }
+      'Line Chart': { cols: 3, rows: 2, x: 0, y: 0 },
+      'Bar Chart': { cols: 3, rows: 2, x: 1, y: 1 },
+      'Horizontal Bar Chart': { cols: 3, rows: 2, x: 2, y: 2 },
+      'Pie Chart': { cols: 2, rows: 2, x: 3, y: 3 },
+      'Word Cloud': { cols: 3, rows: 3, x: 0, y: 4 },
+      'Table': { cols: 3, rows: 3, x: 4, y: 0 }
     };
+  
+    // Validate required fields
+    if (!this.selectedChartType || !this.title) {
+      
+      if(!this.title){
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please fill title.' });
+        return;
+      }
+      else if(!this.selectedChartType)
+        {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please fill Chart Type.' });
+          return;
+        }
+    }
+
+    if(this.selectedChartType=='Line Chart' || this.selectedChartType=='Bar Chart' || this.selectedChartType=='Horizontal Bar Chart')
+      {
+        if(!this.selectedXAxis || !this.selectedYAxis)
+          {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please fill Chart Axis.' });
+            return;
+          }
+      }
+    if(this.selectedChartType=='Word Cloud')
+        {
+          if(!this.selectedYAxis)
+            {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please fill Chart Axis.' });
+              return;
+            }
+           else if(!this.selectedCities)
+              {
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please fill Sources.' });
+                  return;
+              }
+          else if(this.selectedYAxis=='keywords' && !this.selectedKeywords)
+            {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please fill keywords.' });
+              return;
+            }
+        }
+    if(!this.selectedCities)
+      {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please fill Sources.' });
+          return;
+      }
 
     this.change = false;
     const sourceNames = this.selectedCities.map((source: any) => source.name);
-    
     const keywordNames = this.selectedKeywords ? this.selectedKeywords.map((keyword: any) => keyword.name) : [];
-
+  
     const selectedChartType: string = this.selectedChartType || 'Line Chart';
-
+  
     // Ensure selectedChartType is not null or undefined
-    let gridConfig= { cols: 5, rows: 3, x: 0, y: 0 }; // default grid configuration
+    let gridConfig = { cols: 5, rows: 3, x: 0, y: 0 }; // default grid configuration
     if (selectedChartType && gridConfigurations[selectedChartType]) {
       gridConfig = gridConfigurations[selectedChartType];
     }
-
+  
     const widgetData = {
-      title: this.title,
+      title: this.title || '',
       chartType: selectedChartType,
-      xAxis: this.selectedXAxis,
-      yAxis: this.selectedYAxis,
-      topics: this.selectedTopics,
-      sources: sourceNames,
-      keywords: keywordNames,
+      xAxis: this.selectedXAxis || '',
+      yAxis: this.selectedYAxis || '',
+      topics: this.selectedTopics || '',
+      sources: sourceNames || [],
+      keywords: keywordNames || [],
       grid: gridConfig,
-      status:'show'
+      status: 'show'
     };
-
-
-    this.authService.getIdToken().subscribe((token) =>{
-    this.chartService.newWidget(token,widgetData).subscribe(
-      (response: any) => {
-        if (response.success === true) {
-          this.selectedCities=[];
+  
+    
+  
+    this.authService.getIdToken().subscribe((token) => {
+      this.chartService.newWidget(token, widgetData).subscribe(
+        (response: any) => {
+          if (response.success === true) {
+            this.selectedCities = [];
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Widget saved successfully.' });
+          }
+        },
+        (error: any) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to save widget. Please try again.' });
         }
-      }
-    );
-  });
+      );
+    });
   }
+  
   
   showDialog(){
     this.change=true;

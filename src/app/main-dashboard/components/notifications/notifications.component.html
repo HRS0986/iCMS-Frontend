@@ -2,12 +2,16 @@
   pageTitle="Notifications"
   class="w-full h-fit"
   [breadcrumbItems]="breadcrumbItems"
+  [showAddMemberButton]="false"
+  [showDatePicker]="true"
+  [mainDashboardNotification]="true"
+  [showRightSideBarButtons] = "false"
 />
 <div>
     <p-tabView [(activeIndex)]="activeIndex" (click)="clickTab($event)">
       <p-tabPanel *ngFor="let tab of tabs" [header]="tab.title" >
-        <app-read-notifications *ngIf="tab.title === 'Old Notifications'" [title]="tab.title" ></app-read-notifications>
-        <app-unread-notifications *ngIf="tab.title === 'New Notifications'" [title]="tab.title"></app-unread-notifications>
+        <app-unread-notifications *ngIf="tab.title === 'Unread'" [title]="tab.title"></app-unread-notifications>
+        <app-read-notifications *ngIf="tab.title === 'All'" [title]="tab.title" ></app-read-notifications>
     </p-tabPanel>
   </p-tabView>
 </div>
