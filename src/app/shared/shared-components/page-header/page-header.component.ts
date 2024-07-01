@@ -55,22 +55,22 @@ export class PageHeaderComponent implements OnInit {
 
   onRangeSelect(dateRange: Date[]) {
     if (dateRange[1] !== null) {
-      this.callDateRangeChanged.emit([this.formatDate(dateRange[0]), this.formatDate(dateRange[1])]);
+      this.callDateRangeChanged.emit([this.formatDate(dateRange[0], "start"), this.formatDate(dateRange[1], "end")]);
       console.log(this.formatDate(dateRange[0]), this.formatDate(dateRange[1]))
     }
   }
 
-  formatDate(date: Date) {
+  formatDate(date: Date, type: "start" | "end" = "start"): string {
     const pad = (num:any) => num.toString().padStart(2, '0');
 
     const year = date.getFullYear();
     const month = pad(date.getMonth() + 1); // getMonth() is zero-indexed
     const day = pad(date.getDate());
-    const hours = pad(date.getHours());
-    const minutes = pad(date.getMinutes());
-    const seconds = pad(date.getSeconds());
-
-    return `${year}-${month}-${day}-${hours}-${minutes}-${seconds}`;
+    if (type === "start") {
+      return `${year}-${month}-${day}-00-00-00`;
+    } else {
+      return `${year}-${month}-${day}-23-59-59`;
+    }
   }
 
   getCurrentDateRange = (): Date[] => {

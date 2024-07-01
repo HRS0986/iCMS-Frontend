@@ -10,18 +10,18 @@
       </div>
     }
     @if (sentimentOverTime !== undefined) {
-      <line-area-chart [dataset]="sentimentOverTime" title="Sentiment Over Time"/>
+      <line-area-chart #lChartComp [dataset]="sentimentOverTime" title="Sentiment Over Time"/>
     }
     @if (callSentiments !== undefined) {
-      <doughnut-chart title="Sentiment Distribution" [percentages]="[callSentiments.negative, callSentiments.positive, callSentiments.neutral]"/>
+      <doughnut-chart #dChartComp title="Sentiment Distribution" [percentages]="[callSentiments.negative, callSentiments.positive, callSentiments.neutral]"/>
     }
   </div>
   <div class="flex gap-6 flex-wrap">
     @if (topicDistribution !== undefined) {
-      <bar-chart style="width: 49%;" title="Calls Distribution By Topics" [dataset]="topicDistribution"/>
+      <bar-chart #bChartComp style="width: 49%;" title="Calls Distribution By Topics" [dataset]="topicDistribution"/>
     }
     @if (operatorCallsOverTime !== undefined) {
-      <stacked-bar-chart style="width: 49%;" title="Call Distribution By Operators" [dataset]="operatorCallsOverTime"/>
+      <stacked-bar-chart #sChartComp style="width: 49%;" title="Call Distribution By Operators" [dataset]="operatorCallsOverTime"/>
     }
   </div>
   <div class="flex gap-7 flex-wrap">
@@ -29,9 +29,8 @@
       <best-operators-card style="width: 54%;" title="Best Operators" [operatorRankings]="operatorRankings"/>
     }
     @if (keywords !== undefined && keywords.length > 0) {
-      <app-wordcloud [words]="keywords" title="Keywords Highlights" />
+      <app-wordcloud #keywordCloud [words]="keywords" title="Keywords Highlights" />
     }
-
   </div>
 </div>
 

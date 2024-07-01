@@ -8,7 +8,7 @@ export class WebSocketService {
 
   constructor() { }
 
-  public connect(webSocketUrl: string): WebSocket {
+  public connect(webSocketUrl: string): void {
     this.socket = new WebSocket(webSocketUrl);
 
     this.socket.onopen = () => {
@@ -27,15 +27,13 @@ export class WebSocketService {
     this.socket.onerror = (error) => {
       console.error(error);
     };
-
-    return this.socket;
   }
 
   public disconnect(socket: WebSocket): void {
     socket.close();
   }
 
-  public sendMessage(socket: WebSocket, message: string): void {
-    socket.send(message);
+  public sendMessage(message: string): void {
+    this.socket.send(message);
   }
 }

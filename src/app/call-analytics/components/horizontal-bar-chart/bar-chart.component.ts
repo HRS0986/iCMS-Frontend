@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { UIChart } from "primeng/chart";
 
 @Component({
   selector: 'bar-chart',
@@ -8,12 +9,13 @@ import { Component, Input, OnInit } from '@angular/core';
 export class BarChartComponent implements OnInit {
   @Input() title!: string;
   @Input() dataset!: { [key: string]: number };
+  @ViewChild('bChart') bChart!: UIChart;
 
   data: any;
   options: any;
+  documentStyle = getComputedStyle(document.documentElement);
 
   ngOnInit() {
-    const documentStyle = getComputedStyle(document.documentElement);
     this.options = {
       indexAxis: 'x',
       maintainAspectRatio: false,
@@ -29,15 +31,24 @@ export class BarChartComponent implements OnInit {
       }
     };
 
-    const topicsData = this.dataset;
+    this.initializeChart(this.dataset);
+  }
+
+  refreshChart(dataset: { [key: string]: number }) {
+    this.initializeChart(dataset);
+    this.bChart.refresh();
+  }
+
+  initializeChart(dataset: { [key: string]: number }) {
+    const topicsData = dataset;
     const topicsList = Object.keys(topicsData);
     const topicsValues = Object.values(topicsData);
     this.data = {
       labels: topicsList,
       datasets: [
         {
-          backgroundColor: documentStyle.getPropertyValue('--primary-color') + documentStyle.getPropertyValue('--alpha-value'),
-          borderColor: documentStyle.getPropertyValue('--blue-500'),
+          backgroundColor: this.documentStyle.getPropertyValue('--primary-color') + this.documentStyle.getPropertyValue('--alpha-value'),
+          borderColor: this.documentStyle.getPropertyValue('--blue-500'),
           data: topicsValues
         }
       ]

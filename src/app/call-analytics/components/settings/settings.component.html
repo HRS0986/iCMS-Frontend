@@ -12,7 +12,7 @@
               </p-divider>
               <div class="flex align-items-center gap-1 text-sm justify-between mb-3">
                 <p-checkbox name="notify" (onChange)="onChangeBelowScore($event)"
-                            formControlName="bellowNotify" value="true"
+                            formControlName="bellowNotify" [binary]="true"
                             label="Notify me when the sentiment score is below the value: "></p-checkbox>
                 <p-inputNumber [showButtons]="true" class="short-input"
                                formControlName="bellowScore" mode="decimal" inputId="minmax-buttons"
@@ -20,7 +20,7 @@
                 </p-inputNumber>
               </div>
               <div class="flex align-items-center gap-1 text-sm justify-between mb-10">
-                <p-checkbox name="notify" (onChange)="onChangeAboveScore($event)" value="true"
+                <p-checkbox name="notify" (onChange)="onChangeAboveScore($event)" [binary]="true"
                             formControlName="aboveNotify"
                             label="Notify when the sentiment score is above: "></p-checkbox>
                 <p-inputNumber [disabled]="true" class="short-input" formControlName="aboveScore"
