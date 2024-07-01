@@ -18,11 +18,12 @@ export interface WordCloudItem {
   templateUrl: './word-cloud.component.html',
   styleUrls: ['./word-cloud.component.scss']
 })
-export class WordcloudComponent implements OnInit, OnChanges, AfterViewInit {
+export class WordcloudComponent implements OnInit, OnChanges{
 
   @Input() closable:boolean = true;
 
-  @Output() deleteConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() deletedConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() hideConfirmed: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() title!: string;
   @Output() changesEvent = new EventEmitter<boolean>();
@@ -55,36 +56,40 @@ export class WordcloudComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnInit() {
 
-      this.items= [
-            {
-
-                icon: 'pi pi-ellipsis-v',
-                items: [
-                    {
-                        label: 'Delete',
-                        icon: 'pi pi-times',
-                        command(event: MenuItemCommandEvent) {
-                            console.log(event);
-
-                        }
-                    },
-                    {
-                        label: 'Edit',
-                        icon: 'pi pi-pencil',
-                        command(event: MenuItemCommandEvent) {
-                            console.log(event);
-                        }
-                    }
-                ]
+    this.items= [
+      {
+        icon: 'pi pi-ellipsis-v',
+        items: [
+          {
+            label: 'Delete',
+            icon: 'pi pi-times',
+            command: () => {
+              this['onDelete']();
             }
+          },
+          {
+            label: 'Edit',
+            icon: 'pi pi-pencil',
+            command: () => {
+              this['onEdit']();
+            }
+          },
+          {
+            label: 'Hide',
+            icon: 'pi pi-eye-slash',
+            command: () => {
+              this['confirmDeleted']();
+            }
+          }
 
-        ];
+          
+        ]
+      }
+
+  ];
     this.selectedCategories = [...this.sources];  // Ensure a fresh copy is used
     this.categories = [...this.sources];  // Ensure a fresh copy is used
 
-    if (this.selectedCategories) {
-      this.wordCloudExtract(this.selectedCategories);
-    }
 
     timer(0, 1000).subscribe(() => {
       if (this.changes) {
@@ -107,17 +112,29 @@ export class WordcloudComponent implements OnInit, OnChanges, AfterViewInit {
           this.wordCloudExtract(this.selectedCategories);
         }
       }
+      else{
+        if (this.selectedCategories) {
+          this.wordCloudExtract(this.selectedCategories);
+        }
+      }
     });
   }
-
-  confirmDeleted() {
-    console.log('confirm button');
-    this.deleteConfirmed.emit();
- }
-
-  ngAfterViewInit() {
-    // this.showWords(); // Initialize the word cloud after the view is fully initialized
+  
+  onDelete(){
+    console.log('delete');
+    this.deletedConfirmed.emit();
   }
+
+  onEdit(){
+    console.log('Edit');
+  }
+
+ confirmDeleted() {
+        console.log('confirm button');
+        this.hideConfirmed.emit();
+  }
+
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['changes'] && changes['changes'].currentValue === true) {

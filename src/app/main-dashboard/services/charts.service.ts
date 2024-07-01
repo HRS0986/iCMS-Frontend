@@ -19,6 +19,7 @@ export class ChartsService {
   public messages$ = this.messagesSubject$.asObservable();
 
   private baseUrl = 'http://13.201.125.196:8002/charts';
+  // private baseUrl = 'http://127.0.0.1:8002/charts';
 
   username:any;
 
@@ -70,8 +71,9 @@ export class ChartsService {
     return this.http.get<any>(`${this.baseUrl}/chartData`,{ headers });
   }
 
-  gridDeleted(id:any,token:string): Observable<any>{
+  gridDeleted(id:string,token:string): Observable<any>{
 
+    console.log(id);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`

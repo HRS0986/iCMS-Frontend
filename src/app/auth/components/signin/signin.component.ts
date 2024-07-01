@@ -13,6 +13,8 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 })
 export class SigninComponent {
 
+  isLoading = false;
+
   loginForm = new FormGroup({
     email: new FormControl<string>('', [Validators.required]),
     password: new FormControl<string>('', [Validators.required])
@@ -27,16 +29,18 @@ export class SigninComponent {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private messageService: MessageService,
   ) {}
 
   signIn(): void {
+    console.log('Signing in...')
     this.isSubmitted = true;
+    this.isLoading = true;
     if (this.loginForm.valid) {
       this.authService.signIn(this.loginForm.value.email!, this.loginForm.value.password!)
         .subscribe({
           next: (session) => {
             console.log('Logged in successfully', session);
+            this.isLoading = false;
             // Redirect or perform actions after successful login
             this.router.navigate(['/']).then(r => console.log('Navigated to home'));
             this.authService.getIdToken().subscribe((token: any) => {
@@ -50,6 +54,7 @@ export class SigninComponent {
           },
           error: (error) => {
             console.error('Error during login', error);
+            this.isLoading = false;
           }
         });
     }

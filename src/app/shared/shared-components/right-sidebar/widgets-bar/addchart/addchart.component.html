@@ -11,7 +11,7 @@
 
     <div class="pt-5">
       <span>
-        <input pInputText id="title" type="text" class="p-inputtext-sm title-input" [(ngModel)]="title" />
+        <input pInputText id="title" type="text" class="p-inputtext-sm title-input" [(ngModel)]="title" required/>
       </span>
     </div>
     <div>
@@ -112,7 +112,7 @@
           <p-selectButton [options]="emailBarChartYAxisOptions" [(ngModel)]="selectedYAxis" optionLabel="label" optionValue="value" ></p-selectButton>
         </div>
 
-        <div class="choose-source mt-5" *ngIf="selectedXAxis=='topics' && (selectedYAxis=='score' || selectedYAxis=='sentiment-count')">
+        <div class="choose-source mt-5" *ngIf="selectedXAxis=='topics' && (selectedYAxis=='score' || selectedYAxis=='sentiment-count' || selectedYAxis=='sentiments')">
           <span class="mb-5">Choose source</span>
           <p-multiSelect [options]="emailCallSources" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
         </div>

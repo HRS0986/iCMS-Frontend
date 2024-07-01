@@ -1,42 +1,44 @@
 
    <!-- <div>
        <p-messages [(value)]="notifications" [enableService]="true" [closable]="true"></p-messages>
-
-
    </div> -->
 <div>
-    <div class="action-bar d-flex justify-content-between align-items-center">
-        <!-- Left side buttons -->
-        <div class="left-buttons">
-          <p-button
-            type="button"
-            pRipple
-            (click)="addMessages()"
-            label="Show new"
-            [outlined]="true"
-            styleClass="mr-2"/>
 
-          <p-button
-            type="button"
-            pRipple
-            (click)="clearMessages()"
-            [outlined]="true"
-            label="Ignore all"
-            severity="danger" />
-        </div>
+<!--    <div class="action-bar d-flex justify-content-between align-items-center">-->
+<!--        &lt;!&ndash; Left side buttons &ndash;&gt;-->
+<!--        <div class="left-buttons">-->
+<!--          <p-button-->
+<!--            type="button"-->
+<!--            pRipple-->
+<!--            (click)="addMessages()"-->
+<!--            label="Show new"-->
+<!--            [outlined]="true"-->
+<!--            styleClass="mr-2"/>-->
 
-        <!-- Right side calendar and icon -->
-        <div class="right-controls d-flex align-items-center">
-          <p-calendar
-            [(ngModel)]="rangeDates"
-            selectionMode="range"
-            dateFormat="yy-mm-dd"
-            [readonlyInput]="false"
-            [showIcon]="true"
-            (ngModelChange)="onDateRangeChange()"></p-calendar>
-          <i class="pi pi-history" style="font-size: 1.3rem; margin-left: 10px" (click)="dateReset()"></i>
-        </div>
-      </div>
+<!--          <p-button-->
+<!--            type="button"-->
+<!--            pRipple-->
+<!--            (click)="clearMessages()"-->
+<!--            [outlined]="true"-->
+<!--            label="Ignore all"-->
+<!--            severity="danger" />-->
+
+
+<!-- <div class="right-controls d-flex align-items-center">
+    <p-calendar
+      [(ngModel)]="rangeDates"
+      selectionMode="range"
+      dateFormat="yy-mm-dd"
+      [readonlyInput]="false"
+      [showIcon]="true"
+      (ngModelChange)="onDateRangeChange()"></p-calendar>
+    <i class="pi pi-history" style="font-size: 1.3rem; margin-left: 10px" (click)="dateReset()"></i>
+</div> -->
+
+
+<!--        </div>-->
+
+<!--      </div>-->
 
 
 <div *ngFor="let notification of filteredNotifications" class="notification-container">
@@ -45,9 +47,9 @@
       [enableService]="false"
       [closable]="false"
       (click)="viewNotification(notification)"
-      class="unreadnotifications"
+      class="unread notifications"
     ></p-messages>
-    <p-button  (click)="ignoreMessages(notification.id)" label="Ignore" severity="danger" [outlined]="false"/>
+<!--    <p-button  (click)="ignoreMessages(notification.id)" label="Ignore" severity="danger" [outlined]="false"/>-->
   </div>
 
 
@@ -62,7 +64,6 @@
     [resizable]="true">
             <p>{{showData[2]}}</p>
             <h6>{{showData[1]}}</h6>
-
             <!-- <p-button (click)="showDialog()" label="Show" /> -->
 </p-dialog>
 </div>

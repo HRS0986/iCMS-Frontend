@@ -1,0 +1,10 @@
+:host ::ng-deep .p-message .p-message-wrapper {
+  padding: 1rem 1rem;
+}
+
+:host ::ng-deep .p-message.p-message-info {
+  background: #f9f9f9;
+  border: solid #3b82f6;
+  border-width: 0 0 0 6px;
+  color: #3b82f6;
+}

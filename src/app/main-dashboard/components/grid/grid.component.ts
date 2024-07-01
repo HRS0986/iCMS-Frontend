@@ -13,6 +13,8 @@ import { timer } from 'rxjs';
 import {MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
+import { GridsterItemComponentInterface } from 'angular-gridster2';
+
 interface Product {
   id: number;
   title: string;
@@ -39,9 +41,7 @@ interface Safe extends GridsterConfig {
   resizable: Resizable;
   pushDirections: PushDirections;
 }
-interface Safe extends GridsterConfig {
-  resizable: Resizable;
-}
+
 
 @Component({
   selector: 'app-grid',
@@ -138,8 +138,8 @@ export class GridComponent implements OnInit {
 
     this.socketSubscription = this.ChartService.messages$.subscribe(
       message => {
-
         if (message.response === 'data') {
+          this.chartDataGet();
           this.dashboard.forEach((widget:any) => {
             if (widget.chartType === 'Pie Chart' && widget.sources.includes(message.name)) {
               widget.changes = true;
@@ -161,7 +161,6 @@ export class GridComponent implements OnInit {
         }
       }
     );
-    // console.log(this.userChartInfo);
     this.grid();
     this.gridStart=1;
 }
@@ -231,15 +230,15 @@ gridDeleteConfirmed(id:any,title:string) {
     icon: 'pi pi-exclamation-triangle',
     accept: () => {
       this.authService.getIdToken().subscribe((token) =>{
-      this.ChartService.gridDeleted(id.id,token).subscribe(
+      this.ChartService.gridDeleted(id,token).subscribe(
         response => {
-          this.dashboard.splice(this.dashboard.indexOf(id), 1);
-          this.gridList.splice(this.gridList.indexOf(id), 1);
-          this.showMessage("Grid Deleted");
+          if(response!=false){
+            this.dashboard.splice(this.dashboard.indexOf(id), 1);
+            this.gridList.splice(this.gridList.indexOf(id), 1);
+            this.showMessage("Grid Deleted");
+          }
+
         },
-        error => {
-          // console.error('Error saving grid layout:', error);
-        }
       );
     });
 
@@ -248,9 +247,7 @@ gridDeleteConfirmed(id:any,title:string) {
       // Logic for rejection (optional)
     }
   });
-  // Logic to handle deletion confirmation
 
-  // Optionally perform any action or update data in the parent component
 }
 
 
@@ -269,19 +266,17 @@ chartDataGet(): void {
         cache.match('data').then((cachedResponse) => {
           if (cachedResponse) {
             cachedResponse.json().then((cachedData: any) => {
-              // Compare the response with the cached data
+  
               if (!this.isEqual(response, cachedData)) {
-                // Update only the changed data in the cache
-                // const updatedData = { ...cachedData, ...response };
+
                 const dataResponse = new Response(JSON.stringify(response), {
                   headers: { 'Content-Type': 'application/json' }
                 });
                 cache.put('data', dataResponse);
-                // this.DataCacheChange = true;
               }
             });
           } else {
-            // Cache the response if no cached data exists
+
             const dataResponse = new Response(JSON.stringify(response), {
               headers: { 'Content-Type': 'application/json' }
             });
@@ -290,12 +285,8 @@ chartDataGet(): void {
         });
       });
     },
-    // (error) => {
-    //   console.error('Error fetching doughnut chart data:', error);
-    // }
   );
-
-});
+  });
 }
 
 isEqual(obj1: any, obj2: any): boolean {
@@ -316,6 +307,7 @@ isEqual(obj1: any, obj2: any): boolean {
 onChanges(event: boolean, index: number): void {
 
 }
+
 
 
 grid(){
@@ -386,6 +378,7 @@ grid(){
     //janith
     setGridSize: true,
     margin:20,
+    itemChangeCallback: this.itemChange.bind(this),
   };
 
 this.data = {
@@ -406,39 +399,40 @@ this.chartOptions = {
 };
 }
 
-  widgetsUser(){
-    caches.open('widgets').then(cache => {
-      cache.match('widgets-data').then(cachedResponse => {
-        if (cachedResponse) {
-          cachedResponse.json().then((data: any[]) => { // Ensure data is typed as array
-            this.widgetTitle = data.map((item: any) => item.title);
-            this.widgetChart = data.map((item: any) => item.chartType);
-            this.widgetSoucrce = data.map((item: any) => item.sources);
-            this.yAxis = data.map((item: any) => item.yAxis);
-            this.xAxis = data.map((item: any) => item.xAxis);
-            this.topic = data.map((item: any) => item.topics);
-            this.widgetGrid = data.map((item: any) => item.grid);
-            this.ID = data.map((item: any) => item.id);
-            this.status = data.map((item: any) => item.status);
-            console.log(data);
-            // this.widgetData = this.processWidgetData(this.widgetTitle, this.widgetChart, this.widgetSoucrce);
-            const response = this.processGridData(this.widgetTitle, this.widgetChart, this.widgetSoucrce, this.widgetGrid,this.ID,this.topic,this.yAxis,this.xAxis,this.status);
-            this.dashboard= response[0].filter((item:any) => item['status'] !== 'hide');
-            console.log(this.dashboard);
-            this.gridList = response[0].filter((item:any) => item['status'] !== 'show');
-            this.ChartSources=response[1];
-          });
-        }
-        // } else {
-        //   console.log('Data not found in cache');
-        // }
-      });
+widgetsUser(){
+  caches.open('widgets').then(cache => {
+    cache.match('widgets-data').then(cachedResponse => {
+      if (cachedResponse) {
+        cachedResponse.json().then((data: any[]) => { // Ensure data is typed as array
+          this.widgetTitle = data.map((item: any) => item.title);
+          this.widgetChart = data.map((item: any) => item.chartType);
+          this.widgetSoucrce = data.map((item: any) => item.sources);
+          this.yAxis = data.map((item: any) => item.yAxis);
+          this.xAxis = data.map((item: any) => item.xAxis);
+          this.topic = data.map((item: any) => item.topics);
+          this.widgetGrid = data.map((item: any) => item.grid);
+          this.ID = data.map((item: any) => item.id);
+          this.status = data.map((item: any) => item.status);
+          console.log(data);
+          // this.widgetData = this.processWidgetData(this.widgetTitle, this.widgetChart, this.widgetSoucrce);
+          const response = this.processGridData(this.widgetTitle, this.widgetChart, this.widgetSoucrce, this.widgetGrid,this.ID,this.topic,this.yAxis,this.xAxis,this.status);
+          this.dashboard= response[0].filter((item:any) => item['status'] !== 'hide');
+          console.log(this.dashboard);
+          this.gridList = response[0].filter((item:any) => item['status'] !== 'show');
+          this.ChartSources=response[1];
+        });
+      }
+      // } else {
+      //   console.log('Data not found in cache');
+      // }
     });
-  }
+  });
+}
 
   onresize(event: any): void {
     console.log('Element was resized', event);
   }
+
 
 
 
@@ -508,6 +502,111 @@ processGridData(titles: string[], chartTypes: string[], sources: any[], grids: a
         throw new Error(`Unknown chart type: ${chartType}`);
     }
   }
+
+  
+resize(event: Event, item: GridsterItem): void {
+  // Calculate the new ratio in real-time
+  const newRatio = item.cols / item.rows;
+  // If the new ratio is different from the initial ratio, adjust the cols or rows
+  if (newRatio !== item['initialRatio']) {
+    // Here we adjust the rows, but you can also adjust the cols if you prefer
+    item.rows = item.cols / item['initialRatio'];
+  }
+}
+
+// static eventStart(
+//   item: GridsterItem,
+//   itemComponent: GridsterItemComponentInterface,
+//   event: MouseEvent
+// ): void {
+//   console.info('eventStart', item, itemComponent, event);
+//   // Store the initial ratio of cols/rows
+//   item['initialRatio'] = item.cols / item.rows;
+// }
+
+// static eventStop(
+//   item: GridsterItem,
+//   itemComponent: GridsterItemComponentInterface,
+//   event: MouseEvent
+// ): void {
+//   console.info('eventStop', item, itemComponent, event);
+//   // Calculate the new ratio after resizing
+//   const newRatio = item.cols / item.rows;
+//   // If the new ratio is different from the initial ratio, adjust the cols or rows
+//   if (newRatio !== item['initialRatio']) {
+//     // Here we adjust the rows, but you can also adjust the cols if you prefer
+//     item.rows = item.cols / item['initialRatio'];
+//   }
+// }
+
+itemResize(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
+  // Calculate the new ratio in real-time
+  const newRatio = Math.round(item.cols / item.rows);
+  // console.log(item);
+  // console.log('itemResized', newRatio);
+  // console.log('initialRatio', item['initialRatio'])
+  // If the new ratio is different from the initial ratio, adjust the cols or rows
+  if (newRatio !== item['initialRatio']) {
+    // Here we adjust the rows, but you can also adjust the cols if you prefer
+    item.rows = Math.round(item.cols / item['initialRatio']);
+  }
+}
+
+itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
+  // This method will be called when the item is moved or resized
+
+  console.log(item);
+  if (item && this.gridStart==1){
+    const change = {
+      id: item["id"],   // Assuming item.key is the unique identifier
+      cols: item.cols,
+      rows: item.rows,
+      x: item.x,
+      y: item.y
+      // Add other properties as needed
+    };
+
+    const existingChangeIndex = this.changesQueue.findIndex(c => c.id === change.id);
+    if (existingChangeIndex !== -1) {
+      this.changesQueue[existingChangeIndex] = change;
+    } else {
+      this.changesQueue.push(change);
+    }
+
+    // Debounce or delay sending changes to backend for efficiency
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      this.saveLayout(this.changesQueue);
+      this.updateCache(this.changesQueue);
+    }, 1000);
+
+    
+  }
+}
+
+updateCache(changesQueue: { id: string, cols: number, rows: number, x: number, y: number }[]): void {
+  caches.open('widgets').then(cache => {
+    cache.match('widgets-data').then(cachedResponse => {
+      if (cachedResponse) {
+        cachedResponse.json().then((data: any[]) => {
+          changesQueue.forEach(change => {
+            const index = data.findIndex(item => item.id === change.id);
+            if (index !== -1) {
+              data[index].grid.cols = change.cols;
+              data[index].grid.rows = change.rows;
+              data[index].grid.x = change.x;
+              data[index].grid.y = change.y;
+            }
+          });
+
+          const updatedResponse = new Response(JSON.stringify(data));
+          cache.put('widgets-data', updatedResponse);
+          console.log(data);
+        });
+      }
+    });
+  });
+}
   openSettings(item: any) {
   // Open the settings dialog for the clicked grid item
   // ...

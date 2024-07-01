@@ -21,6 +21,10 @@ export class PageHeaderComponent implements OnInit {
   @Input() showRightSideBarButtons: boolean = false;
   @Input() mainDashboardDate: boolean = false;
   @Input() callDashboardDate: boolean = false;
+
+  @Input() mainDashboardNotification:boolean=false;
+
+
   @Input() minDate: Date = new Date();
   @Input() maxDate: Date = new Date();
 
@@ -93,6 +97,13 @@ export class PageHeaderComponent implements OnInit {
     if (this.rangeDates) {
       this.dateRangeService.changeDateRange(this.rangeDates);
       this.oldDateSave(this.rangeDates);
+    }
+  }
+
+  onDateRangeChangeNotifications(): void {
+    if (this.rangeDates) {
+      this.dateRangeService.changeDateRange(this.rangeDates);
+      // this.oldDateSave(this.rangeDates);
     }
   }
 
