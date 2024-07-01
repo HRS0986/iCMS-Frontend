@@ -5,7 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from './settings.data.service';
 import { AuthenticationService } from '../../../auth/services/authentication.service';
-import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, EmailINtegrationPostResponseMessage, GetEditingEmailResponse, GetNewIntergratingEmailID, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
+import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, EmailINtegrationPostResponseMessage, GetEditingEmailResponse, GetNewIntergratingEmailID, IssInqType, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, IssueInqTypeData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
 import { forbiddenEmailValidator } from '../../validators/custom-validators';
 import { ChangeDetectorRef } from '@angular/core';
 import { ToastModule } from 'primeng/toast';
@@ -59,19 +59,27 @@ export class SettingsComponent implements OnInit{
 
   currentReadingEmailAccountsForIntegrationPage = [{address:'dummy@gmail.com', nickname:'dummynickname'}];
   
-  
-  currentCheckingTopics = [
-    { name: 'Vega'},
-    { name: 'travelBox'}
+  possibleIssueTypes: IssInqType[] = [{name:'Order Issues'},{name:'Billing and Payment Problems'}, {name:'Account Issues'},
+    {name:'Product or Service Complaints'}, {name:'Technical Issues'},{name:'Warranty and Repair Issues'},
+    {name:'Subscription Problems'}, {name:'Return and Exchange Problems'}, {name:'Public Relations Issues'}
   ]
+
+  possibleInquiryTypes: IssInqType[] = [{name:'Product Information'},{name:'Pricing and Discounts'}, {name:'Shipping and Delivery'},
+    {name:'Warranty and Guarantees'}, {name:'Account Information'},{name:'Technical Support'},
+    {name:'Policies and Procedures'}, {name:'Payment Methods'}, {name:'Employment Opportunities'}, {name:'Legal or Compliance'}
+  ]
+  currentCheckingIssueTypes: IssInqType[] = []
+  currentCheckingInquiryTypes: IssInqType[] = []
+
   
   isVisibleClientSecretValidation: boolean = false
-
+  ClientSecretValidationMessage:string = ""
+ 
   //-------------------------------------------------- form groups---------------------------------------------------------------------------
 
 
   sentimentShiftsForm = this.fb.group({
-    emailAccsToCheckSS: new FormControl<EmailAcc[] | null>(this.currentSSCheckingEmailAccountsOfUser),
+    emailAccsToCheckSS: new FormControl<EmailAcc[] | null>(this.currentSSCheckingEmailAccountsOfUser, Validators.required),
     lowerSS: 0,
     upperSS: 0,
     lowerNotify: new FormControl<boolean>(false),
@@ -90,7 +98,7 @@ export class SettingsComponent implements OnInit{
   notificationChannelsForm = this.fb.group({
     emailChannelChecked: [false],
     dashboardChannelChecked: [true],
-    notiSendingEmails:new FormControl<string[] | null>(null, this.emailArrayValidator([]))
+    notiSendingEmails:new FormControl<string[] | null>(null,this.emailArrayValidator() )  //this.emailArrayValidator([])
   });
    
   
@@ -111,15 +119,18 @@ export class SettingsComponent implements OnInit{
 
   systemConfigurations = this.fb.group({
     overdueInterval: 14
-    // newProductInputs: new FormControl<string[] | null>(null)
+  
 
 
   });
     
-
-  topicConfiguration = this.fb.group({
-    newTopics:[[]]
+  issueninqyiryTypesConfigurations =this.fb.group({
+    issueTypesToCheck:new FormControl<IssInqType[] | null>(this.currentCheckingIssueTypes),
+    inquiryTypesToCheck:new FormControl<IssInqType[] | null>(this.currentCheckingInquiryTypes)
   });
+
+
+
 
 
   // constructor
@@ -138,7 +149,7 @@ export class SettingsComponent implements OnInit{
       accs_to_check_ss: email_Accs_To_CheckSS ? email_Accs_To_CheckSS : [],
       ss_lower_bound: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerSS ?? 0 : 0,
       ss_upper_bound: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.upperSS ?? 0 : 0,
-      is_checking_ss: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.ssThresholdNotiEnabled ?? true : true,
+      is_checking_ss: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.ssThresholdNotiEnabled ?? false : false,
       is_lower_checking: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.lowerNotify ?? false : false,
       is_upper_checking: email_Accs_To_CheckSS ? this.sentimentShiftsForm.value.upperNotify ?? false : false
     };
@@ -151,6 +162,7 @@ export class SettingsComponent implements OnInit{
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Sentiment shifts configuration updated succesfuly!' });
   
         this.getSentimentShiftDataOfUser()
+        this.getNotiChannelsDataForUser()
       }, error => {
         console.error('Error sending data:', error);
         this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
@@ -181,6 +193,7 @@ export class SettingsComponent implements OnInit{
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Criticality checking emails updated succesfuly!' });
   
         this.getCiticalityCheckingDataOfUser()
+        this.getNotiChannelsDataForUser()
       }, error => {
         console.error('Error sending data:', error);
         this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
@@ -206,6 +219,7 @@ export class SettingsComponent implements OnInit{
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Overdue checking emails updated succesfuly!' });
   
         this.getOverdueIssuesCheckingDataOfUser()
+        this.getNotiChannelsDataForUser()
 
       }, error => {
         console.error('Error sending data:', error);
@@ -228,22 +242,30 @@ export class SettingsComponent implements OnInit{
       is_dashboard_notifications: this.notificationChannelsForm.value.dashboardChannelChecked || false,
       noti_sending_emails:this.notificationChannelsForm.value.notiSendingEmails || []
     }
-    
-    this.authService.getIdToken().subscribe((token: any) => {
-      this.dataService.postNotificationChannelsData(token, formData).subscribe(response => {
-        console.log('Notification channels Data sent successfully:', response);
-  
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Notification channels configuration updated succesfuly!' });
-  
-  
-        this.notificationChannelsForm.reset();
-        this.getNotiChannelsDataForUser()
-      }, error => {
-        console.error('Error sending data:', error);
-        this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
-  
-      });
-    });
+    console.log(formData.noti_sending_emails.length, formData.is_email_notifications, this.currentNotiSendingEmailAccounts.length)
+
+    if (formData.noti_sending_emails.length===0 && formData.is_email_notifications===true && this.currentNotiSendingEmailAccounts.length===0){
+      this.messageService.add({ severity: 'warn', summary: 'Error', detail: 'Please Enter some email addresses to send notifications to' });
+
+    }else{
+          this.authService.getIdToken().subscribe((token: any) => {
+            this.dataService.postNotificationChannelsData(token, formData).subscribe(response => {
+              console.log('Notification channels Data sent successfully:', response);
+        
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Notification channels configuration updated succesfuly!' });
+        
+        
+              this.notificationChannelsForm.reset();
+              this.getNotiChannelsDataForUser()
+              
+            }, error => {
+              console.error('Error sending data:', error);
+              this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured while sending notification channels data' });
+        
+            });
+          });
+    }
+
 
 
 
@@ -271,6 +293,35 @@ export class SettingsComponent implements OnInit{
   
       
       }
+
+      onSubmitIssueTypes(): void {
+  
+        const issue_types_to_check = this.issueninqyiryTypesConfigurations.value.issueTypesToCheck;
+        const inquiry_types_to_check = this.issueninqyiryTypesConfigurations.value.inquiryTypesToCheck;
+        console.log("issue types to check",issue_types_to_check, "inquiry_types_to_check", inquiry_types_to_check)
+        let formData: IssueInqTypeData = {
+          issue_types_to_check: issue_types_to_check ? issue_types_to_check.map((item: any) => item.name) : [],
+          inquiry_types_to_check: inquiry_types_to_check?inquiry_types_to_check.map((item: any) => item.name) : []
+        }
+ 
+     
+        this.dataService.postIssInqTypeData(formData).subscribe(response => {
+          console.log('Trigger Data sent successfully:', response);
+          
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Issue and inquiry types updated succesfuly!' });
+    
+          this.getIssInqTypeData()
+          
+  
+        }, error => {
+          console.error('Error sending data:', error);
+          this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured when updating issue and inquiry types' });
+        });
+    
+    
+    
+      }
+
   
   onSubmitEmailEdit(): void {
     //console.log(this.emailEdit.value);
@@ -292,13 +343,20 @@ export class SettingsComponent implements OnInit{
           console.log(sendingData)
 
           // Send the new email data to FastAPI
-          this.dataService.postEmailEdit(sendingData).subscribe(response => {
+          this.dataService.postEmailEdit(sendingData).subscribe((response: EmailINtegrationPostResponseMessage) => {
             console.log('Data sent successfully:', response);
-            this.editEmailAccVisible = false
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Email info edited succesfuly!' });
-            // Assuming you want to reset the form after successful submission
-            this.emailEdit.reset();
-            this.getReadingEmailAccountsForSettingsPages()
+            if (response.message == "edit complete"){
+              this.editEmailAccVisible = false
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Email info edited succesfuly!' });
+              // Assuming you want to reset the form after successful submission
+              this.emailEdit.reset();
+              this.getReadingEmailAccountsForSettingsPages()
+            }else{
+              this.ClientSecretValidationMessage = response.message 
+              this.isVisibleClientSecretValidation = true
+              
+            }
+
           }, error => {
             this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
             console.error('Error sending data:', error);
@@ -336,7 +394,9 @@ export class SettingsComponent implements OnInit{
               this.emailInetgration.reset();
               this.getReadingEmailAccountsForSettingsPages()
             }else{
+              this.ClientSecretValidationMessage = response.message 
               this.isVisibleClientSecretValidation = true
+              
             }
 
           }, error => {
@@ -483,7 +543,7 @@ deleteNotiSendingEmail(emailName: string): void {
       this.getNotiChannelsDataForUser()
     }, error => {
       console.error('Error sending data:', error);
-      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured' });
+      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Error occured when deleting notification sending email' });
   
     });
   });
@@ -526,7 +586,7 @@ ngOnInit() {
     this.sentimentShiftsForm.controls['upperNotify'].setValue(true);
 
     this.formGroup = new FormGroup({
-      values: new FormControl<string[] | null>(null, this.emailArrayValidator([])),
+      values: new FormControl<string[] | null>(null, this.emailArrayValidator()),
       valuesTopics: new FormControl<string[] | null>(null)
     });
 
@@ -534,10 +594,6 @@ ngOnInit() {
       notiSendingEmails: this.formGroup.get('values')?.value
   });
 
-    this.topicConfiguration.patchValue({
-      newTopics:this.formGroup.get('valuesTopics')?.value
-
-    });
     
    
   // Check if emailAccsToCheckSS control exists before subscribing to its value changes
@@ -577,6 +633,7 @@ ngOnInit() {
         this.sentimentShiftsForm.controls['upperSS'].disable();
       }else{
         // Enable checkboxes and number inputs when a value is selected
+        
         this.sentimentShiftsForm.get('emailAccsToCheckSS')?.enable();
         this.sentimentShiftsForm.controls['lowerNotify'].enable();
         this.sentimentShiftsForm.controls['lowerSS'].enable();
@@ -610,6 +667,9 @@ ngOnInit() {
 
   // getting system config data for the company
   this.getSystemConfigDataForCompany()
+
+  // getting checking issue types and inquiry types for the company 
+  this.getIssInqTypeData()
   
   // getting the email ID for the newly integrating email account
   this.getNewIntergratingEmailID()
@@ -736,7 +796,7 @@ getOverdueIssuesCheckingDataOfUser(): void{
 getNotiChannelsDataForUser(): void {
   this.authService.getIdToken().subscribe((token: string) => {
     this.dataService.getNotiChannelsData(token).subscribe((data: NotiSendingChannelsRecord) => {
-      console.log('NotiChannels',data)
+      console.log('NotiChannels DATTTTTAAAAAA',data)
       this.currentNotiSendingEmailAccounts = data.noti_sending_emails
       this.notificationChannelsForm.patchValue({
           emailChannelChecked: data.is_email_notifications,
@@ -767,25 +827,55 @@ getSystemConfigDataForCompany(): void {
 );
 }
 
+getIssInqTypeData(): void {
+  this.dataService.getIssueInqTypeData().subscribe((data: IssueInqTypeData) => {
+    console.log('Issue inquiry Type Configurations data ',data)
+    const issue_types_to_check: IssInqType[] = data.issue_types_to_check.map((item) => {
+      return { name: item };
+    });
+    const inquiry_types_to_check: IssInqType[] = data.inquiry_types_to_check.map((item) => {
+      return { name: item };
+    });
+
+    this.issueninqyiryTypesConfigurations.patchValue({
+        issueTypesToCheck: issue_types_to_check,
+        inquiryTypesToCheck: inquiry_types_to_check
+    });
+  },
+  error => {
+    console.error('Error fetching system config data', error);
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred while fetching Issue and inquiry type data.' });
+  }
+);
+}
 
 
 
   // Define the custom validator function here
+  // emailValidator(email: string): ValidatorFn {
+  //   return (control: AbstractControl): { [key: string]: any } | null => {
+  //     return Validators.email(control.value) ? null : { 'email': true };
+  //   };
+  // }
+
   emailValidator(email: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      return Validators.email(control.value) ? null : { 'email': true };
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return !emailRegex.test(email) ? { 'email': true } : null;
     };
   }
   
-  emailArrayValidator(emails: string[]): ValidatorFn {
+  emailArrayValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      if (!emails || !Array.isArray(emails)) {
+      const emails = control.value;
+      
+      if (!Array.isArray(emails)) {
         return null; // Return null if value is not an array
       }
   
+      // Check for invalid email addresses in the array
       for (const email of emails) {
-        const emailFormControl = new FormControl(email);
-        const validationError = this.emailValidator(email)(emailFormControl);
+        const validationError = this.emailValidator(email)(new FormControl(email));
         if (validationError) {
           return { 'email': true }; // Return error if any email is invalid
         }
@@ -794,6 +884,10 @@ getSystemConfigDataForCompany(): void {
       return null; // Return null if all emails are valid
     };
   }
+
+
+  
+  
  
   private markFormControlsAsTouchedAndDirty(): void {
     Object.keys(this.emailEdit.controls).forEach(controlName => {

@@ -1,4 +1,69 @@
 <p-sidebar position="right" [(visible)]="sidebarVisible">
-  <h3>add members</h3>
+  <ng-template pTemplate="header">
+    <h3>{{isUpdate ? 'Update User' : 'Add User'}}</h3>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <p-divider></p-divider>
+    <div class="chart-type mt-2">
+      <span>User Name</span>
+    </div>
+    <div class="pt-5">
+        <span>
+            <input pInputText id="user_name" type="text" class="p-inputtext-sm title-input"  [(ngModel)]="userName" [disabled]="isUpdate"  />
+        </span>
+    </div>
+    <div class="pt-5">
+      <span>Email</span>
+    </div>
+    <div class="pt-5">
+        <span>
+            <input pInputText id="email" type="text" class="p-inputtext-sm title-input"  [(ngModel)]="email" />
+        </span>
+    </div>
+
+<!--    phone number -->
+    <div class="pt-5">
+      <span>Phone Number</span>
+    </div>
+    <div class="pt-5">
+        <span>
+            <input pInputText id="phone_number" type="text" class="p-inputtext-sm title-input"  [(ngModel)]="phoneNumber" />
+        </span>
+    </div>
+
+<!-- password -->
+    <div class="pt-5" *ngIf="!isUpdate">
+      <span>Password</span>
+    </div>
+    <div class="pt-5" *ngIf="!isUpdate">
+        <span>
+            <input pInputText id="temporary_password" type="password" class="p-inputtext-sm title-input" [(ngModel)]="password" />
+        </span>
+    </div>
+
+
+    <div class="pt-5">
+      <span>Role</span>
+    </div>
+    <div class="card flex justify-content-center pt-5">
+    <p-multiSelect
+        (onClick)="getRoles()"
+        [options]="roles"
+        [(ngModel)]="selectedRoles"
+        placeholder="Select Roles"
+        optionLabel="group_name"
+        display="chip"
+        [showClear]="true" />
+    </div>
+
+    <div class="save-button mt-5">
+      <div class="save-button mt-5">
+        <p-button label="Save" class="saveButton" (click)="isUpdate ? saveUpdateUser() : addUser();sidebarVisible=false"></p-button>
+      </div>
+    </div>
+  </ng-template>
+
 </p-sidebar>
-<p-button class="pe-3 addMember"  icon="pi pi-user-plus" (click)="sidebarVisible = true" ></p-button>
+<p-toast />
+<p-button class="pe-3 addMember"  icon="pi pi-user-plus" (click)="resetData()" [disabled]="!hasPermission('Add User')" ></p-button>

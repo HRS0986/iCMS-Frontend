@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SettingAlertsData, AlertItem } from '../../structs';
-import { HttpClient } from '@angular/common/http';
+import { SettingAlertsData, AlertItem } from '../../models/settings';
+import { SettingsApiService } from '../../services/settings-api.service';
 
 
 @Component({
@@ -14,31 +14,30 @@ export class SettingsAlerts implements OnInit {
   list_instagram: AlertItem[] = [];
   list_twitter: AlertItem[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private settingsApiService: SettingsApiService) { }
 
   ngOnInit() {
-    this.http.get<any>('http://127.0.0.1:8000/social-media/get_keyword_alerts_')
-      .subscribe(response => {
-        const alerts = response[0] as AlertItem[];
-        alerts.forEach(alert => {
-          switch (alert.sm_id) {
-            case "SM01":
-              this.list_facebook.push(alert);
-              break;
-            case "SM02":
-              this.list_instagram.push(alert);
-              break;
-            case "SM03":
-              this.list_twitter.push(alert);
-              break;
-            default:
-              console.log("Invalid sm_id:", alert.sm_id);
-          }
-        });
-      },
-        error => {
-          console.error('Error fetching data:', error);
-        });
+    this.settingsApiService.getKeywordAlerts().subscribe(response => {
+      const alerts = response[0] as AlertItem[];
+      alerts.forEach(alert => {
+        switch (alert.sm_id) {
+          case "SM01":
+            this.list_facebook.push(alert);
+            break;
+          case "SM02":
+            this.list_instagram.push(alert);
+            break;
+          case "SM03":
+            this.list_twitter.push(alert);
+            break;
+          default:
+            console.log("Invalid sm_id:", alert.sm_id);
+        }
+      });
+    },
+      error => {
+        console.error('Error fetching data:', error);
+      });
   }
 
   onRowEdit(item: AlertItem) {

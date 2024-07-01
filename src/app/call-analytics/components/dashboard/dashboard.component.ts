@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit{
 
   constructor(private callAnalyticsService: CallAnalyticsService) {
     this.callAnalyticsService.getAllKeywords().then(response => {
-      this.myData = Object.entries(response.data).map(([word, weight]) => ({ word: word, weight: Number(weight) }));
+      this.keywords = Object.entries(response.data).map(([word, weight]) => ({ word: word, weight: Number(weight) }));
     }).catch(err => {
       console.log(err);
     }).finally(() => {
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit{
   callStatistics!: CallStatistics;
   callSentiments!: SentimentPercentages;
 
-  myData: WordCloudItem[] = []
+  keywords: WordCloudItem[] = []
 
   ngOnInit() {
 

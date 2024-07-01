@@ -14,35 +14,35 @@ export class CallAnalyticsService {
   }
 
   public getCallStatistics(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-call-statistics`));
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/call-statistics`));
   }
 
   public getSentimentPercentages(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-sentiment-percentages`));
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/sentiment-percentages`));
   }
 
   public getOperatorCallsOverTime(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-operator-calls-over-time`));
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/operator-calls-over-time`));
   }
 
   public getTopicsDistribution(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-topics-distribution`));
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/topics-distribution`));
   }
 
 
-  public getOverallCallSentimentScore() {
-
+  public getOperatorRatings(): Promise<ApiResponse> {
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/operator-ratings`))
   }
 
   public getSentimentTimeDetails(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-sentiment-time-details`));
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/sentiment-time-details`));
   }
 
   public getCallSummary(call_id: string): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-call-summary/${call_id}`));
+    return firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/call-summary/${call_id}`));
   }
 
   public getAllKeywords(): Promise<ApiResponse> {
-    return  firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/get-all-keywords`));
+    return  firstValueFrom(this.http.get<ApiResponse>(`${this.API_ROOT}/all-keywords`));
   }
 }

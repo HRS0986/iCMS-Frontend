@@ -1,14 +1,13 @@
-
 <div class="flex flex-col">
     <div>
         <p-panel>
 
             <tabs>
-                <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempFacebookContent"
+                <tab-item [tabItem]="tabFacebook" [templateContentRef]="tempContent"
                     [templateRightRef]="topBarRight" [content]="content1"></tab-item>
-                <tab-item [tabItem]="tabInstergram" [templateContentRef]="tempInstergram"
+                <tab-item [tabItem]="tabInstagram" [templateContentRef]="tempContent"
                     [templateRightRef]="topBarRight" [content]="content2"></tab-item>
-                <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempTwitter" [templateRightRef]="topBarRight"
+                <tab-item [tabItem]="tabTwitter" [templateContentRef]="tempContent" [templateRightRef]="topBarRight"
                     [content]="content3"></tab-item>
             </tabs>
 
@@ -17,14 +16,14 @@
                 <img src="assets/social-media/svg/add.svg" alt="Add Icon" class="right-bar-icon">
             </ng-template>
 
-            <ng-template #tempFacebookContent let-content="content">
+            <ng-template #tempContent let-content="content">
 
                 <div class="block">
-                    <p class="text-faded">{{content.title}}</p>
+                    <p class="text-faded">{{content.data.length}} Campaigns</p>
                 </div>
 
                 <div class="card">
-                    <p-table [value]="campaigns" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
+                    <p-table [value]="content.data" [tableStyle]="{ 'min-width': '50rem' }" class="table-style">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="width:5%">
@@ -56,8 +55,9 @@
                                 <td>{{ item.company }}</td>
                                 <td>
                                     <span>{{ item.overall_sentiment }}</span>
-                                    <progress-bar [value]="item.min" [bufferValue]="item.overall_sentiment"
-                                        [color]="item.color"></progress-bar>
+                                    <progress-bar [value]="item.min_val" [bufferValue]="item.max_val"
+                                        [color]="'#23B103'"></progress-bar>
+
                                 </td>
                                 <td>
                                     <div class="flex align-items-center justify-content-center gap-2">
@@ -73,22 +73,7 @@
                 </div>
 
             </ng-template>
-
-            <ng-template #tempInstergram let-content="content">
-                <div class="second-wrapper">
-                    <p class="text-faded">{{content.title}}</p>
-                    <div class="second-image"></div>
-                </div>
-            </ng-template>
-
-            <ng-template #tempTwitter let-content="content">
-                <div class="third-wrapper">
-                    <p class="text-faded">{{content.title}}</p>
-                    <div class="third-first-image"></div>
-                </div>
-            </ng-template>
-
-
         </p-panel>
     </div>
 </div>
+

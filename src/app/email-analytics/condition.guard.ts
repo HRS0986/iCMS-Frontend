@@ -12,7 +12,7 @@ export const conditionGuard: CanActivateFn = (route, state) => {
   return conditionService.needToAuthorize$.pipe(
     map(needToAuthorize => {
       if (needToAuthorize) {
-        router.navigate(['/email/authorization-component']);
+        router.navigate(['/email/permission']);
         return false;
       } 
       return true;

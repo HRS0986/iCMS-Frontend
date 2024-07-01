@@ -8,7 +8,7 @@ export const URLS = {
 export const SETTINGS = {
     defaultLimit: 10,
     defaultSkip: 0,
-    timeoutDuration: 10000,  // Timeout duration in milliseconds
+    timeoutDuration: 60000,  // Timeout duration in milliseconds
 }
 
 export const ERRORS = {

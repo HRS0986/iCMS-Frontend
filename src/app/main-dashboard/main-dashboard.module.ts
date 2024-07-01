@@ -17,7 +17,8 @@ import {InputTextModule} from "primeng/inputtext";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {PasswordModule} from "primeng/password";
 import { NotificationsComponent } from './components/notifications/notifications.component';
-
+import { CalendarModule } from 'primeng/calendar';
+import { CheckboxModule } from 'primeng/checkbox';
 import { HttpClientModule } from '@angular/common/http';
 import { MessagesModule } from 'primeng/messages';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
@@ -38,6 +39,15 @@ import { GridComponent } from './components/grid/grid.component';
 import {GridsterComponent, GridsterItemComponent} from "angular-gridster2";
 import {MatIcon} from "@angular/material/icon";
 import {FileUploadModule} from "primeng/fileupload";
+import {MatIconButton, MatMiniFabButton} from "@angular/material/button";
+import { VerticalBerChartComponent } from './components/charts/vertical-ber-chart/vertical-ber-chart.component';
+import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { MenuModule } from 'primeng/menu';
+import { CardModule } from 'primeng/card';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { TableModule } from 'primeng/table';
+
 
 @NgModule({
   declarations: [
@@ -54,7 +64,9 @@ import {FileUploadModule} from "primeng/fileupload";
     HorizontalBarChartComponent,
     GaugeChartComponent,
     GridComponent,
-    WordcloudComponent
+    WordcloudComponent,
+    VerticalBerChartComponent,
+    BarChartComponent
 
   ],
   imports: [
@@ -82,6 +94,19 @@ import {FileUploadModule} from "primeng/fileupload";
     GridsterComponent,
     MatIcon,
     FileUploadModule,
+    MatIconButton,
+    MatMiniFabButton,
+    CalendarModule,
+    CheckboxModule,
+    ConfirmDialogModule,
+    MenuModule,
+    CardModule,
+    OverlayPanelModule,
+    TableModule,
+
+  ],
+  exports: [
+    LineAreaChartComponent, // Ensure this component is exported
   ],
   providers:[ConfirmationService]
 })

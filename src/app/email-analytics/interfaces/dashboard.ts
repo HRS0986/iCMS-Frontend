@@ -93,6 +93,7 @@ export interface IssueInquiryFreqByProdcuts{
     product_labels: string[];
     issue_freq: number[];
     inquiry_freq: number[];
+    performence_scores: number[];
     best_product: string;
     worst_product: string;
 }

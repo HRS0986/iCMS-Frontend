@@ -49,7 +49,7 @@
   
   <div class="flex flex-wrap gap-6 place-content-evenly w-full">
     <app-stacked-bar-chart 
-    title="Overall sentiments of Products"
+    title="Email count by sentiments and products"
     [labels]="labels_forStackedBarChart" 
     [negativeDataSet]="negativeDataSet_forStackedBarChart" 
     [neutralDataSet]="neutralDataSet_forStackedBarChart" 
@@ -59,7 +59,7 @@
   </div>
 
   <div class="flex flex-wrap gap-6 place-content-evenly w-full">
-    <app-multi-horizontal-bar-chart title="Avg sentiments distribution of Products"
+    <app-multi-horizontal-bar-chart title="Average sentiments distribution of Products"
     [labels]="labels_forMultiHorizontal"
     [avgPositiveValues]="positiveDataSet_forMulti_HorizontalBarChart"
     [avgNeutralValues]="neutralDataSet_forMulti_HorizontalBarChart"
@@ -72,7 +72,7 @@
   
  
   <div class="flex flex-wrap gap-6 place-content-evenly w-full">
-    <app-horizontal-bar-chart title = "Sentiments By Products" [sbtChartLabels]="sbtChartLabels" [sbtChartColors]="sbtChartColors" [sbtChartValues]="sbtChartValues" *ngIf="!isLoadingSBT"/>
+    <app-horizontal-bar-chart title = "Average sentiment score By Products" [sbtChartLabels]="sbtChartLabels" [sbtChartColors]="sbtChartColors" [sbtChartValues]="sbtChartValues" *ngIf="!isLoadingSBT"/>
     <!-- <div class="stat-cards"> -->
     <!-- <app-stat-card title="540" subTitle="Total Calls" imgPath="./call/blue-phone.png"/>
       <app-stat-card title="10 min" subTitle="Avg. Call Time" imgPath="./call/green-call.png"/>

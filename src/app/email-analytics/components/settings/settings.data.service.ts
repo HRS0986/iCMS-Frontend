@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, EmailINtegrationPostResponseMessage, GetEditingEmailResponse, GetNewIntergratingEmailID, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
+import { DeleteNotiSendingEmail, DeleteReadingEmail, EmailAcc, EmailAccWithNickName, EmailINtegrationPostResponseMessage, GetEditingEmailResponse, GetNewIntergratingEmailID, NotiSendingChannelsRecord, PostEditingEmail, PostNewIntegratingEmail, PostingCriticalityData, IssueInqTypeData, PostingNotiSendingChannelsRecord, PostingOverdueIssuesData, SSShiftData, SendSystemConfigData, UserRoleResponse } from '../../interfaces/settings';
 import { URLS } from '../../services/app.constants'
 
 @Injectable({
@@ -13,6 +13,7 @@ export class DataService {
 
 
   baseUrl: string = `${URLS.baseUrl}/settings`;
+  
 
 
   //-------------------------------------------get dataservices  -------------------------------------------------------------
@@ -85,6 +86,13 @@ export class DataService {
     return this.http.get<GetNewIntergratingEmailID>(url);
   
   }
+
+  getIssueInqTypeData(): Observable<IssueInqTypeData> {
+
+    const url = `${this.baseUrl}/get_issue_inq_type_data`;
+    return this.http.get<IssueInqTypeData>(url);
+  
+  }
   
 
 
@@ -143,6 +151,16 @@ export class DataService {
   
   }
 
+    
+  postIssInqTypeData(formData: IssueInqTypeData): Observable<any[]> {
+
+    const url = `${this.baseUrl}/receive_issue_inq_type_data`;
+    return this.http.post<any[]>(url, formData);  
+  
+  }
+
+  
+
 
   postEmailIntegration(formData: PostNewIntegratingEmail): Observable<EmailINtegrationPostResponseMessage> {
 
@@ -151,10 +169,10 @@ export class DataService {
   
   }
   
-  postEmailEdit(formData: PostEditingEmail): Observable<any[]> {
+  postEmailEdit(formData: PostEditingEmail): Observable<EmailINtegrationPostResponseMessage> {
 
     const url = `${this.baseUrl}/receive_email_edit_data`;
-    return this.http.post<any[]>(url, formData);  
+    return this.http.post<EmailINtegrationPostResponseMessage>(url, formData);  
   
   }
 

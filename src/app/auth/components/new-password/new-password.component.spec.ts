@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddUserPopupComponent } from './add-user-popup.component';
+import { NewPasswordComponent } from './new-password.component';
 
-describe('AddUserPopupComponent', () => {
-  let component: AddUserPopupComponent;
-  let fixture: ComponentFixture<AddUserPopupComponent>;
+describe('NewPasswordComponent', () => {
+  let component: NewPasswordComponent;
+  let fixture: ComponentFixture<NewPasswordComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddUserPopupComponent]
+      declarations: [NewPasswordComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(AddUserPopupComponent);
+
+    fixture = TestBed.createComponent(NewPasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

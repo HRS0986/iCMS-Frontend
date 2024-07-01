@@ -13,29 +13,29 @@ export class CallOperatorService {
   API_ROOT = "http://127.0.0.1:8000"
 
   public getAllOperators(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(this.API_ROOT + "/get-all-operators");
+    return this.http.get<ApiResponse>(this.API_ROOT + "/operators");
   }
 
   public getOperatorDetails(operatorId: number): Promise<ApiResponse> {
-    const url = `${this.API_ROOT}/get-operator/${operatorId}`;
+    const url = `${this.API_ROOT}/operators/${operatorId}`;
     debugger;
     return firstValueFrom(this.http.get<ApiResponse>(url));
   }
 
   public addOperator(operator: OperatorListItem): Promise<ApiResponse> {
-    return firstValueFrom(this.http.post<ApiResponse>(this.API_ROOT + "/add-operator", operator));
+    return firstValueFrom(this.http.post<ApiResponse>(this.API_ROOT + "/operators", operator));
   }
 
   public deleteOperator(operatorId: string): Promise<ApiResponse> {
-    return firstValueFrom(this.http.delete<ApiResponse>(this.API_ROOT + "/delete-operator/" + operatorId));
+    return firstValueFrom(this.http.delete<ApiResponse>(this.API_ROOT + "/operators/" + operatorId));
   }
 
   public updateOperator(operator: OperatorListItem): Promise<ApiResponse> {
-    return firstValueFrom(this.http.put<ApiResponse>(this.API_ROOT + "/update-operator", operator));
+    return firstValueFrom(this.http.put<ApiResponse>(this.API_ROOT + "/operators", operator));
   }
 
   public getNextOperatorId(): Promise<ApiResponse> {
-    return firstValueFrom(this.http.get<ApiResponse>(this.API_ROOT + "/get-operator-id"));
+    return firstValueFrom(this.http.get<ApiResponse>(this.API_ROOT + "/operator-id"));
   }
 
 }

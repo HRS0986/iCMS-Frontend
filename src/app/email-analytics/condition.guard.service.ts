@@ -23,7 +23,7 @@ export class ConditionService {
     }
   
     private startAuthorizationCheck(): void {
-      interval(10000) // Poll every 10 seconds
+      interval(30000) // Poll every 30 seconds
         .pipe(
           switchMap(() => this.getNeedForAuthorization())
         )

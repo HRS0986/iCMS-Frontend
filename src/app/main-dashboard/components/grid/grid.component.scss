@@ -1,9 +1,44 @@
-:host ::ng-deep{
-  .chartGrid{
+:host ::ng-deep {
+  .chartGrid {
     background-color: inherit;
-  }
-  gridster{
-    position: initial;
+    bottom:100px;
   }
 
+  gridster {
+    position: initial;
+  }
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+.chart-container {
+  position: relative;
+}
+
+.container-border {
+  border: 1px solid rgb(215, 215, 215);
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ccc; /* Adds underline */
+  padding-bottom: 2px; /* Adds padding to create space between text and underline */
+  margin-bottom: 1rem; /* Adds space below the title */
+  position: relative; /* Make sure the position is relative for the menu */
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: bold; /* Make the title bold */
+  text-align: left;
+  padding-top: 1px;
+  padding-left: 2px;
+}
+
+.menu-container {
+  position: relative; /* Ensure the menu is positioned relative to the container */
 }

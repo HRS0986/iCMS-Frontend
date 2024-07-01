@@ -1,55 +1,203 @@
 <p-sidebar class="sideBar" position="right" [(visible)]="sidebarVisible">
   <ng-template pTemplate="header" class="justify-content-center">
     <span class="title">Add a Widget</span>
-
   </ng-template>
-
 
   <ng-template pTemplate="content">
     <p-divider></p-divider>
     <div class="chart-type mt-5">
       <span>Chart Title</span>
     </div>
+
     <div class="pt-5">
-        <span>
-            <input pInputText id="title" type="text" class="p-inputtext-sm title-input"  [(ngModel)]="title" />
-        </span>
+      <span>
+        <input pInputText id="title" type="text" class="p-inputtext-sm title-input" [(ngModel)]="title" />
+      </span>
     </div>
     <div>
-<!--      add here text showing  "Chart type-->
       <div class="chart-type mt-5">
         <span>Chart Type</span>
       </div>
-
-
-      <!--  I need to enter box shape button to choose the chart type they wnat.. each button with coresponding chart icon and name under  the icon.. both are iside the button box  -->
       <div class="chart-content mt-5">
-        <p-selectButton class="selectChart" [options]="stateOptions" [(ngModel)]="value"  optionLabel="label" optionValue="value"></p-selectButton>
+        <p-selectButton class="selectChart" [options]="stateOptions" [(ngModel)]="selectedChartType" optionLabel="label" optionValue="label" (onChange)="onChartTypeChange($event.value)"></p-selectButton>
       </div>
 
-      <div class="choose-source mt-5">
+      <div *ngIf="selectedChartType === 'Word Cloud'" class="chart-category mt-5">
+
+        <div class="chart-type mt-5">
+          <span>Word Category</span>
+        </div>
+        <div class="pt-5">
+          <p-selectButton [options]="wordYAxisOptions" [(ngModel)]="selectedYAxis" optionLabel="label" optionValue="value" ></p-selectButton>
+        </div>
+
+        <div class="choose-source mt-5" *ngIf="selectedYAxis=='topics'">
+          <span class="mb-5">Choose source</span>
+          <p-multiSelect [options]="emailCallSources" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
+        </div>
+  
+        <div class="choose-source mt-5" *ngIf="selectedYAxis=='keywords'">
+          <span class="mb-5">Choose source</span>
+          <p-multiSelect [options]="socialCallSources" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
+        </div>
+
+        <div class="choose-source mt-5" *ngIf="selectedYAxis=='products'">
+          <span class="mb-5">Choose source</span>
+          <p-multiSelect [options]="socialSource" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
+        </div>
+
+        <div class="choose-source mt-5" *ngIf="selectedYAxis=='keywords'">
+          <span class="mb-5">Add filter keywords</span>
+          <p-multiSelect [options]="keywords" [showHeader]="true" [(ngModel)]="selectedKeywords" placeholder="Select keywords" optionLabel="name"></p-multiSelect>
+        </div>
+  
+
+      </div>
+
+      
+
+      <!-- Conditionally show x-axis and y-axis options based on selected chart type -->
+      <div *ngIf="selectedChartType === 'Line Chart'" class="chart-category mt-5">
+
+        <div class="chart-type mt-5">
+          <span>X-Axis Category</span>
+        </div>
+        <div class="pt-5">
+          <p-selectButton [options]="lineChartXAxisOptions" [(ngModel)]="selectedXAxis" optionLabel="label" optionValue="value"></p-selectButton>
+        </div>
+        <div class="chart-type mt-5">
+          <span>Y-Axis Category</span>
+        </div>
+        <div class="pt-5">
+          <p-selectButton [options]="lineChartYAxisOptions" [(ngModel)]="selectedYAxis" optionLabel="label" optionValue="value" ></p-selectButton>
+        </div>
+
+        <div class="choose-source mt-5" *ngIf="selectedYAxis!='keywords' && selectedYAxis!='topics'">
+          <span class="mb-5">Choose source</span>
+          <p-multiSelect [options]="allSources" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
+        </div>
+  
+      </div>
+
+
+
+      
+
+      <div *ngIf="selectedChartType === 'Bar Chart'" class="chart-category mt-5">
+
+        <div class="chart-type mt-5">
+          <span>X-Axis Category</span>
+        </div>
+        <!-- <div class="pt-5"> -->
+          <!-- <p-selectButton [options]="barChartXAxisOptions" [(ngModel)]="selectedXAxis" optionLabel="label" optionValue="value" (onChange)="onXAxisChange($event.value)"></p-selectButton>
+        </div>-->
+        <div  class="chart-category mt-5"> 
+          <div class="chart-type mt-5">
+            <span>Topics</span>
+          </div>
+
+          <div class="pt-5">
+            <p-selectButton [options]="topicsOptions" [(ngModel)]="selectedXAxis" optionLabel="label" optionValue="value"></p-selectButton>
+          </div>          
+        </div>
+
+        <div class="chart-type mt-5">
+          <span>Y-Axis Category</span>
+        </div>
+        <div class="pt-5" *ngIf="selectedXAxis == 'topics' || selectedXAxis == 'keywords'">
+          <p-selectButton [options]="barChartYAxisOptions" [(ngModel)]="selectedYAxis" optionLabel="label" optionValue="value" ></p-selectButton>
+        </div>
+
+        <div class="pt-5" *ngIf="selectedXAxis == 'inquries' || selectedXAxis == 'issues'">
+          <p-selectButton [options]="emailBarChartYAxisOptions" [(ngModel)]="selectedYAxis" optionLabel="label" optionValue="value" ></p-selectButton>
+        </div>
+
+        <div class="choose-source mt-5" *ngIf="selectedXAxis=='topics' && (selectedYAxis=='score' || selectedYAxis=='sentiment-count')">
+          <span class="mb-5">Choose source</span>
+          <p-multiSelect [options]="emailCallSources" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
+        </div>
+
+        <div class="choose-source mt-5" *ngIf="selectedXAxis=='issues' || selectedXAxis=='inquries'">
+          <span class="mb-5">Choose source</span>
+          <p-multiSelect [options]="emailSource" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
+        </div>
+
+        <div class="choose-source mt-5" *ngIf="selectedXAxis=='keywords'">
+          <span class="mb-5">Choose source</span>
+          <p-multiSelect [options]="callSource" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
+        </div>
+        
+      </div>
+
+      <div *ngIf="selectedChartType === 'Horizontal Bar Chart'" class="chart-category mt-5">
+
+        <div class="chart-type mt-5">
+          <span>X-Axis Category</span>
+        </div>
+        <!-- <div class="pt-5"> -->
+          <!-- <p-selectButton [options]="barChartXAxisOptions" [(ngModel)]="selectedXAxis" optionLabel="label" optionValue="value" (onChange)="onXAxisChange($event.value)"></p-selectButton>
+        </div>-->
+        <div  class="chart-category mt-5"> 
+          <div class="chart-type mt-5">
+            <span>Topics</span>
+          </div>
+
+          <div class="pt-5">
+            <p-selectButton [options]="wordYAxisOptions" [(ngModel)]="selectedXAxis" optionLabel="label" optionValue="value"></p-selectButton>
+          </div>          
+        </div>
+
+        <div class="chart-type mt-5">
+          <span>Y-Axis Category</span>
+        </div>
+        <div class="pt-5">
+          <p-selectButton [options]="horizontalChartYAxisOptions" [(ngModel)]="selectedYAxis" optionLabel="label" optionValue="value" ></p-selectButton>
+        </div>
+
+        <div class="choose-source mt-5" *ngIf="selectedXAxis=='topics'">
+          <span class="mb-5">Choose source</span>
+          <p-multiSelect [options]="emailCallSources" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
+        </div>
+
+        <div class="choose-source mt-5" *ngIf="selectedXAxis=='products'">
+          <span class="mb-5">Choose source</span>
+          <p-multiSelect [options]="socialSource" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
+        </div>
+
+        <div class="choose-source mt-5" *ngIf="selectedXAxis=='keywords'">
+          <span class="mb-5">Choose source</span>
+          <p-multiSelect [options]="socialCallSources" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
+        </div>
+        
+      </div>
+
+
+      <div *ngIf="selectedChartType === 'Pie Chart'" class="chart-category mt-5">
+
+        <div class="choose-source mt-5" *ngIf="selectedYAxis!='keywords' && selectedYAxis!='topics'">
+          <span class="mb-5">Choose source</span>
+          <p-multiSelect [options]="allSources" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
+        </div>
+  
+      </div>
+
+      <!-- Add other chart type conditions as needed -->
+
+      <div class="choose-source mt-5" *ngIf="selectedChartType==='Table'">
         <span class="mb-5">Choose source</span>
-        <p-multiSelect [options]="sources" [filter]='false' [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true"></p-multiSelect>
+        <p-multiSelect [options]="allSources" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
       </div>
-
-      <div class="choose-source mt-5">
-        <span class="mb-5">Add filter keywords</span>
-        <p-multiSelect [options]="keywords"  [showHeader]="true"  [(ngModel)]="selectedKeywords" placeholder="Select keywords" optionLabel="name"></p-multiSelect>
-      </div>
-
-<!--      save button-->
+      
       <div class="save-button mt-5">
         <p-button label="Save" class="saveButton" (click)="saveWidget()"></p-button>
       </div>
 
-
-
-
+      <!-- <div>
+        <p-button severity="secondary" icon="pi pi-chart-bar" class="pe-3 addWidget" (click)="showDialog()"></p-button>
+      </div> -->
     </div>
-
   </ng-template>
-
-
-
 </p-sidebar>
-<p-button severity="secondary" icon="pi pi-chart-bar" class="pe-3 addWidget" (click)="sidebarVisible = true" ></p-button>
+
+
+<p-button severity="secondary" icon="pi pi-chart-bar" class="pe-3 addWidget" (click)="sidebarVisible = true"></p-button>

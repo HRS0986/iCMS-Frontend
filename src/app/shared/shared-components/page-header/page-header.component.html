@@ -11,12 +11,30 @@
     <p-button [outlined]="false" (click)="onClickActionButton()">{{ buttonText }}</p-button>
   </div>
 
-  <div class="w-fit ms-auto pe-5 pt-1" *ngIf="showDatePicker"> <!--need to give default data range-->
-    <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true"
-    [showIcon]="true" class="z-10" (ngModelChange)="onRangeDateChange($event)"
-    [minDate]="minDate"
-    [maxDate]="maxDate"></p-calendar>
+  <div class="w-fit ms-auto pe-5 pt-1" *ngIf="showDatePicker">
+    <p-calendar
+      [(ngModel)]="rangeDates"
+      selectionMode="range"
+      [readonlyInput]="true"
+      [showIcon]="true"
+      class="z-10"
+      (ngModelChange)="onDateRangeChange()"
+      *ngIf="mainDashboardDate">
+    </p-calendar>
+
+    <p-calendar
+      [(ngModel)]="rangeDates"
+      selectionMode="range"
+      [readonlyInput]="true"
+      [showIcon]="true"
+      class="z-10"
+      (ngModelChange)="onRangeDateChange($event)"
+      [minDate]="minDate"
+      [maxDate]="maxDate" *ngIf="!mainDashboardDate">
+    </p-calendar>
+
   </div>
+  
 
   <div class="w-fit">
     <app-right-sidebar [showAddMemberButton]="showAddMemberButton" [showAddWidgetButton]="showAddWidgetButton" [showAddRoleButton]="showAddRoleButton"></app-right-sidebar>

@@ -37,7 +37,6 @@ export class CallRecordingService {
     });
     return this.http.post<ApiResponse>(`${this.API_ROOT}/upload-calls`, formData).toPromise();
   }
-
   public getCallsList(): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.API_ROOT}/get-calls-list`);
   }

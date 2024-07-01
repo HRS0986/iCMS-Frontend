@@ -80,9 +80,9 @@ export class SettingsComponent implements OnInit {
           }
 
           if (!isKeywordNotificationsAllowed) {
-            this.notificationsSettingsForm.get('topics')?.disable();
+            this.notificationsSettingsForm.get('keywords')?.disable();
           } else {
-            this.notificationsSettingsForm.get('topics')?.enable();
+            this.notificationsSettingsForm.get('keywords')?.enable();
           }
         } else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: UserMessages.FETCH_ERROR });
@@ -114,7 +114,7 @@ export class SettingsComponent implements OnInit {
 
   onSubmit(): void {
     const formValue = this.notificationsSettingsForm.value;
-      this.callSettingsDetails.alert_keywords = formValue.keywords,
+      this.callSettingsDetails.alert_keywords = formValue.keywords === undefined ? [] : formValue.keywords,
       this.callSettingsDetails.alert_email_receptions = formValue.emails,
       this.callSettingsDetails.sentiment_lower_threshold = formValue.bellowScore,
       this.callSettingsDetails.sentiment_upper_threshold = formValue.aboveScore,
@@ -124,7 +124,7 @@ export class SettingsComponent implements OnInit {
       this.callSettingsDetails.is_push_notifications_enabled = formValue.enablePushNotification,
       this.callSettingsDetails.is_keyword_alerts_enabled = formValue.enableKeywordsNotification,
       this.callSettingsDetails.topics = formValue.topics
-
+    console.log(this.callSettingsDetails);
     this.callSettingsService
       .updateNotificationSettings(this.callSettingsDetails)
       .then((response) => {

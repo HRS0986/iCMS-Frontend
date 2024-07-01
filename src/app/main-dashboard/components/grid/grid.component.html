@@ -1,12 +1,139 @@
+<p-toast></p-toast>
 
-<div class="options-header">
+<!-- Search Button -->
+<button pButton type="button" label="Charts" icon="pi pi-bars" (click)="showOverlay(op)" [ngStyle]="{'background-color': 'black', 'color': 'white'}"></button>
+
+
+
+<!-- Overlay Panel -->
+<p-overlayPanel #op [style]="{'width': '600px'}" [showCloseIcon]="false">
+    <ng-template pTemplate="content">
+        <p-table [value]="gridList" selectionMode="single" [(selection)]="selectedDashboard" (onRowSelect)="onRowSelect($event, op)" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="title">Title<p-sortIcon field="title"></p-sortIcon></th>
+                    <th>Chart Type</th>
+                    <th>Sources</th>
+                    <th>Add</th>
+                    <th>Delete</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-chart>
+                <tr [pSelectableRow]="chart">
+                    <td>{{chart.title}}</td>
+                    <td>
+                      <p-overlayPanel #op [showCloseIcon]="true">
+                        <ng-container *ngIf="chart.chartType === 'Bar Chart'">
+                          <app-vertical-ber-chart [title]="chart['title']" [source]="chart['sources']" [yAxis]="chart['yAxis']" [xAxis]="chart['xAxis']" [closable]="false"></app-vertical-ber-chart>
+                      </ng-container>
+                      <ng-container *ngIf="chart.chartType === 'Line Chart'">
+                          <app-line-area-chart  [title]="chart['title']" [sources]="chart['sources']" [yAxis]="chart['yAxis']" [closable]="false"></app-line-area-chart >
+                      </ng-container>
+                      <ng-container *ngIf="chart.chartType === 'Pie Chart'">
+                          <app-doughnut-chart [title]="chart['title']" [source]="chart['sources']" [closable]="false"></app-doughnut-chart>
+                      </ng-container>
+                      <ng-container *ngIf="chart.chartType === 'Table'">
+                          <app-gauge-chart></app-gauge-chart>
+                      </ng-container>
+                      <ng-container *ngIf="chart.chartType === 'Horizontal Bar Chart'">
+                          <app-horizontal-bar-chart [title]="chart['title']" [source]="chart['sources']" [xAxis]="chart['xAxis']" [yAxis]="chart['yAxis']" [closable]="false"></app-horizontal-bar-chart>
+                      </ng-container>
+                      <ng-container *ngIf="chart.chartType === 'Word Cloud'">
+                          <app-word-cloud  [title]="chart['title']" [sources]="chart['sources']" [yAxis]="chart['yAxis']" [closable]="false"></app-word-cloud >
+                      </ng-container>
+                    </p-overlayPanel>
+                    <p-button (click)="op.toggle($event)" [icon]="chartIcons[chart.chartType]" label="View" ></p-button>
+
+                    </td>
+                    <td>{{chart.sources.join(', ')}}</td>
+                    <td>
+                      <i class="pi pi-plus" style="color: rgb(56, 56, 56)" (click)="addChart($event, chart)"></i>
+                    </td>
+                    <td>
+                      <i class="pi pi-trash" style="color: rgb(56, 56, 56)" (click)="removeItem($event, chart)"></i>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+</p-overlayPanel>
+
+
+
+<!-- <div class="options-header">
   <button mat-mini-fab (click)="addItem()" class="add-button cols-2">
-    <mat-icon>add</mat-icon>
+    <p-button (click)="op.show($event)" icon="pi pi-search" label="Search"></p-button>
   </button>
-</div>
+</div> -->
 
-<gridster [options]="options" class="chartGrid">
-  <gridster-item class="gridItem" [item]="item" *ngFor="let item of dashboard">
-    <ng-container *ngComponentOutlet="getComponent(item['chartType'])"></ng-container>
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>
+
+<gridster [options]="options" class="chartGrid" *ngIf="dashboard && dashboard.length > 0">
+  <gridster-item [item]="item" *ngFor="let item of dashboard; let i = index" class="container-border">
+    <div class="chart-container">
+      <ng-container *ngIf="item['chartType'] === 'Pie Chart'">
+        <app-doughnut-chart 
+          [title]="item['title']"  
+          [source]="item['sources']"
+          [changes]="item['changes']"
+          [id]="item['id']"
+          (changesEvent)="onChanges($event, i)"
+          (deleteConfirmed)="onDeleteConfirmed(item)">
+        </app-doughnut-chart>
+      </ng-container>
+
+      <ng-container *ngIf="item['chartType'] === 'Line Chart'">
+        <app-line-area-chart 
+          [title]="item['title']"
+          [sources]="item['sources']"
+          [changes]="item['changes']"
+          [yAxis]="item['yAxis']"
+          (changesEvent)="onChanges($event, i)"
+          (deleteConfirmed)="onDeleteConfirmed(item)">
+        </app-line-area-chart>
+      </ng-container>
+
+      <ng-container *ngIf="item['chartType'] === 'Table'">
+        <app-gauge-chart></app-gauge-chart>
+      </ng-container>
+
+      <ng-container *ngIf="item['chartType'] === 'Horizontal Bar Chart'">
+        <app-horizontal-bar-chart
+          [title]="item['title']"
+          [source]="item['sources']"
+          [changes]="item['changes']"
+          [yAxis]="item['yAxis']"
+          [xAxis]="item['xAxis']"
+          (changesEvent)="onChanges($event, i)"
+          (deleteConfirmed)="onDeleteConfirmed(item)">
+        </app-horizontal-bar-chart>
+      </ng-container>
+
+      <ng-container *ngIf="item['chartType'] === 'Word Cloud'">
+        <app-word-cloud 
+          [title]="item['title']"
+          [sources]="item['sources']"
+          [changes]="item['changes']"
+          [yAxis]="item['yAxis']"
+          (changesEvent)="onChanges($event, i)"
+          (deleteConfirmed)="onDeleteConfirmed(item)">
+        </app-word-cloud>
+      </ng-container>
+
+      <ng-container *ngIf="item['chartType'] === 'Bar Chart'">
+        <app-vertical-ber-chart
+          [title]="item['title']"
+          [source]="item['sources']"
+          [changes]="item['changes']"
+          [topics]="item['topics']"
+          [yAxis]="item['yAxis']"
+          [xAxis]="item['xAxis']"
+          (changesEvent)="onChanges($event, i)"
+          (deleteConfirmed)="onDeleteConfirmed(item)">
+        </app-vertical-ber-chart>
+      </ng-container>
+
+    </div>
   </gridster-item>
 </gridster>

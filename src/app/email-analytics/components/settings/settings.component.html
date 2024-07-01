@@ -6,7 +6,7 @@
 />
 
 <div class="flex flex-col">
-    <div>
+    <div class="no-scroll">
         <p-panel>
             <p-tabView class="">
                 <p-tabPanel header="Notifications configuration">
@@ -24,11 +24,14 @@
                             </div>
                             <p>Select the email accounts that needs to be checked for overall sentiment shifts</p>
                             <p-multiSelect class="mb-20" [options]="currentReadingEmailAccountsForNotificationPage" formControlName="emailAccsToCheckSS" optionLabel="address" placeholder="Select Email Accounts"></p-multiSelect>
-                            
+                            <small *ngIf="sentimentShiftsForm.get('emailAccsToCheckSS')?.hasError('required') && sentimentShiftsForm.get('ssThresholdNotiEnabled')?.value"
+                            class="block p-error">
+                              Please select email addresses to check the below sentiment thresholds
+                          </small>
 
                             <div class="w-full flex justify-center items-baseline mb-10 " style="margin-top: 5%;">
                                 <span style="color: red;">-1</span>
-                                <img src="./assets/call/rating.png" alt="Image" style="width: 30%;">
+                                <img src="./assets/email/rating.png" alt="Image" style="width: 30%;">
                                 <span style="color: rgba(20, 24, 235, 0.877);">+1</span>
                             </div>
 
@@ -57,7 +60,8 @@
 
                             <!--Sentiment Shifts configuration update button-->
                               <div class="flex justify-end mt-20">
-                                <button pButton pRipple label="Update" class="p-button-success" type="submit"></button>
+                                <button pButton pRipple label="Update" class="p-button-success" type="submit"
+                                [disabled]="sentimentShiftsForm.get('ssThresholdNotiEnabled')?.value && sentimentShiftsForm.get('emailAccsToCheckSS')?.value?.length === 0"></button>
                               </div>
 
                               <hr>
@@ -119,9 +123,14 @@
                                 <p>Add new emails to send notifications</p>
                                 <p-chips formControlName="notiSendingEmails"></p-chips>
                                 <small *ngIf="notificationChannelsForm.get('notiSendingEmails')?.invalid && (notificationChannelsForm.get('notiSendingEmails')?.dirty || notificationChannelsForm.get('notiSendingEmails')?.touched)"
-                                class="block p-error">
+                                class="block p-error" >
                                   <div *ngIf="notificationChannelsForm.get('notiSendingEmails')?.hasError('email')">Enter valid email addresses</div>
                               </small>
+                              <small *ngIf="!notificationChannelsForm.get('notiSendingEmails')?.invalid && (notificationChannelsForm.get('notiSendingEmails')?.dirty || notificationChannelsForm.get('notiSendingEmails')?.touched)"
+                                class="block p" style="color: blue;">
+                                  Type a valid email address and enter to keep adding more
+                              </small>
+                           
                               
                             </div>
 
@@ -130,6 +139,7 @@
                             <div class="flex justify-end mt-10">
                               <button pButton pRipple label="Update" class="p-button-success" [disabled]="notificationChannelsForm.invalid" type="submit"></button>
                           </div>
+                        </form>
                             
                             <p>Current notification sending email accounts</p>
                             <div *ngFor="let account of currentNotiSendingEmailAccounts">
@@ -152,7 +162,7 @@
                                 </p-dialog>                           
                             
                      
-                        </form>
+                      
                         <p-toast></p-toast>
                     </div>
                    
@@ -251,8 +261,7 @@
                         <p-dialog [draggable]="false" [resizable]="false" *ngIf="isVisibleClientSecretValidation" header="Email Integration Failure" [modal]="true" [(visible)]="isVisibleClientSecretValidation" [style]="{width: '30vw', height: 'auto'}">
 
                           <p  style="text-align: justify;">
-                            The client secret you entered is not valid. 
-                            Please enter the correct client secret to complete the integration process .
+                            {{ ClientSecretValidationMessage }}
                             
                           </p>
                       
@@ -360,51 +369,33 @@
                               [max]="25"  [step]="1" [style]="{width: '105px'}">
                           </p-inputNumber>
 
-                        </div>
-
-                         
-                        
-                        <!--adding products part-->
-                        <!-- <div>
-                          <div class="w-full p-fluid" style="margin-bottom: 5%;">
-                            <p>Add the prodcuts/services/brands offered by your company</p>
-                            <p-chips formControlName="newProductInputs"></p-chips> 
-                          </div>
-
-                          <p>Current considering Products or Services of your company</p>
-                          <div *ngFor="let product of currentConsideringProducts">
-                            <app-noti-sending-email-acc-card
-                            [emailAddress]="product.name"
-                            (deleteNotiSendingAccount)="showDialogConfirmationProductDeleting(product.name)"
-                                />
-                              </div>
-                              <p-dialog [draggable]="false" [resizable]="false" *ngIf="visibleProductDeleting" header="Confirmation" [modal]="true" [(visible)]="visibleProductDeleting" [style]="{width: '30vw', height: 'auto'}">
-
-                                <p  style="text-align: justify;">
-                                  Are you sure you want to remove this product from consideration when calculating analytics?
-                                </p>-->
-                            
-                                <!-- Move this div to the bottom -->
-                                <!-- <div class="text-right" >
-                                  <p-button label="No" (click)="visibleProductDeleting = false" ></p-button>
-                                  <p-button label="Yes" (click)="ConfirmProductDelete()"  styleClass="p-button-danger"></p-button>
-                                </div>
-                              </p-dialog>      
-                              
-                            </div> --> 
-
-
-                       
-                        
-
-                    
+                        </div>                  
 
                             <!--update button-->
                             <div class="flex justify-end mt-10">
                               <button pButton pRipple label="Update" class="p-button-success" [disabled]="systemConfigurations.invalid" type="submit"></button>
                           </div>
-                      
+                      <hr>
                       </form>
+
+                      <form [formGroup]="issueninqyiryTypesConfigurations" (ngSubmit)="onSubmitIssueTypes()">
+                        <div class="mt-3 mb-10"> <b>Cheking Issue Types configuration</b></div>
+                       
+                        <p>Select the issue types that your company wants to check in the emails</p>
+                        <p-multiSelect [options]="possibleIssueTypes" formControlName="issueTypesToCheck" optionLabel="name" ></p-multiSelect>
+                        
+                        <br><div style="height: 60px;"></div> 
+                        
+                        <p>Select the inquiry types that your company wants to check in the emails</p>
+                        <p-multiSelect [options]="possibleInquiryTypes" formControlName="inquiryTypesToCheck" optionLabel="name" ></p-multiSelect>
+                          
+                          <!--Overdue Issues form submit button-->
+                          <div class="flex justify-end mt-20">
+                            <button pButton pRipple label="Update" class="p-button-success" type="submit"></button>
+                          </div>
+                        <hr>
+                      </form>
+              
                     </div>
                     <p-toast></p-toast>
                 </p-tabPanel>

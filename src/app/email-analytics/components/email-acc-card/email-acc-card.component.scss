@@ -1,115 +1,106 @@
 html {
-    background-color: #eee
-  }
-  
-  .card-bg {
-    background-color: #fff;
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
+  background-color: #eee;
+}
 
-  
-  table {
-      border: 1px solid white;
-      border-collapse: collapse;
-      width:100%;
-  }
-  
-  table th {
-    text-align: left;
-    font-weight: 500;
-  }
+.card-bg {
+  background-color: #fff;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 
-  .subject {
-    font-size: 1.2rem;
-  }
+table {
+  border: 1px solid white;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
 
-  table td, th {
-    border: 1px solid white;
-    padding: 0.5rem;
-  }
-  
-  table td.shrink, th.shrink {
-      white-space:nowrap
-  }
-  table td.expand, th.expand {
-      width: 98%
-  }
-  table td.align-right {
-    text-align: right;
-  }
+table th {
+  text-align: left;
+  font-weight: 500;
+}
 
-  .shrink {
-    /* Set the width of the first cell to 45% */
-    width: 45%;
-  }
-  
-  .shrink:nth-child(2) {
-    /* Set the width of the second cell to 25% */
-    width: 25%;
-  }
-  
-  .shrink:nth-child(3) {
-    /* Set the width of the third cell to 30% */
-    width: 30%;
-  }
+.subject {
+  font-size: 1.2rem;
+}
 
-  table td #btnEdit {
-    --primary: #2b80e9;
-    --secondary: white;
-    padding: 0.5rem 0;
-    width: 150px;
-    background-color: var(--primary);
-    border-radius: 5px;
-    font-size: 1rem;
-    color: var(--secondary);
-    border: 0;
-   }
-  table td #btnEdit:hover {
-    background-color: #4991e9;
-    color: var(--primary);
-    background-color: var(--secondary);
-    -webkit-box-shadow:inset 0px 0px 0px 2px var(--primary);
-    -moz-box-shadow:inset 0px 0px 0px 2px var(--primary);
-    box-shadow:inset 0px 0px 0px 2px var(--primary);
-    cursor: pointer;
-   }
+table td, th {
+  border: 1px solid white;
+  padding: 0.5rem;
+}
 
-  table td #btnDel {
-    --primary: #fa333d;
-    --secondary: white;
-    padding: 0.5rem 0;
-    width: 150px;
-    background-color: var(--primary);
-    border-radius: 5px;
-    font-size: 1rem;
-    color: var(--secondary);
-    border: 0;
-   }
-  table td #btnDel:hover {
-    background-color: red;
-    color: var(--primary);
-    background-color: var(--secondary);
-    -webkit-box-shadow:inset 0px 0px 0px 2px var(--primary);
-    -moz-box-shadow:inset 0px 0px 0px 2px var(--primary);
-    box-shadow:inset 0px 0px 0px 2px var(--primary);
-    cursor: pointer;
-   }
-  
-  .padding-right {
-    padding-right: 2.5rem;
-  }
-  
-  .align-justify {
-    text-align: justify;
-  }
+.email {
+  width: 45%;
+}
 
-  th.subject {
-    font-size: 1.2rem;
-    font-weight: 900;
-  }
-  hr {
-    opacity: 0.3;
-  }
+.nickname {
+  width: 25%;
+}
+
+.buttons {
+  width: 25%; /* Adjust the width as needed */
+}
+
+table td.align-right {
+  text-align: right;
+}
+
+table td #btnEdit,
+table td #btnDel {
+  --primary: #2b80e9;
+  --secondary: white;
+  padding: 0.5rem 0;
+  width: 150px;
+  background-color: var(--primary);
+  border-radius: 5px;
+  font-size: 1rem;
+  color: var(--secondary);
+  border: 0;
+}
+
+table td #btnEdit:hover {
+  background-color: #4991e9;
+  color: var(--primary);
+  background-color: var(--secondary);
+  box-shadow: inset 0px 0px 0px 2px var(--primary);
+  cursor: pointer;
+}
+
+table td #btnDel {
+  --primary: #fa333d;
+  --secondary: white;
+  padding: 0.5rem 0;
+  width: 150px;
+  background-color: var(--primary);
+  border-radius: 5px;
+  font-size: 1rem;
+  color: var(--secondary);
+  border: 0;
+}
+
+table td #btnDel:hover {
+  background-color: red;
+  color: var(--primary);
+  background-color: var(--secondary);
+  box-shadow: inset 0px 0px 0px 2px var(--primary);
+  cursor: pointer;
+}
+
+.padding-right {
+  padding-right: 2.5rem;
+}
+
+.align-justify {
+  text-align: justify;
+}
+
+th.subject {
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+hr {
+  opacity: 0.3;
+}
