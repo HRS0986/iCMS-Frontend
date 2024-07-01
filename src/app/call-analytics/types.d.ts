@@ -98,3 +98,10 @@ export interface BestOperatorItem {
   avg_duration: number;
   total: number;
 }
+
+export interface SentimentOverTimeDataSet {
+  date: string;
+  positive: number;
+  negative: number;
+  neutral: number;
+}

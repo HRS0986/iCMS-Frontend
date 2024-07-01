@@ -3,20 +3,15 @@
     background: transparent;
     height: 18px;
   }
-  p-calendar button{
-    background: #000000;
-    border: 1px solid #000000;
+  .p-datepicker table td {
+    padding: 0;
   }
-  .p-datepicker-title button{
-    background: #000000;
-    //border: 1px solid #000000;
-    color: #ffffff;
+  .p-datepicker .p-datepicker-buttonbar {
+    padding: 0;
   }
-  .p-datepicker-header button{
-    color: #ffffff;
+  .p-datepicker .p-timepicker {
+    padding: 0;
   }
-
-
 }
 
 //#64748b

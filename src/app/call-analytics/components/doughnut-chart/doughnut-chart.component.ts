@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CallAnalyticsConfig } from "../../config";
 
 @Component({
-  selector: 'app-doughnut-chart',
+  selector: 'doughnut-chart',
   templateUrl: './doughnut-chart.component.html',
   styleUrl: './doughnut-chart.component.scss'
 })
@@ -29,9 +29,9 @@ export class DoughnutChartComponent implements OnInit {
             documentStyle.getPropertyValue('--neutral-color'),
           ],
           hoverBackgroundColor: [
-            documentStyle.getPropertyValue('--red-400'),
-            documentStyle.getPropertyValue('--green-400'),
-            documentStyle.getPropertyValue('--yellow-400')
+            documentStyle.getPropertyValue('--negative-hover-color'),
+            documentStyle.getPropertyValue('--positive-hover-color'),
+            documentStyle.getPropertyValue('--neutral-hover-color')
           ]
         }
       ]
