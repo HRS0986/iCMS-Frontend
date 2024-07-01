@@ -10,62 +10,112 @@
       [maxDate]="maxDate"
     />
   </div>
-
 </div>
 
-<div
-    class="my-child-2 flex-grow min-h-[900px] grid grid-cols-2 gap-5 md:grid-cols-3 md:grid-rows-4 md:min-h-[600px]"
+<!-- <div
+  class="my-child-2 flex-grow min-h-[900px] grid grid-cols-2 gap-5 md:grid-cols-3 md:grid-rows-4 md:min-h-[600px]"
+>
+  <div
+    class="flex flex-col col-span-2 min-h-72 md:min-h-48 items-center overflow-hidden relative"
   >
-    <div
-      class="flex flex-col col-span-2 min-h-72 md:min-h-48 items-center overflow-hidden relative"
-    >
-      <!-- <span class="text-5xl">1</span>
-      <span class="text-3xl">summary</span> -->
-      <app-dashboard-summary-card></app-dashboard-summary-card>
-      <!-- The most important overall KPI  -->
-    </div>
-    <div
-      class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
-    >
-      <!-- <span class="text-5xl">5</span>
-      <span class="text-3xl">sentiment score</span> -->
-      <app-dashboard-sentiment-card></app-dashboard-sentiment-card>
-    </div>
-    <div
-      class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
-    >
-      <!-- <span class="text-5xl">2</span>
-      <span class="text-3xl">issues</span> -->
-      <app-dashboard-issue-card></app-dashboard-issue-card>
-    </div>
-    <div
-      class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
-    >
-      <!-- <span class="text-5xl">3</span>
-      <span class="text-3xl">inquiries</span> -->
-      <app-dashboard-inquiry-card></app-dashboard-inquiry-card>
-    </div>
-    <div
-      class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
-    >
-      <!-- <span class="text-5xl">4</span>
-      <span class="text-3xl">suggestions</span> -->
-      <app-dashboard-suggestion-card></app-dashboard-suggestion-card>
-    </div>
+    <app-dashboard-summary-card></app-dashboard-summary-card>
+  </div>
+  <div
+    class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
+  >
+    <app-dashboard-sentiment-card></app-dashboard-sentiment-card>
+  </div>
+  <div
+    class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
+  >
+    <app-dashboard-issue-card></app-dashboard-issue-card>
+  </div>
+  <div
+    class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
+  >
+    <app-dashboard-inquiry-card></app-dashboard-inquiry-card>
+  </div>
+  <div
+    class="flex flex-col min-h-36 md:min-h-48 items-center overflow-hidden relative"
+  >
+    <app-dashboard-suggestion-card></app-dashboard-suggestion-card>
+  </div>
 
-    <div
-      class="min-h-72 col-span-2 row-span-2 md:col-span-2 md:row-span-2 flex flex-col items-center overflow-hidden relative"
-    >
-      <app-dashboard-responsetime></app-dashboard-responsetime>
-    </div>
-    <div
-      class="min-h-72 col-span-2 row-span-2 md:col-span-1 md:row-span-2 flex flex-col items-center overflow-hidden relative"
-    >
-      <!-- <span class="text-5xl">7</span>
-      <span class="text-3xl">actionable insights</span> -->
-      <app-dashboard-actionables></app-dashboard-actionables>
+  <div
+    class="min-h-72 col-span-2 row-span-2 md:col-span-2 md:row-span-2 flex flex-col items-center overflow-hidden relative"
+  >
+    <app-dashboard-responsetime></app-dashboard-responsetime>
+  </div>
+  <div
+    class="min-h-72 col-span-2 row-span-2 md:col-span-1 md:row-span-2 flex flex-col items-center overflow-hidden relative"
+  >
+    <app-dashboard-actionables></app-dashboard-actionables>
+  </div>
+</div>
+
+<p-divider></p-divider> -->
+
+<!-- NEW -->
+<div
+  class="flex-grow min-h-[900px] grid grid-cols-2 gap-5 md:grid-cols-4 md:min-h-[600px]"
+>
+  <div
+    class="flex flex-col col-span-2 min-h-72 h-max md:min-h-64 md:col-span-3 place-content-evenly overflow-hidden border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150"
+  >
+    <!-- <span class="text-5xl">1</span>
+      <span class="text-3xl">summary</span> -->
+    <div class="h-fit">
+      <app-dashboard-overall-progress></app-dashboard-overall-progress>
     </div>
   </div>
+  <div
+    class="flex flex-col col-span-2 min-h-36 md:min-h-48 md:col-span-1 items-center overflow-hidden relative"
+  >
+    <!-- <span class="text-5xl">5</span>
+      <span class="text-3xl">sentiment score</span> -->
+    <div class="w-full h-full flex justify-center items-center border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150">
+      <app-dashboard-sentiment-card></app-dashboard-sentiment-card>
+    </div>
+  </div>
+  <div
+    class="flex flex-col col-span-2 min-h-36 md:min-h-48 items-center overflow-hidden relative"
+  >
+    <!-- <span class="text-5xl">2</span>
+      <span class="text-3xl">issues</span> -->
+    <div class="w-full h-full border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150">
+      <app-dashboard-issue-inquiry></app-dashboard-issue-inquiry>
+    </div>
+  </div>
+  <div
+    class="flex flex-col col-span-2 min-h-36 md:min-h-48 items-center overflow-hidden relative"
+  >
+    <!-- <span class="text-5xl">2</span>
+  <span class="text-3xl">issues</span> -->
+    <div class="w-full h-full border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150">
+      <app-dashboard-time-graph></app-dashboard-time-graph>
+    </div>
+  </div>
+  <div
+    class="flex flex-col col-span-2 min-h-36 md:min-h-48 items-center overflow-hidden border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150"
+  >
+    <!-- <span class="text-5xl">2</span>
+      <span class="text-3xl">issues</span> -->
+    <div class="h-full w-full p-4">
+      <app-dashboard-product-insights></app-dashboard-product-insights>
+    </div>
+  </div>
+
+  <div
+    class="flex flex-col col-span-2 min-h-36 md:min-h-48 items-center overflow-hidden border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150"
+  >
+    <!-- <span class="text-5xl">4</span>
+      <span class="text-3xl">suggestions</span> -->
+    <div class="h-full w-full p-4">
+      <app-dashboard-account-insights></app-dashboard-account-insights>
+    </div>
+  </div>
+</div>
+<!-- END of NEW -->
 
 <!-- the calendars
 
@@ -75,8 +125,7 @@
     (ngModelChange)="onToDateChange($event)" [showIcon]="true"></p-calendar> -->
 
 <!-- TODO: Dashboard interface link: https://chatgpt.com/share/0de7e86e-c8e0-47d0-b7a7-b329cde45d49 -->
-
-<div class="size-1/5"></div>
+<div class="size-1/2"></div>
 
 <div class="flex flex-col">
   <div class="flex flex-wrap gap-6">
@@ -94,12 +143,12 @@
     </div>
     <!-- Current Overall efficiency donought chart-->
     <!-- <div class="stat-cards h-40"> -->
-      <app-effi-effec-donought-chart
-        title="Current Overall Efficiency"
-        [chartData]="dntChartDataOverallEfficiency"
-        [chartLabels]="dntChartOverallEfficiencyLabels"
-        *ngIf="!isLoadingDCOverallEfficiency"
-      />
+    <app-effi-effec-donought-chart
+      title="Current Overall Efficiency"
+      [chartData]="dntChartDataOverallEfficiency"
+      [chartLabels]="dntChartOverallEfficiencyLabels"
+      *ngIf="!isLoadingDCOverallEfficiency"
+    />
     <!-- </div> -->
     <!-- Current Overall progress donought chart-->
     <app-progress-donought-chart
