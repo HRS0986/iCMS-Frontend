@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Message } from 'primeng/api';
 import {NotificationService} from "../../../services/notification.service"
 import { Subscription } from 'rxjs';
@@ -27,7 +27,7 @@ export class UnreadNotificationsComponent implements OnInit {
   emptyUnread:boolean=true;
   refreshTime:number = 1000;
 
-  
+
   private socketSubscription: Subscription | undefined;
 
   constructor(private notificationService: NotificationService)
@@ -56,7 +56,7 @@ export class UnreadNotificationsComponent implements OnInit {
     this.filteredNotifications=[];
     this.notificationService.updateUnreadNotifications(existingNotificationDicts).subscribe(
       (response) => {
-        
+
       },
   );
   }
@@ -80,7 +80,7 @@ export class UnreadNotificationsComponent implements OnInit {
     this.visible=true;
     this.showData=[notification['summary'],notification['data'],notification['detail']];
   }
-  
+
   dateReset(){
     this.rangeDates=[];
     this.onDateRangeChange();
@@ -109,7 +109,7 @@ export class UnreadNotificationsComponent implements OnInit {
                 detail: newNotification.alert,
                 id: newNotification.id ,// Assuming id is a unique identifier for notifications,
                 data:newNotification.email,
-                
+
               };
               this.notifications.push(newMessage);
             }
@@ -136,11 +136,11 @@ export class UnreadNotificationsComponent implements OnInit {
     if (this.rangeDates && this.rangeDates.length > 0) {
       const startDate = new Date(this.rangeDates[0]);
       let endDate = new Date(this.rangeDates[0]);
-  
+
       if (this.rangeDates[1]) {
         endDate = new Date(this.rangeDates[1]);
       }
-  
+
       this.filteredNotifications = this.notifications.filter(notification => {
         console.log(notification.summary);
         const notificationDate = new Date(notification.summary || '');
@@ -151,5 +151,5 @@ export class UnreadNotificationsComponent implements OnInit {
       this.filteredNotifications = this.notifications;
     }
   }
- 
+
 }
