@@ -11,7 +11,7 @@ export class CallRecordingsComponent {
   constructor(private router: Router) {}
 
   breadcrumbItems: MenuItem[] = [
-    { label: 'Call Analytics' },
+    { label: 'Call Analytics', routerLink: '/call/dashboard' },
     { label: 'Call Recordings' },
   ];
 
