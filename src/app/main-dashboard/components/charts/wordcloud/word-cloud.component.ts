@@ -352,8 +352,7 @@ export class WordcloudComponent implements OnInit, OnChanges{
       return;
     }
 
-    console.log('Words:', this.words);  // Debugging: Check the words array
-
+  
     $(this.wordCloudContainer.nativeElement).jQWCloud({
       words: this.words,
       maxFont: 60,

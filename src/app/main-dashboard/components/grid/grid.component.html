@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 
 <!-- Search Button -->
-<button pButton type="button" label="Charts" icon="pi pi-bars" (click)="showOverlay(op)" [ngStyle]="{'background-color': 'black', 'color': 'white'}"></button>
+<button pButton type="button" label="Charts" icon="pi pi-bars" (click)="showOverlay(op)" ></button>
 
 
 <!-- Overlay Panel -->
@@ -23,22 +23,27 @@
                     <td>
                       <p-overlayPanel #op [showCloseIcon]="true">
                         <ng-container *ngIf="chart.chartType === 'Bar Chart'">
-                          <app-vertical-ber-chart [title]="chart['title']" [source]="chart['sources']" [yAxis]="chart['yAxis']" [xAxis]="chart['xAxis']" [closable]="false"></app-vertical-ber-chart>
+                          <app-vertical-ber-chart [title]="chart['title']" [source]="chart['sources']" [yAxis]="chart['yAxis']" [xAxis]="chart['xAxis']" [closable]="false"
+                          (deletedConfirmed)="gridDeleteConfirmed(chart['id'],chart['title'])"></app-vertical-ber-chart>
                       </ng-container>
                       <ng-container *ngIf="chart.chartType === 'Line Chart'">
-                          <app-line-area-chart  [title]="chart['title']" [sources]="chart['sources']" [yAxis]="chart['yAxis']" [closable]="false"></app-line-area-chart >
+                          <app-line-area-chart  [title]="chart['title']" [sources]="chart['sources']" [yAxis]="chart['yAxis']" [closable]="false"
+                          (deletedConfirmed)="gridDeleteConfirmed(chart['id'],chart['title'])"></app-line-area-chart >
                       </ng-container>
                       <ng-container *ngIf="chart.chartType === 'Pie Chart'">
-                          <app-doughnut-chart [title]="chart['title']" [source]="chart['sources']" [closable]="false"></app-doughnut-chart>
+                          <app-doughnut-chart [title]="chart['title']" [source]="chart['sources']" [closable]="false"
+                          (deletedConfirmed)="gridDeleteConfirmed(chart['id'],chart['title'])"></app-doughnut-chart>
                       </ng-container>
                       <ng-container *ngIf="chart.chartType === 'Table'">
                           <app-gauge-chart></app-gauge-chart>
                       </ng-container>
                       <ng-container *ngIf="chart.chartType === 'Horizontal Bar Chart'">
-                          <app-horizontal-bar-chart [title]="chart['title']" [source]="chart['sources']" [xAxis]="chart['xAxis']" [yAxis]="chart['yAxis']" [closable]="false"></app-horizontal-bar-chart>
+                          <app-horizontal-bar-chart [title]="chart['title']" [source]="chart['sources']" [xAxis]="chart['xAxis']" [yAxis]="chart['yAxis']" [closable]="false" 
+                          (deletedConfirmed)="gridDeleteConfirmed(chart['id'],chart['title'])"></app-horizontal-bar-chart>
                       </ng-container>
                       <ng-container *ngIf="chart.chartType === 'Word Cloud'">
-                          <app-word-cloud  [title]="chart['title']" [sources]="chart['sources']" [yAxis]="chart['yAxis']" [closable]="false"></app-word-cloud >
+                          <app-word-cloud  [title]="chart['title']" [sources]="chart['sources']" [yAxis]="chart['yAxis']" [closable]="false" 
+                          (deletedConfirmed)="gridDeleteConfirmed(chart['id'],chart['title'])"></app-word-cloud >
                       </ng-container>
                     </p-overlayPanel>
                     <p-button (click)="op.toggle($event)" [icon]="chartIcons[chart.chartType]" label="View" ></p-button>
@@ -127,7 +132,20 @@
       </ng-container>
 
       <ng-container *ngIf="item['chartType'] === 'Bar Chart'">
-        <app-vertical-ber-chart
+
+        <app-bar-chart *ngIf="item['yAxis'] === 'counts' || item['yAxis'] === 'sources'" 
+        [title]="item['title']"
+          [source]="item['sources']"
+          [changes]="item['changes']"
+          [topics]="item['topics']"
+          [yAxis]="item['yAxis']"
+          [xAxis]="item['xAxis']"
+          (changesEvent)="onChanges($event, i)"
+          (hideConfirmed)="onDeleteConfirmed(item)"
+          (deletedConfirmed)="gridDeleteConfirmed(item['id'],item['title'])">
+        </app-bar-chart>
+
+        <app-vertical-ber-chart *ngIf="item['yAxis'] === 'sentiment-count' "
           [title]="item['title']"
           [source]="item['sources']"
           [changes]="item['changes']"

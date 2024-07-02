@@ -112,7 +112,7 @@
           <p-selectButton [options]="emailBarChartYAxisOptions" [(ngModel)]="selectedYAxis" optionLabel="label" optionValue="value" ></p-selectButton>
         </div>
 
-        <div class="choose-source mt-5" *ngIf="selectedXAxis=='topics' && (selectedYAxis=='score' || selectedYAxis=='sentiment-count' || selectedYAxis=='sentiments')">
+        <div class="choose-source mt-5" *ngIf="selectedXAxis=='topics' && (selectedYAxis=='counts' || selectedYAxis=='sentiment-count' || selectedYAxis=='sources')">
           <span class="mb-5">Choose source</span>
           <p-multiSelect [options]="emailCallSources" [filter]="false" [showHeader]="false" [(ngModel)]="selectedCities" placeholder="Select source" optionLabel="name" display="chip" [showClear]="true" ></p-multiSelect>
         </div>
@@ -200,4 +200,4 @@
 </p-sidebar>
 
 
-<p-button severity="secondary" icon="pi pi-chart-bar" class="pe-3 addWidget" (click)="sidebarVisible = true"></p-button>
+<p-button  icon="pi pi-chart-bar" class="" (click)="sidebarVisible = true"></p-button>

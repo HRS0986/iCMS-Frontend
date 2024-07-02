@@ -3,27 +3,50 @@ import { DateRangeService } from '../../../services/shared-date-range/date-range
 import { ChartsService } from '../../../services/charts.service';
 import { timer } from 'rxjs';
 import { AuthenticationService } from '../../../../auth/services/authentication.service';
-import {MenuItemCommandEvent} from "primeng/api";
+import {MenuItem, MenuItemCommandEvent} from "primeng/api";
 
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
   styleUrl: './bar-chart.component.scss'
 })
-export class BarChartComponent implements OnInit,OnChanges{
+export class BarChartComponent  implements OnInit,OnChanges{
+
+  @Output() deletedConfirmed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() hideConfirmed: EventEmitter<void> = new EventEmitter<void>();
+
+  @Input() closable:boolean = true;
+
+  @Input() id!:string;
+
   data:any;
-  @Input() persentages: any=[65, 59, 80, 81, 56, 55, 40];
-  @Input() persentages1: any=[65, 59, 80, 81, 56, 55, 40];
-  @Input() persentages2: any=[65, 59, 80, 81, 56, 55, 40];
-  @Input() persentages3: any=[65, 59, 80, 81, 56, 55, 40];
-  @Input() labels: any=['Product', 'Service', 'Pricing', 'Issues', 'Website'];
+  @Input() persentages: any[]=[];
+  @Input() persentages1: any[]=[];
+  @Input() persentages2: any[]=[];
+  @Input() persentages3: any[]=[];
+
   options: any;
   @Output() changesEvent = new EventEmitter<boolean>();
 
+  @Input() topics: string[] = [];
+  @Input() sources: string[] = ['call', 'email', 'social'];
+
+  labels: string[] = [];
+  total: number = 0;
+
   datasets:any[]=[];
+
+  positiveData:any[]=[];
+  neutralData:any[]=[];
+  negativeData:any[]=[];
+
   callCount: string[] = [];
   emailCount: string[] = [];
   socialCount: string[] = [];
+
+  allDataTpoic: { [key: string]: { positive: number; negative: number; neutral: number } } = {};
+  allData: { [key: string]: { ongoing: number; closed: number} } = {};
+
 
   @Input() title!: any;
   @Input() source!: string[];
@@ -32,50 +55,63 @@ export class BarChartComponent implements OnInit,OnChanges{
   selectedCategories:any[]=[];
   categories:string[]=['email','call','social'];
 
+  @Input() yAxis!: any;
+  @Input() xAxis!: any;
+
   selectedDateRange: string[] | undefined;
   Date:any;
 
-  items!: any[];
+  chartCategory:string='topic';
 
   constructor(private dateRangeService: DateRangeService,private chartService: ChartsService,
-    private authService:AuthenticationService
-  ){}
+    private authService:AuthenticationService,
+    
+  )
+  {
+    
+  }
+
+  items:MenuItem[] = [];
 
   ngOnInit() {
+
     this.items= [
-            {
-
-                icon: 'pi pi-ellipsis-v',
-                items: [
-                    {
-                        label: 'Delete',
-                        icon: 'pi pi-times',
-                        command(event: MenuItemCommandEvent) {
-                            console.log(event);
-
-
-                        }
-                    },
-                    {
-                        label: 'Edit',
-                        icon: 'pi pi-pencil',
-                        command(event: MenuItemCommandEvent) {
-                            console.log(event);
-                        }
-                    }
-                ]
+      {
+        icon: 'pi pi-ellipsis-v',
+        items: [
+          {
+            label: 'Delete',
+            icon: 'pi pi-times',
+            command: () => {
+              this['onDelete']();
             }
+          },
+          {
+            label: 'Edit',
+            icon: 'pi pi-pencil',
+            command: () => {
+              this['onEdit']();
+            }
+          },
+          {
+            label: 'Hide',
+            icon: 'pi pi-eye-slash',
+            command: () => {
+              this['confirmDeleted']();
+            }
+          }
 
-        ];
+          
+        ]
+      }
+
+  ];
+    this.categories=this.source;
     this.selectedCategories=this.source;
-    if(this.selectedCategories){
-      this.barChartExtract(this.selectedCategories);
-    }
-
+    
     timer(0,1000).subscribe(() => {
       if(this.changes){
           this.barChartExtract(this.selectedCategories);
-          console.log("refreshed word chart");
         this.changes=false;
       }
     });
@@ -85,24 +121,53 @@ export class BarChartComponent implements OnInit,OnChanges{
         this.selectedDateRange = range.map(date => this.formatDate(date));
         this.Date = null;
         if(this.selectedCategories){
+
           this.barChartExtract(this.selectedCategories);
         }
-        console.log('Selected Date Range:', this.selectedDateRange);
       } else if(range && range.length === 2 && range[0]){
         this.selectedDateRange = undefined;
         this.Date = this.formatDate(range[0]);
         if(this.selectedCategories){
+
           this.barChartExtract(this.selectedCategories);
         }
-        console.log('Incomplete Date Range:',this.Date );
+      }
+      else{
+        if(this.selectedCategories){
+
+          this.barChartExtract(this.selectedCategories);
+        }
       }
     });
 
-    this.chart();
+    if(this.yAxis=='sources'){
+      this.setupChart();
+    }
+    else{
+      this.chart();
+    }
+
+
 
   }
 
-  onSourceChange(category:any){
+
+  onDelete(){
+    console.log('delete');
+    this.deletedConfirmed.emit();
+  }
+
+  onEdit(){
+    console.log('Edit');
+  }
+
+ confirmDeleted() {
+        console.log('confirm button');
+        this.hideConfirmed.emit();
+  }
+
+
+onSourceChange(category:any){
     if(this.selectedCategories[0]!=null){
       this.barChartExtract(this.selectedCategories);
     }
@@ -112,7 +177,7 @@ export class BarChartComponent implements OnInit,OnChanges{
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+ngOnChanges(changes: SimpleChanges) {
     if (changes['changes'] && changes['changes'].currentValue === true) {
       // Defer the method execution until after the view has been checked
       setTimeout(() => {
@@ -123,7 +188,7 @@ export class BarChartComponent implements OnInit,OnChanges{
   }
 
 
-  chartDataGet(): void {
+chartDataGet(): void {
     this.authService.getIdToken().subscribe((token) =>{
     this.chartService.chartData(token).subscribe(
       (response) => {
@@ -153,9 +218,9 @@ export class BarChartComponent implements OnInit,OnChanges{
         });
         this.changes=true;
       },
-      (error) => {
-        console.error('Error fetching doughnut chart data:', error);
-      }
+      // (error) => {
+      //   console.error('Error fetching doughnut chart data:', error);
+      // }
     );
   });
   }
@@ -169,7 +234,6 @@ export class BarChartComponent implements OnInit,OnChanges{
     for (let key of keys1) {
       if (!keys2.includes(key)) return false;
       if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
-        console.log(`${key} values are different`);
         return false;
       }
     }
@@ -193,131 +257,341 @@ export class BarChartComponent implements OnInit,OnChanges{
   }
 
   barChartExtract(sources: string[]): void {
-    this.datasets=[];
+    this.datasets = [];
+    this.labels = [];
+    this.allDataTpoic = {};
+    this.allData={};
+
     caches.open('all-data').then(cache => {
       cache.match('data').then(cachedResponse => {
         if (cachedResponse) {
           cachedResponse.json().then(data => {
             const documentStyle = getComputedStyle(document.documentElement);
+            const allTopics: string[] = [];
+
             sources.forEach(source => {
+              let callTopics: any[] = [];
+              let emailTopics: any[] = [];
+
               if (source === 'call') {
-                this.callCount = data.flatMap((item: any) =>
-                  item.call.filter((callItem: any) => this.isDateInRange(callItem.Date))
-                           .flatMap((callItem: any)=> callItem.Categories)
-                );
-                const calldata = this.aggregateWordCloudData(this.callCount);
-                this.persentages1 = Object.values(calldata).map((entry: any) => entry.percentage);
-
-                this.datasets.push({
-                  label: 'Call',
-                  backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(153, 102, 255, 0.6)'
-                  ],
-                  borderColor: documentStyle.getPropertyValue('--blue-500'),
-                  data: this.persentages1
-
-                });
+                callTopics = this.extractTopics(data, 'call');  
+                allTopics.push(...callTopics);
               }
+
               if (source === 'email') {
-                this.emailCount = data.flatMap((item: any) =>
-                  item.email.filter((emailItem: any) => this.isDateInRange(emailItem.Date))
-                            .flatMap((emailItem: any) => emailItem.Categories)
-                );
-                const emaildata = this.aggregateWordCloudData(this.emailCount);
-                this.persentages2 = Object.values(emaildata).map((entry: any) => entry.percentage);
-
-                this.datasets.push({
-                  label: 'Email',
-                  backgroundColor: [
-                    'rgba(255, 205, 86, 0.6)',
-                    'rgba(255, 205, 86, 0.6)',
-                    'rgba(255, 205, 86, 0.6)',
-                    'rgba(255, 205, 86, 0.6)',
-                    'rgba(255, 205, 86, 0.6)',
-                    'rgba(255, 205, 86, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(153, 102, 255, 0.6)'
-                  ],
-                  borderColor: documentStyle.getPropertyValue('--blue-500'),
-                  data: this.persentages2
-                });
-
+                emailTopics = this.extractTopics(data, 'email');
+                allTopics.push(...emailTopics);
               }
-              if (source === 'social') {
-                this.socialCount = data.flatMap((item: any) =>
-                  item.social.filter((socialItem: any) => this.isDateInRange(socialItem.Date))
-                             .flatMap((socialItem: any) => socialItem.Categories)
-                );
 
-                const socialdata = this.aggregateWordCloudData(this.socialCount);
-                this.persentages3 = Object.values(socialdata).map((entry: any) => entry.percentage);
+            });
 
-                this.datasets.push({
-                  label: 'Social',
-                  backgroundColor: [
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(153, 102, 255, 0.6)'
-                  ],
-                  borderColor: documentStyle.getPropertyValue('--blue-500'),
-                  data: this.persentages3
-                });
+            // Create a set to get distinct topics
+            this.topics = [...new Set(allTopics)];
+
+            sources.forEach(source => {
+              let sourceData: any[] = [];
+
+              if (source === 'call') {
+                this.callCount = this.extractCounts(data, 'call');
+                console.log(this.callCount);
+                sourceData = this.aggregateWordCloudData(this.callCount, this.topics,'call');
+              }
+
+              if (source === 'email') {
+                this.emailCount = this.extractCounts(data, 'email');
+                console.log(this.emailCount);
+                sourceData = this.aggregateWordCloudData(this.emailCount, this.topics,'email');
+              }
+
+              if (sourceData && sourceData.length === 3) {
+                this.updateAllData(this.transformData(sourceData[0]), 'email');
+                this.updateAllData(this.transformData(sourceData[1]), 'call');
+                this.updateAllData(this.transformData(sourceData[2]), 'social');
+              } else if (sourceData && sourceData.length === 2) {
+                this.updateAllData(this.transformData(sourceData[0]), 'ongoing');
+                this.updateAllData(this.transformData(sourceData[1]), 'closed');
               }
             });
 
-            const allCount = [...this.callCount, ...this.emailCount, ...this.socialCount];
-            const datas = this.aggregateWordCloudData(allCount);
+            this.createDatasets(documentStyle);
+            this.getMaxValues(this.datasets);
+            this.labels = this.topics; // Update labels based on dynamic topics
 
-            this.labels = Object.values(datas).map((entry: any) => entry.category);
-            this.persentages = Object.values(datas).map((entry: any) => entry.percentage);
+            if(this.yAxis=='sources'){
+              this.setupChart();
+            }
+            else{
+              this.chart();
+            }
 
-
-            this.chart();
           });
-        } else {
-          console.log('Data not found in cache');
         }
       });
     });
   }
 
-  aggregateWordCloudData(allCount: string[]): any[] {
-    const categoryMap: { [key: string]: number } = {};
+maxPositive:any[]=[];
+maxNegative:any[]=[];
+maxPositiveIndex:any;
+maxNegativeIndex :any;
 
-    allCount.forEach(category => {
-      if (categoryMap[category]) {
-        categoryMap[category] += 1;
-      } else {
-        categoryMap[category] = 1;
+getMaxValues(response: any) {
+  this.maxPositive=[];
+  this.maxNegative=[];
+  const positiveData = response[0].data;
+  const negativeData = response[1].data;
+
+  // Sorting positive data
+  const sortedPositiveData = [...positiveData].sort((a, b) => b - a);
+  // Sorting negative data
+  const sortedNegativeData = [...negativeData].sort((a, b) => b - a);
+
+  // Logging sorted positive values and their corresponding indices
+  sortedPositiveData.forEach(value => {
+    const index = positiveData.indexOf(value);
+    this.maxPositive.push(this.labels[index]);
+  });
+
+  // Logging sorted negative values and their corresponding indices
+  sortedNegativeData.forEach(value => {
+    const index = negativeData.indexOf(value);
+    this.maxNegative.push(this.labels[index]);
+  });
+}
+
+
+
+
+transformData(data: any[]): { [key: string]: { count: number, percentage: number } } {
+  console.log(data);
+  const transformedData: { [key: string]: { count: number, percentage: number } } = {};
+  data.forEach(item => {
+    transformedData[item.category] = {
+      count: item.count,
+      percentage: item.percentage
+    };
+  });
+  return transformedData;
+}
+
+updateAllData(sourceData: any, sentiment: string): void {
+  if (this.yAxis === 'counts') {
+
+    Object.keys(sourceData).forEach(topic => {
+      if (!this.allDataTpoic[topic]) {
+        this.allDataTpoic[topic] = { positive: 0, negative: 0, neutral: 0 };
+      }
+
+      if (sentiment === 'email') {
+        this.allDataTpoic[topic].positive += sourceData[topic].count;
+      }
+      if (sentiment === 'call') {
+        this.allDataTpoic[topic].negative += sourceData[topic].count;
+      }
+      if (sentiment === 'social') {
+        this.allDataTpoic[topic].neutral += sourceData[topic].count;
       }
     });
+  } else {
+    Object.keys(sourceData).forEach(topic => {
+      if (!this.allDataTpoic[topic]) {
+        this.allDataTpoic[topic] = { positive: 0, negative: 0, neutral: 0 };
+      }
 
-    const total = allCount.length;
-
-    return Object.keys(categoryMap).map(key => ({
-      category: key,
-      count: categoryMap[key],
-      percentage: ((categoryMap[key] / total) * 100).toFixed(2) // Calculate the percentage
-    }));
+      if (sentiment === 'email') {
+        this.allDataTpoic[topic].positive += sourceData[topic].count;
+      }
+      if (sentiment === 'call') {
+        this.allDataTpoic[topic].negative += sourceData[topic].count;
+      }
+      if (sentiment === 'social') {
+        this.allDataTpoic[topic].neutral += sourceData[topic].count;
+      }
+    });
   }
 
-  isDateInRange(dateStr: string): boolean {
+}
+
+
+createDatasets(documentStyle: CSSStyleDeclaration): void {
+  this.datasets = [];
+  if (this.yAxis === 'counts') {
+  this.datasets.push({
+    label: 'Email',
+    backgroundColor: documentStyle.getPropertyValue('--positive-color'),
+    data: this.topics.map(topic => this.allDataTpoic[topic]?.positive || 0)
+  });
+  this.datasets.push({
+    label: 'Call',
+    backgroundColor: documentStyle.getPropertyValue('--negative-color'),
+    data: this.topics.map(topic => this.allDataTpoic[topic]?.negative || 0)
+  });
+  this.datasets.push({
+    label: 'Social',
+    backgroundColor: documentStyle.getPropertyValue('--neutral-color'),
+    data: this.topics.map(topic => this.allDataTpoic[topic]?.neutral || 0)
+  });
+}
+else{
+  this.datasets.push({
+    label: 'Email',
+    backgroundColor: documentStyle.getPropertyValue('--positive-color'),
+    data: this.topics.map(topic => this.allDataTpoic[topic]?.positive || 0)
+  });
+  this.datasets.push({
+    label: 'Call',
+    backgroundColor: documentStyle.getPropertyValue('--negative-color'),
+    data: this.topics.map(topic => this.allDataTpoic[topic]?.negative || 0)
+  });
+  this.datasets.push({
+    label: 'Social',
+    backgroundColor: documentStyle.getPropertyValue('--neutral-color'),
+    data: this.topics.map(topic => this.allDataTpoic[topic]?.neutral || 0)
+  });
+}
+
+}
+
+extractTopics(data: any, sourceType: string): any[] {
+  return data.flatMap((item: any) =>
+    item[sourceType]
+      .filter((sourceItem: any) => this.isDateInRange(sourceItem.Date))
+      .flatMap((sourceItem: any) => {
+        if (this.xAxis === 'topics') {
+          return sourceItem.data.flatMap((dataItem: any) => dataItem.topic);
+        } else if (this.xAxis === 'keywords') {
+          return sourceItem.data.flatMap((dataItem: any) => dataItem.keywords);
+        } else if (this.xAxis === 'issues') {
+          return sourceItem.data.flatMap((dataItem: any) => dataItem.issue_type);
+        } else if (this.xAxis === 'inquiries') {
+          return sourceItem.data.flatMap((dataItem: any) => dataItem.inquiry_type);
+        } else {
+          return [];
+        }
+      }).filter((element: any) => element != null)
+  );
+}
+
+extractCounts(data: any, sourceType: string): any[] {
+  return data.flatMap((item: any) =>
+    item[sourceType]
+      .filter((sourceItem: any) => this.isDateInRange(sourceItem.Date))
+      .flatMap((sourceItem: any) => sourceItem.data)
+      .filter((element: any) => element != null)
+  );
+}
+
+aggregateWordCloudData(allCount: any, topics: string[],source:string): any[] {
+console.log(allCount);
+  this.total = 0;
+
+  const categoryMapEmail: { [topic: string]: number } = {};
+  const categoryMapCall: { [topic: string]: number } = {};
+  const categoryMapSocial: { [topic: string]: number } = {};
+
+  const categoryMapOngoing: { [topic: string]: number } = {};
+  const categoryMapClosed: { [topic: string]: number } = {};
+
+  topics.forEach(topic => {
+    
+    if (this.yAxis === 'counts') {
+      categoryMapEmail[topic] = 0;
+      categoryMapCall[topic] = 0;
+      categoryMapSocial[topic] = 0;
+    }
+    else {
+      categoryMapOngoing[topic] = 0;
+      categoryMapClosed[topic] = 0;
+    }
+    
+  });
+
+  allCount.forEach((item: any) => {
+    if (item.Sentiment) {
+      let itemTopics: any[] = [];
+
+      if (this.xAxis === 'topics') {
+        itemTopics = Array.isArray(item.topic) ? item.topic : (item.topic ? [item.topic] : []);
+      } else if (this.xAxis === 'inquiries') {
+        itemTopics = Array.isArray(item.inquiry_type) ? item.inquiry_type : (item.inquiry_type ? [item.inquiry_type] : []);
+      } else if (this.xAxis === 'issues') {
+        itemTopics = Array.isArray(item.issue_type) ? item.issue_type : (item.issue_type ? [item.issue_type] : []);
+      } else if (this.xAxis === 'keywords') {
+        itemTopics = Array.isArray(item.keywords) ? item.keywords : (item.keywords ? [item.keywords] : []);
+      }
+
+      if (itemTopics.some((topic: any) => topics.includes(topic))) {
+        this.total += 1;
+
+        itemTopics.forEach((topic: string) => {
+          if (topics.includes(topic)) {
+            if (this.yAxis === 'counts') {
+            Object.keys(item.Sentiment).forEach((key) => {
+
+                if (source === 'email') {
+                  categoryMapEmail[topic] += 1;
+                } else if (source === 'call') {
+                  categoryMapCall[topic] += 1;
+                } else if (source === 'social') {
+                  categoryMapSocial[topic] += 1;
+                }});
+            }
+            else {
+                if (item.status.toLowerCase() === 'ongoing') {
+                  categoryMapOngoing[topic] += 1;
+                } else if (item.status.toLowerCase() === 'closed') {
+                  categoryMapClosed[topic] += 1;
+                }
+
+              }
+
+
+          }
+        });
+      }
+    }
+  });
+
+  if (this.yAxis === 'counts') {
+    const positiveData = topics.map(topic => ({
+      category: topic,
+      count: categoryMapEmail[topic],
+      percentage: parseFloat(((categoryMapEmail[topic] / this.total) * 100).toFixed(2))
+    }));
+
+    const negativeData = topics.map(topic => ({
+      category: topic,
+      count: categoryMapCall[topic],
+      percentage: parseFloat(((categoryMapCall[topic] / this.total) * 100).toFixed(2))
+    }));
+
+    const neutralData = topics.map(topic => ({
+      category: topic,
+      count: categoryMapSocial[topic],
+      percentage: parseFloat(((categoryMapSocial[topic] / this.total) * 100).toFixed(2))
+    }));
+
+    return [positiveData, negativeData, neutralData];
+  } else {
+    const ongoingData = topics.map(topic => ({
+      category: topic,
+      count: categoryMapOngoing[topic],
+      percentage: parseFloat(((categoryMapOngoing[topic] / this.total) * 100).toFixed(2))
+    }));
+
+    const closedData = topics.map(topic => ({
+      category: topic,
+      count: categoryMapClosed[topic],
+      percentage: parseFloat(((categoryMapClosed[topic] / this.total) * 100).toFixed(2))
+    }));
+
+    return [ongoingData, closedData];
+  }
+
+}
+
+
+isDateInRange(dateStr: string): boolean {
     if(this.selectedDateRange && this.selectedDateRange.length === 2 && this.selectedDateRange[0] && this.selectedDateRange[1])
       {
         if (!this.selectedDateRange || this.selectedDateRange.length !== 2) {
@@ -341,7 +615,8 @@ export class BarChartComponent implements OnInit,OnChanges{
 
   }
 
-  chart(){
+
+chart(){
     const documentStyle = getComputedStyle(document.documentElement);
     // const textColor = documentStyle.getPropertyValue('--text-color');
 
@@ -352,8 +627,8 @@ export class BarChartComponent implements OnInit,OnChanges{
 
     this.options = {
       indexAxis: 'x',
-      maintainAspectRatio: true,
-      aspectRatio: 0.5,
+      maintainAspectRatio: false,
+      aspectRatio: 1,
       scales: {
         y: {
           title: {
@@ -378,5 +653,49 @@ export class BarChartComponent implements OnInit,OnChanges{
         }
       },
     };
-  }
 }
+
+
+setupChart() {
+  this.data = {
+    labels: this.labels,
+    datasets: this.datasets
+  };
+
+  this.options = {
+    indexAxis: 'x',
+    maintainAspectRatio: false,
+    aspectRatio: 1,
+    scales: {
+      x: {
+        stacked: true
+      },
+      y: {
+        stacked: true,
+        title: {
+          display: true,
+          text: 'Value'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: true
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'end',
+        formatter: (value: number) => `${value}%`,
+        color: '#000',
+        font: {
+          weight: 'bold',
+          size: 12
+        }
+      }
+    }
+  };
+}
+
+
+}
+

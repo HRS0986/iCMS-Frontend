@@ -1,38 +1,21 @@
-:host ::ng-deep{
-  .settings-button-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 10px;
+:host ::ng-deep {
+  .p-panel-content{
+    border:0;
+    border-radius: 0;
   }
-  .settings-button-container button:first-child{
-
-    background-color: white;
-    color: black;
-    border: white;
-    z-index: 100;
-    position:relative;
-
-  }
-  .settings-button-container button:first-child:hover {
-    cursor: pointer;
-    opacity: 0.7;
-  }
-
   //janith
   .p-panel{
     height:100%;
-
-  }
-  .p-panel-header{
-    padding:0;
-
   }
   .p-component{
     height:100%;
   }
   .p-panel-content{
     height:100%;
+  }
+  .p-panel-header{
+    padding:0;
+
   }
   .p-toggleable-content{
     height:100%
@@ -45,7 +28,9 @@
   angledownicon{
     display:none;
   }
-    .chart-header-container {
+
+
+  .chart-header-container {
 
     display: flex;
     justify-content: space-between;
@@ -54,3 +39,31 @@
 
   }
 }
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ccc; /* Adds underline */
+  padding-bottom: 2px; /* Adds padding to create space between text and underline */
+  margin-bottom: 1rem; /* Adds space below the title */
+  position: relative; /* Make sure the position is relative for the menu */
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: bold; /* Make the title bold */
+  text-align: left;
+  padding-top: 1px;
+  padding-left: 2px;
+}
+
+.menu-container {
+  position: relative; /* Ensure the menu is positioned relative to the container */
+}
+
+.menu-icon {
+  cursor: pointer;
+}
+
+

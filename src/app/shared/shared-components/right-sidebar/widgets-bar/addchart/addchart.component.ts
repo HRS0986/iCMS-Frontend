@@ -60,9 +60,9 @@ export class AddchartComponent {
   ];
 
   barChartYAxisOptions = [
-    { label: 'with Sentiment Count', value: 'sentiment-count' },
-    // { label: 'Sources', value: 'sources' },
-    { label: 'with Source & Sentiment', value: 'sentiments' },
+    { label: 'with Count', value: 'sentiment-count' },
+    { label: 'Sources with sentiment', value: 'sources' },
+    { label: 'with Source & Count', value: 'counts' },
   ];
 
   pieYAxisOptions = [

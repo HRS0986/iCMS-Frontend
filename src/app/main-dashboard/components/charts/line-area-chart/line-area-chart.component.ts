@@ -621,15 +621,16 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const combinedDataMap: { [key: string]: any } = {};
 
-    if(this.chartCategory=='Count'){
+    if (this.chartCategory === 'Count') {
       const processData = (dataArray: any[]) => {
         dataArray.forEach(data => {
           const date = new Date(data.Date);
           const monthYear = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
-
+    
           if (!combinedDataMap[monthYear]) {
             combinedDataMap[monthYear] = {
-              Date: monthYear,
+              Date: date,  // Store the actual Date object for sorting
+              monthYear: monthYear,
               positive: 0,
               negative: 0,
               neutral: 0,
@@ -646,7 +647,7 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           combinedDataMap[monthYear].neutralCount += 1;
         });
       };
-
+    
       sources.forEach(source => {
         if (source === 'call') {
           processData(callData);
@@ -658,22 +659,25 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           processData(socialData);
         }
       });
-
-      this.dates = Object.values(combinedDataMap).map((entry: any) => entry.Date);
-
+    
+      // Sort combined data by Date
+      const sortedCombinedData = Object.values(combinedDataMap).sort((a: any, b: any) => a.Date - b.Date);
+    
+      this.dates = sortedCombinedData.map((entry: any) => entry.monthYear);
+    
       // Calculate average sentiment scores
-      Object.values(combinedDataMap).forEach((entry: any) => {
+      sortedCombinedData.forEach((entry: any) => {
         entry.avgPositive = entry.positive / entry.positiveCount;
         entry.avgNegative = entry.negative / entry.negativeCount;
         entry.avgNeutral = entry.neutral / entry.neutralCount;
       });
-
-      this.positive = Object.values(combinedDataMap).map((entry: any) => entry.avgPositive);
-      this.negative = Object.values(combinedDataMap).map((entry: any) => entry.avgNegative);
-      this.neutral = Object.values(combinedDataMap).map((entry: any) => entry.avgNeutral);
-
+    
+      this.positive = sortedCombinedData.map((entry: any) => entry.avgPositive);
+      this.negative = sortedCombinedData.map((entry: any) => entry.avgNegative);
+      this.neutral = sortedCombinedData.map((entry: any) => entry.avgNeutral);
+    
       const documentStyle = getComputedStyle(document.documentElement);
-
+    
       this.dataset = [
         {
           label: 'Positive',
@@ -700,19 +704,19 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           backgroundColor: 'rgba(255,167,38,0.2)'
         }
       ];
-
+    
       this.lineChartShow();
     }
-    else if(this.chartCategory=='Score'){
-
+    if (this.chartCategory === 'Score') {
       const processData = (dataArray: any[]) => {
         dataArray.forEach(data => {
           const date = new Date(data.Date);
           const monthYear = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
-
+    
           if (!combinedDataMap[monthYear]) {
             combinedDataMap[monthYear] = {
-              Date: monthYear,
+              Date: date,  // Store the actual Date object for sorting
+              monthYear: monthYear,
               totalScore: 0,
               count: 0,
             };
@@ -721,7 +725,7 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           combinedDataMap[monthYear].count += 1;
         });
       };
-
+    
       sources.forEach(source => {
         if (source === 'call') {
           processData(callData);
@@ -733,67 +737,63 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           processData(socialData);
         }
       });
-
-      this.dates = Object.values(combinedDataMap).map((entry: any) => entry.Date);
+    
+      // Sort combined data by Date
+      const sortedCombinedData = Object.values(combinedDataMap).sort((a: any, b: any) => a.Date - b.Date);
+    
+      this.dates = sortedCombinedData.map((entry: any) => entry.monthYear);
       const documentStyle = getComputedStyle(document.documentElement);
-
+    
       // Calculate average score
-      Object.values(combinedDataMap).forEach((entry: any) => {
+      sortedCombinedData.forEach((entry: any) => {
         entry.avgScore = entry.totalScore / entry.count;
       });
-
+    
       this.dataset = [
         {
           label: 'Average Score',
-          data: Object.values(combinedDataMap).map((entry: any) => entry.avgScore),
+          data: sortedCombinedData.map((entry: any) => entry.avgScore),
           fill: true,
           borderColor: documentStyle.getPropertyValue('--green-500'),
           tension: 0.4,
           backgroundColor: 'rgba(60,180,16,0.2)',
         },
-      ]
-
+      ];
+    
       this.lineChartShow();
     }
-    else if(this.chartCategory='Separate'){
+    else if (this.chartCategory === 'Separate') {
       const documentStyle = getComputedStyle(document.documentElement);
       this.dataset = [];
-
+    
+      const allUniqueDates = new Set<string>();
+    
       const processData = (dataArray: any[]) => {
         const combined: { [key: string]: any } = {};
         dataArray.forEach(data => {
           const date = new Date(data.Date);
           const monthYear = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
-
-          if (!combinedDataMap[monthYear]) {
-            combinedDataMap[monthYear] = {
-              Date: monthYear,
-              score: 0,
-              count: 0,
-            };
-          }
-          combinedDataMap[monthYear].score += data.score;
-          combinedDataMap[monthYear].count += 1;
-
+    
           if (!combined[monthYear]) {
             combined[monthYear] = {
-              Date: monthYear,
+              Date: date.toISOString(),  // Use ISO string for consistent formatting
+              monthYear: monthYear,
               score: 0,
               count: 0,
             };
           }
           combined[monthYear].score += data.score;
           combined[monthYear].count += 1;
+    
+          allUniqueDates.add(monthYear); // Add to unique dates set
         });
         return combined;
       };
-
-      const allUniqueDates = new Set<string>();
+    
       sources.forEach(source => {
         let finalData: any = {};
         if (source === 'call') {
           finalData = processData(callData);
-          Object.keys(finalData).forEach(date => allUniqueDates.add(date));
           this.dataset.push({
             label: 'Call',
             data: finalData,
@@ -805,19 +805,17 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
         }
         if (source === 'email') {
           finalData = processData(emailData);
-          Object.keys(finalData).forEach(date => allUniqueDates.add(date));
           this.dataset.push({
             label: 'Email',
             data: finalData,
             fill: true,
             borderColor: documentStyle.getPropertyValue('--red-500'),
             tension: 0.4,
-            backgroundColor: 'rgba(60,180,16,0.2)'
+            backgroundColor: 'rgba(152,37,40,0.2)'
           });
         }
         if (source === 'social') {
           finalData = processData(socialData);
-          Object.keys(finalData).forEach(date => allUniqueDates.add(date));
           this.dataset.push({
             label: 'Social Media',
             data: finalData,
@@ -828,11 +826,9 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
           });
         }
       });
-
-      // Convert the set of unique dates to a sorted array
-      const sortedDates = Array.from(allUniqueDates).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-
-      // Calculate averages and fill missing dates with zeros for each dataset
+    
+      const sortedDates = Array.from(allUniqueDates).sort((a, b) => new Date(a as string).getTime() - new Date(b as string).getTime());
+    
       this.dataset = this.dataset.map(dataset => {
         const filledData = sortedDates.map(date => {
           if (dataset.data[date]) {
@@ -843,16 +839,15 @@ export class LineAreaChartComponent implements OnInit,OnChanges {
         });
         return { ...dataset, data: filledData };
       });
-
-
-
-      // Set dates for the chart
+    
+      console.log(this.dataset);
       this.dates = sortedDates;
-
-      // Function to show the chart
+      console.log(this.dates);
       this.lineChartShow();
     }
-
+    
+    
+    
 
 
   }

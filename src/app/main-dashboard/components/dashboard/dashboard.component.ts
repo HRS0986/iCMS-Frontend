@@ -91,17 +91,21 @@ export class DashboardComponent implements OnInit,OnDestroy{
   
     this.widgetsUserData();
     this.chartDataGet();
-  
+
+
     this.socketSubscription = this.chartService.messages$.subscribe(
       message => {
         if (message.response === 'widget') {
-          this.skeletonActivation = true;
+          console.log('ins');
           this.widgetsUserData();
           
+          if(this.skeletonActivation){
+            setTimeout(() => {
+              this.skeletonActivation = false;
+            }, 500);
+          }
           // Keep skeleton active for 2 seconds after receiving the message
-          setTimeout(() => {
-            this.skeletonActivation = false;
-          }, 500);
+          
         }
       }
     );
@@ -148,7 +152,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
         });
       }
       else{
-        this.authService.signOut();
+        // this.authService.signOut();
         caches.open('all-data').then(cache => {
           cache.keys().then(keys => {
             keys.forEach(key => {
@@ -179,11 +183,73 @@ export class DashboardComponent implements OnInit,OnDestroy{
     this.authService.getIdToken().subscribe((token) =>{
       this.chartService.widgetsUser(token).subscribe(
         async (response) => {
-          if(response!=false){
+            if(response==false){
+              response = [
+                {
+                  id: "667ea1c335ef8cc81cdcb672",
+                  title: "line-all",
+                  chartType: "Line Chart",
+                  grid: { cols: 4, rows: 3, x: 0 ,y:0},
+                  keywords: [],
+                  sources: ["email", "social", "call"],
+                  status: "show",
+                  topics: [],
+                  xAxis: "date",
+                  yAxis: "sentiment-count"
+                },
+                {
+                  id: "6682ca1df50d1ed076dbaea5",
+                  title: "bar-email",
+                  chartType: "Bar Chart",
+                  grid: { cols: 3, rows: 3, x: 4 ,y:3},
+                  keywords: [],
+                  sources: ["email"],
+                  status: "show",
+                  topics: [],
+                  xAxis: "topics",
+                  yAxis: "sentiment-count"
+                },
+                {
+                  id: "6682d023f50d1ed076dbaea6",
+                  title: "line-email",
+                  chartType: "Line Chart",
+                  grid: { cols: 4, rows: 3, x: 0,y:4 },
+                  keywords: [],
+                  sources: ["email"],
+                  status: "show",
+                  topics: [],
+                  xAxis: "date",
+                  yAxis: "sentiment-count"
+                },
+                {
+                  id: "6682d076f50d1ed076dbaea7",
+                  title: "email-line",
+                  chartType: "Line Chart",
+                  grid: { cols: 3, rows: 2, x: 3 ,y:0},
+                  keywords: [],
+                  sources: ["email"],
+                  status: "hide",
+                  topics: [],
+                  xAxis: "topics",
+                  yAxis: "sources"
+                },
+                {
+                  id: "6682e4cdf50d1ed076dbaeab",
+                  title: "bar-sources",
+                  chartType: "Bar Chart",
+                  grid: { cols: 3, rows: 2, x: 3 },
+                  keywords: [],
+                  sources: ["email", "social", "call"],
+                  status: "show",
+                  topics: [],
+                  xAxis: "topics",
+                  yAxis: "sentiment-count"
+                },
+              ];   
+            }
             try {
               const cache = await caches.open('widgets');
               const cachedResponse = await cache.match('widgets-data');
-    
               if (cachedResponse) {
                 const cachedData = await cachedResponse.json();
                 if (!this.isEqual(response, cachedData)) {
@@ -206,23 +272,23 @@ export class DashboardComponent implements OnInit,OnDestroy{
             catch (error) {
               // console.error('Error handling cache:', error);
             }
-          }
-            else{
-              this.authService.signOut();
-              caches.open('widgets').then(cache => {
-                cache.keys().then(keys => {
-                  keys.forEach(key => {
-                    cache.delete(key);
-                  });
-                }).then(() => {
-                  console.log('All cache entries deleted successfully.');
-                }).catch(error => {
-                  console.error('Error deleting cache entries:', error);
-                });
-              });
-              this.skeletonActivation=true;
-            }
           },
+            // else{
+            //   // this.authService.signOut();
+            //   caches.open('widgets').then(cache => {
+            //     cache.keys().then(keys => {
+            //       keys.forEach(key => {
+            //         cache.delete(key);
+            //       });
+            //     }).then(() => {
+            //       console.log('All cache entries deleted successfully.');
+            //     }).catch(error => {
+            //       console.error('Error deleting cache entries:', error);
+            //     });
+            //   });
+            //   this.skeletonActivation=true;
+            // }
+          // },
         (error) => {
           this.skeletonActivation=true;
         }

@@ -4,6 +4,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DateRangeService } from '../../../services/shared-date-range/date-range.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-read-notifications',
@@ -128,41 +129,99 @@ export class ReadNotificationsComponent implements OnInit {
   }
 
 
-  readNotification() {
-    this.notificationService.getReadNotifications().subscribe(
-      (notifications) => {
-        console.log(notifications);
-        if(notifications.length!=0){
-          const newIds = notifications.map((notification: { id: any }) => notification.id);
-          this.readnotifications = this.readnotifications.filter(notification => newIds.includes(notification.id));
-        // Iterate over each read notification
-        for (const notification of notifications) {
-          // Check if the notification already exists in the list
-          const existingNotificationIndex = this.readnotifications.findIndex(readNotification => readNotification.id === notification.id);
-          if (existingNotificationIndex === -1) {
-            // If the notification doesn't exist, add it to the list
-            const newMessage: Message = {
-              severity: "success",
-              detail: notification.alert,
-              summary: notification.created_at,
-              id: notification.id ,// Assuming id is a unique identifier for notifications
-              data:notification.email
-            };
-            this.readnotifications.push(newMessage);
-          }
-        }
-        this.emptyRead=true
-        this.filteredNotifications=this.readnotifications;
-        this.unreadnotifications = this.readnotifications;
-      }
-      else if (this.emptyRead) {
-        this.readnotifications = [{severity: "success", summary: "No Notifications", detail: "Empty" }];
-        this.filteredNotifications=this.readnotifications;
-        this. emptyRead = false
-      }
-      },
+  // readNotification() {
+  //   this.notificationService.getReadNotifications().subscribe(
+  //     (notifications) => {
+  //       console.log(notifications);
+  //       if(notifications.length!=0){
+  //         const newIds = notifications.map((notification: { id: any }) => notification.id);
+  //         this.readnotifications = this.readnotifications.filter(notification => newIds.includes(notification.id));
+  //       // Iterate over each read notification
+  //       for (const notification of notifications) {
+  //         // Check if the notification already exists in the list
+  //         const existingNotificationIndex = this.readnotifications.findIndex(readNotification => readNotification.id === notification.id);
+  //         if (existingNotificationIndex === -1) {
+  //           // If the notification doesn't exist, add it to the list
+  //           const newMessage: Message = {
+  //             severity: "success",
+  //             detail: notification.alert,
+  //             summary: notification.created_at,
+  //             id: notification.id ,// Assuming id is a unique identifier for notifications
+  //             data:notification.email
+  //           };
+  //           this.readnotifications.push(newMessage);
+  //         }
+  //       }
+  //       this.emptyRead=true
+  //       this.filteredNotifications=this.readnotifications;
+  //       this.unreadnotifications = this.readnotifications;
+  //     }
+  //     else if (this.emptyRead) {
+  //       this.readnotifications = [{severity: "success", summary: "No Notifications", detail: "Empty" }];
+  //       this.filteredNotifications=this.readnotifications;
+  //       this. emptyRead = false
+  //     }
+  //     },
 
-    );
+  //   );
+  // }
+
+  readNotification(): void {
+    forkJoin([
+      this.notificationService.getReadNotifications(),
+      this.notificationService.getNotifications()
+    ]).subscribe(([readNotifications, unreadNotifications]) => {
+      console.log(readNotifications, unreadNotifications);
+  
+      const allNotifications: Message[] = [];
+      let emptyRead = false;
+      let emptyUnread = false;
+  
+      // Process read notifications
+      if (readNotifications.length !== 0) {
+        const readIds = readNotifications.map((notification: { id: any }) => notification.id);
+  
+        for (const notification of readNotifications) {
+          const newMessage: Message = {
+            severity: "success",
+            summary: notification.created_at,
+            detail: notification.alert,
+            id: notification.id,
+            data: notification.email
+          };
+          allNotifications.push(newMessage);
+        }
+      } else {
+        emptyRead = true;
+      }
+  
+      // Process unread notifications
+      if (unreadNotifications.length !== 0) {
+        const unreadIds = unreadNotifications.map((notification: { id: any }) => notification.id);
+  
+        for (const notification of unreadNotifications) {
+          const newMessage: Message = {
+            severity: "info",
+            summary: notification.created_at,
+            detail: notification.alert,
+            id: notification.id,
+            data: notification.email
+          };
+          allNotifications.push(newMessage);
+        }
+      } else {
+        emptyUnread = true;
+      }
+  
+      // Handle empty notifications for both read and unread
+      if (emptyRead && emptyUnread) {
+        this.filteredNotifications = [{severity: "info", summary: "No Notifications", detail: "Empty" }];
+      } else {
+        this.filteredNotifications = allNotifications;
+      }
+  
+      this.readnotifications = allNotifications;
+    });
   }
 
 }
