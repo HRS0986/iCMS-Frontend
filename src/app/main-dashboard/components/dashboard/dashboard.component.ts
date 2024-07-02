@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
   lineChartnegative : any;
   lineChartneutral: any;
 
-  
+
   totalSums:any;
 
   percentage: number[] = [];
@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
     {label: "Main Dashboard"},
   ];
 
-  
+
   private socketSubscription: Subscription | undefined;
 
   constructor(private authService: AuthenticationService,
@@ -83,21 +83,21 @@ export class DashboardComponent implements OnInit,OnDestroy{
 
   ngOnInit(): void {
     this.skeletonActivation = true; // Initially set to true
-  
+
     // Set a timeout to set skeletonActivation to false after 2 seconds
     setTimeout(() => {
       this.skeletonActivation = false;
     }, 500);
-  
+
     this.widgetsUserData();
     this.chartDataGet();
-  
+
     this.socketSubscription = this.chartService.messages$.subscribe(
       message => {
         if (message.response === 'widget') {
           this.skeletonActivation = true;
           this.widgetsUserData();
-          
+
           // Keep skeleton active for 2 seconds after receiving the message
           setTimeout(() => {
             this.skeletonActivation = false;
@@ -106,9 +106,9 @@ export class DashboardComponent implements OnInit,OnDestroy{
       }
     );
   }
-  
 
-  
+
+
   ngOnDestroy() {
     if (this.socketSubscription) {
       this.socketSubscription.unsubscribe();
@@ -119,7 +119,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
     this.authService.getIdToken().subscribe((token) =>{
     this.chartService.chartData(token).subscribe(
       (response) => {
-        if(response!=false){  
+        if(response!=false){
         caches.open('all-data').then(cache => {
           cache.match('data').then((cachedResponse) => {
             if (cachedResponse) {
@@ -165,13 +165,13 @@ export class DashboardComponent implements OnInit,OnDestroy{
     },
     (error) => {
       this.skeletonActivation=true;
-    } 
+    }
     );
 
   },
   (error) => {
     this.skeletonActivation=true;
-  } 
+  }
 );
   }
 
@@ -183,7 +183,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
             try {
               const cache = await caches.open('widgets');
               const cachedResponse = await cache.match('widgets-data');
-    
+
               if (cachedResponse) {
                 const cachedData = await cachedResponse.json();
                 if (!this.isEqual(response, cachedData)) {
@@ -202,26 +202,26 @@ export class DashboardComponent implements OnInit,OnDestroy{
                 this.gridComponent.changes=true;
                 this.skeletonActivation=true;
               }
-            } 
+            }
             catch (error) {
               // console.error('Error handling cache:', error);
             }
           }
-            else{
-              this.authService.signOut();
-              caches.open('widgets').then(cache => {
-                cache.keys().then(keys => {
-                  keys.forEach(key => {
-                    cache.delete(key);
-                  });
-                }).then(() => {
-                  console.log('All cache entries deleted successfully.');
-                }).catch(error => {
-                  console.error('Error deleting cache entries:', error);
-                });
-              });
-              this.skeletonActivation=true;
-            }
+            // else{
+            //   this.authService.signOut();
+            //   caches.open('widgets').then(cache => {
+            //     cache.keys().then(keys => {
+            //       keys.forEach(key => {
+            //         cache.delete(key);
+            //       });
+            //     }).then(() => {
+            //       console.log('All cache entries deleted successfully.');
+            //     }).catch(error => {
+            //       console.error('Error deleting cache entries:', error);
+            //     });
+            //   });
+            //   this.skeletonActivation=true;
+            // }
           },
         (error) => {
           this.skeletonActivation=true;
@@ -234,7 +234,7 @@ export class DashboardComponent implements OnInit,OnDestroy{
 );
 }
 
-  
+
   isEqual(obj1: any, obj2: any): boolean {
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
