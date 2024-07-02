@@ -41,18 +41,15 @@
 <!--      </div>-->
 
 
-<div *ngFor="let notification of filteredNotifications" class="notification-container">
-    <p-messages
-      [value]="[notification]"
-      [enableService]="false"
-      [closable]="false"
-      (click)="viewNotification(notification)"
-      class="unread notifications"
-    ></p-messages>
-<!--    <p-button  (click)="ignoreMessages(notification.id)" label="Ignore" severity="danger" [outlined]="false"/>-->
+  <div *ngFor="let notification of filteredNotifications" class="notification-container">
+    <p-card (click)="viewNotification(notification)">
+      <ng-template pTemplate="header">
+        {{notification.summary}}
+      </ng-template>
+      <p>{{notification.detail}}</p>
+      <p>{{notification.data}}</p>
+    </p-card>
   </div>
-
-
 
 <p-dialog
     header="{{showData[0]}}"

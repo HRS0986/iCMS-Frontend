@@ -6,9 +6,9 @@
               <!-- &lt;!&ndash; <div *ngFor="let notificationArray of Read notifications"> (click)="showDialog(notificationArray[0])">
                <p-messages [value]="notificationArray" [enableService]="false" [closable]="true" ></p-messages>
            </div> &ndash;&gt; -->
-<div>
+
   <div>
-    <div class="action-bar d-flex justify-content-between align-items-center">
+
       <!-- Left side buttons -->
 <!--      <div class="left-buttons">-->
 <!--&lt;!&ndash;        <p-button&ndash;&gt;-->
@@ -29,7 +29,7 @@
 
       <!-- Right side calendar and icon -->
 
-      
+
 <!-- <div class="right-controls d-flex align-items-center">
         <p-calendar
           [(ngModel)]="rangeDates"
@@ -43,15 +43,17 @@
 </div> -->
 
 
-    <div *ngFor="let notification of filteredNotifications">
-      <p-messages
-        [value]="[notification]"
-        [enableService]="false"
-        [closable]="false"
-        (click)="viewNotification(notification)"
-        class="read notifications"
-      ></p-messages>
-    </div>
+      <div class="notifications-container">
+        <div *ngFor="let notification of filteredNotifications" class="notification-card">
+          <p-card (click)="viewNotification(notification)" styleClass="full-width-card">
+            <ng-template pTemplate="header">
+              {{ notification.summary }}
+            </ng-template>
+            <p>{{ notification.detail }}</p>
+            <p>{{ notification.data }}</p>
+          </p-card>
+        </div>
+      </div>
 
        <p-dialog
           header="{{showData[0]}}"
@@ -67,4 +69,4 @@
             <!-- <p-button (click)="showDialog()" label="Show" /> -->
       </p-dialog>
   </div>
-</div>
+

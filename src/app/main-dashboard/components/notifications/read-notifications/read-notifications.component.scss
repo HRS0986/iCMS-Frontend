@@ -1,56 +1,17 @@
-:host ::ng-deep{
-  .readnotifications{
-
-    div {
-      margin: 10px;
-      div{
-        height:65px
-      }
-    }
+:host ::ng-deep .p-card .p-card-content {
+    padding: 0 1.25rem;
   }
 
-  .notification-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+:host ::ng-deep .p-component, .p-component * {
+    box-sizing: border-box;
+    height: auto;
   }
 
-  .notification-container p-messages {
-    flex-grow: 1;
-    margin-right: 1rem;
-  }
-
-  .notification-container p-button {
-    white-space: nowrap;
-  }
-
-  /* Custom CSS for the action bar */
-  .action-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  }
-
-  .left-buttons {
-  display: flex;
-  gap: 10px; /* Adjust the gap between buttons as needed */
-  }
-
-  .right-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Adjust the gap between calendar and icon as needed */
-  }
-
-
-}
-
-:host ::ng-deep .p-message.p-message-success {
-  background: #f9f9f9;
-  /* border: solid #1ea97c; */
-  border-width: 0 0 0 6px;
-  /* color: #1ea97c; */
-}
+//:host ::ng-deep .p-message.p-message-success {
+//  background: #f9f9f9;
+//  /* border: solid #1ea97c; */
+//  border-width: 0 0 0 6px;
+//  /* color: #1ea97c; */
+//}
 
 
