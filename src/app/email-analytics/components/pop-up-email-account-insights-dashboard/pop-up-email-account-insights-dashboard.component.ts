@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 import { BestPerformingEmailAccResponse, EmailAccEfficiencyResponse, OverdueIssuesResponse, stat_card_single_response } from '../../interfaces/dashboard';
@@ -80,17 +80,21 @@ export class PopUpEmailAccountInsightsDashboardComponent {
       this.minDate.setMonth(prevMonth);
       this.minDate.setFullYear(prevYear);
       this.maxDate = today;
-
-
-      this.getDataForStatCards()
-      this.getDataForEfficiencyByEmaiAcss()
-      this.getOverdueIssuesdata()
+      
+      this.subscribeAll();
 
       
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['intervalInDaysStart'] || changes['intervalInDaysEnd']) {
+      this.unsubsribeAll();
+      this.subscribeAll();
+    }
+  }
+
   ngOnDestroy(): void {
-    this.unsubsribeAll()
+    this.unsubsribeAll();
   
   }
 
@@ -117,10 +121,16 @@ onRangeDatesChanged(rangeDates: Date[]) {
   this.intervalInDaysEnd = Math.floor(differenceEndMs / (1000 * 60 * 60 * 24))
 
   console.log('Difference in days start:', this.intervalInDaysStart, 'Difference in days end:', this.intervalInDaysEnd);
-  this.unsubsribeAll()
-  this.getDataForStatCards()
-  this.getDataForEfficiencyByEmaiAcss()
-  this.getOverdueIssuesdata()
+  
+  this.unsubsribeAll();
+  this.subscribeAll();
+}
+
+
+subscribeAll(){
+  this.getDataForStatCards();
+  this.getDataForEfficiencyByEmaiAcss();
+  this.getOverdueIssuesdata();
 }
 
 unsubsribeAll(){
@@ -204,7 +214,7 @@ getBestPerformingEmail(){
 getOverdueIssuesdata(){
   
   this.isLoadingOverdueIssByEmailAcc = true
-  
+
   this.dataService.getOverdueIssuesdata(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OverdueIssuesResponse) => {
     console.log("overdue issues related DATAAAAa", data)
 

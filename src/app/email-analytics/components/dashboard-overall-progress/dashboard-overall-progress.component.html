@@ -34,5 +34,7 @@
   [draggable]="false"
   [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
 >
-  Testing
+  <app-performance-insights-dashboard
+  [intervalInDaysStart]="intervalInDaysStart"
+  [intervalInDaysEnd]="intervalInDaysEnd"></app-performance-insights-dashboard>
 </p-dialog>

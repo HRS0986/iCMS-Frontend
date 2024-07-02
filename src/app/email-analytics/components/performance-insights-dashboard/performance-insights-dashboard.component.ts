@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { EmailAccEfficiencyResponse, InquiriesByEfficiencyEffectivenessResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverallyEfficiencyEffectivenessPecentagesResponse, OverdueIssuesResponse } from '../../interfaces/dashboard';
 import { MenuItem } from 'primeng/api';
@@ -104,19 +104,24 @@ export class PerformanceInsightsDashboardComponent {
       this.minDate.setFullYear(prevYear);
       this.maxDate = today;
       
-      this.getDataForStatCards()
-      this.getDataForOverallEfficiencyandEffectivenessDntChart()
-      this.getDataForEfficiencyDstriandEffectivenessDistri()
-      this.getDataForEfficiencyByEmaiAcss()
-      this.getOverdueIssuesdata()
+      this.subscribeALL();
+
 
       
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['intervalInDaysStart'] || changes['intervalInDaysEnd']) {
+      this.unsubscribeAll()
+      this.subscribeALL();
+    }
   }
 
   ngOnDestroy(): void {
     this.unsubscribeAll()
   
   }
+
 
   
 onRangeDatesChanged(rangeDates: Date[]) {
@@ -144,12 +149,17 @@ onRangeDatesChanged(rangeDates: Date[]) {
   
   this.unsubscribeAll()
 
+  this.subscribeALL();
+
+}
+
+
+subscribeALL(){
   this.getDataForStatCards()
   this.getDataForOverallEfficiencyandEffectivenessDntChart()
   this.getDataForEfficiencyDstriandEffectivenessDistri()
   this.getDataForEfficiencyByEmaiAcss()
   this.getOverdueIssuesdata()
-
 }
 
 unsubscribeAll(){
@@ -202,42 +212,44 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
 
   this.isLoadingEffiDistri = true
   this.isLoadingEffectDistri = true
-   
+  
   let effi_issue_data: number[] = [] 
   let effec_issue_date: number[] = []
-  this.DataForEffiandEffecIssuesSubscription = this.dataService.getDataForEffiandEffecIssues(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: IssuesByEfficiencyEffectivenessResponse) => {
-    console.log("PERFORMANCE INSIGHT: data for efficency and effectiveness of ISSUES DISTRIBUTION", data)
+  this.DataForEffiandEffecIssuesSubscription = this.dataService.getDataForEffiandEffecIssues(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data1: IssuesByEfficiencyEffectivenessResponse) => {
+    console.log("PERFORMANCE INSIGHT: data for efficency and effectiveness of ISSUES DISTRIBUTION", data1)
 
-    effi_issue_data = data.efficiency_frequencies
-    effec_issue_date = data.effectiveness_frequencies
+    effi_issue_data = data1.efficiency_frequencies
+    effec_issue_date = data1.effectiveness_frequencies
 
+    this.DataForEffiandEffecInquiriesSubscription = this.dataService.getDataForEffiandEffecInquiries(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data2: InquiriesByEfficiencyEffectivenessResponse) => {
+      console.log("PERFORMANCE INSIGHTS: data for efficiency and effectiveness of INQUIRIES DISTRIBUTION", data2)
+      
+
+      this.effi_dstri_vert_bar_labels = data2.efficiency_categories
+      this.effect_dstri_vert_bar_labels = data2.effectiveness_categories
+      this.effi_distri_vert_var_inquiries_data = data2.efficiency_frequencies
+      this.effect_distri_vert_var_inquiries_data = data2.effectiveness_frequencies
+      this.effect_distri_vert_var_issues_data = effec_issue_date
+      this.effi_distri_vert_var_issues_data = effi_issue_data
+
+
+      console.log("PERFORMANCE ISNIGHTS: EFFI EFFEC DISTRIBUTION DATA \n", 
+        "effi_dstri_vert_bar_labels",this.effi_dstri_vert_bar_labels,
+        "effect_dstri_vert_bar_labels",this.effect_dstri_vert_bar_labels,
+        "effi_distri_vert_var_inquiries_data",this.effi_distri_vert_var_inquiries_data,
+        "effect_distri_vert_var_inquiries_data",this.effect_distri_vert_var_inquiries_data,
+        "effect_distri_vert_var_issues_data",this.effect_distri_vert_var_issues_data,
+        "effi_distri_vert_var_issues_data",this.effi_distri_vert_var_issues_data
+      )
+
+        this.isLoadingEffiDistri = false
+        this.isLoadingEffectDistri = false
+    
+      });
        
    });
 
-   this.DataForEffiandEffecInquiriesSubscription = this.dataService.getDataForEffiandEffecInquiries(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: InquiriesByEfficiencyEffectivenessResponse) => {
-    console.log("PERFORMANCE INSIGHTS: data for efficiency and effectiveness of INQUIRIES DISTRIBUTION", data)
-    
-    this.effi_dstri_vert_bar_labels = data.efficiency_categories
-    this.effect_dstri_vert_bar_labels = data.effectiveness_categories
-    this.effi_distri_vert_var_inquiries_data = data.efficiency_frequencies
-    this.effect_distri_vert_var_inquiries_data = data.effectiveness_frequencies
-    this.effect_distri_vert_var_issues_data = effec_issue_date
-    this.effi_distri_vert_var_issues_data = effi_issue_data
 
-
-    console.log("PERFORMANCE ISNIGHTS: EFFI EFFEC DISTRIBUTION DATA \n", 
-      "effi_dstri_vert_bar_labels",this.effi_dstri_vert_bar_labels,
-      "effect_dstri_vert_bar_labels",this.effect_dstri_vert_bar_labels,
-      "effi_distri_vert_var_inquiries_data",this.effi_distri_vert_var_inquiries_data,
-      "effect_distri_vert_var_inquiries_data",this.effect_distri_vert_var_inquiries_data,
-      "effect_distri_vert_var_issues_data",this.effect_distri_vert_var_issues_data,
-      "effi_distri_vert_var_issues_data",this.effi_distri_vert_var_issues_data
-    )
-
-     this.isLoadingEffiDistri = false
-     this.isLoadingEffectDistri = false
-      
-   });
 
   
 }

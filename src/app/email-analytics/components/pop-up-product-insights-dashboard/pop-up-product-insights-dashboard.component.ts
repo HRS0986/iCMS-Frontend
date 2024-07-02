@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 import { IssueInquiryFreqByProdcuts, SentimentsByTopicResponse, SentimentsDistributionByTimeResponse, word_cloud_single_response } from '../../interfaces/dashboard';
@@ -103,12 +103,16 @@ export class PopUpProductInsightsDashboardComponent {
       this.minDate.setFullYear(prevYear);
       this.maxDate = today;
 
-      this.getDataForSentimentsByTopic()
-      this.getDataForIssuenadInquiryByProducts()
-      this.getDataForWordCloud()
-      this.getDataForSentimentsDistribtuionOfTopics()
+      this.subscribeALL();
 
       
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['intervalInDaysStart'] || changes['intervalInDaysEnd']) {
+      this.unsubscribeAll()
+      this.subscribeALL();
+    }
   }
   
   ngOnDestroy(): void {
@@ -139,12 +143,17 @@ onRangeDatesChanged(rangeDates: Date[]) {
 
   console.log('Difference in days start:', this.intervalInDaysStart, 'Difference in days end:', this.intervalInDaysEnd);
   
-  this.unsubscribeAll()
+  this.unsubscribeAll();
+  this.subscribeALL();
 
-  this.getDataForSentimentsByTopic()
-  this.getDataForIssuenadInquiryByProducts()
-  this.getDataForWordCloud()
-  this.getDataForSentimentsDistribtuionOfTopics()
+}
+
+subscribeALL(){
+
+  this.getDataForSentimentsByTopic();
+  this.getDataForIssuenadInquiryByProducts();
+  this.getDataForWordCloud();
+  this.getDataForSentimentsDistribtuionOfTopics();
 }
 
 
@@ -219,12 +228,13 @@ getDataForSentimentsByTopic(){
 getDataForWordCloud(){
 
   this.isLoadingWCC = true
-  this.wordCloudData = [] 
+  
   // Get data for word cloud
   this.DataForWordCloudSubscription = this.dataService.getDataForWordCloud(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data:word_cloud_single_response[]) => {
    console.log("WORD CLOUD DATA", data)
-   
+   this.wordCloudData = [] 
    for (const item of data) {
+    this.isLoadingWCC = true
      // Access the "topic" and "frequency" properties of each item
      const topic = item.topic;
      const frequency = item.frequency;
@@ -233,11 +243,11 @@ getDataForWordCloud(){
      // Do something with topic and frequency, such as logging them to the console
      console.log(`word: ${topic}, weight: ${frequency}`);
      this.wordCloudData.push({"word":topic, "weight": frequency, "color": color})
-     
+     this.isLoadingWCC = false
    }
    console.log("WORD CLOUD DATA JUST BEOFRE DISPLAYING PRODUCT INSIGHTS",  this.wordCloudData)
   
-    this.isLoadingWCC = false
+    
 
    
  });

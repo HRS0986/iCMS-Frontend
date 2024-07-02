@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { MenuItem } from "primeng/api";
@@ -175,16 +175,16 @@ export class Dashboard2Component implements OnInit{
 
  
 
-
-      this.getDataForStatCards()
-      this.getDataForOverallEfficiencyandEffectivenessDntChart()
-      this.getDataForEfficiencyDstriandEffectivenessDistri()
-      this.getDataForIssueandInquiryTypes()
-      this.getDataForIssuenadInquiryByProducts()
-      this.getDataForEfficiencyByEmaiAcss()
-      this.getOverdueIssuesdata()
+    // this.subscribeALL()
 
       
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['intervalInDaysStart'] || changes['intervalInDaysEnd']) {
+      // this.unsubscribeAll();
+      // this.subscribeALL();
+    }
   }
 
    ngOnDestroy(): void {
@@ -218,15 +218,14 @@ onRangeDatesChanged(rangeDates: Date[]) {
 
   console.log('Difference in days start:', this.intervalInDaysStart, 'Difference in days end:', this.intervalInDaysEnd);
   
-  this.unsubscribeAll()
+  // this.unsubscribeAll()
+  // this.subscribeALL()
 
-  this.getDataForStatCards()
-  this.getDataForOverallEfficiencyandEffectivenessDntChart()
-  this.getDataForEfficiencyDstriandEffectivenessDistri()
-  this.getDataForIssueandInquiryTypes()
-  this.getDataForIssuenadInquiryByProducts()
-  this.getDataForEfficiencyByEmaiAcss()
-  this.getOverdueIssuesdata()
+
+
+}
+
+subscribeALL(){
 
 }
 

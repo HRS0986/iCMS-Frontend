@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-overall-progress',
@@ -9,6 +9,10 @@ export class DashboardOverallProgressComponent {
   dataEfficiency: any;
   dataEffectivity: any;
   dataProgress: any;
+
+  
+  @Input() intervalInDaysStart!: number;
+  @Input() intervalInDaysEnd!: number;
 
   optionsDefault: any;
   optionsProgress: any;

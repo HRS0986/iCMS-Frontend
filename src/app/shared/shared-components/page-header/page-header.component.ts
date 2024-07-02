@@ -1,4 +1,4 @@
-import { EventEmitter, Output } from '@angular/core';
+import { EventEmitter, Output, SimpleChanges } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; // Import Router
 import { MenuItem } from "primeng/api";
@@ -55,6 +55,12 @@ export class PageHeaderComponent implements OnInit {
     this.showOldDate();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['intervalInDaysStart'] || changes['intervalInDaysEnd']) {
+      this.emailDates = this.getEmailCurrentDateRange();
+    }
+  }
+
   getCurrentDateRange = (): Date[] => {
     const today = new Date();
     const pastDate = new Date(today);
@@ -62,6 +68,8 @@ export class PageHeaderComponent implements OnInit {
   
     return [pastDate, today];
   };
+
+
 
   getEmailCurrentDateRange = (): Date[] => {
     const today = new Date();

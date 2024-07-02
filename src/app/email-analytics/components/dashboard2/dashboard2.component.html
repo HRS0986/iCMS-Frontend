@@ -27,7 +27,9 @@
     <!-- <span class="text-5xl">1</span>
       <span class="text-3xl">summary</span> -->
     <div class="h-fit">
-      <app-dashboard-overall-progress></app-dashboard-overall-progress>
+      <app-dashboard-overall-progress
+      [intervalInDaysStart]="intervalInDaysStart"
+      [intervalInDaysEnd]="intervalInDaysEnd"></app-dashboard-overall-progress>
     </div>
   </div>
   <div
@@ -36,7 +38,9 @@
     <!-- <span class="text-5xl">5</span>
       <span class="text-3xl">sentiment score</span> -->
     <div class="w-full h-full flex justify-center items-center border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150">
-      <app-dashboard-sentiment-card></app-dashboard-sentiment-card>
+      <app-dashboard-sentiment-card
+      [intervalInDaysStart]="intervalInDaysStart"
+      [intervalInDaysEnd]="intervalInDaysEnd"></app-dashboard-sentiment-card>
     </div>
   </div>
   <div
@@ -45,7 +49,9 @@
     <!-- <span class="text-5xl">2</span>
       <span class="text-3xl">issues</span> -->
     <div class="w-full h-full border border-solid border-slate-300 rounded-lg bg-white hover:bg-gray-50 hover:border-sky-400 hover:cursor-pointer transition hover:duration-150">
-      <app-dashboard-issue-inquiry></app-dashboard-issue-inquiry>
+      <app-dashboard-issue-inquiry
+      [intervalInDaysStart]="intervalInDaysStart"
+      [intervalInDaysEnd]="intervalInDaysEnd"></app-dashboard-issue-inquiry>
     </div>
   </div>
   <div
@@ -63,7 +69,9 @@
     <!-- <span class="text-5xl">2</span>
       <span class="text-3xl">issues</span> -->
     <div class="h-full w-full p-4">
-      <app-dashboard-product-insights></app-dashboard-product-insights>
+      <app-dashboard-product-insights
+      [intervalInDaysStart]="intervalInDaysStart"
+      [intervalInDaysEnd]="intervalInDaysEnd"></app-dashboard-product-insights>
     </div>
   </div>
 
@@ -73,19 +81,21 @@
     <!-- <span class="text-5xl">4</span>
       <span class="text-3xl">suggestions</span> -->
     <div class="h-full w-full p-4">
-      <app-dashboard-account-insights></app-dashboard-account-insights>
+      <app-dashboard-account-insights
+      [intervalInDaysStart]="intervalInDaysStart"
+      [intervalInDaysEnd]="intervalInDaysEnd"></app-dashboard-account-insights>
     </div>
   </div>
 </div>
 <!-- END of NEW -->
 
+<!-- 
+<div class="size-1/2"></div> -->
 
-<div class="size-1/2"></div>
-
-<div class="flex flex-col">
-  <div class="flex flex-wrap gap-6">
+<!-- <div class="flex flex-col">
+  <div class="flex flex-wrap gap-6"> -->
     <!-- 'No of stats' stat cards-->
-    <div class="stat-cards" *ngIf="!isLoadingStatcards">
+    <!-- <div class="stat-cards" *ngIf="!isLoadingStatcards">
       <div *ngFor="let item of statsData">
         <app-stat-card-mgr-analytics
           [title]="item.title.toString()"
@@ -95,26 +105,26 @@
           [subheader]="item.subheader"
         ></app-stat-card-mgr-analytics>
       </div>
-    </div>
+    </div> -->
     <!-- Current Overall efficiency donought chart-->
     <!-- <div class="stat-cards h-40"> -->
-    <app-effi-effec-donought-chart
+    <!-- <app-effi-effec-donought-chart
       title="Current Overall Efficiency"
       [chartData]="dntChartDataOverallEfficiency"
       [chartLabels]="dntChartOverallEfficiencyLabels"
       *ngIf="!isLoadingDCOverallEfficiency"
-    />
+    /> -->
     <!-- </div> -->
     <!-- Current Overall progress donought chart-->
-    <app-progress-donought-chart
+    <!-- <app-progress-donought-chart
       title="Current Progress of both issues and inquiries"
       [chartData]="dntChartDataProgress"
       [chartLabels]="dntChartProgressLabels"
       *ngIf="!isLoadingDCProgress"
-    ></app-progress-donought-chart>
+    ></app-progress-donought-chart> -->
 
     <!-- Current Overall efficiency donought chart-->
-    <app-effi-effec-donought-chart
+    <!-- <app-effi-effec-donought-chart
       title="Current Overall Effectiveness"
       [chartData]="dntChartDataOverallEffeftiveness"
       [chartLabels]="dntChartOverallEffectivenessLabels"
@@ -221,4 +231,4 @@
       *ngIf="!isLoadingOverdueIssByEmailAcc"
     />
   </div>
-</div>
+</div> -->

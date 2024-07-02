@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 import { InquiriesByEfficiencyEffectivenessResponse, IssueInquiryFreqByProdcuts, IssueInquiryFreqByTypeResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverdueIssuesResponse, StatCard } from '../../interfaces/dashboard';
@@ -104,17 +104,21 @@ export class PopUpIssuesAndInquiryInsightsDashboardComponent {
       this.minDate.setFullYear(prevYear);
       this.maxDate = today;
 
-      this.getDataForStatCards()
-      this.getDataForEfficiencyDstriandEffectivenessDistri()
-      this.getDataForIssueandInquiryTypes()
-      this.getDataForIssuenadInquiryByProducts()
-      this.getOverdueIssuesdata()
+      this.subscribeALL();
 
       
   }
 
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['intervalInDaysStart'] || changes['intervalInDaysEnd']) {
+      this.unsubscribeAll();
+      this.subscribeALL();
+    }
+  }
+
   ngOnDestroy(): void {
-    this.unsubscribeAll()
+    this.unsubscribeAll();
   
   }
 
@@ -143,15 +147,16 @@ onRangeDatesChanged(rangeDates: Date[]) {
   console.log('Difference in days start:', this.intervalInDaysStart, 'Difference in days end:', this.intervalInDaysEnd);
   
   this.unsubscribeAll()
-  
-  this.getDataForStatCards()
-  this.getDataForEfficiencyDstriandEffectivenessDistri()
-  this.getDataForIssueandInquiryTypes()
-  this.getDataForIssuenadInquiryByProducts()
-  this.getOverdueIssuesdata()
+  this.subscribeALL();
 }
 
-
+subscribeALL(){
+  this.getDataForStatCards();
+  this.getDataForEfficiencyDstriandEffectivenessDistri();
+  this.getDataForIssueandInquiryTypes();
+  this.getDataForIssuenadInquiryByProducts();
+  this.getOverdueIssuesdata();
+}
 
 unsubscribeAll(){
   this.statCardsSubscription?.unsubscribe();

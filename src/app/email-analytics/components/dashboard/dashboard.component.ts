@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MenuItem } from "primeng/api";
 
@@ -132,24 +132,17 @@ export class DashboardComponent  implements OnInit{
 
     console.log('Difference in days start:', this.intervalInDaysStart, 'Difference in days end:', this.intervalInDaysEnd);
 
-    this.getCurrentOverallSentiments()
-    this.getDataForStatCards()
-    this.getDataForSentimentsByTopic()
-    this.getDataForSentimentsByTime()
-    this.getDataForSentimentsDistribtuionOfTopics()
-    this.getDataForGaugeChart()
-    this.getDataForWordCloud()
+    this.subscribeALL();
   }
-
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['intervalInDaysStart'] || changes['intervalInDaysEnd']) {
+      this.unsubscribeAll();
+      this.subscribeALL();
+    }
+  }
   ngOnDestroy(): void {
-    this.CurrentOverallSentimentsSubscription?.unsubscribe();
-    this.DataForStatCardsSubscription?.unsubscribe();
-    this.DataForSentimentsByTopicSubscription?.unsubscribe();
-    this.DataForSentimentsByTimeSubscription?.unsubscribe();
-    this.DataForWordCloudSubscription?.unsubscribe();
-    this.DataForSentimentsDistribtuionOfTopicsSubscription?.unsubscribe();
-    this.DataForGaugeChartSubscription?.unsubscribe();
-
+    this.unsubscribeAll();
 }
 
 
@@ -177,13 +170,13 @@ onRangeDatesChanged(rangeDates: Date[]) {
 
   console.log('Difference in days start:', this.intervalInDaysStart, 'Difference in days end:', this.intervalInDaysEnd);
   
-  this.CurrentOverallSentimentsSubscription?.unsubscribe();
-  this.DataForStatCardsSubscription?.unsubscribe();
-  this.DataForSentimentsByTopicSubscription?.unsubscribe();
-  this.DataForSentimentsByTimeSubscription?.unsubscribe();
-  this.DataForWordCloudSubscription?.unsubscribe();
-  this.DataForSentimentsDistribtuionOfTopicsSubscription?.unsubscribe();
-  this.DataForGaugeChartSubscription?.unsubscribe();
+  this.unsubscribeAll();
+  this.subscribeALL();
+
+
+}
+
+subscribeALL(){
   
   this.getCurrentOverallSentiments()
   this.getDataForStatCards()
@@ -194,7 +187,15 @@ onRangeDatesChanged(rangeDates: Date[]) {
   this.getDataForGaugeChart()
 }
 
-
+unsubscribeAll(){
+  this.CurrentOverallSentimentsSubscription?.unsubscribe();
+  this.DataForStatCardsSubscription?.unsubscribe();
+  this.DataForSentimentsByTopicSubscription?.unsubscribe();
+  this.DataForSentimentsByTimeSubscription?.unsubscribe();
+  this.DataForWordCloudSubscription?.unsubscribe();
+  this.DataForSentimentsDistribtuionOfTopicsSubscription?.unsubscribe();
+  this.DataForGaugeChartSubscription?.unsubscribe();
+}
 
 getCurrentOverallSentiments(){
     

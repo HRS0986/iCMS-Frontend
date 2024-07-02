@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-account-insights',
@@ -8,6 +8,9 @@ import { Component } from '@angular/core';
 export class DashboardAccountInsightsComponent {
   displayedAccounts: any;
   dialogVisible = false;
+
+  @Input() intervalInDaysStart!: number;
+  @Input() intervalInDaysEnd!: number;
 
   ngOnInit() {
     this.displayedAccounts = [
