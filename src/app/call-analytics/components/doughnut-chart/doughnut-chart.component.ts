@@ -10,7 +10,9 @@ import { UIChart } from "primeng/chart";
 export class DoughnutChartComponent implements OnInit, OnChanges {
   @Input() title!: string;
   @Input() percentages!: number[];
+  @Input() isLoading!: boolean;
   @ViewChild('dChart') dChart!: UIChart;
+
   data: any;
   options: any;
   documentStyle = getComputedStyle(document.documentElement);

@@ -6,3 +6,6 @@
       <p class="text-sm text-gray-500 font-medium">{{ subTitle }}</p>
     </div>
 </p-panel>
+<p-panel class="flex w-[260px] mb-4" *ngIf="isLoading">
+  <p-skeleton height="90px" width="240px"/>
+</p-panel>

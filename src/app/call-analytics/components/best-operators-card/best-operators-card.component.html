@@ -4,3 +4,8 @@
     <app-operator-card-item [name]="item.name" [avgHandleTime]="Math.round(item.avg_duration/60)" [id]="item._id" [totalCalls]="item.total" [rank]="i"/>
   }
 </p-panel>
+<p-panel class="mb-4" *ngIf="isLoading">
+  <p-skeleton height="100px" width="700px" styleClass="mb-3"/>
+  <p-skeleton height="100px" width="700px" styleClass="mb-3"/>
+  <p-skeleton height="100px" width="700px" styleClass="mb-3"/>
+</p-panel>
