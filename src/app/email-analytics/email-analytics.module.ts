@@ -90,7 +90,13 @@ import { MessagesModule } from 'primeng/messages';
 import { ThreadDataviewComponent } from './components/thread-dataview/thread-dataview.component';
 import { ThreadCardListTypeComponent } from './components/thread-card-list-type/thread-card-list-type.component';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { PerformanceInsightsDashboardComponent } from './components/performance-insights-dashboard/performance-insights-dashboard.component';
+// import { TestComponent } from './components/test/test.component';
+import { DashboardOverallProgressComponent } from './components/dashboard-overall-progress/dashboard-overall-progress.component';
+import { DashboardAccountInsightsComponent } from './components/dashboard-account-insights/dashboard-account-insights.component';
+import { DashboardProductInsightsComponent } from './components/dashboard-product-insights/dashboard-product-insights.component';
+import { DashboardIssueInquiryComponent } from './components/dashboard-issue-inquiry/dashboard-issue-inquiry.component';
+import { DashboardTimeGraphComponent } from './components/dashboard-time-graph/dashboard-time-graph.component';
+import { SelectButtonModule } from 'primeng/selectbutton';import { PerformanceInsightsDashboardComponent } from './components/performance-insights-dashboard/performance-insights-dashboard.component';
 import { PopUpProductInsightsDashboardComponent } from './components/pop-up-product-insights-dashboard/pop-up-product-insights-dashboard.component';
 import { PopUpIssuesAndInquiryInsightsDashboardComponent } from './components/pop-up-issues-and-inquiry-insights-dashboard/pop-up-issues-and-inquiry-insights-dashboard.component';
 import { PopUpEmailAccountInsightsDashboardComponent } from './components/pop-up-email-account-insights-dashboard/pop-up-email-account-insights-dashboard.component';
@@ -142,6 +148,12 @@ import { PopUpEmailAccountInsightsDashboardComponent } from './components/pop-up
     FilteringComponent,
     ThreadDataviewComponent,
     ThreadCardListTypeComponent,
+    // TestComponent,
+    DashboardOverallProgressComponent,
+    DashboardAccountInsightsComponent,
+    DashboardProductInsightsComponent,
+    DashboardIssueInquiryComponent,
+    DashboardTimeGraphComponent,
     PerformanceInsightsDashboardComponent,
     PopUpProductInsightsDashboardComponent,
     PopUpIssuesAndInquiryInsightsDashboardComponent,
@@ -185,7 +197,8 @@ import { PopUpEmailAccountInsightsDashboardComponent } from './components/pop-up
     ProgressBarModule,
     AutoCompleteModule,
     MessagesModule,
-    ToggleButtonModule
+    ToggleButtonModule,
+    SelectButtonModule,
   ],
   providers: [MessageService],
 })

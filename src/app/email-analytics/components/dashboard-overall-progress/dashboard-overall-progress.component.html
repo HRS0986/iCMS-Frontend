@@ -1,0 +1,38 @@
+<div class="w-full" (click)="popup()">
+  <div class="card flex flex-wrap place-content-evenly gap-y-10">
+    <!-- Progress -->
+    <p-chart
+      type="pie"
+      [data]="dataProgress"
+      [options]="optionsProgress"
+      width="200px"
+    />
+    <!-- Efficiency -->
+    <p-chart
+      type="pie"
+      [data]="dataEfficiency"
+      [options]="optionsEfficiency"
+      width="200px"
+    />
+    <!-- Effectivity -->
+    <p-chart
+      type="pie"
+      [data]="dataEffectivity"
+      [options]="optionsEffectivity"
+      width="200px"
+    />
+  </div>
+</div>
+
+<p-dialog
+  header="Overall Insights"
+  [(visible)]="dialogVisible"
+  [style]="{ width: '70vw' }"
+  [modal]="true"
+  [closable]="true"
+  [maximizable]="true"
+  [draggable]="false"
+  [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
+>
+  Testing
+</p-dialog>

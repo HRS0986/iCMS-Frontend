@@ -1,0 +1,17 @@
+<div class="w-full" (click)="popup()">
+    <p-chart type="bar" [data]="data" [options]="options" height="250px"/>
+</div>
+
+
+<p-dialog
+  header="Overall Insights"
+  [(visible)]="dialogVisible"
+  [style]="{ width: '70vw' }"
+  [modal]="true"
+  [closable]="true"
+  [maximizable]="true"
+  [draggable]="false"
+  [breakpoints]="{ '1199px': '80vw', '575px': '90vw' }"
+>
+  Testing
+</p-dialog>

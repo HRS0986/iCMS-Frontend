@@ -4,7 +4,7 @@
 >
   <div class="px-4 py-4 grid grid-cols-1 gap-y-3 gap-x-3 lg:grid-cols-6">
     <!-- status -->
-    <div class="order-0 -mx-1 lg:col-span-3">
+    <div class="order-0 -mx-1 lg:col-span-3 flex flex-row flex-wrap">
       <!-- new status -->
       <p-tag
         class="p-1"
@@ -57,8 +57,8 @@
       </p-tag>
       <p-tag
         class="p-1"
-        severity="secondary"
         styleClass="text-sm bg-gray-500"
+        severity="secondary"
         *ngIf="issueData.status === 'closed'"
       >
         <i class="pi pi-shield text-sm font-thin pr-2"></i>
@@ -66,9 +66,9 @@
         <span>{{ issueData.effectivity }}</span>
       </p-tag>
       <p-tag
-        class="p-1 my-class"
-        severity="secondary"
+        class="p-1"
         styleClass="text-sm bg-gray-500"
+        severity="secondary"
         *ngIf="issueData.status === 'closed'"
       >
         <i class="pi pi-clock text-sm font-thin pr-2"></i>
@@ -114,12 +114,12 @@
       </span>
     </div>
     <!-- tags -->
-    <div class="order-2 -mr-1 lg:order-1 lg:col-span-3 lg:justify-self-end">
+    <div class="order-2 -mr-1 lg:order-1 lg:col-span-3 flex flex-row lg:justify-end flex-wrap">
       <p-tag
         class="p-1"
         styleClass="text-sm"
         severity="primary"
-        *ngFor="let tag of issueData.tags"
+        *ngFor="let tag of issueData.tags | slice:0:3"
         value="{{ tag }}"
       />
     </div>
@@ -144,10 +144,10 @@
 
   <!-- actual content (if no errors) -->
   <div *ngIf="!errorMessage && !loading">
-    <div class="font-medium text-2xl text-gray-800 text-opacity-70 px-4 pb-4">
+    <!-- <div class="font-medium text-2xl text-gray-800 text-opacity-70 px-4 pb-4">
       Details
-    </div>
-    <div class="px-4 grid grid-cols-1 lg:grid-cols-2 gap-y-3 gap-x-1">
+    </div> -->
+    <div class="px-4 pt-4 grid grid-cols-1 lg:grid-cols-2 gap-y-3 gap-x-1">
       <!-- section 1 -->
       <div class="lg:col-span-2" *ngIf="headerObj.isShortened">
         <i class="pi pi-hashtag text-sm font-thin pr-2"></i>
@@ -156,34 +156,36 @@
       </div>
       <div class="lg:col-span-2">
         <i class="pi pi-book text-sm font-thin pr-2"></i>
-        <span class="font-semibold inline md:inline">Summary: <br /></span>
+        <span class="font-semibold inline md:inline">Issue: <br /></span>
         <div class="pl-10 text-justify">
-          {{additionalData.issue}}
+          {{ additionalData.issue }}
         </div>
       </div>
       <div class="lg:col-span-2">
         <i class="pi pi-tags text-sm font-thin pr-2"></i>
         <span class="font-semibold hidden md:inline">Tags:&nbsp;</span>
-        <span class="">{{additionalData.tags}}</span>
+        <span class="">{{ additionalData.tags }}</span>
       </div>
       <p-divider class="-my-4 lg:col-span-2"></p-divider>
       <!-- section 2 -->
       <div class="">
         <i class="pi pi-user text-sm font-thin pr-2"></i>
         <span class="font-semibold hidden md:inline">Client:&nbsp;</span>
-        <span>{{additionalData.client}}</span>
+        <span>{{ additionalData.client }}</span>
       </div>
       <div class="">
         <i class="pi pi-building text-sm font-thin pr-2"></i>
         <span class="font-semibold hidden md:inline">Company:&nbsp;</span>
-        <span>{{additionalData.company}}</span>
+        <span>{{ additionalData.company }}</span>
       </div>
       <p-divider class="-my-4 lg:col-span-2"></p-divider>
       <!-- section 2 -->
       <div class="">
         <i class="pi pi-play text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Status:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{additionalData.status}}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{
+          additionalData.status
+        }}</span>
       </div>
       <div class="">
         <i class="pi pi-flag text-sm font-thin pr-2"></i>
@@ -209,17 +211,25 @@
       <!-- section 3 -->
       <div class="" *ngIf="!newState">
         <i class="pi pi-plus-circle text-sm font-thin pr-2"></i>
-        <span class="font-semibold inline md:inline">First response time:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{ firstResponseTime }}</span>
+        <span class="font-semibold inline md:inline"
+          >First response time:&nbsp;</span
+        >
+        <span class="block ml-10 md:inline md:ml-0">{{
+          firstResponseTime
+        }}</span>
       </div>
       <div class="" *ngIf="!newState">
         <i class="pi pi-history text-sm font-thin pr-2"></i>
-        <span class="font-semibold inline md:inline">Avg response time:&nbsp;</span>
+        <span class="font-semibold inline md:inline"
+          >Avg response time:&nbsp;</span
+        >
         <span class="block ml-10 md:inline md:ml-0">{{ avgResponseTime }}</span>
       </div>
       <div class="" *ngIf="closed">
         <i class="pi pi-cog text-sm font-thin pr-2"></i>
-        <span class="font-semibold inline md:inline">Resolution time:&nbsp;</span>
+        <span class="font-semibold inline md:inline"
+          >Resolution time:&nbsp;</span
+        >
         <span class="block ml-10 md:inline md:ml-0">{{ resolutionTime }}</span>
       </div>
       <p-divider class="-my-4 lg:col-span-2"></p-divider>
@@ -227,52 +237,73 @@
       <div class="" *ngIf="closed">
         <i class="pi pi-clock text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Efficiency:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{additionalData.efficiency}}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{
+          additionalData.efficiency
+        }}</span>
       </div>
       <div class="" *ngIf="closed">
         <i class="pi pi-shield text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Effectivity:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{additionalData.effectivity}}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{
+          additionalData.effectivity
+        }}</span>
       </div>
       <div class="">
         <i class="pi pi-thumbs-up text-sm font-thin pr-2"></i>
         <span class="font-semibold inline md:inline">Sentiment:&nbsp;</span>
-        <span class="block ml-10 md:inline md:ml-0">{{additionalData.sentiment}}</span>
+        <span class="block ml-10 md:inline md:ml-0">{{
+          additionalData.sentiment
+        }}</span>
       </div>
     </div>
-    <!-- conversation -->
-    <div class="conversation flex flex-col pt-8">
-      <div class="font-medium text-2xl text-gray-800 text-opacity-70 px-4 py-2">
-        Original Conversation
+
+    <div class="px-2">
+      <div class="w-full flex justify-content-center pt-6 pb-4">
+        <p-selectButton
+          [options]="stateOptions"
+          [(ngModel)]="selectedState"
+          optionLabel="label"
+          optionValue="value"
+        />
       </div>
-      <div
-        *ngFor="let email of additionalData.emails"
-        class="py-2 px-4 max-w-full md:max-w-[80%]"
-        [ngClass]="{
-          'self-start': email.isClient,
-          'self-end': !email.isClient
-        }"
-      >
-        <div
-          class="font-medium text-gray-800 text-opacity-70 px-4 py-2"
-          [ngClass]="{
-            'text-right': !email.isClient
-          }"
-        >
-          {{ formatDate(email.dateTime) }}
-        </div>
-        <div
-          class="leading-relaxed py-4 px-6 rounded-t-3xl md:text-justify"
-          [ngClass]="{
-            'bg-gray-200': email.isClient,
-            'rounded-br-3xl': email.isClient,
-            'bg-blue-400': !email.isClient,
-            'rounded-bl-3xl': !email.isClient,
-          }"
-        >
-          {{ email.body }}
-        </div>
+
+      <!-- summarized conversation -->
+      <div *ngIf="selectedState === 'sum'" class="border border-solid border-slate-300 rounded-lg p-4">
+        <div class="leading-8">{{ overallConvoSummary.summary }}</div>
       </div>
+
+      <!-- chat view -->
+        <div class="conversation flex flex-col border border-solid border-slate-300 rounded-lg p-4" *ngIf="selectedState === 'chat'">
+          <div
+            *ngFor="let email of additionalData.emails"
+            class="py-2 px-2 max-w-full md:max-w-[80%]"
+            [ngClass]="{
+              'self-start': email.isClient,
+              'self-end': !email.isClient
+            }"
+          >
+            <div
+              class="font-medium text-gray-800 text-opacity-70 px-4 py-2"
+              [ngClass]="{
+                'text-right': !email.isClient,
+              }"
+            >
+              {{ formatDate(email.dateTime) }}
+            </div>
+            <div
+              class="leading-relaxed py-4 px-6 rounded-t-3xl md:text-justify"
+              [ngClass]="{
+                'bg-gray-200': email.isClient,
+                'rounded-br-3xl': email.isClient,
+                'bg-blue-400': !email.isClient,
+                'rounded-bl-3xl': !email.isClient,
+                'text-white': !email.isClient,
+              }"
+            >
+              {{ email.body }}
+            </div>
+          </div>
+        </div>
     </div>
   </div>
 

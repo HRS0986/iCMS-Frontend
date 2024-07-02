@@ -47,29 +47,3 @@ export interface IssueDataResponse {
     skip: number;
     limit: number;
 }
-
-// END
-
-// BUG: REMOVE in Production (everything with name Mock___)
-export interface MockIssueMetadata {
-    id: string;
-    title: string;
-    rating: number;
-    tags: string[];
-    meta: {
-        createdAt: Date;
-    };
-}
-export interface MockIssueMetadataResponse {
-    products: MockIssueMetadata[];
-    total: number;
-    skip: number;
-    limit: number;
-}
-// ---
-
-
-// export interface MockIssueAdditionalDataResponse {
-//     title: string;
-//     body: string;
-// }
