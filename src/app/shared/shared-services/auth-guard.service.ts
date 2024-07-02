@@ -14,6 +14,7 @@ export const AuthGuardService: CanActivateFn = (route, state) => {
     map(token => !!token),
     catchError(error => {
       console.error('Error during login', error);
+      console.error("i am triggerd");
       if (error === 'Session expired. Please sign in again.') {
         router.navigate(['/auth/login']);
       } else {

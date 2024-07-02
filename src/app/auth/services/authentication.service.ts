@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
 import { MessageService } from "primeng/api";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiEndpoint } from "../../app-settings/config";
-import {switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -39,8 +39,9 @@ export class AuthenticationService {
   }
 
   signIn(username: string, password: string): Observable<any> {
-    const getIp$ = this.http.get<{ ip: string }>('https://api64.ipify.org?format=json');
-    const authenticateUser$ = (ip: string) => new Observable(observer => {
+  const getIp$ = this.http.get('https://ipinfo.io/ip?token=f3de785982d012', { responseType: 'text' });
+    console.log('getIp$', getIp$);
+    const authenticateUser$ = (ip: any) => new Observable(observer => {
       const authenticationDetails = new AuthenticationDetails({
         Username: username,
         Password: password,
@@ -69,7 +70,7 @@ export class AuthenticationService {
     });
 
     return getIp$.pipe(
-      switchMap(data => authenticateUser$(data.ip))
+      switchMap(data => authenticateUser$(data))
     );
   }
 
