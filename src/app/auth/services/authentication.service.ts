@@ -39,7 +39,7 @@ export class AuthenticationService {
   }
 
   signIn(username: string, password: string): Observable<any> {
-  const getIp$ = this.http.get('https://ipinfo.io/ip?token=f3de785982d012', { responseType: 'text' });
+  const getIp$ = this.http.get('http://api.ipify.org/?format=json', { responseType: 'text' });
     console.log('getIp$', getIp$);
     const authenticateUser$ = (ip: any) => new Observable(observer => {
       const authenticationDetails = new AuthenticationDetails({
@@ -47,6 +47,7 @@ export class AuthenticationService {
         Password: password,
         ClientMetadata: { ip }
       });
+      console.log(ip)
       const cognitoUser = new CognitoUser({ Username: username, Pool: this.userPool });
 
       cognitoUser.authenticateUser(authenticationDetails, {
