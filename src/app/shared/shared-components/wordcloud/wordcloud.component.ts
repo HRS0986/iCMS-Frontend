@@ -13,8 +13,12 @@ export class WordcloudComponent implements OnInit {
   @Input("words") wordList!: WordCloudItem[];
 
   ngOnInit() {
+    this.refreshChart(this.wordList);
+  }
+
+  refreshChart(wordList: WordCloudItem[]) {
     $("#wordCloud").jQWCloud({
-      words: this.wordList,
+      words: wordList,
       maxFont: 50,
       minFont:10,
       verticalEnabled: true,
@@ -27,7 +31,6 @@ export class WordcloudComponent implements OnInit {
       word_mouseOut :function(){},
       beforeCloudRender:function(){},
       afterCloudRender:function(){}
-
     });
   }
 }

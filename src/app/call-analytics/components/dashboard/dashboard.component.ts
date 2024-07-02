@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from "primeng/api";
 import { CallAnalyticsService } from "../../services/call-analytics.service";
 import {
@@ -9,6 +9,11 @@ import {
   SentimentPercentages
 } from "../../types";
 import { WordCloudItem } from "../../../shared/types";
+import { DoughnutChartComponent } from "../doughnut-chart/doughnut-chart.component";
+import { LineAreaChartComponent } from "../line-area-chart/line-area-chart.component";
+import { BarChartComponent } from "../horizontal-bar-chart/bar-chart.component";
+import { StackedBarChartComponent } from "../stacked-bar-chart/stacked-bar-chart.component";
+import { WordcloudComponent } from "../../../shared/shared-components/wordcloud/wordcloud.component";
 
 
 @Component({
@@ -17,11 +22,17 @@ import { WordCloudItem } from "../../../shared/types";
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('dChartComp') dChart!: DoughnutChartComponent;
+  @ViewChild('lChartComp') lChart!: LineAreaChartComponent;
+  @ViewChild('bChartComp') bChart!: BarChartComponent;
+  @ViewChild('sChartComp') sChart!: StackedBarChartComponent;
+  @ViewChild('keywordCloud') keywordCloud!: WordcloudComponent;
 
   breadcrumbItems: MenuItem[] = [
     {label: "Call Analytics"},
     {label: "Dashboard"}
   ];
+
   start = "2024-06-29-16-29-00"
   end = "2024-06-30-18-36-30"
   isLoadingStatistics = true;
@@ -49,8 +60,6 @@ export class DashboardComponent implements OnInit {
   }
 
   reloadData(start: string, end: string) {
-    console.log('start', start)
-    console.log('end', end)
     this.callAnalyticsService.getCallStatistics(start, end).then(response => {
       this.callStatistics = response.data;
       this.isLoadingStatistics = false;
@@ -61,7 +70,8 @@ export class DashboardComponent implements OnInit {
 
     this.callAnalyticsService.getSentimentPercentages(start, end).then(response => {
       this.callSentiments = response.data
-      this.cdr.detectChanges();
+      console.log(this.callSentiments)
+      if (this.dChart) this.dChart.refreshChart(response.data);
     }).catch(err => {
       console.log(err);
     }).finally(() => {
@@ -69,6 +79,7 @@ export class DashboardComponent implements OnInit {
 
     this.callAnalyticsService.getSentimentOverTime(start, end).then(response => {
       this.sentimentOverTime = response.data;
+      if (this.lChart) this.lChart.refreshChart(response.data);
     }).catch(err => {
       console.log(err);
     }).finally(() => {
@@ -76,6 +87,7 @@ export class DashboardComponent implements OnInit {
 
     this.callAnalyticsService.getTopicsDistribution(start, end).then(response => {
       this.topicDistribution = response.data;
+      if (this.bChart) this.bChart.refreshChart(response.data);
     }).catch(err => {
       console.log(err);
     }).finally(() => {
@@ -83,6 +95,7 @@ export class DashboardComponent implements OnInit {
 
     this.callAnalyticsService.getOperatorCallsOverTime(start, end).then(response => {
       this.operatorCallsOverTime = response.data;
+      if (this.sChart) this.sChart.refreshChart(response.data);
     }).catch(err => {
       console.log(err);
     }).finally(() => {
@@ -97,6 +110,7 @@ export class DashboardComponent implements OnInit {
 
     this.callAnalyticsService.getAllKeywords(start, end).then(response => {
       this.keywords = Object.entries(response.data).map(([word, weight]) => ({word: word, weight: Number(weight)}));
+      if (this.keywordCloud) this.keywordCloud.refreshChart(this.keywords);
     }).catch(err => {
       console.log(err);
     }).finally(() => {

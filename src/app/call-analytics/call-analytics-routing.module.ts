@@ -13,32 +13,32 @@ const routes: Routes = [
   {
     path: "dashboard",
     component: DashboardComponent,
-    canActivate: [AuthGuardService]
+    // canActivate: [AuthGuardService]
   },
   {
     path: "recordings",
     component: CallRecordingsComponent,
-    canActivate: [AuthGuardService]
+    // canActivate: [AuthGuardService]
   },
   {
     path: "filtering",
     component: CallFilteringComponent,
-    canActivate: [AuthGuardService]
+    // canActivate: [AuthGuardService]
   },
   {
     path: 'settings',
     component: SettingsComponent,
-    canActivate: [AuthGuardService]
+    // canActivate: [AuthGuardService]
   },
   {
     path: "upload",
     component: FileUploadComponent,
-    canActivate: [AuthGuardService]
+    // canActivate: [AuthGuardService]
   },
   {
     path: "operators",
     component: CallOperatorsComponent,
-    canActivate: [AuthGuardService]
+    // canActivate: [AuthGuardService]
   }
 
 ];
