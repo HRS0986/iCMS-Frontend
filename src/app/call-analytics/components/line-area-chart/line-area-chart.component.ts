@@ -12,6 +12,7 @@ export class LineAreaChartComponent implements OnInit {
   @Input() title!: string;
   @Input() dataset!: SentimentOverTimeDataSet[];
   @ViewChild('lChart') lChart!: UIChart;
+  @Input() isLoading!: boolean;
 
   data: any;
   options: any;

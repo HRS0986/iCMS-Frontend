@@ -9,6 +9,7 @@ import { BestOperatorItem } from "../../types";
 export class BestOperatorsCardComponent implements OnInit {
   @Input() title!: string;
   @Input() operatorRankings!: BestOperatorItem[];
+  @Input() isLoading!: boolean;
 
   ngOnInit() {
   }

@@ -47,7 +47,9 @@ export interface ApiResponse {
 export interface OperatorListItem {
   name: string;
   operator_id: number;
+  email: string;
   id?: string;
+  password?: string;
 }
 
 export interface CallSettingsDetails {

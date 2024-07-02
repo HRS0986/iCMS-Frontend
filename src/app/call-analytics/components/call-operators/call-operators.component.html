@@ -95,7 +95,21 @@
       <label for="op-name" class="w-1/14">Operator Name: </label>
       <div class="w-3/4">
         <input id="op-name" class="w-full" type="text" pInputText formControlName="name"/>
-        <p *ngIf="operatorForm.invalid && isSubmitted" class="text-red-500">Operator name is required.</p>
+        <p *ngIf="getNameError() !== '' && isSubmitted" class="text-red-500">{{ getNameError() }}</p>
+      </div>
+    </div>
+    <div class="flex justify-between items-center">
+      <label for="op-name" class="w-1/14">Email: </label>
+      <div class="w-3/4">
+        <input id="op-email" class="w-full" type="text" pInputText formControlName="email"/>
+        <p *ngIf="getEmailError() !== '' && isSubmitted" class="text-red-500">{{ getEmailError() }}</p>
+      </div>
+    </div>
+    <div class="flex justify-between items-center" *ngIf="!isEditMode">
+      <label for="op-name" class="w-1/14">Password: </label>
+      <div class="w-3/4">
+        <p-password id="op-pw" class="w-full" formControlName="password" [feedback]="false" [toggleMask]="true"/>
+        <p *ngIf="getPasswordError() !== '' && isSubmitted" class="text-red-500">{{ getPasswordError() }}</p>
       </div>
     </div>
   </form>

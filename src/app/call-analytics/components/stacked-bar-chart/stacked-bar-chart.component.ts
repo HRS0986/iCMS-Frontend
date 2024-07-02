@@ -10,6 +10,7 @@ import { UIChart } from "primeng/chart";
 export class StackedBarChartComponent implements OnInit {
   @Input() title!: string;
   @Input() dataset!: OperatorAnalyticsOverTimeRecord[];
+  @Input() isLoading!: boolean;
   @ViewChild('sChart') sChart!: UIChart;
 
   data: any;

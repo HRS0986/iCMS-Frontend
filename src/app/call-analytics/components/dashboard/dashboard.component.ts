@@ -36,6 +36,12 @@ export class DashboardComponent implements OnInit {
   start = "2024-06-29-16-29-00"
   end = "2024-06-30-18-36-30"
   isLoadingStatistics = true;
+  isLoadingPercentages = true;
+  isLoadingSentimentsOverTime = true;
+  isLoadingTopics = true;
+  isLoadingOperatorCalls = true;
+  isLoadingOperatorRankings = true;
+  isLoadingKeywords = true;
   callStatistics!: CallStatistics;
   callSentiments!: SentimentPercentages;
   sentimentOverTime!: SentimentOverTimeDataSet[];
@@ -49,6 +55,7 @@ export class DashboardComponent implements OnInit {
     this.callAnalyticsService.getAllKeywords(this.start, this.end).then(response => {
       this.keywords = Object.entries(response.data).map(([word, weight]) => (
         {word: word, weight: Number(weight)}));
+      this.isLoadingKeywords = false;
     }).catch(err => {
       console.log(err);
     }).finally(() => {
@@ -72,6 +79,7 @@ export class DashboardComponent implements OnInit {
       this.callSentiments = response.data
       console.log(this.callSentiments)
       if (this.dChart) this.dChart.refreshChart(response.data);
+      this.isLoadingPercentages = false;
     }).catch(err => {
       console.log(err);
     }).finally(() => {
@@ -80,6 +88,7 @@ export class DashboardComponent implements OnInit {
     this.callAnalyticsService.getSentimentOverTime(start, end).then(response => {
       this.sentimentOverTime = response.data;
       if (this.lChart) this.lChart.refreshChart(response.data);
+      this.isLoadingSentimentsOverTime = false;
     }).catch(err => {
       console.log(err);
     }).finally(() => {
@@ -88,6 +97,7 @@ export class DashboardComponent implements OnInit {
     this.callAnalyticsService.getTopicsDistribution(start, end).then(response => {
       this.topicDistribution = response.data;
       if (this.bChart) this.bChart.refreshChart(response.data);
+      this.isLoadingTopics = false;
     }).catch(err => {
       console.log(err);
     }).finally(() => {
@@ -96,6 +106,7 @@ export class DashboardComponent implements OnInit {
     this.callAnalyticsService.getOperatorCallsOverTime(start, end).then(response => {
       this.operatorCallsOverTime = response.data;
       if (this.sChart) this.sChart.refreshChart(response.data);
+      this.isLoadingOperatorCalls = false;
     }).catch(err => {
       console.log(err);
     }).finally(() => {
@@ -103,6 +114,7 @@ export class DashboardComponent implements OnInit {
 
     this.callAnalyticsService.getOperatorRatings(start, end).then(response => {
       this.operatorRankings = response.data;
+      this.isLoadingOperatorRankings = false;
     }).catch(err => {
       console.log(err);
     }).finally(() => {
@@ -111,6 +123,7 @@ export class DashboardComponent implements OnInit {
     this.callAnalyticsService.getAllKeywords(start, end).then(response => {
       this.keywords = Object.entries(response.data).map(([word, weight]) => ({word: word, weight: Number(weight)}));
       if (this.keywordCloud) this.keywordCloud.refreshChart(this.keywords);
+      this.isLoadingKeywords = false;
     }).catch(err => {
       console.log(err);
     }).finally(() => {

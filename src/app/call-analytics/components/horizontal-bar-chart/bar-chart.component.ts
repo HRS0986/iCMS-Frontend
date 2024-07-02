@@ -9,6 +9,7 @@ import { UIChart } from "primeng/chart";
 export class BarChartComponent implements OnInit {
   @Input() title!: string;
   @Input() dataset!: { [key: string]: number };
+  @Input() isLoading!: boolean;
   @ViewChild('bChart') bChart!: UIChart;
 
   data: any;

@@ -10,6 +10,7 @@ declare var $: any;
 })
 export class WordcloudComponent implements OnInit {
   @Input() title!: string;
+  @Input() isLoading!: boolean;
   @Input("words") wordList!: WordCloudItem[];
 
   ngOnInit() {
