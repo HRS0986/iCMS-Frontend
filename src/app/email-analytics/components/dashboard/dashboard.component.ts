@@ -277,12 +277,13 @@ getDataForSentimentsByTime(){
 
 getDataForWordCloud(){
 
-     
+  this.wordCloudData = [] 
   this.isLoadingWCC = true
      // Get data for word cloud
      this.DataForWordCloudSubscription = this.dataService.getDataForWordCloud(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data:word_cloud_single_response[]) => {
       console.log("WORD CLOUD DATA", data, "intervalindaysStart", this.intervalInDaysStart, "intervalInDaysEnd", this.intervalInDaysEnd)
-      const newkeywords: TrendingWord[] = []
+      // const newkeywords: TrendingWord[] = []
+      //this.wordCloudData = [{"word":"topic", "weight": 50, "color": 'rgba(212, 13, 214, 0.9)'}]
       for (const item of data) {
         // Access the "topic" and "frequency" properties of each item
         const topic = item.topic;
@@ -292,10 +293,10 @@ getDataForWordCloud(){
         // Do something with topic and frequency, such as logging them to the console
         console.log(`word: ${topic}, weight: ${frequency}`);
   
-        newkeywords.push({"word":topic, "weight": frequency, "color": color})
+        this.wordCloudData.push({"word":topic, "weight": frequency, "color": color})
       }
   
-       this.wordCloudData = newkeywords
+       //this.wordCloudData = newkeywords
        console.log("WORD CLOUD DATA JUST BEOFRE DISPLAYING",  this.wordCloudData)
        this.isLoadingWCC = false
   

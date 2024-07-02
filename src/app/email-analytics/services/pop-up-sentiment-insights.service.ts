@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, interval} from 'rxjs';
 import { GaugeChartResponse, SentimentsByTimeResponse, SentimentsByTopicResponse, SentimentsDistributionByTimeResponse, get_current_overall_sentiments_response, stat_card_single_response, word_cloud_single_response } from '../interfaces/dashboard';
 import { INTERVALS, URLS } from '../services/app.constants';
-import { switchMap } from 'rxjs/operators';
+import { startWith, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,7 @@ export class DataService {
     const url = `${this.baseUrl}/get_current_overall_sentiments?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
 
     return interval(this.pollingInterval).pipe(
+      startWith(0),
       switchMap(() => this.http.get<get_current_overall_sentiments_response>(url))
     );
   }
@@ -27,6 +28,7 @@ export class DataService {
     const url = `${this.baseUrl}/get_data_for_topic_cloud?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
 
     return interval(this.pollingInterval).pipe(
+      startWith(0),
       switchMap(() => this.http.get<any[]>(url))
     );
   }
@@ -35,6 +37,7 @@ export class DataService {
     const url = `${this.baseUrl}/get_data_for_word_cloud?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
 
     return interval(this.pollingInterval).pipe(
+      startWith(0),
       switchMap(() => this.http.get<word_cloud_single_response[]>(url))
     );
   }
@@ -43,6 +46,7 @@ export class DataService {
     const url = `${this.baseUrl}/get_data_for_stat_cards?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
 
     return interval(this.pollingInterval).pipe(
+      startWith(0),
       switchMap(() => this.http.get<stat_card_single_response[]>(url))
     );
   }
@@ -51,6 +55,7 @@ export class DataService {
     const url = `${this.baseUrl}/get_data_for_sentiments_by_topic?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
 
     return interval(this.pollingInterval).pipe(
+      startWith(0),
       switchMap(() => this.http.get<SentimentsByTopicResponse>(url))
     );
   }
@@ -59,7 +64,8 @@ export class DataService {
   getDataForSentimentsByTime(intervalInDaysStart: number, intervalInDaysEnd: number): Observable<SentimentsByTimeResponse> {
     const url = `${this.baseUrl}/get_data_for_sentiments_by_time?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
 
-    return interval(this.pollingInterval).pipe(
+    return interval(60000).pipe(
+      startWith(0),
       switchMap(() => this.http.get<SentimentsByTimeResponse>(url))
     );
   }
@@ -68,6 +74,7 @@ export class DataService {
     const url = `${this.baseUrl}/get_data_for_sentiments_distribution_of_topics?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
 
     return interval(this.pollingInterval).pipe(
+      startWith(0),
       switchMap(() => this.http.get<SentimentsDistributionByTimeResponse>(url))
     );
   }
@@ -77,6 +84,7 @@ export class DataService {
   const url = `${this.baseUrl}/get_data_value_for_gauge_chart?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
 
   return interval(this.pollingInterval).pipe(
+    startWith(0),
     switchMap(() => this.http.get<GaugeChartResponse>(url))
   );
   }

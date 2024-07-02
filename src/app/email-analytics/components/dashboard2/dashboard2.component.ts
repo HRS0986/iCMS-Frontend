@@ -188,15 +188,7 @@ export class Dashboard2Component implements OnInit{
   }
 
    ngOnDestroy(): void {
-      this.statCardsSubscription?.unsubscribe();
-      this.DataForEffiandEffecIssuesSubscription?.unsubscribe();
-      this.DataForEffiandEffecInquiriesSubscription?.unsubscribe();
-      this.CurrentOverallEfficiencyandEffectivenessSubscription?.unsubscribe();
-      this.DataForIssueandInquiryTypesSubscription?.unsubscribe();
-      this.DataForProductsByIssueandInquirySubscription?.unsubscribe();
-      this.DataForEfficiencyByEmailAccSubscription?.unsubscribe();
-      this.BestPerformingEmailSubscription?.unsubscribe();
-      this.OverdueIssuesdataSubscription?.unsubscribe();
+    this.unsubscribeAll()
     
   }
 

@@ -17,5 +17,5 @@ export const ERRORS = {
 }
 
 export const INTERVALS = {
-    pollingInterval: 20000 // 120,000 miliseconds
+    pollingInterval: 120000 // 120,000 milliseconds
 }

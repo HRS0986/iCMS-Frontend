@@ -5,7 +5,7 @@ import { SentimentsByTopicResponse, SentimentsDistributionByTimeResponse, word_c
 import { URLS } from '../services/app.constants';
 import { INTERVALS } from '../services/app.constants';
 import { IssueInquiryFreqByProdcuts } from '../interfaces/dashboard';
-import { switchMap } from 'rxjs/operators';
+import { startWith, switchMap } from 'rxjs/operators';
 
 
 @Injectable({
@@ -22,6 +22,7 @@ export class DataService {
     const url = `${this.baseUrl}/get_data_for_topic_cloud?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
 
     return interval(this.pollingInterval).pipe(
+       startWith(0),
         switchMap(() => this.http.get<any[]>(url))
       );
   }
@@ -30,6 +31,7 @@ export class DataService {
     const url = `${this.baseUrl}/get_data_for_word_cloud?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
    
     return interval(this.pollingInterval).pipe(
+      startWith(0),
         switchMap(() => this.http.get<word_cloud_single_response[]>(url))
       );
   }
@@ -39,6 +41,7 @@ export class DataService {
     const url = `${this.baseUrl}/get_data_for_sentiments_by_topic?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
     
     return interval(this.pollingInterval).pipe(
+      startWith(0),
         switchMap(() => this.http.get<SentimentsByTopicResponse>(url))
       );
 
@@ -48,6 +51,7 @@ export class DataService {
     const url = `${this.baseUrl}/get_data_for_sentiments_distribution_of_topics?intervalInDaysStart=${intervalInDaysStart}&intervalInDaysEnd=${intervalInDaysEnd}`;
 
     return interval(this.pollingInterval).pipe(
+      startWith(0),
         switchMap(() => this.http.get<SentimentsDistributionByTimeResponse>(url))
       );
   }
@@ -59,6 +63,7 @@ export class DataService {
     this.http.get<IssueInquiryFreqByProdcuts>(url);
 
     return interval(this.pollingInterval).pipe(
+      startWith(0),
         switchMap(() => this.http.get<IssueInquiryFreqByProdcuts>(url))
       );
   }

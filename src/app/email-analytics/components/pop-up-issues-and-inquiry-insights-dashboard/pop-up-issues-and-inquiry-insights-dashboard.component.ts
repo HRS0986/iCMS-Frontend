@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
-import { InquiriesByEfficiencyEffectivenessResponse, IssueInquiryFreqByProdcuts, IssueInquiryFreqByTypeResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverdueIssuesResponse } from '../../interfaces/dashboard';
+import { InquiriesByEfficiencyEffectivenessResponse, IssueInquiryFreqByProdcuts, IssueInquiryFreqByTypeResponse, IssuesByEfficiencyEffectivenessResponse, OngoingAndClosedStatsResponse, OverdueIssuesResponse, StatCard } from '../../interfaces/dashboard';
 import { DataService } from '../../services/pop-up-issues-and-inquiry-insights-dashboard.service';
 import { Subscription } from 'rxjs';
 
@@ -76,12 +76,14 @@ export class PopUpIssuesAndInquiryInsightsDashboardComponent {
   private DataForProductsByIssueandInquirySubscription: Subscription | undefined;
   private OverdueIssuesdataSubscription: Subscription | undefined;
   
+  isLoadingStatcards : boolean = true;
+
    // stat cards inputs
-  statsData = [    { title: 0, sub_title: 'total', header: 'Ongoing', subheader: 'issues', fontColor:this.documentStyle.getPropertyValue('--negative-color')},
+  statsData: StatCard[] = [ { title: 0, sub_title: 'total', header: 'Ongoing', subheader: 'issues', fontColor:this.documentStyle.getPropertyValue('--negative-color')},
     { title: 0, sub_title: 'total', header: 'Closed', subheader: 'issues', fontColor:this.documentStyle.getPropertyValue('--positive-color')},
     { title: 0, sub_title: 'total', header: 'Ongoing', subheader: 'inquiries', fontColor:this.documentStyle.getPropertyValue('--negative-color')},
     { title: 0, sub_title: 'total', header: 'Closed', subheader: 'inquiries', fontColor:this.documentStyle.getPropertyValue('--positive-color')}];
-  isLoadingStatcards: boolean = false;
+ 
  
   constructor(private fb: FormBuilder, private http: HttpClient, private dataService: DataService) {}
 
@@ -163,23 +165,28 @@ unsubscribeAll(){
 
 
 getDataForStatCards(){
-  
+  this.isLoadingStatcards = true
   this.statCardsSubscription = this.dataService.getDataForStatCards(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OngoingAndClosedStatsResponse) => {
   console.log(data)
+
+
   this.statsData[0].title = data.count_total_ongoing_issues
   this.statsData[1].title = data.count_total_closed_issues
   this.statsData[2].title = data.count_total_ongoing_inquiries
   this.statsData[3].title = data.count_total_closed_inquiries
-
+  this.isLoadingStatcards = false
      
  });
 
- this.isLoadingStatcards = false
+ 
 
 }
 
 
 getDataForEfficiencyDstriandEffectivenessDistri(){
+
+  this.isLoadingEffiDistri = true
+  this.isLoadingEffectDistri = true
    
   let effi_issue_data: number[] = [] 
   let effec_issue_date: number[] = []
@@ -212,6 +219,8 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
 
 getDataForIssueandInquiryTypes(){
   
+  this.isLoadingIssueTypes = true
+  this.isLoadingInquiryTypes =  true
  
   this.DataForIssueandInquiryTypesSubscription = this.dataService.getDataForIssueandInquiryTypes(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: IssueInquiryFreqByTypeResponse) => {
     console.log("data for issue and inquiry types",data)
@@ -245,6 +254,8 @@ getDataForIssueandInquiryTypes(){
 }
 
 getDataForIssuenadInquiryByProducts(){
+
+  this.isLoadingProductdistriOfIssuesnInquirires = true
 
   this.DataForProductsByIssueandInquirySubscription = this.dataService.getDataForProductsByIssueandInquiry(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: IssueInquiryFreqByProdcuts) => {
     console.log("data for Isseus and Inquiries by PRODUCTSSSSSS",data)
@@ -282,6 +293,7 @@ getDataForIssuenadInquiryByProducts(){
 
 getOverdueIssuesdata(){
   
+  this.isLoadingoverallOverdueIssuesCount = true
 
   this.OverdueIssuesdataSubscription = this.dataService.getOverdueIssuesdata(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OverdueIssuesResponse) => {
     console.log("overdue issues related DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa", data)

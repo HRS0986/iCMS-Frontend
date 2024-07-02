@@ -23,8 +23,8 @@
 
       <!-- 'No of stats' stat cards-->
       <div class="stat-cards" *ngIf="!isLoadingStatcards">
-        <div *ngFor="let item of statsData">
-          <app-stat-card-mgr-analytics
+        <div *ngFor="let item of statsData" >
+          <app-stat-card-mgr-analytics 
             [title]="item.title.toString()"
             [subTitle]="item.sub_title"
             [header]="item.header"

@@ -139,7 +139,14 @@ export interface OngoingAndClosedStatsResponse{
     closed_percentage_inquiry: number; 
 
 }
-    
+
+export interface StatCard {
+    title: number;
+    sub_title: string;
+    header: string;
+    subheader: string;
+    fontColor: string;
+  }
     
 export interface BestPerformingEmailAccResponse{  
     best_performing_email_acc: string;

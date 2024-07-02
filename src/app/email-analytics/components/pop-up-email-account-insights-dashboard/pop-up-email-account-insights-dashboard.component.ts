@@ -132,6 +132,8 @@ unsubsribeAll(){
 
 getDataForStatCards(){
 
+  this.isLoadingStatCards = true
+
   this.DataForStatCardsSubscription = this.dataService.getDataForStatCards(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data:stat_card_single_response[]) => {
   console.log(data)
   this.statsData = data
@@ -144,7 +146,8 @@ getDataForStatCards(){
 
 getDataForEfficiencyByEmaiAcss(){
 
-  
+  this.isLoadingEffiByEmailAcc = true
+
   this.DataForEfficiencyByEmaiAcssSubscription = this.dataService.getDataForEfficiencyByEmailAcc(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: EmailAccEfficiencyResponse) => {
     console.log("EFFICiency by emaila acc data", data)
     
@@ -200,7 +203,8 @@ getBestPerformingEmail(){
 
 getOverdueIssuesdata(){
   
-
+  this.isLoadingOverdueIssByEmailAcc = true
+  
   this.dataService.getOverdueIssuesdata(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OverdueIssuesResponse) => {
     console.log("overdue issues related DATAAAAa", data)
 

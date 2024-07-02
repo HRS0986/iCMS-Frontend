@@ -157,6 +157,10 @@ unsubscribeAll(){
 
 getDataForIssuenadInquiryByProducts(){
 
+  this.isLoadingBestProduct = true
+  this.isLoadingWorstProduct = true
+  this.isLoadingProductdistriOfIssuesnInquirires = true
+
   this.DataForProductsByIssueandInquirySubscription = this.dataService.getDataForProductsByIssueandInquiry(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: IssueInquiryFreqByProdcuts) => {
     console.log("data for Isseus and Inquiries by PRODUCTSSSSSS",data)
     
@@ -215,11 +219,11 @@ getDataForSentimentsByTopic(){
 getDataForWordCloud(){
 
   this.isLoadingWCC = true
-
+  this.wordCloudData = [] 
   // Get data for word cloud
   this.DataForWordCloudSubscription = this.dataService.getDataForWordCloud(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data:word_cloud_single_response[]) => {
    console.log("WORD CLOUD DATA", data)
-   const newkeywords: TrendingWord[] = []
+   
    for (const item of data) {
      // Access the "topic" and "frequency" properties of each item
      const topic = item.topic;
@@ -228,11 +232,11 @@ getDataForWordCloud(){
      
      // Do something with topic and frequency, such as logging them to the console
      console.log(`word: ${topic}, weight: ${frequency}`);
-
-     newkeywords.push({"word":topic, "weight": frequency, "color": color})
+     this.wordCloudData.push({"word":topic, "weight": frequency, "color": color})
+     
    }
-
-    this.wordCloudData = newkeywords
+   console.log("WORD CLOUD DATA JUST BEOFRE DISPLAYING PRODUCT INSIGHTS",  this.wordCloudData)
+  
     this.isLoadingWCC = false
 
    

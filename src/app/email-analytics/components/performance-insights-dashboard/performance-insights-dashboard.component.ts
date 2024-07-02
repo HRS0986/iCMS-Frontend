@@ -163,6 +163,8 @@ unsubscribeAll(){
 
 getDataForStatCards(){
   
+  this.isLoadingDCProgress = true
+
   this.DataForStatCardsSubscription = this.dataService.getDataForStatCards(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OngoingAndClosedStatsResponse) => {
   console.log(data)
   // get data for the progress donought chart
@@ -179,6 +181,8 @@ getDataForStatCards(){
 
 getDataForOverallEfficiencyandEffectivenessDntChart(){
 
+  this.isLoadingDCOverallEfficiency = true
+  this.isLoadingDCOverallEffectiveness = true
 
   this.CurrentOverallEfficiencyandEffectivenessSubscription = this.dataService.getCurrentOverallEfficiencyandEffectiveness(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OverallyEfficiencyEffectivenessPecentagesResponse) => {
     console.log("data for overall efficiency and effectiveness", data)
@@ -195,11 +199,14 @@ getDataForOverallEfficiencyandEffectivenessDntChart(){
 }
 
 getDataForEfficiencyDstriandEffectivenessDistri(){
+
+  this.isLoadingEffiDistri = true
+  this.isLoadingEffectDistri = true
    
   let effi_issue_data: number[] = [] 
   let effec_issue_date: number[] = []
   this.DataForEffiandEffecIssuesSubscription = this.dataService.getDataForEffiandEffecIssues(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: IssuesByEfficiencyEffectivenessResponse) => {
-    console.log("data for efficency and effectiveness of ISSUES DISTRIBUTION", data)
+    console.log("PERFORMANCE INSIGHT: data for efficency and effectiveness of ISSUES DISTRIBUTION", data)
 
     effi_issue_data = data.efficiency_frequencies
     effec_issue_date = data.effectiveness_frequencies
@@ -208,7 +215,7 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
    });
 
    this.DataForEffiandEffecInquiriesSubscription = this.dataService.getDataForEffiandEffecInquiries(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: InquiriesByEfficiencyEffectivenessResponse) => {
-    console.log("data for efficiency and effectiveness of INQUIRIES DISTRIBUTION", data)
+    console.log("PERFORMANCE INSIGHTS: data for efficiency and effectiveness of INQUIRIES DISTRIBUTION", data)
     
     this.effi_dstri_vert_bar_labels = data.efficiency_categories
     this.effect_dstri_vert_bar_labels = data.effectiveness_categories
@@ -216,6 +223,16 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
     this.effect_distri_vert_var_inquiries_data = data.effectiveness_frequencies
     this.effect_distri_vert_var_issues_data = effec_issue_date
     this.effi_distri_vert_var_issues_data = effi_issue_data
+
+
+    console.log("PERFORMANCE ISNIGHTS: EFFI EFFEC DISTRIBUTION DATA \n", 
+      "effi_dstri_vert_bar_labels",this.effi_dstri_vert_bar_labels,
+      "effect_dstri_vert_bar_labels",this.effect_dstri_vert_bar_labels,
+      "effi_distri_vert_var_inquiries_data",this.effi_distri_vert_var_inquiries_data,
+      "effect_distri_vert_var_inquiries_data",this.effect_distri_vert_var_inquiries_data,
+      "effect_distri_vert_var_issues_data",this.effect_distri_vert_var_issues_data,
+      "effi_distri_vert_var_issues_data",this.effi_distri_vert_var_issues_data
+    )
 
      this.isLoadingEffiDistri = false
      this.isLoadingEffectDistri = false
@@ -228,7 +245,8 @@ getDataForEfficiencyDstriandEffectivenessDistri(){
 
 getDataForEfficiencyByEmaiAcss(){
 
-  
+  this.isLoadingEffiByEmailAcc = true
+
   this.DataForEfficiencyByEmailAccSubscription = this.dataService.getDataForEfficiencyByEmailAcc(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: EmailAccEfficiencyResponse) => {
     console.log("EFFICiency by emaila acc data", data)
     
@@ -271,6 +289,8 @@ getDataForEfficiencyByEmaiAcss(){
 
 getOverdueIssuesdata(){
   
+  this.isLoadingOverdueIssByEmailAcc = true
+  this.isLoadingoverallOverdueIssuesCount = true
 
   this.dataService.getOverdueIssuesdata(this.intervalInDaysStart, this.intervalInDaysEnd).subscribe((data: OverdueIssuesResponse) => {
     console.log("overdue issues related DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa", data)
